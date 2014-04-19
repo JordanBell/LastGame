@@ -3,85 +3,66 @@
 
 Environment* g_environment = NULL;
 
-Environment::Environment(int x, int y) : EntityContainer(x, y)
+Environment::Environment(float x, float y) : EntityContainer(x, y)
 {
-	sprite_sheet = g_resources->GetEnvironmentImage();
-
-	//Set the bounds for the clips from the sprite_sheet
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 5; j++)
-		{
-			SDL_Rect* clip = new SDL_Rect();
-
-			clip->x = square_size * i;
-			clip->y = square_size * j;
-			clip->w = clip->h = square_size;
-
-			// Add this to the sprites
-			sprites[i][j] = clip;
-		}
-	}
-	
-	//Define the positions of used components from the sprite_sheet
-	//floor = new GridTile(sprites[7][1]);
-	floor = sprites[7][1];
-	wall = sprites[6][0];
-	shiny_block = sprites[2][4];
+	BuildMap();
 }
 
-void Environment::render()
+GridTile* Environment::getTileAt(XY* gridPosition)
 {
-	//Build the floor
-	for (int i = 0; i < screen->w; i += square_size)
+	return tiles[(int)gridPosition->x][(int)gridPosition->y];
+}
+
+void Environment::BuildMap()
+{
+	////Build the grass
+	//for (int i = 0; i < WORLD_WIDTH; i++)
+	//{
+	//	for (int j = 0; j < WORLD_HEIGHT; j++)
+	//	{
+	//		addChild(new GrassTile(i, j));
+	//	}
+	//}
+
+	// Default tiles (grass, surrounded by a wall so that the player can't escape)
+	BuildBorderedRectangle<GrassTile, StoneWallTile>(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+
+	// Build a little house
+	BuildBorderedRectangle<StoneFloorTile, StoneWallTile>(4, 3, 12, 8);
+}
+
+template <class T_Fill, class T_Border>
+//template <class T_Border>
+void Environment::BuildBorderedRectangle(int x, int y, int w, int h)
+{
+	// Draw the border
+	BuildRectangle<T_Border>(x, y, w, h, false);
+	// Draw the fill
+	BuildRectangle<T_Fill>(x+1, y+1, w-2, h-2, true);
+}
+
+template <class T>
+void Environment::BuildRectangle(int x, int y, int w, int h, bool filled)
+{
+	for (int i = x; i < x+w; i++)
 	{
-		for (int j = 0; j < screen->h; j += square_size)
-		{			
-			/*printf("Screen w: %d, h: %d\n", screen->w, screen->h);
-			printf("Square size: %d\n", square_size);*/
-			apply_surface(i, j, sprite_sheet, screen, floor);
-		}
-	}
-	
-	//Build the walls
-	for (int i = 0; i < screen->w; i += square_size) //For all of the width
-	{
-		if (i == 0 || i == (screen->w - square_size)) //If at the edged widths
+		for (int j = y; j < y+h; j++)
 		{
-			for (int j = 0; j < screen->h; j += square_size) //For all of the height
+			if (filled) AddTileTo<T>(i, j);
+			else
 			{
-				apply_surface(i, j, sprite_sheet, screen, wall);
+				bool xEdge = ((i == x) || (i == x+w-1));
+				bool yEdge = ((j == y) || (j == y+h-1));
+				if (xEdge || yEdge) AddTileTo<T>(i, j);
 			}
 		}
-		else //If not at the edge
-		{
-			//Just the sides
-			apply_surface(i, 0, sprite_sheet, screen, wall);
-			apply_surface(i, screen->h - square_size, sprite_sheet, screen, wall);
-		}
 	}
-
-	//Build the whatever man
-	//Top Left triangle
-	apply_surface(square_size, square_size, sprite_sheet, screen, shiny_block);
-	apply_surface((square_size*2), square_size, sprite_sheet, screen, shiny_block);
-	apply_surface(square_size, (square_size*2), sprite_sheet, screen, shiny_block);
-	
-	//Top Right triangle
-	apply_surface(screen->w - (2*square_size), square_size, sprite_sheet, screen, shiny_block);
-	apply_surface(screen->w - (2*square_size), (square_size*2), sprite_sheet, screen, shiny_block);
-	apply_surface(screen->w - (3*square_size), square_size, sprite_sheet, screen, shiny_block);
-	
-	//Bottom Left triangle
-	apply_surface(square_size, screen->h - (2*square_size), sprite_sheet, screen, shiny_block);
-	apply_surface((square_size*2), screen->h - (2*square_size), sprite_sheet, screen, shiny_block);
-	apply_surface(square_size, screen->h - (3*square_size), sprite_sheet, screen, shiny_block);
-	
-	//Bottom Right triangle
-	apply_surface(screen->w - (2*square_size), screen->h - (2*square_size), sprite_sheet, screen, shiny_block);
-	apply_surface(screen->w - (3*square_size), screen->h - (2*square_size), sprite_sheet, screen, shiny_block);
-	apply_surface(screen->w - (2*square_size), screen->h - (3*square_size), sprite_sheet, screen, shiny_block);
-
 }
 
-
+template <class T>
+void Environment::AddTileTo(int _x, int _y)
+{
+	T* tile = new T(_x, _y);
+	tiles[_x][_y] = tile;
+	addChild(tile);
+}

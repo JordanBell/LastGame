@@ -85,7 +85,6 @@ void Game::HandleKeys()
 		if (keystates[SDLK_w])	keys.up();
 		if (keystates[SDLK_s])	keys.down();
 	}
-	else keys.no_direction();
 
 	// Screen Formatting
 	if (keystates[SDLK_f]) toggleScreenFormat();

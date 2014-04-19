@@ -13,7 +13,6 @@ struct KeyCode
 	void down()			{player->move(Player::DOWN);}
 	void left()			{player->move(Player::LEFT);}
 	void right()		{player->move(Player::RIGHT);}
-	void no_direction()	{player->stop_moving();}
 private:
 	Player*  player;
 };

@@ -67,6 +67,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Config.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityContainer.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -77,17 +79,20 @@
     <ClCompile Include="toolkit.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Config.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityContainer.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GridTile.h" />
+    <ClInclude Include="GridTiles.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="KeyCode.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="toolkit.h" />
+    <ClInclude Include="Tools.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

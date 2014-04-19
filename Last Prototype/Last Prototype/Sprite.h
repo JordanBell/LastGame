@@ -7,7 +7,7 @@ A sprite is an EntityContainer that loops through an animation based on a cycle.
 class Sprite : public EntityContainer
 {
 public:
-	Sprite(int x, int y) : EntityContainer(x, y), cycle(0) {}
+	Sprite(float x, float y) : EntityContainer(x, y), cycle(0) {}
 	~Sprite(void) {}
 	void render(void) { set_skin(); EntityContainer::render(); }
 
