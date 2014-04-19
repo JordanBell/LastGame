@@ -47,6 +47,11 @@ public:
 	GrassTile(float x, float y) : GridTile(x, y) { SetTileClip(0, 0); }
 };
 
+class WoodFloorTile : public GridTile {
+public:
+	WoodFloorTile(float x, float y) : GridTile(x, y) { SetTileClip(1, 1); }
+};
+
 class StoneFloorTile : public GridTile {
 public:
 	StoneFloorTile(float x, float y) : GridTile(x, y) { SetTileClip(7, 1); }

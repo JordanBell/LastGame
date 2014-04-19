@@ -21,7 +21,7 @@ public:
 	float getBlittingX(void);
 	float getBlittingY(void);
 	virtual void update(int delta) {}
-	virtual void render(void) { apply_surface(getBlittingX(), getBlittingY(), sprite_sheet, screen, skin); }
+	virtual void render(void) { if (IsOnScreen()) apply_surface(getBlittingX(), getBlittingY(), sprite_sheet, screen, skin); }
 
 protected:
 	EntityContainer* parent;
@@ -29,6 +29,8 @@ protected:
 	SDL_Surface* sprite_sheet;	// The image file which this entity is displayed as.
 
 	XY* GetGridPosition();
+	bool IsOnScreen() { return ((getBlittingX() <= screen->w) && (getBlittingY() <= screen->h)); };
+	static XY* GetGridPosition(float _x, float _y);
 };
 
 #endif

@@ -29,6 +29,7 @@ protected:
 
 private:
 	int grid_X, grid_Y;
+	XY* gridPosition;
 	int misalignment;
 	int direction; //The direction being faced by the player
 	bool moving;
@@ -37,6 +38,7 @@ private:
 	GridTile* GetFrontTile(void);
 	void set_skin() { skin = (moving) ? clips[direction][cycle/PLAYER_WALK_CYCLE_SPEED] : clips[direction][STILL]; };
 	void SnapPosition(void);
+	bool IsAtThreshold(void);
 };
 
 #endif

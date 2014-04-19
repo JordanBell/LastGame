@@ -7,6 +7,8 @@
 #include "Config.h"
 #include "Tools.h"
 
+#define WORLD_BORDER ShinyBlockTile
+
 class Environment :
 	public EntityContainer
 {
@@ -14,7 +16,9 @@ public:
 	Environment(float x, float y);
 	~Environment(void);
 
-	void update(int delta) {}
+	void update(int delta) {
+		//printf("Grid Pos: (%f, %f)\nGrid Misalignment: (%d, %d)\n\n", x, y, (int)x%TILE_SIZE, (int)y%TILE_SIZE);
+	}
 	GridTile* getTileAt(XY* gridPosition);
 
 private:
@@ -24,13 +28,11 @@ private:
 	void BuildMap(void);
 
 	template <class T_Fill, class T_Border>
-	//template <class T_Border>
-	void BuildBorderedRectangle(int x, int y, int w, int h);
-
+		void BuildBorderedRectangle(int x, int y, int w, int h);
 	template <class T>
-	void BuildRectangle(int x, int y, int w, int h, bool filled = true);
+		void BuildRectangle(int x, int y, int w, int h, bool filled = true);
 	template <class T>
-	void AddTileTo(int _x, int _y);
+		void AddTileTo(int _x, int _y);
 };
 
 extern Environment* g_environment;

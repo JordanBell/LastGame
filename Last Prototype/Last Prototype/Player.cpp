@@ -4,7 +4,7 @@
 #include "Tools.h"
 
 //Initialise the size and position of each sprite clip
-Player::Player(float x, float y) : Sprite(x, y), direction(DOWN), moving(false), misalignment(0)
+Player::Player(float x, float y) : Sprite(x, y), direction(DOWN), moving(false), misalignment(0), gridPosition(GetGridPosition(x, y))
 {
 	sprite_sheet = g_resources->GetPlayerSheet();
 	max_cycles = 3 * PLAYER_WALK_CYCLE_SPEED;
@@ -37,13 +37,12 @@ void Player::move(int direction)
 	{
 		this->direction = direction;
 		GridTile* frontTile = GetFrontTile();
+
+		// Check to see if it's a valid move.
 		if (frontTile->canMoveThrough)
 		{
 			moving = true; 
 		}
-
-		/*moving = true; 
-		this->direction = direction;*/
 	}
 }
 
@@ -70,33 +69,76 @@ void Player::update(int delta)
 
 	if (moving) // The player should keep moving in its last assigned direction 
 	{
+		bool moveWorld = IsAtThreshold();
+		float* cx = moveWorld ? &g_environment->x : &x;
+		float* cy = moveWorld ? &g_environment->y : &y;
+
 		int pixelsToMove;
 		if (PLAYER_COMPENSATE_FOR_SLOW_FRAMERATES) pixelsToMove = PLAYER_SPEED * delta;
-		else pixelsToMove = PLAYER_SPEED * (1000/FRAME_RATE);
+		else									   pixelsToMove = PLAYER_SPEED * (1000/FRAME_RATE);
+		pixelsToMove *= moveWorld? -1 : 1; // Make the world move in the opposite direcion than if the player was moving
 		
 		misalignment += pixelsToMove;
-		y -= (this->direction == UP)	* pixelsToMove;
-		y += (this->direction == DOWN)	* pixelsToMove;
-		x -= (this->direction == LEFT)	* pixelsToMove;
-		x += (this->direction == RIGHT) * pixelsToMove;
+		//printf("Misalignment:  %d\n", misalignment);
+		*cy -= (this->direction == UP)	  * pixelsToMove;
+		*cy += (this->direction == DOWN)  * pixelsToMove;
+		*cx -= (this->direction == LEFT)  * pixelsToMove;
+		*cx += (this->direction == RIGHT) * pixelsToMove;
 	}
 
 	// Check to see if the player should keep moving
-	if (misalignment >= TILE_SIZE) // The player has reached the next tile
+	if (abs(misalignment) >= TILE_SIZE) // The player has reached the next tile
 	{
 		moving = false;
 		misalignment = 0;
+
+		// Change the grid position according to the direciton
+		gridPosition->y -= (this->direction == UP);
+		gridPosition->y += (this->direction == DOWN);
+		gridPosition->x -= (this->direction == LEFT);
+		gridPosition->x += (this->direction == RIGHT);
+
 		SnapPosition();
 	}
 }
 
 void Player::SnapPosition(void)
 {
-	XY gp = *GetGridPosition();
+	bool moveWorld = IsAtThreshold();
+	float* cx = moveWorld ? &g_environment->x : &x;
+	float* cy = moveWorld ? &g_environment->y : &y;
 
-	float oldX = x;
-	float oldY = y;
+	if (IsAtThreshold())
+	{
+		g_environment->x -= ((int)g_environment->x % TILE_SIZE);
+		g_environment->y -= ((int)g_environment->y % TILE_SIZE);
+	}
+	else
+	{
+		XY gp = *GetGridPosition();
 
-	x = gp.x * TILE_SIZE - 1;
-	y = gp.y * TILE_SIZE - 3;
+		x = g_environment->x + (gp.x * TILE_SIZE) - 1;
+		y = g_environment->y + (gp.y * TILE_SIZE) - 3;
+	}
+}
+
+bool Player::IsAtThreshold(void)
+{
+	struct Thresholds {
+		float top;
+		float bottom;
+		float left;
+		float right;
+	} thresholds;
+	
+	// Set the thresholds
+	thresholds.top =				 (PLAYER_MOVEMENT_THRESHOLD) * TILE_SIZE;
+	thresholds.left =				 (PLAYER_MOVEMENT_THRESHOLD) * TILE_SIZE;
+	thresholds.bottom = screen->h - ((PLAYER_MOVEMENT_THRESHOLD+1) * TILE_SIZE);
+	thresholds.right =  screen->w - ((PLAYER_MOVEMENT_THRESHOLD+1) * TILE_SIZE);
+
+	return (((x <= thresholds.left)   && (direction == LEFT))   ||
+			((x >= thresholds.right)  && (direction == RIGHT))  ||
+			((y <= thresholds.top)	  && (direction == UP))	    ||
+			((y >= thresholds.bottom) && (direction == DOWN)));
 }

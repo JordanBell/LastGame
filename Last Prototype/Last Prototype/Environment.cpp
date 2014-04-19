@@ -16,11 +16,13 @@ GridTile* Environment::getTileAt(XY* gridPosition)
 void Environment::BuildMap()
 {
 	// Default tiles (grass, surrounded by a wall so that the player can't escape)
-	BuildBorderedRectangle<GrassTile, InvisibleWallTile>(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+	BuildBorderedRectangle<GrassTile, WORLD_BORDER>(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
 
 	// Build a little house
 	BuildBorderedRectangle<StoneFloorTile, StoneWallTile>(4, 3, 12, 8);
-	BuildRectangle<StoneFloorTile>(9, 10, 2, 1); // The Doorway
+	BuildBorderedRectangle<StoneFloorTile, StoneWallTile>(8, 10, 4, 8);
+	BuildRectangle<WoodFloorTile>(9, 10, 2, 1); // A doorway
+	BuildRectangle<WoodFloorTile>(9, 17, 2, 1); // A doorway
 }
 
 template <class T_Fill, class T_Border>
