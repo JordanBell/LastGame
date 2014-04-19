@@ -7,9 +7,7 @@
 #include "Player.h"
 #include "Environment.h"
 #include "Timer.h"
-
-#define TILE_SIZE 32
-#define FRAME_RATE 60
+#include "Config.h"
 class Game
 {	
 public:

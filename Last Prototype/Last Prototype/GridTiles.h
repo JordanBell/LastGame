@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Entity.h"
 #include "Resources.h"
 #include "Config.h"
@@ -29,7 +31,7 @@ protected:
 	}
 };
 
-/************* SOLID TILES *************/
+/************* SOLID TILE *************/
 
 class GridTileSolid : public GridTile {
 protected:
@@ -58,4 +60,9 @@ public:
 class ShinyBlockTile : public GridTileSolid {
 public:
 	ShinyBlockTile(float x, float y) : GridTileSolid(x, y) { SetTileClip(2, 4); }
+};
+
+class InvisibleWallTile : public GridTileSolid {
+public:
+	InvisibleWallTile(float x, float y) : GridTileSolid(x, y) { SetTileClip(3, 4); }
 };

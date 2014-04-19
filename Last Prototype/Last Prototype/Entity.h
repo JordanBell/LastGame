@@ -4,6 +4,7 @@
 
 #include "SDL.h"
 #include "toolkit.h"
+#include "Tools.h"
 
 class EntityContainer;
 
@@ -27,8 +28,7 @@ protected:
 	SDL_Rect* skin;				// Section of the sprite_sheet to blit
 	SDL_Surface* sprite_sheet;	// The image file which this entity is displayed as.
 
-	//XY* GetGridPosition();
-	int GetGridPosition();
+	XY* GetGridPosition();
 };
 
 #endif

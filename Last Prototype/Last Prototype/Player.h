@@ -3,6 +3,7 @@
 #include "Sprite.h"
 #include <math.h>
 #include "Config.h"
+#include "GridTiles.h"
 
 #define STILL 1
 
@@ -33,8 +34,9 @@ private:
 	bool moving;
 	SDL_Rect* clips[ 4 ][ 3 ]; //The 12 sprite locations in the sprite sheet
 
-	//GridTile* GetFrontTile(void);
+	GridTile* GetFrontTile(void);
 	void set_skin() { skin = (moving) ? clips[direction][cycle/PLAYER_WALK_CYCLE_SPEED] : clips[direction][STILL]; };
+	void SnapPosition(void);
 };
 
 #endif

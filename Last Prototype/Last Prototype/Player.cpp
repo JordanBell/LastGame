@@ -35,29 +35,29 @@ void Player::move(int direction)
 	// Only allow the user the ability to move the player if the player is not already in the motion of movement
 	if (!moving)
 	{
-		/*GridTile* frontTile = GetFrontTile();
+		this->direction = direction;
+		GridTile* frontTile = GetFrontTile();
 		if (frontTile->canMoveThrough)
 		{
 			moving = true; 
-			this->direction = direction;
-		}*/
+		}
 
-		moving = true; 
-		this->direction = direction;
+		/*moving = true; 
+		this->direction = direction;*/
 	}
 }
 
-//GridTile* Player::GetFrontTile(void)
-//{
-//	XY* frontGridPosition = GetGridPosition();
-//	
-//	frontGridPosition->y -= (this->direction == UP);
-//	frontGridPosition->y += (this->direction == DOWN);
-//	frontGridPosition->x -= (this->direction == LEFT);
-//	frontGridPosition->x += (this->direction == RIGHT);
-//	
-//	return g_environment->getTileAt(frontGridPosition);
-//}
+GridTile* Player::GetFrontTile(void)
+{
+	XY* frontGridPosition = GetGridPosition();
+	
+	frontGridPosition->y -= (this->direction == UP);
+	frontGridPosition->y += (this->direction == DOWN);
+	frontGridPosition->x -= (this->direction == LEFT);
+	frontGridPosition->x += (this->direction == RIGHT);
+	
+	return g_environment->getTileAt(frontGridPosition);
+}
 	
 void Player::IncCycle(void) 
 {
@@ -70,7 +70,9 @@ void Player::update(int delta)
 
 	if (moving) // The player should keep moving in its last assigned direction 
 	{
-		int pixelsToMove = PLAYER_SPEED*delta;
+		int pixelsToMove;
+		if (PLAYER_COMPENSATE_FOR_SLOW_FRAMERATES) pixelsToMove = PLAYER_SPEED * delta;
+		else pixelsToMove = PLAYER_SPEED * (1000/FRAME_RATE);
 		
 		misalignment += pixelsToMove;
 		y -= (this->direction == UP)	* pixelsToMove;
@@ -78,15 +80,23 @@ void Player::update(int delta)
 		x -= (this->direction == LEFT)	* pixelsToMove;
 		x += (this->direction == RIGHT) * pixelsToMove;
 	}
-	else
-	{
-		//
-	}
 
 	// Check to see if the player should keep moving
 	if (misalignment >= TILE_SIZE) // The player has reached the next tile
 	{
 		moving = false;
 		misalignment = 0;
+		SnapPosition();
 	}
+}
+
+void Player::SnapPosition(void)
+{
+	XY gp = *GetGridPosition();
+
+	float oldX = x;
+	float oldY = y;
+
+	x = gp.x * TILE_SIZE - 1;
+	y = gp.y * TILE_SIZE - 3;
 }
