@@ -19,7 +19,10 @@ public:
 	void update(int delta) {
 		//printf("Grid Pos: (%f, %f)\nGrid Misalignment: (%d, %d)\n\n", x, y, (int)x%TILE_SIZE, (int)y%TILE_SIZE);
 	}
+
 	GridTile* getTileAt(XY* gridPosition);
+	void generate(void);
+	void BuildRoom(int x, int y, int w, int h, bool randomDoorway = false);
 
 private:
 	int width, height; //The total size of the world

@@ -11,6 +11,8 @@ Game::Game() : running(true)
 	// Initialise all ENTITIES
 	g_environment = new Environment(0, 0);
 	environment = g_environment;
+	environment->generate();
+
 	player = new Player((9*32)-1, (8*32)-3);
 	
 	m_Entities.push_back(environment);

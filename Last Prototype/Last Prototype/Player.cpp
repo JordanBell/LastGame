@@ -124,18 +124,26 @@ void Player::SnapPosition(void)
 
 bool Player::IsAtThreshold(void)
 {
-	struct Thresholds {
-		float top;
-		float bottom;
-		float left;
-		float right;
-	} thresholds;
+	// Do not move the camera if the map is at the edge - we don't want to show unrendered areas. It's glitch city in there!
+	Directions<bool> noShow  = Directions<bool>(
+		(int)g_environment->y >= 0,
+		(int)g_environment->y <= SCREEN_HEIGHT - WORLD_HEIGHT * TILE_SIZE,
+		(int)g_environment->x >= 0,
+		(int)g_environment->x <= SCREEN_WIDTH  - WORLD_WIDTH * TILE_SIZE);
 	
+	if ((noShow.top	   && direction == UP)	 ||
+		(noShow.bottom && direction == DOWN) ||
+		(noShow.left   && direction == LEFT) ||
+		(noShow.right  && direction == RIGHT)) return false;
+
+
+
 	// Set the thresholds
-	thresholds.top =				 (PLAYER_MOVEMENT_THRESHOLD) * TILE_SIZE;
-	thresholds.left =				 (PLAYER_MOVEMENT_THRESHOLD) * TILE_SIZE;
-	thresholds.bottom = screen->h - ((PLAYER_MOVEMENT_THRESHOLD+1) * TILE_SIZE);
-	thresholds.right =  screen->w - ((PLAYER_MOVEMENT_THRESHOLD+1) * TILE_SIZE);
+	Directions<float> thresholds = Directions<float>(
+		 PLAYER_MOVEMENT_THRESHOLD    * TILE_SIZE,
+		 PLAYER_MOVEMENT_THRESHOLD    * TILE_SIZE,
+		(PLAYER_MOVEMENT_THRESHOLD+1) * TILE_SIZE, 
+		(PLAYER_MOVEMENT_THRESHOLD+1) * TILE_SIZE);
 
 	return (((x <= thresholds.left)   && (direction == LEFT))   ||
 			((x >= thresholds.right)  && (direction == RIGHT))  ||

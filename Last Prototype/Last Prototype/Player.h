@@ -14,7 +14,7 @@ public:
 		RIGHT,
 		DOWN,
 		LEFT
-	} Directions;
+	} directions;
 	
 	//De/Constructors
 	Player(float x, float y);
