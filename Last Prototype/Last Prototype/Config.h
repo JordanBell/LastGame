@@ -1,9 +1,12 @@
 #pragma once
+#include "Tools.h"
 
 // SCREEN
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+const int SCREEN_WIDTH = 1664;
+const int SCREEN_HEIGHT = 960;
+const XY SCREEN_CENTER = XY(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
 const int SCREEN_BPP = 32;
+const bool FULL_SCREEN = true;
 
 // GAME
 const int FRAME_RATE = 60;
@@ -17,8 +20,8 @@ const bool  PLAYER_COMPENSATE_FOR_SLOW_FRAMERATES = false;
 const int TILE_SIZE = 32;
 const int WORLD_WIDTH  = 100; // (In terms of TILE_SIZEs)
 const int WORLD_HEIGHT = 100; // (In terms of TILE_SIZEs)
-const bool ONLY_MOVE_WORLD = true;
-const int PLAYER_MOVEMENT_THRESHOLD = ONLY_MOVE_WORLD ? ((SCREEN_HEIGHT / TILE_SIZE) / 2) : 6; // The number of tiles either side of the edge of the screen, beyond which the world is animated around instead of the player
+const bool ONLY_MOVE_WORLD = false;
+const int PLAYER_MOVEMENT_THRESHOLD = ONLY_MOVE_WORLD ? 0 : 4; // The number of tiles either side of the edge of the screen, beyond which the world is animated around instead of the player
 
 // HOUSES
 const float HOUSE_SIZE_DEVIATION = 0.2; // The percentage increase or decrease in house sizes

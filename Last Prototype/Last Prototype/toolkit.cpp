@@ -27,7 +27,7 @@ bool SDL_init()
 	if (SDL_Init(SDL_INIT_EVERYTHING) == -1) return false;
     
 	//Init Screen
-	inFullScreen = true;
+	inFullScreen = !FULL_SCREEN;
 	toggleScreenFormat();
 	SDL_WM_SetCaption("Sustainable Economy", NULL);
 	if (screen == NULL) return false;

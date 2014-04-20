@@ -140,10 +140,10 @@ bool Player::IsAtThreshold(void)
 
 	// Set the thresholds
 	Directions<float> thresholds = Directions<float>(
-		 PLAYER_MOVEMENT_THRESHOLD    * TILE_SIZE,
-		 PLAYER_MOVEMENT_THRESHOLD    * TILE_SIZE,
-		(PLAYER_MOVEMENT_THRESHOLD+1) * TILE_SIZE, 
-		(PLAYER_MOVEMENT_THRESHOLD+1) * TILE_SIZE);
+		SCREEN_CENTER.y - PLAYER_MOVEMENT_THRESHOLD * TILE_SIZE,
+		SCREEN_CENTER.y + PLAYER_MOVEMENT_THRESHOLD * TILE_SIZE,
+		SCREEN_CENTER.x - PLAYER_MOVEMENT_THRESHOLD * TILE_SIZE, 
+		SCREEN_CENTER.x + PLAYER_MOVEMENT_THRESHOLD * TILE_SIZE);
 
 	return (((x <= thresholds.left)   && (direction == LEFT))   ||
 			((x >= thresholds.right)  && (direction == RIGHT))  ||

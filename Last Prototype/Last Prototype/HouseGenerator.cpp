@@ -21,7 +21,7 @@ void HouseGenerator::run(void)
 
 	for (int i = 0; i < numHouses.x; i++)
 	{
-		for (int j = 0; j < numHouses.y; j++)
+		for (int j = 1; j < numHouses.y; j++)
 		{
 			HouseSize size = ComputeRandomSize();
 			XY* position = new XY(
@@ -47,6 +47,8 @@ void HouseGenerator::run(void)
 
 				// Build the room with a random door (for now... random doors can't work with connected rooms... yet)
 				g_environment->BuildRoom(position->x, position->y, width, height, true);
+
+				if (size.numRooms == 3) g_environment->BuildRoom(position->x + width/4, position->y + height/4, width/2, height/2, true);
 			}
 		}
 	}
