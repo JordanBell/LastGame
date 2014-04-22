@@ -16,6 +16,8 @@ protected:
 	GridTile(float x, float y) : Entity(x*TILE_SIZE, y*TILE_SIZE), canMoveThrough(true) { sprite_sheet = g_resources->GetEnvironmentImage(); }
 	~GridTile(void) {}
 
+	//void update(int delta) { printf("GT: "); Entity::update(delta); }
+
 	void SetTileClip(int index1, int index2)
 	{
 		SDL_Rect* clip = new SDL_Rect();
@@ -24,10 +26,6 @@ protected:
 		clip->w = clip->h = TILE_SIZE;
 
 		skin = clip;
-	}
-
-	void render(void) {
-		Entity::render();
 	}
 };
 

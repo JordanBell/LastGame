@@ -3,17 +3,8 @@
 #include "Environment.h"
 #include <stdlib.h>
 
-HouseGenerator::HouseGenerator(void) : SMALL(HouseSize(5, 5, 1)), MEDIUM(HouseSize(10, 10, 2)), LARGE(HouseSize(15, 15, 3))
-{ 
-	/*SMALL = new HouseSize(5, 5, 1); 
-	MEDIUM = new HouseSize(10, 10, 2); 
-	LARGE = new HouseSize(15, 15, 3); */
-}
-
 void HouseGenerator::run(void)
 {
-	g_environment->BuildRoom(7, 7, 5, 5, true);
-
 	// Warning: Not a very smart calculation on the number of houses allowed on the screen.
 	XY numHouses = XY(
 		WORLD_WIDTH  / (LARGE.w + 5),
@@ -21,7 +12,7 @@ void HouseGenerator::run(void)
 
 	for (int i = 0; i < numHouses.x; i++)
 	{
-		for (int j = 1; j < numHouses.y; j++)
+		for (int j = 0; j < numHouses.y; j++)
 		{
 			HouseSize size = ComputeRandomSize();
 			XY* position = new XY(

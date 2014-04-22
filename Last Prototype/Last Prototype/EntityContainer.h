@@ -9,7 +9,10 @@ public:
 	~EntityContainer(void) {}
 
 	void addChild(Entity* child) { children.push_back(child); child->setParent(this); }
+
+	// Overriden Entity Functions
 	virtual void render(void);
+	void move(int _x, int _y);
 
 protected:
 	std::list<Entity*> children;

@@ -1,5 +1,6 @@
 #ifndef player_h
 #define player_h
+
 #include "Sprite.h"
 #include <math.h>
 #include "Config.h"
@@ -16,13 +17,13 @@ public:
 		LEFT
 	} directions;
 	
-	//De/Constructors
-	Player(float x, float y);
+	Player(int x, int y);
 	~Player() { }
 	
 	void move(int direction);
-
 	void update(int delta);
+
+	void SnapPosition(void);
 
 protected:
 	void IncCycle(void);
@@ -37,8 +38,9 @@ private:
 
 	GridTile* GetFrontTile(void);
 	void set_skin() { skin = (moving) ? clips[direction][cycle/PLAYER_WALK_CYCLE_SPEED] : clips[direction][STILL]; };
-	void SnapPosition(void);
 	bool IsAtThreshold(void);
 };
+
+extern Player* g_player;
 
 #endif

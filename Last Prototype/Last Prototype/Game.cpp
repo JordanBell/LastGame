@@ -1,22 +1,31 @@
 #include "Game.h"
 #include "SDL.h"
 #include <time.h>
+
 Game* g_game = NULL;
 
 Game::Game() : running(true)
 {
 	delta = 0;
 	srand(time(NULL));
+}
 
+void Game::init()
+{
 	// Initialise all ENTITIES
 	g_environment = new Environment(0, 0);
 	environment = g_environment;
-	environment->generate();
+	environment->BuildMap();
 
-	player = new Player((9*32)-1, (8*32)-3);
+	// Place the player in the center of the world
+	g_player = new Player((int)(WORLD_WIDTH/2), (int)(WORLD_HEIGHT/2));
+	player = g_player;
 	
 	m_Entities.push_back(environment);
 	m_Entities.push_back(player);
+
+	// Center everything on the player
+	environment->centerOn(player);
 
 	// Set up the key responses
 	keys = KeyCode(player);
@@ -25,10 +34,13 @@ Game::Game() : running(true)
 Game::~Game(void)
 {
 	// Delete all entities
+	for (Entity* e : m_Entities) { delete e; }
 }
 
 void Game::run()
 {	
+	init();
+
 	while (running)
 	{
 		m_FPSTimer.start();
@@ -65,13 +77,17 @@ void Game::Update()
 	HandleKeys();
 	
 	for (Entity* e : m_Entities) { e->update(delta); }
-	CheckCollisions();
 }
 
-void Game::CheckCollisions()
+void Game::MoveEverything(int x, int y)
 {
-	//Player/Coin Collisions
-	//Player/Wall Collisions
+	// Move all entities by the specified x and y amounts
+	for (Entity* e : m_Entities) 
+	{ 
+		e->x += x; 
+		e->y += y; 
+	}
+
 }
 
 void Game::HandleKeys()
@@ -95,8 +111,12 @@ void Game::HandleKeys()
 
 void Game::Render()
 {
+    // Clear the screen
+    SDL_FillRect(screen,NULL,0x000000);
+
 	// Render all of the entities
 	for (Entity* e : m_Entities) { e->render(); }
+
 	// Flip (update) the screen
 	SDL_Flip(screen);
 }

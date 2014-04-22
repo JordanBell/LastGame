@@ -1,7 +1,8 @@
 #include "Environment.h"
 #include "Resources.h"
 #include "HouseGenerator.h"
-// NOTE NOTE NOTE NOTE NOTE Does this line need to be here? Check once there aren't so many unknowns as to what's causing any problems.
+#include "Game.h"
+
 Environment* g_environment = NULL;
 
 Environment::Environment(float x, float y) : EntityContainer(x, y) 
@@ -12,17 +13,60 @@ Environment::Environment(float x, float y) : EntityContainer(x, y)
 
 void Environment::BuildMap()
 {
-	// Manually build a little house and grand exit hallway
-	BuildRoom(4, 3, 12, 8);
-	BuildRoom(8, 10, 4, 8);
-	BuildRectangle<StoneFloorTile>(9, 10, 2, 1); // A doorway
-	BuildRectangle<StoneFloorTile>(9, 17, 2, 1); // A doorway
-}
-
-void Environment::generate(void)
-{
 	HouseGenerator hg = HouseGenerator();
 	hg.run();
+
+	// Manually build a little house and grand exit hallway
+	//BuildRoom(4, 3, 12, 8);
+	//BuildRoom(8, 10, 4, 8);
+	//BuildRectangle<StoneFloorTile>(9, 10, 2, 1); // A doorway
+	//BuildRectangle<StoneFloorTile>(9, 17, 2, 1); // A doorway
+}
+
+// Try to center the environment on the player, if this would not overstep the edges
+void Environment::centerOn(Player* player)
+{
+	// Check to see where this would center to
+	XY distFromCenter = XY(player->x - SCREEN_CENTER.x,
+						   player->y - SCREEN_CENTER.y);
+
+	int suggestedX = x - distFromCenter.x;
+	int suggestedY = y - distFromCenter.y;
+
+	// Only center it if those coordinates are within the edges (Make x and y centering independant)
+	Directions<bool> xBools = GetEdgeBools(suggestedX, 0);
+	Directions<bool> yBools = GetEdgeBools(0, suggestedY);
+
+	if (!xBools.left && !xBools.right)
+	{
+		//printf("Moving X\n");
+		g_game->MoveEverything(-distFromCenter.x, 0);
+	}
+
+	if (!yBools.top && !yBools.bottom)
+	{
+		//printf("Moving Y\n");
+		g_game->MoveEverything(0, -distFromCenter.y);
+	}
+
+	// Snap everything real nice.
+	player->SnapPosition();
+}
+
+Directions<bool> Environment::GetEdgeBools()
+{
+	return GetEdgeBools(x, y);
+}
+
+Directions<bool> Environment::GetEdgeBools(float _x, float _y)
+{
+	Directions<bool> r_directions = Directions<bool>(
+		(int)_y >= 0,
+		(int)_y <= SCREEN_HEIGHT - WORLD_HEIGHT * TILE_SIZE,
+		(int)_x >= 0,
+		(int)_x <= SCREEN_WIDTH  - WORLD_WIDTH * TILE_SIZE);
+
+	return r_directions;
 }
 
 GridTile* Environment::getTileAt(XY* gridPosition)
@@ -43,14 +87,14 @@ void Environment::BuildRoom(int x, int y, int w, int h, bool randomDoorway)
 
 		if (isOnSides) 
 		{
-			doorPos->y = y + (rand() % (h-2));
+			doorPos->y = y + (rand() % (h-3)) + 1;
 			
 			bool left = rand() % 2;
 			doorPos->x = left ? x : x+w-1;
 		}
 		else
 		{
-			doorPos->x = x + (rand() % (w-2));
+			doorPos->x = x + (rand() % (w-3)) + 1;
 			
 			bool top = rand() % 2;
 			doorPos->y = top ? y : y+h-1;

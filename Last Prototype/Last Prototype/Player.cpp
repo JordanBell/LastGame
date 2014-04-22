@@ -3,8 +3,11 @@
 #include "Resources.h"
 #include "Tools.h"
 
+Player* g_player = NULL;
+
 //Initialise the size and position of each sprite clip
-Player::Player(float x, float y) : Sprite(x, y), direction(DOWN), moving(false), misalignment(0), gridPosition(GetGridPosition(x, y))
+Player::Player(int x, int y) : Sprite(x*TILE_SIZE -1, y*TILE_SIZE -3), // Place the player in terms of TILE sizes. Subtract 1 and 3 respectively for squaring correction
+								   direction(DOWN), moving(false), misalignment(0), gridPosition(GetGridPosition(x, y))
 {
 	sprite_sheet = g_resources->GetPlayerSheet();
 	max_cycles = 3 * PLAYER_WALK_CYCLE_SPEED;
@@ -76,7 +79,7 @@ void Player::update(int delta)
 		int pixelsToMove;
 		if (PLAYER_COMPENSATE_FOR_SLOW_FRAMERATES) pixelsToMove = PLAYER_SPEED * delta;
 		else									   pixelsToMove = PLAYER_SPEED * (1000/FRAME_RATE);
-		pixelsToMove *= moveWorld? -1 : 1; // Make the world move in the opposite direcion than if the player was moving
+		pixelsToMove *= moveWorld? -1 : 1; // Make the world move in the opposite direcion than the player
 		
 		misalignment += pixelsToMove;
 		//printf("Misalignment:  %d\n", misalignment);
@@ -125,18 +128,12 @@ void Player::SnapPosition(void)
 bool Player::IsAtThreshold(void)
 {
 	// Do not move the camera if the map is at the edge - we don't want to show unrendered areas. It's glitch city in there!
-	Directions<bool> noShow  = Directions<bool>(
-		(int)g_environment->y >= 0,
-		(int)g_environment->y <= SCREEN_HEIGHT - WORLD_HEIGHT * TILE_SIZE,
-		(int)g_environment->x >= 0,
-		(int)g_environment->x <= SCREEN_WIDTH  - WORLD_WIDTH * TILE_SIZE);
-	
-	if ((noShow.top	   && direction == UP)	 ||
-		(noShow.bottom && direction == DOWN) ||
-		(noShow.left   && direction == LEFT) ||
-		(noShow.right  && direction == RIGHT)) return false;
-
-
+	Directions<bool> noShows = g_environment->GetEdgeBools();
+		
+	if ((noShows.top	&& direction == UP)	  ||
+		(noShows.bottom && direction == DOWN) ||
+		(noShows.left   && direction == LEFT) ||
+		(noShows.right  && direction == RIGHT)) return false;
 
 	// Set the thresholds
 	Directions<float> thresholds = Directions<float>(

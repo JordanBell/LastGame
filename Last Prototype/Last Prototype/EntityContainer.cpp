@@ -10,3 +10,13 @@ void EntityContainer::render(void)
 		child->render();
 	}
 }
+
+void EntityContainer::move(int _x, int _y)
+{
+	Entity::move(_x, _y);
+
+	for (Entity* child : children)
+	{
+		child->move(_x, _y);
+	}
+}

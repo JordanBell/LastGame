@@ -2,16 +2,12 @@
 class HouseGenerator
 {
 public:
-	HouseGenerator(void);
+	HouseGenerator(void) : SMALL(HouseSize(7, 7, 1)), MEDIUM(HouseSize(10, 10, 2)), LARGE(HouseSize(13, 13, 3)) {}
 	~HouseGenerator(void) {}
 
 	void run(void);
-private:
-	/*enum HouseSize
-	{
-		SMALL, MEDIUM, LARGE
-	};*/
 
+private:
 	struct HouseSize
 	{
 		HouseSize(int _w, int _h, int _rooms) : w(_w), h(_h), numRooms(_rooms) {}

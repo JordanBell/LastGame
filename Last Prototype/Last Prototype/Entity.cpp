@@ -1,6 +1,34 @@
 #include "Entity.h"
 #include "EntityContainer.h"
 #include "Environment.h"
+#include "Player.h"
+
+void Entity::render(void) 
+{ 
+	if (this == g_player) isInSight = true;
+	else
+	{
+		XY distFromPlayer = XY(g_player->x - getBlittingX(),
+							   g_player->y - getBlittingY());
+		int manDist = sqrt( distFromPlayer.x * distFromPlayer.x + distFromPlayer.y * distFromPlayer.y) / TILE_SIZE;
+
+		isInSight = (manDist <= SIGHT_DISTANCE);
+	}
+
+	if (IsOnScreen()) 
+	{
+		if (LIMIT_RENDER_BY_SIGHT) { 
+			if (isInSight) blit(); 
+		}
+		else blit();
+	}
+}
+
+void Entity::move(int _x, int _y)
+{
+	x -= _x;
+	y -= _y;
+}
 
 float Entity::getBlittingX(void) 
 {

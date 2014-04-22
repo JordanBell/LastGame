@@ -16,6 +16,7 @@ public:
 	void run();
     void addEntity(Entity* entity);
 	void addABunchOfCoins();
+	void MoveEverything(int x, int y);
 
 private:
 	//
@@ -34,6 +35,8 @@ private:
 	//
 	/// Functions
 	//
+	void init();
+
 	void Update();
 		void HandleKeys();
 		void CheckCollisions();

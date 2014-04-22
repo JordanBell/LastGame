@@ -1,11 +1,11 @@
 #ifndef environment_h
 #define environment_h
-#pragma once
 
 #include "EntityContainer.h"
 #include "GridTiles.h"
 #include "Config.h"
 #include "Tools.h"
+#include "Player.h"
 
 #define WORLD_BORDER ShinyBlockTile
 
@@ -15,20 +15,18 @@ class Environment :
 public:
 	Environment(float x, float y);
 	~Environment(void);
-
-	void update(int delta) {
-		//printf("Grid Pos: (%f, %f)\nGrid Misalignment: (%d, %d)\n\n", x, y, (int)x%TILE_SIZE, (int)y%TILE_SIZE);
-	}
+	
+	void BuildMap(void);
+	void centerOn(Player* player);
+	void BuildRoom(int x, int y, int w, int h, bool randomDoorway = false);
 
 	GridTile* getTileAt(XY* gridPosition);
-	void generate(void);
-	void BuildRoom(int x, int y, int w, int h, bool randomDoorway = false);
+	Directions<bool> GetEdgeBools();
+	Directions<bool> GetEdgeBools(float _x, float _y);
 
 private:
 	int width, height; //The total size of the world
 	GridTile* tiles[WORLD_WIDTH][WORLD_HEIGHT]; // Note: Make 2D array of lists of tiles; Tile Layer? Used if a position has several tiles on top, and we don't want to override any tiles in that position.
-
-	void BuildMap(void);
 
 	template <class T_Fill, class T_Border>
 		void BuildBorderedRectangle(int x, int y, int w, int h);
