@@ -5,10 +5,10 @@
 
 Player* g_player = NULL;
 
-//Initialise the size and position of each sprite clip
-Player::Player(int gridX, int gridY) : Sprite(gridX*TILE_SIZE -1, gridY*TILE_SIZE -3), // Place the player in terms of TILE sizes. Subtract 1 and 3 respectively for squaring correction
+Player::Player(int gridX, int gridY) : Sprite(gridX*TILE_SIZE -1, gridY*TILE_SIZE -3), // Place the player in terms of TILE sizes. Subtract 1 and 3 respectively for squaring correction.
 									   direction(DOWN), moving(false), misalignment(0)
 {
+	// Initialise Fields
 	sprite_sheet = g_resources->GetPlayerSheet();
 	max_cycles = 3 * PLAYER_WALK_CYCLE_SPEED;
 
@@ -40,20 +40,15 @@ void Player::walk(E_Direction direction)
 	{
 		// Set the new direction
 		this->direction = direction;
-		GridTile* frontTile = GetFrontTile();
 
-		// Check to see if it's a valid move.
-		if (frontTile->canMoveThrough)
-		{
-			moving = true;
-		}
+		// Check to see if the player can move to the front tile.
+		if (GetFrontTile()->canMoveThrough) moving = true;
 	}
 }
 
 GridTile* Player::GetFrontTile(void)
 {
 	XY frontGridPosition = GetGridPosition();
-	
 	frontGridPosition.addDirection(direction);
 	
 	return g_environment->getTileAt(frontGridPosition);

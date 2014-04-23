@@ -27,7 +27,7 @@ struct XY {
 		x += (d == RIGHT) * f;
 	}
 
-	/// +, -, *, /
+	/// +, -, *, /, %
 	// Other XYs
 	XY operator+(XY xy) {
 		XY result = *this;
@@ -117,11 +117,6 @@ struct XY {
 
 		return *this;
 	}
-
-	/*void operator-=(XY xy) {
-		x -= xy.x;
-		y -= xy.y;
-	}*/
 
 	// ==
 	bool operator==(XY xy) {

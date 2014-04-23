@@ -1,6 +1,5 @@
 #include "EntityContainer.h"
 
-// Render this entity, as well as the children entities
 void EntityContainer::render(void)
 {
 	Entity::render();
@@ -11,12 +10,12 @@ void EntityContainer::render(void)
 	}
 }
 
-void EntityContainer::move(int _x, int _y)
+void EntityContainer::move(XY displacement)
 {
-	Entity::move(_x, _y);
+	Entity::move(displacement);
 
 	for (Entity* child : children)
 	{
-		child->move(_x, _y);
+		child->move(displacement);
 	}
 }
