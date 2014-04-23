@@ -1,5 +1,14 @@
 #pragma once
 #include <String>
+
+// Direction enumeration
+enum E_Direction{
+	UP,
+	RIGHT,
+	DOWN,
+	LEFT
+};
+
 // An X and Y pairing
 struct XY { 
 	float x, y; 
@@ -8,7 +17,17 @@ struct XY {
 	// Finding the manhatten distances between the two (or other pythagorean theorum contexts)
 	float manhatten() { return sqrt(x*x + y*y); }
 
-	/// +, -
+	// Alter the values based on a direction
+	void addDirection(E_Direction d) { addDirection(d, 1); }
+	void addDirection(E_Direction d, float f)
+	{
+		y -=    (d == UP) * f;
+		y +=  (d == DOWN) * f;
+		x -=  (d == LEFT) * f;
+		x += (d == RIGHT) * f;
+	}
+
+	/// +, -, *, /
 	// Other XYs
 	XY operator+(XY xy) {
 		XY result = *this;
@@ -39,6 +58,13 @@ struct XY {
 		return result;
 	}
 
+	XY operator*(int i) {
+		XY result = *this;
+		result *= i;
+
+		return result;
+	}
+
 	XY operator/(int i) {
 		XY result = *this;
 		result /= i;
@@ -47,7 +73,7 @@ struct XY {
 	}
 
 
-	/// +=, -=
+	/// +=, -=, *=, /=
 	// Other XYs
 	XY operator+=(XY xy) {
 		x += xy.x;
@@ -74,6 +100,13 @@ struct XY {
 	XY operator-=(int i) {
 		x -= i;
 		y -= i;
+
+		return *this;
+	}
+
+	XY operator*=(int i) {
+		x *= i;
+		y *= i;
 
 		return *this;
 	}
@@ -105,6 +138,29 @@ struct Directions {
 	Directions(E t, E b, E l, E r) 
 		     : top(t), bottom(b), left(l), right(r) {} 
 };
+
+template <>
+struct Directions<float> {
+	float top, bottom, left, right;
+
+	Directions(float t, float b, float l, float r) 
+		     : top(t), bottom(b), left(l), right(r) {} 
+
+	// Specialised Constructor using XY values
+	Directions(XY scalarValues) {
+		Directions(-scalarValues.y,
+					scalarValues.y,
+				   -scalarValues.x,
+					scalarValues.x);
+	} 
+};
+
+
+	Directions<float> thresholds = Directions<float>(
+		SCREEN_CENTER.y - PLAYER_MOVEMENT_THRESHOLD * TILE_SIZE,
+		SCREEN_CENTER.y + PLAYER_MOVEMENT_THRESHOLD * TILE_SIZE,
+		SCREEN_CENTER.x - PLAYER_MOVEMENT_THRESHOLD * TILE_SIZE, 
+		SCREEN_CENTER.x + PLAYER_MOVEMENT_THRESHOLD * TILE_SIZE);
 
 // Bool directions specialisation, with equality overloads
 template <>

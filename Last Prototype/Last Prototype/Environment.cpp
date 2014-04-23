@@ -69,9 +69,9 @@ Directions<bool> Environment::GetEdgeBools(float _x, float _y)
 	return r_directions;
 }
 
-GridTile* Environment::getTileAt(XY* gridPosition)
+GridTile* Environment::getTileAt(XY gridPosition)
 {
-	return tiles[(int)gridPosition->x][(int)gridPosition->y];
+	return tiles[(int)gridPosition.x][(int)gridPosition.y];
 }
 
 void Environment::BuildRoom(int x, int y, int w, int h, bool randomDoorway)

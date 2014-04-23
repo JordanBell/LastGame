@@ -20,7 +20,7 @@ public:
 	void centerOn(Player* player);
 	void BuildRoom(int x, int y, int w, int h, bool randomDoorway = false);
 
-	GridTile* getTileAt(XY* gridPosition);
+	GridTile* getTileAt(XY gridPosition);
 	Directions<bool> GetEdgeBools();
 	Directions<bool> GetEdgeBools(float _x, float _y);
 
