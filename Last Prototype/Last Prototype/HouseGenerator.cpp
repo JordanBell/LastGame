@@ -30,8 +30,8 @@ void HouseGenerator::run(void)
 				XY range = size.dimensions * (HOUSE_SIZE_DEVIATION*2);
 
 				// Find random numbers within that range
-				XY sizeDeviation((rand() % (int)range.x) 
-								 (rand() % (int)range.y));
+				XY sizeDeviation = XY((rand() % (int)range.x) 
+									  (rand() % (int)range.y));
 
 				// Bring that deviation's median down to 0
 				sizeDeviation -= range/2;

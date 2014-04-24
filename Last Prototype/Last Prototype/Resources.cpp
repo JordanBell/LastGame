@@ -1,3 +1,4 @@
+#pragma warning(disable: 4715)
 #include "Resources.h"
 #include "toolkit.h"
 #include "Player.h"

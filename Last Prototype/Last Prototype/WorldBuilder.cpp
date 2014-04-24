@@ -68,16 +68,18 @@ void WorldBuilder::BuildBorderedRectangle(XY pos, XY dimensions)
 template <class T>
 void WorldBuilder::BuildRectangle(XY pos, XY dimensions, bool filled)
 {
-	for (int i = x; i < x+w; i++)
+	for (int i = pos.x; i < pos.x + dimensions.x; i++)
 	{
-		for (int j = y; j < y+h; j++)
+		for (int j = pos.y; j < pos.y + dimensions.y; j++)
 		{
-			if (filled) AddTileTo<T>(i, j);
+			if (filled) AddTileTo<T>(XY(i, j));
 			else
 			{
-				bool xEdge = ((i == x) || (i == x+w-1));
-				bool yEdge = ((j == y) || (j == y+h-1));
-				if (xEdge || yEdge) AddTileTo<T>(i, j);
+				XY upperBounds = pos + dimensions - 1;
+				bool xEdge = ((i == pos.x) || (i == upperBounds.x));
+				bool yEdge = ((j == pos.y) || (j == upperBounds.y));
+
+				if (xEdge || yEdge) AddTileTo<T>(XY(i, j));
 			}
 		}
 	}
@@ -87,6 +89,6 @@ template <class T>
 void WorldBuilder::AddTileTo(XY pos)
 {
 	T* tile = new T(pos.x, pos.y);
-	tiles[pos.x][pos.y] = tile;
+	g_environment->tiles[(int)pos.x][(int)pos.y] = tile;
 	g_environment->addChild(tile);
 }

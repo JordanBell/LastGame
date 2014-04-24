@@ -12,7 +12,7 @@ class Game
 public:
 	Game();
 	// Delete all entities.
-	~Game(void) { for (Entity* e : m_Entities) { delete e; } }
+	~Game(void);
 
 
 

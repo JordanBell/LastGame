@@ -1,11 +1,13 @@
 #pragma once
 #include "Tools.h"
 
+struct XY;
+
 // ENVIRONMENT
 const int TILE_SIZE = 32;
 const int WORLD_WIDTH  = 100; // (In terms of TILE_SIZEs)
 const int WORLD_HEIGHT = 100; // (In terms of TILE_SIZEs)
-XY  WORLD_DIMENSIONS = XY(WORLD_WIDTH, WORLD_HEIGHT);
+XY WORLD_DIMENSIONS = XY((WORLD_WIDTH), WORLD_HEIGHT);
 const bool ONLY_MOVE_WORLD = true;
 const int PLAYER_MOVEMENT_THRESHOLD = ONLY_MOVE_WORLD ? 0 : 4; // The number of tiles either side of the edge of the screen, beyond which the world is animated around instead of the player
 
@@ -29,7 +31,7 @@ const bool	LIMIT_RENDER_BY_SIGHT = true;
 const int	SIGHT_DISTANCE = 4;
 
 // HOUSES
-const float HOUSE_SIZE_DEVIATION = 1.2; // The percentage increase or decrease in house sizes
+const float HOUSE_SIZE_DEVIATION = 1.2; // The percentage variation in house sizes
 
 //#if SDL_BYTEORDER == SDL_BIG_ENDIAN
 //    rmask = 0xff000000;

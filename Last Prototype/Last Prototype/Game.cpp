@@ -13,6 +13,9 @@ Game::Game() : running(true)
 
 Game::~Game()
 {
+	// Delete all entities
+	for (Entity* e : m_Entities) { delete e; }
+
 	// Delete Player pointers
 	delete player;
 	delete g_player;

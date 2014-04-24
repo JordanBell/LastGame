@@ -18,6 +18,8 @@ class Environment : public EntityContainer
 {
 
 public:
+	GridTile* tiles[WORLD_WIDTH][WORLD_HEIGHT]; // 2D array of tiles in the world
+
 	Environment(float x, float y) : EntityContainer(x, y) {}
 
 	// Try to center the environment on the player, if doing so would not overstep the edges
@@ -34,7 +36,6 @@ public:
 
 private:
 	int width, height; //The total size of the world
-	GridTile* tiles[WORLD_WIDTH][WORLD_HEIGHT]; // 2D array of tiles in the world
 };
 
 extern Environment* g_environment;

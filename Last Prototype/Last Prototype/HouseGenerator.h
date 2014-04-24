@@ -1,4 +1,6 @@
 #pragma once
+#include "Tools.h"
+
 class HouseGenerator
 {
 public:
