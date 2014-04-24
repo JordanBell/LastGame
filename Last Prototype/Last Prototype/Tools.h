@@ -1,5 +1,6 @@
 #pragma once
 #include <String>
+#include "Config.h"
 
 // Direction enumeration
 enum E_Direction{
@@ -177,13 +178,6 @@ struct Directions<float> {
 					scalarValues.x);
 	} 
 };
-
-
-	Directions<float> thresholds = Directions<float>(
-		SCREEN_CENTER.y - PLAYER_MOVEMENT_THRESHOLD * TILE_SIZE,
-		SCREEN_CENTER.y + PLAYER_MOVEMENT_THRESHOLD * TILE_SIZE,
-		SCREEN_CENTER.x - PLAYER_MOVEMENT_THRESHOLD * TILE_SIZE, 
-		SCREEN_CENTER.x + PLAYER_MOVEMENT_THRESHOLD * TILE_SIZE);
 
 // Bool directions specialisation, with equality overloads
 template <>

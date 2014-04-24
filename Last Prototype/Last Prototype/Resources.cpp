@@ -4,8 +4,14 @@
 #include "Environment.h"
 
 #include <stdexcept>
+
+// Player sheet consts
 std::string playerSheetFile	  = "playerSheet.png";
+SDL_Surface* playerSheet = NULL;
+
+// Environment sheet consts
 std::string environmentSheetFile = "environment.png";
+SDL_Surface* environmentSheet = NULL;
 
 SDL_Surface Resources::GetPlayerSheet()
 {

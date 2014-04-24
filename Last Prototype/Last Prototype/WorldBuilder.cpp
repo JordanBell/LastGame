@@ -66,7 +66,7 @@ void WorldBuilder::BuildBorderedRectangle(XY pos, XY dimensions)
 }
 
 template <class T>
-void WorldBuilder::BuildRectangle(XY pos, XY dimensions, bool filled = true)
+void WorldBuilder::BuildRectangle(XY pos, XY dimensions, bool filled)
 {
 	for (int i = x; i < x+w; i++)
 	{

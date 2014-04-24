@@ -10,12 +10,12 @@
 
 class GridTile : public Entity {
 public:
-	bool canMoveThrough;
-	~GridTile(void) {}
+	bool canMoveThrough; // Whether or not the player can pass over this object
 
 protected:
 	GridTile(float x, float y) : Entity(x*TILE_SIZE, y*TILE_SIZE), canMoveThrough(true) { sprite_sheet = Resources::GetEnvironmentImage(); }
 
+	// Set the clip of this tile, based on its index in the Environment sprite sheet
 	void SetTileClip(int index1, int index2)
 	{
 		SDL_Rect clip = SDL_Rect();

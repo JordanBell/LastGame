@@ -20,13 +20,13 @@ Player::Player(int gridX, int gridY) : Sprite(gridX*TILE_SIZE -1, gridY*TILE_SIZ
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			SDL_Rect* clip = new SDL_Rect();
+			SDL_Rect clip = SDL_Rect();
 
-			clip->x = clip_w * j;
-			clip->y = clip_h * i,
+			clip.x = clip_w * j;
+			clip.y = clip_h * i,
 			
-			clip->w = clip_w;
-			clip->h = clip_h;
+			clip.w = clip_w;
+			clip.h = clip_h;
 
 			clips[i][j] = clip;
 		}

@@ -37,7 +37,7 @@ private:
 	int misalignment; // The tracked difference between the player and their last TILE-aligned position.
 	E_Direction direction; //The direction being faced by the player.
 	bool moving; // Whether or not the player is moving.
-	SDL_Rect* clips[ 4 ][ 3 ]; //The 12 sprite locations in the sprite sheet: [direction] by [cycle].
+	SDL_Rect clips[ 4 ][ 3 ]; //The 12 sprite locations in the sprite sheet: [direction] by [cycle].
 
 
 

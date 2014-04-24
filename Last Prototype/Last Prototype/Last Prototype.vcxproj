@@ -77,7 +77,7 @@
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="toolkit.cpp" />
-    <ClCompile Include="WorldGenerator.cpp" />
+    <ClCompile Include="WorldBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config.h" />
@@ -88,14 +88,12 @@
     <ClInclude Include="GridTiles.h" />
     <ClInclude Include="HouseGenerator.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="KeyCode.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="toolkit.h" />
     <ClInclude Include="Tools.h" />
-    <ClInclude Include="WorldGenerator.h" />
+    <ClInclude Include="WorldBuilder.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
