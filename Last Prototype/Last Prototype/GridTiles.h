@@ -11,10 +11,10 @@
 class GridTile : public Entity {
 public:
 	bool canMoveThrough;
+	~GridTile(void) {}
 
 protected:
 	GridTile(float x, float y) : Entity(x*TILE_SIZE, y*TILE_SIZE), canMoveThrough(true) { sprite_sheet = g_resources->GetEnvironmentImage(); }
-	~GridTile(void) {}
 
 	//void update(int delta) { printf("GT: "); Entity::update(delta); }
 

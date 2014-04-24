@@ -27,7 +27,7 @@ struct XY {
 		x += (d == RIGHT) * f;
 	}
 
-	/// +, -, *, /, %
+	/// +, -, *, /
 	// Other XYs
 	XY operator+(XY xy) {
 		XY result = *this;
@@ -39,6 +39,20 @@ struct XY {
 	XY operator-(XY xy) {
 		XY result = *this;
 		result -= xy;
+
+		return result;
+	}
+
+	XY operator/(XY xy) {
+		XY result = *this;
+		result /= xy;
+
+		return result;
+	}
+
+	XY operator*(XY xy) {
+		XY result = *this;
+		result *= xy;
 
 		return result;
 	}
@@ -85,6 +99,20 @@ struct XY {
 	XY operator-=(XY xy) {
 		x -= xy.x;
 		y -= xy.y;
+
+		return *this;
+	}
+
+	XY operator/=(XY xy) {
+		x /= xy.x;
+		y /= xy.y;
+
+		return *this;
+	}
+
+	XY operator*=(XY xy) {
+		x *= xy.x;
+		y *= xy.y;
 
 		return *this;
 	}

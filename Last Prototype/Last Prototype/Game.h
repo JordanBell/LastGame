@@ -2,7 +2,6 @@
 #define game_h
 
 #include <list>
-#include "KeyCode.h"
 #include "Entity.h"
 #include "Player.h"
 #include "Environment.h"
@@ -12,37 +11,43 @@ class Game
 {	
 public:
 	Game();
-	~Game(void);
+	// Delete all entities.
+	~Game(void) { for (Entity* e : m_Entities) { delete e; } }
+
+
+
+	// Run the game, stick it in the game loop
 	void run();
+
+	// Add an entity to the list of entities.
     void addEntity(Entity* entity);
-	void addABunchOfCoins();
-	void MoveEverything(int x, int y);
+
+	// Move all of the entities by a certain amount
+	void MoveEverything(XY displacement);
 
 private:
-	//
-	/// Fields
-	//
-	KeyCode keys;
-	Timer m_FPSTimer;
 	int delta; // The time since the last frame
+	bool running; // Whether or not the program is running - controls the game loop.
 
-	//Entities
-	Player *player;
-	Environment *environment;
-	std::list<Entity*> m_Entities;
-	bool running;
+	Timer m_FPSTimer; // The timer that keeps track of the time since the last update
+	Player* player; // The player in the game.
+	Environment* environment; // The EntityContainer containing the entire environment
+	std::list<Entity*> m_Entities; // A list of entities used to call their render and update functions during the game loop
 
-	//
-	/// Functions
-	//
+
+
+	// Initialise all of the objects in the game.
 	void init();
 
+	// Update the entities
 	void Update();
 		void HandleKeys();
-		void CheckCollisions();
+	// Render the entities
 	void Render();
+	// Check events with SDL
 	void Poll();
-
+	
+	// Regulate the framerate, and return the delta time.
 	int RegulateFrameRate();
 };
 

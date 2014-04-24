@@ -6,7 +6,7 @@ class EntityContainer : public Entity
 {
 public:
 	EntityContainer(float x, float y) : Entity(x, y) {}
-	~EntityContainer(void) {}
+	~EntityContainer(void);
 
 	// Add a child entity to this container
 	void addChild(Entity* child) { children.push_back(child); child->setParent(this); }
