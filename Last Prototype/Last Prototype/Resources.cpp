@@ -4,25 +4,36 @@
 #include "Environment.h"
 
 #include <stdexcept>
-Resources* g_resources = NULL;
+std::string playerSheetFile	  = "playerSheet.png";
+std::string environmentSheetFile = "environment.png";
 
-Resources::Resources(void)
+SDL_Surface Resources::GetPlayerSheet()
 {
-	// Load the resouce files using SDL
-	m_PlayerSheet =			load_image("playerSheet.png");
-	m_EnvironmentImage =	load_image("environment.png");
-
-	// Check for failures.
-	if ((m_PlayerSheet		  == NULL)	||
-		(m_EnvironmentImage   == NULL)) 
-		{
-			throw std::runtime_error("Some of the resources failed to initialise");
-		}
+	try { return GetSheet(playerSheet); }
+	catch (std::runtime_error e) 
+	{
+		throw std::runtime_error("The player sheet file failed to load.");
+	}
 }
 
-Resources::~Resources(void)
+SDL_Surface Resources::GetEnvironmentImage()
 {
-	// Free that shit
-	SDL_FreeSurface(m_PlayerSheet);
-	SDL_FreeSurface(m_EnvironmentImage);
+	try { return GetSheet(environmentSheet); }
+	catch (std::runtime_error e) 
+	{
+		throw std::runtime_error("The environment file failed to load.");
+	}
+}
+
+SDL_Surface Resources::GetSheet(SDL_Surface* sheet)
+{
+	if (sheet == NULL)
+	{
+			 if (sheet == playerSheet)		sheet = load_image(playerSheetFile);
+		else if (sheet == environmentSheet) sheet = load_image(environmentSheetFile);
+
+		// Check for failures.
+		if (sheet == NULL) throw std::runtime_error("The environment file failed to load.");
+	}
+	else return *sheet;
 }

@@ -31,7 +31,7 @@ void Entity::render(void)
 void Entity::blit()
 {
 	XY blitPos = getBlittingPos();
-	apply_surface(blitPos.x, blitPos.y, sprite_sheet, screen, skin);
+	apply_surface(blitPos, sprite_sheet, screen, &skin);
 }
 
 XY Entity::getBlittingPos(void) 

@@ -18,11 +18,8 @@ public:
 	Entity(float x, float y) : pos( XY(x,y) ), 
 							   x(&pos.x), 
 							   y(&pos.y), 
-							   isInSight(true), 
-							   skin(NULL), 
-							   parent(NULL), 
-							   sprite_sheet(NULL) {}
-	~Entity(void) { SDL_FreeSurface(sprite_sheet); }
+							   isInSight(true) {}
+	~Entity(void) { SDL_FreeSurface(&sprite_sheet); }
 	
 	// Move this object's coordinates by a displacement amount
 	virtual void move(XY displacement);
@@ -52,8 +49,8 @@ public:
 protected:
 	EntityContainer* parent;	// The parent of this Entity
 	bool isInSight;				// Whether or not this object is "within sight" of the player
-	SDL_Rect* skin;				// Section of the sprite_sheet to blit
-	SDL_Surface* sprite_sheet;	// The image (from file) which this entity displays
+	SDL_Rect skin;				// Section of the sprite_sheet to blit
+	SDL_Surface sprite_sheet;	// The image (from file) which this entity displays
 
 
 

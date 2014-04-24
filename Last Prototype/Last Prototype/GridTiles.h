@@ -14,16 +14,14 @@ public:
 	~GridTile(void) {}
 
 protected:
-	GridTile(float x, float y) : Entity(x*TILE_SIZE, y*TILE_SIZE), canMoveThrough(true) { sprite_sheet = g_resources->GetEnvironmentImage(); }
-
-	//void update(int delta) { printf("GT: "); Entity::update(delta); }
+	GridTile(float x, float y) : Entity(x*TILE_SIZE, y*TILE_SIZE), canMoveThrough(true) { sprite_sheet = Resources::GetEnvironmentImage(); }
 
 	void SetTileClip(int index1, int index2)
 	{
-		SDL_Rect* clip = new SDL_Rect();
-		clip->x = index1 * TILE_SIZE;
-		clip->y = index2 * TILE_SIZE;
-		clip->w = clip->h = TILE_SIZE;
+		SDL_Rect clip = SDL_Rect();
+		clip.x = index1 * TILE_SIZE;
+		clip.y = index2 * TILE_SIZE;
+		clip.w = clip.h = TILE_SIZE;
 
 		skin = clip;
 	}

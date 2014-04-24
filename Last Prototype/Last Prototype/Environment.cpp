@@ -19,8 +19,8 @@ void Environment::centerOn(Player* player)
 	bool centerY = (!yBools.top && !yBools.bottom);
 
 	// Center the axis
-	if (centerX) g_game->MoveEverything(-distFromCenter.x, 0);
-	if (centerY) g_game->MoveEverything(0, -distFromCenter.y);
+	if (centerX) g_game->MoveEverything(XY(-distFromCenter.x, 0));
+	if (centerY) g_game->MoveEverything(XY(0, -distFromCenter.y));
 
 	// Snap everything real nice.
 	player->SnapPosition();

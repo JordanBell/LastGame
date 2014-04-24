@@ -9,12 +9,12 @@ Player::Player(int gridX, int gridY) : Sprite(gridX*TILE_SIZE -1, gridY*TILE_SIZ
 									   direction(DOWN), moving(false), misalignment(0)
 {
 	// Initialise Fields
-	sprite_sheet = g_resources->GetPlayerSheet();
+	sprite_sheet = Resources::GetPlayerSheet();
 	max_cycles = 3 * PLAYER_WALK_CYCLE_SPEED;
 
 	//Initialise the clips of the sprite_sheet
-	int clip_w = (sprite_sheet->w / 3);
-	int clip_h = (sprite_sheet->h / 4);
+	int clip_w = (sprite_sheet.w / 3);
+	int clip_h = (sprite_sheet.h / 4);
 
 	for (int i = 0; i < 4; i++)
 	{
