@@ -6,14 +6,20 @@ class EntityContainer : public Entity
 {
 public:
 	EntityContainer(float x, float y) : Entity(x, y) {}
-	~EntityContainer(void) {}
+	~EntityContainer(void);
 
+	// Add a child entity to this container
 	void addChild(Entity* child) { children.push_back(child); child->setParent(this); }
-
-	// Overriden Entity Functions
+	
+	// Render this entity, as well as the children entities
 	virtual void render(void);
-	void move(int _x, int _y);
+
+	// Move this Entity and, all of its children, by a displacement
+	void move(XY displacement);
+
+	// Whether or not this, or any of its children, are on screen.
+	bool IsOnScreen(void);
 
 protected:
-	std::list<Entity*> children;
+	std::list<Entity*> children; // A list of the child Entities within this container.
 };

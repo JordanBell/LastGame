@@ -1,22 +1,46 @@
 #include "EntityContainer.h"
 
-// Render this entity, as well as the children entities
-void EntityContainer::render(void)
+EntityContainer::~EntityContainer()
 {
-	Entity::render();
-
-	for (Entity* child : children)
+	// Delete and remove all of the children
+	while (children.size() > 0)
 	{
-		child->render();
+		delete children.front();
+		children.pop_front();
 	}
 }
 
-void EntityContainer::move(int _x, int _y)
+void EntityContainer::render(void)
 {
-	Entity::move(_x, _y);
+	if (ShouldRenderImage()) Entity::render();
 
 	for (Entity* child : children)
 	{
-		child->move(_x, _y);
+		child->e_render();
 	}
+}
+
+bool EntityContainer::IsOnScreen(void)
+{
+	if (Entity::IsOnScreen()) return true;
+	else
+	{
+		for (Entity* child : children)
+
+		{
+			if (child->IsOnScreen()) return true;
+		}
+	}
+
+	return false;
+}
+
+void EntityContainer::move(XY displacement)
+{
+	Entity::move(displacement);
+
+	/*for (Entity* child : children)
+	{
+		child->move(displacement);
+	}*/
 }

@@ -8,14 +8,23 @@ void WorldBuilder::build()
 
 	HouseGenerator hg = HouseGenerator();
 	hg.run();
+	/*BuildRoom(XY(4, 4), XY(11, 8));
+	BuildRoom(XY(4, 19), XY(14, 11));
+	BuildRoom(XY(7, 21), XY(7, 5));
+	BuildRoom(XY(19, 4), XY(7, 7));*/
 }
 
 void WorldBuilder::BuildRoom(XY pos, XY dimensions, bool randomDoorway)
 {
 	// Draw the border
-	BuildBorderedRectangle<StoneFloorTile, StoneWallTile>(pos, dimensions);
+	XY wd = WORLD_DIMENSIONS;
+	bool staysWithinWorld = (pos + dimensions) < wd;
 
-	if (randomDoorway) BuildRandomDoorway(pos, dimensions);
+	if (staysWithinWorld)
+	{
+		BuildBorderedRectangle<StoneFloorTile_LightBrown, WoodWallTile>(pos, dimensions);
+		if (randomDoorway) BuildRandomDoorway(pos, dimensions);
+	}
 }
 
 void WorldBuilder::BuildRandomDoorway(XY pos, XY dimensions)
@@ -60,7 +69,7 @@ void WorldBuilder::BuildRandomDoorway(XY pos, XY dimensions)
 							isOnHorizontal? 2 : 1);
 		
 	// Build the door
-	BuildRectangle<StoneFloorTile>(doorPos, doorDimensions);
+	BuildRectangle<StoneFloorTile_LightBrown>(doorPos, doorDimensions);
 }
 
 template <class T_Fill, class T_Border>
@@ -76,9 +85,9 @@ void WorldBuilder::BuildBorderedRectangle(XY pos, XY dimensions)
 template <class T>
 void WorldBuilder::BuildRectangle(XY pos, XY dimensions, bool filled)
 {
-	for (int i = pos.x; i < pos.x + dimensions.x; i++)
+	for (float i = pos.x; i < pos.x + dimensions.x; i++)
 	{
-		for (int j = pos.y; j < pos.y + dimensions.y; j++)
+		for (float j = pos.y; j < pos.y + dimensions.y; j++)
 		{
 			if (filled) AddTileTo<T>(XY(i, j));
 			else
