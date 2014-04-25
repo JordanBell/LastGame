@@ -1,6 +1,6 @@
 #pragma once
 #include <String>
-#include "Config.h"
+//#include "Config.h"
 
 // Direction enumeration
 enum E_Direction{
@@ -58,29 +58,29 @@ struct XY {
 		return result;
 	}
 
-	// ints
-	XY operator+(int i) {
+	// floats
+	XY operator+(float i) {
 		XY result = *this;
 		result += i;
 
 		return result;
 	}
 
-	XY operator-(int i) {
+	XY operator-(float i) {
 		XY result = *this;
 		result -= i;
 
 		return result;
 	}
 
-	XY operator*(int i) {
+	XY operator*(float i) {
 		XY result = *this;
 		result *= i;
 
 		return result;
 	}
 
-	XY operator/(int i) {
+	XY operator/(float i) {
 		XY result = *this;
 		result /= i;
 
@@ -118,29 +118,29 @@ struct XY {
 		return *this;
 	}
 	
-	// ints
-	XY operator+=(int i) {
+	// floats
+	XY operator+=(float i) {
 		x += i;
 		y += i;
 
 		return *this;
 	}
 
-	XY operator-=(int i) {
+	XY operator-=(float i) {
 		x -= i;
 		y -= i;
 
 		return *this;
 	}
 
-	XY operator*=(int i) {
+	XY operator*=(float i) {
 		x *= i;
 		y *= i;
 
 		return *this;
 	}
 
-	XY operator/=(int i) {
+	XY operator/=(float i) {
 		x /= i;
 		y /= i;
 
@@ -168,14 +168,26 @@ struct Directions<float> {
 	float top, bottom, left, right;
 
 	Directions(float t, float b, float l, float r) 
-		     : top(t), bottom(b), left(l), right(r) {} 
+		     : top(t), bottom(b), left(l), right(r) 
+	{
+		printf("!!!");
+		top = t;
+		bottom = b;
+		left = l;
+		right = r;
+	} 
 
 	// Specialised Constructor using XY values
 	Directions(XY scalarValues) {
-		Directions(-scalarValues.y,
+		top =	-scalarValues.y;
+		bottom = scalarValues.y;
+		left =	-scalarValues.x;
+		right =	 scalarValues.x;
+
+		/*Directions(-scalarValues.y,
 					scalarValues.y,
 				   -scalarValues.x,
-					scalarValues.x);
+					scalarValues.x);*/
 	} 
 };
 

@@ -29,7 +29,7 @@ public:
 	GridTile* getTileAt(XY gridPosition);
 
 	// Return, for each direction, whether or not this position exposes the unrendered edge of the world
-	Directions<bool> Environment::GetEdgeBools() { return GetEdgeBools((int)x, (int)y); }
+	Directions<bool> Environment::GetEdgeBools() { return GetEdgeBools((int)pos.x, (int)pos.y); }
 
 	// Return, for each direction, whether or not a given position will expose the unrendered edge of the world
 	Directions<bool> GetEdgeBools(int _x, int _y);

@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning(disable: 4715)
 #include "HouseGenerator.h"
 #include "WorldBuilder.h"
 #include "Environment.h"
@@ -7,7 +8,8 @@
 void HouseGenerator::run(void)
 {
 	// Warning: Not a very smart calculation on the number of houses allowed on the screen.
-	XY numHouses = WORLD_DIMENSIONS / (LARGE.dimensions + 5);
+	XY world = WORLD_DIMENSIONS;
+	XY numHouses = world / (LARGE.dimensions + 5);
 
 	for (int i = 0; i < numHouses.x; i++)
 	{
@@ -18,9 +20,9 @@ void HouseGenerator::run(void)
 
 			// Compute the position of this house (in pixels)
 			XY gridPos = XY(i, j);
-			XY houseDimensions = LARGE.dimensions * HOUSE_SIZE_DEVIATION;
+			XY maxHouseDimensions = LARGE.dimensions * (1 + (float)HOUSE_SIZE_DEVIATION);
 
-			XY position = gridPos * houseDimensions + 5;
+			XY position = gridPos * maxHouseDimensions + 4;
 
 			//for (int k = 0; k < size.numRooms; k++)
 			for (int k = 0; k < 1; k++)
@@ -30,8 +32,8 @@ void HouseGenerator::run(void)
 				XY range = size.dimensions * (HOUSE_SIZE_DEVIATION*2);
 
 				// Find random numbers within that range
-				XY sizeDeviation = XY((rand() % (int)range.x) 
-									  (rand() % (int)range.y));
+				XY sizeDeviation((rand() % (int)range.x),
+								 (rand() % (int)range.y));
 
 				// Bring that deviation's median down to 0
 				sizeDeviation -= range/2;

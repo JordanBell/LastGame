@@ -11,14 +11,10 @@ class Entity
 {
 public:
 	XY pos;			// The x and y coordinates, relative to the parent's position. If the parent is NULL, then these coordinates are direct.
-	float *x, *y;	// Shortcut pointers to the individual values in the pos struct
-
-
 
 	Entity(float x, float y) : pos( XY(x,y) ), 
-							   x(&pos.x), 
-							   y(&pos.y), 
-							   isInSight(true) {}
+							   isInSight(true),
+							   parent(NULL){}
 	~Entity(void) { SDL_FreeSurface(&sprite_sheet); }
 	
 	// Move this object's coordinates by a displacement amount

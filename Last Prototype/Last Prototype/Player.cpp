@@ -38,11 +38,18 @@ void Player::walk(E_Direction direction)
 	// Only allow the user the ability to move the player if the player is not already in the motion of movement
 	if (!moving)
 	{
+		printf("(%f, %f)", pos.x, pos.y);
+		if ((direction == LEFT) || (direction == UP))
+		{
+			printf("Probs");
+		}
+		
 		// Set the new direction
 		this->direction = direction;
 
 		// Check to see if the player can move to the front tile.
-		if (GetFrontTile()->canMoveThrough) moving = true;
+		GridTile* ft = GetFrontTile();
+		if (ft->canMoveThrough) moving = true;
 	}
 }
 
@@ -96,22 +103,19 @@ void Player::SnapPosition(void)
 
 	if (moveWorld)
 	{
-		g_environment->x -= ((int)g_environment->x % TILE_SIZE);
-		g_environment->y -= ((int)g_environment->y % TILE_SIZE);
+		// Round the grid's position down to the nearest TILE_SIZE multiple
+		g_environment->pos.x -= ((int)g_environment->pos.x % TILE_SIZE);
+		g_environment->pos.y -= ((int)g_environment->pos.y % TILE_SIZE);
 	}
 	else
 	{
 		XY gp = GetGridPosition();
 
-		pos = (gp * TILE_SIZE);
+		pos = g_environment->pos + (gp * TILE_SIZE);
 
 		// Correct the position, due to the inconsistency of the sprite dimensions
 		pos.x -= 1;
 		pos.y -= 3;
-
-		// TODO Test to see if this works
-		/*x -= 1;
-		y -= 3;*/
 	}
 }
 
@@ -128,13 +132,15 @@ bool Player::IsAtThreshold(void)
 	// Find the distances from the center for each threshold (all the same, different directions)
 	int tilesFromCenter = PLAYER_MOVEMENT_THRESHOLD * TILE_SIZE;
 	XY center = SCREEN_CENTER;
-	XY centerDisplacement = center + tilesFromCenter;
 
 	// Set the thresholds
-	Directions<float> thresholds = Directions<float>(centerDisplacement);
+	Directions<float> thresholds(center.y - tilesFromCenter,
+								 center.y + tilesFromCenter,
+								 center.x - tilesFromCenter,
+								 center.x + tilesFromCenter);
 
-	return (((*x <= thresholds.left)   && (direction == LEFT))   ||
-			((*x >= thresholds.right)  && (direction == RIGHT))  ||
-			((*y <= thresholds.top)	   && (direction == UP))	 ||
-			((*y >= thresholds.bottom) && (direction == DOWN)));
+	return (((pos.x <= thresholds.left)   && (direction == LEFT))   ||
+			((pos.x >= thresholds.right)  && (direction == RIGHT))  ||
+			((pos.y <= thresholds.top)	  && (direction == UP))		||
+			((pos.y >= thresholds.bottom) && (direction == DOWN)));
 }

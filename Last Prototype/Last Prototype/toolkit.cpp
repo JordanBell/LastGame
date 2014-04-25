@@ -35,7 +35,7 @@ bool SDL_init()
 	//Init SDL_ttf
 	if (TTF_Init() == -1) return false;
     
-	return load_files();
+	return true;
 }
 
 void SDL_deinit()

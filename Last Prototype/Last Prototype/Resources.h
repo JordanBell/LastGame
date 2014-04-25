@@ -19,11 +19,11 @@ private:
 	Resources(void);
 	~Resources(void);
 
-	static SDL_Surface* playerSheet; // The player sprite sheet 
-	static SDL_Surface* environmentSheet; // The environment sprite sheet
-
 	static const std::string playerSheetFile; // The filepath to the player's sprite sheet
 	static const std::string environmentSheetFile; // The filepath to the environment's sprite sheet
+
+	static SDL_Surface* playerSheet; // The player sprite sheet 
+	static SDL_Surface* environmentSheet; // The environment sprite sheet
 
 	// Returns a sprite sheet based on the SDL_Surface identifier passed as argument
 	static SDL_Surface GetSheet(SDL_Surface* sheet);

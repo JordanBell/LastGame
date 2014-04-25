@@ -19,7 +19,6 @@ void exitFullScreen();
 
 void apply_surface(XY pos, SDL_Surface source, SDL_Surface* destination, SDL_Rect* clip = NULL);
 bool SDL_init();
-bool load_files();
 void SDL_deinit();
 
 #endif
