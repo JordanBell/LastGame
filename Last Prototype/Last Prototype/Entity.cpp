@@ -3,87 +3,69 @@
 #include "Environment.h"
 #include "Player.h"
 
-void Entity::move(XY displacement)
-{
-	pos += displacement;
-	//pos -= displacement;
-}
-
-void Entity::e_render(void) 
-{ 
-	if (ShouldRenderImage()) render();
-}
-
 void Entity::render(void) 
 { 
-	blit();
-}
-
-void Entity::blit()
-{
-	XY blitPos = getBlittingPos();
-	apply_surface(blitPos, sprite_sheet, screen, &skin);
-}
-
-XY Entity::getBlittingPos(void) 
-{
-	if (parent == NULL) return pos;
+	if (this == g_player) isInSight = true;
 	else
 	{
-		// Add the parent's blitting x to this one
-		return pos + parent->getBlittingPos();
+		XY distFromPlayer = XY(g_player->x - getBlittingX(),
+							   g_player->y - getBlittingY());
+		int manDist = sqrt( distFromPlayer.x * distFromPlayer.x + distFromPlayer.y * distFromPlayer.y) / TILE_SIZE;
+
+		isInSight = (manDist <= SIGHT_DISTANCE);
 	}
-}
 
-XY Entity::GetGridPosition(XY _pos)
-{
-	XY diff = (_pos - g_environment->pos) - TILE_SIZE/2;
-	// Note: TILE_SIZE/2 is subtracted so that the rounding rounds to the nearest number, not just towards 0. Thus, this prevents incorrectly jumping to an adjacent square.
-
-	// Round down to the nearest coordinate in terms of TILE_SIZE
-	XY r_gridPosition = diff/TILE_SIZE + 1; // Add 1 to compensate for consistent deviation
-
-	return r_gridPosition;
-}
-
-bool Entity::IsInSight(void)
-{
-	if (this == g_player) return true;
-	else
-	{
-		XY distsFromPlayer = g_player->pos - getBlittingPos();
-		int manDist = distsFromPlayer.manhatten() / TILE_SIZE;
-
-		return (manDist <= SIGHT_DISTANCE);
-	}
-}
-
-bool Entity::IsOnScreen(void)
-{
-	XY blittingPos = getBlittingPos();
-	XY dimensions(skin.h, skin.w);
-
-	Directions<float> entityEdges(blittingPos.y - skin.h,
-								  blittingPos.y + skin.h,
-								  blittingPos.x - skin.w,
-								  blittingPos.x + skin.w);
-
-	// Return whether or not any of the edges peek over the screen
-	return ((entityEdges.top	< screen->h) ||
-			(entityEdges.left	< screen->w) ||
-			(entityEdges.bottom > 0)		 ||
-			(entityEdges.right	> 0));
-}
-
-bool Entity::ShouldRenderImage(void)
-{
 	if (IsOnScreen()) 
 	{
 		if (LIMIT_RENDER_BY_SIGHT) { 
-			if (IsInSight()) return true; 
+			if (isInSight) blit(); 
 		}
-		else return true;
+		else blit();
 	}
+}
 
-	return false;
+void Entity::move(int _x, int _y)
+{
+	x -= _x;
+	y -= _y;
+}
+
+float Entity::getBlittingX(void) 
+{
+	if (parent == NULL) return x;
+	else
+	{
+		// Add the parent's blitting x to this one
+		return x + parent->getBlittingX();
+	}
+}
+
+float Entity::getBlittingY(void) 
+{
+	if (parent == NULL) return y;
+	else
+	{
+		// Add the parent's blitting x to this one
+		return y + parent->getBlittingY();
+	}
+}
+
+XY* Entity::GetGridPosition()
+{
+	return GetGridPosition(x, y); 
+}
+
+XY* Entity::GetGridPosition(float _x, float _y)
+{
+	XY* r_gridPosition = new XY(0, 0);
+
+	int xDiff = (_x - g_environment->x) - TILE_SIZE/2;
+	int yDiff = (_y - g_environment->y) - TILE_SIZE/2;
+	// Note: TILE_SIZE/2 is added so that the rounding rounds to the nearest number, not just towards 0. Thus, this prevents incorrectly jumping to an adjacent square.
+
+	// Round down to the nearest coordinate in terms of TILE_SIZE
+	r_gridPosition->x = (xDiff / TILE_SIZE) + 1;
+	r_gridPosition->y = (yDiff / TILE_SIZE) + 1;
+
+	return r_gridPosition; 
 }

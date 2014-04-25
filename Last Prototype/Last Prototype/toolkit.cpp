@@ -35,14 +35,30 @@ bool SDL_init()
 	//Init SDL_ttf
 	if (TTF_Init() == -1) return false;
     
-	return true;
+	return load_files();
 }
 
 void SDL_deinit()
 {
+	//Free all of this
+	delete g_resources;
+
 	//Quit all of that
 	TTF_Quit();
 	SDL_Quit();
+}
+
+bool load_files() //Load files, and check for the success of each one
+{
+	try {
+		g_resources = new Resources();
+	}
+	catch (std::exception &e) {
+		printf(e.what());
+		return false;
+	}
+
+	return true;
 }
 
 SDL_Surface* load_image(std::string filename)
@@ -66,15 +82,15 @@ SDL_Surface* load_image(std::string filename)
 	return optimizedImage;
 }
 
-void apply_surface(XY pos, SDL_Surface source, SDL_Surface* destination, SDL_Rect* clip)
+void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip)
 {
-	if (&source != NULL)
+	if (source != NULL)
 	{
-		SDL_Rect offset;
+			SDL_Rect offset;
 
-		offset.x = pos.x;
-		offset.y = pos.y;
+		offset.x = x;
+		offset.y = y;
 
-		SDL_BlitSurface(&source, clip, destination, &offset);
+		SDL_BlitSurface(source, clip, destination, &offset);
 	}
 }
