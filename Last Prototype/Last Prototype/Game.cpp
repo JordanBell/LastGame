@@ -96,7 +96,7 @@ void Game::Render()
     SDL_FillRect(screen,NULL,0x000000);
 
 	// Render all of the entities
-	for (Entity* e : m_Entities) { e->render(); }
+	for (Entity* e : m_Entities) { e->e_render(); }
 
 	// Flip (update) the screen
 	SDL_Flip(screen);
@@ -137,10 +137,4 @@ void Game::Poll()
 			running = false;
 		}
 	}
-}
-
-void Game::addEntity(Entity* entity)
-{
-    printf("Add Entity being used");
-	m_Entities.push_back(entity);
 }

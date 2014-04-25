@@ -22,9 +22,13 @@ void WorldBuilder::BuildRandomDoorway(XY pos, XY dimensions)
 {
 	// Find where along the wall the doorway should go
 	XY doorPos = XY(0, 0);
-	bool isOnSides = rand() % 2;
+	bool isOnHorizontal = rand() % 2;
 
-	if (isOnSides) 
+	// If one side can't accomodate a door, pick the other
+	bool horizontalValid = dimensions.x > 3;
+	bool verticalValid	 = dimensions.y > 3;
+
+	if (isOnHorizontal && horizontalValid) 
 	{
 		// Where along the sides
 		doorPos.y = pos.y + (rand() % ((int)dimensions.y-3)) + 1;
@@ -33,23 +37,27 @@ void WorldBuilder::BuildRandomDoorway(XY pos, XY dimensions)
 		bool left = rand() % 2;
 
 		doorPos.x = left ? pos.x : 
-						   pos.x + dimensions.x-1;
+							pos.x + dimensions.x-1;
 	}
-	else
+	else if (verticalValid)
 	{
 		// Where along the wall
 		doorPos.x = pos.x + (rand() % ((int)dimensions.x-3)) + 1;
-			
+		
 		// Top or bottom?
 		bool top = rand() % 2;
 
 		doorPos.y = top ? pos.y : 
-						  pos.y + dimensions.y-1;
+							pos.y + dimensions.y-1;
+	}
+	else {
+		printf("Square too small to add a door.");
+		return;
 	}
 
 	// Get the dimensions of the door based on which side it's on
-	XY doorDimensions = XY(isOnSides? 1 : 2,
-						   isOnSides? 2 : 1);
+	XY doorDimensions = XY(isOnHorizontal? 1 : 2,
+							isOnHorizontal? 2 : 1);
 		
 	// Build the door
 	BuildRectangle<StoneFloorTile>(doorPos, doorDimensions);

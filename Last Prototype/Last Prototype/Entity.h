@@ -22,11 +22,9 @@ public:
 
 	// Update this object's data, make available a delta value depicting the time since the last update
 	virtual void update(int delta) {}
-
-	// Render this object
-	virtual void render(void);
-
-
+	
+	// Entity rendering, which filters out off-screen objects before calling the virtual render function
+	void e_render(void);
 
 	// Set an EntityContainer as this object's parent.
 	void setParent(EntityContainer* parent) {this->parent = parent;}
@@ -34,11 +32,11 @@ public:
 	// Get the blitting position of this object
 	XY getBlittingPos(void);
 
-	// Get the blitting X coordinate of this object
-	float getBlittingX(void);
+	// Return whether or not a visible part of this object is on the screen. 
+	virtual bool IsOnScreen(void);
 
-	// Get the blitting Y coordinate of this object
-	float getBlittingY(void);
+	// Return whether or not this entity's image should be rendered
+	bool ShouldRenderImage(void);
 
 
 
@@ -50,11 +48,14 @@ protected:
 
 
 
+	// Render this object - may be overridden
+	virtual void render(void);
+
 	// Apply this object's sprite sheet onto the screen at this object's blitting position
 	void blit(void);
 
-	// Return whether or not this object is on the screen
-	bool IsOnScreen(void);
+	// Return whether or not this object is within viewing range of the player
+	bool IsInSight(void);
 
 	// Get this object's position on the grid (pos/TILE_SIZE)
 	XY GetGridPosition(void) { return GetGridPosition(pos); }

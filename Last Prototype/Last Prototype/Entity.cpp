@@ -9,24 +9,14 @@ void Entity::move(XY displacement)
 	//pos -= displacement;
 }
 
+void Entity::e_render(void) 
+{ 
+	if (ShouldRenderImage()) render();
+}
+
 void Entity::render(void) 
 { 
-	if (this == g_player) isInSight = true;
-	else
-	{
-		XY distsFromPlayer = g_player->pos - getBlittingPos();
-		int manDist = distsFromPlayer.manhatten() / TILE_SIZE;
-
-		isInSight = (manDist <= SIGHT_DISTANCE);
-	}
-
-	if (IsOnScreen()) 
-	{
-		if (LIMIT_RENDER_BY_SIGHT) { 
-			if (isInSight) blit(); 
-		}
-		else blit();
-	}
+	blit();
 }
 
 void Entity::blit()
@@ -56,8 +46,44 @@ XY Entity::GetGridPosition(XY _pos)
 	return r_gridPosition;
 }
 
+bool Entity::IsInSight(void)
+{
+	if (this == g_player) return true;
+	else
+	{
+		XY distsFromPlayer = g_player->pos - getBlittingPos();
+		int manDist = distsFromPlayer.manhatten() / TILE_SIZE;
+
+		return (manDist <= SIGHT_DISTANCE);
+	}
+}
+
 bool Entity::IsOnScreen(void)
 {
 	XY blittingPos = getBlittingPos();
-	return ((blittingPos.x <= screen->w) && (blittingPos.y <= screen->h));
+	XY dimensions(skin.h, skin.w);
+
+	Directions<float> entityEdges(blittingPos.y - skin.h,
+								  blittingPos.y + skin.h,
+								  blittingPos.x - skin.w,
+								  blittingPos.x + skin.w);
+
+	// Return whether or not any of the edges peek over the screen
+	return ((entityEdges.top	< screen->h) ||
+			(entityEdges.left	< screen->w) ||
+			(entityEdges.bottom > 0)		 ||
+			(entityEdges.right	> 0));
+}
+
+bool Entity::ShouldRenderImage(void)
+{
+	if (IsOnScreen()) 
+	{
+		if (LIMIT_RENDER_BY_SIGHT) { 
+			if (IsInSight()) return true; 
+		}
+		else return true;
+	}
+
+	return false;
 }

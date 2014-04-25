@@ -87,6 +87,35 @@ struct XY {
 		return result;
 	}
 
+	// ints
+	XY operator+(int i) {
+		XY result = *this;
+		result += i;
+
+		return result;
+	}
+
+	XY operator-(int i) {
+		XY result = *this;
+		result -= i;
+
+		return result;
+	}
+
+	XY operator*(int i) {
+		XY result = *this;
+		result *= i;
+
+		return result;
+	}
+
+	XY operator/(int i) {
+		XY result = *this;
+		result /= i;
+
+		return result;
+	}
+
 
 	/// +=, -=, *=, /=
 	// Other XYs
@@ -146,6 +175,35 @@ struct XY {
 
 		return *this;
 	}
+	
+	// ints
+	XY operator+=(int i) {
+		x += i;
+		y += i;
+
+		return *this;
+	}
+
+	XY operator-=(int i) {
+		x -= i;
+		y -= i;
+
+		return *this;
+	}
+
+	XY operator*=(int i) {
+		x *= i;
+		y *= i;
+
+		return *this;
+	}
+
+	XY operator/=(int i) {
+		x = (int)x / i;
+		y = (int)y / i;
+
+		return *this;
+	}
 
 	// ==
 	bool operator==(XY xy) {
@@ -178,16 +236,11 @@ struct Directions<float> {
 	} 
 
 	// Specialised Constructor using XY values
-	Directions(XY scalarValues) {
-		top =	-scalarValues.y;
-		bottom = scalarValues.y;
-		left =	-scalarValues.x;
-		right =	 scalarValues.x;
-
-		/*Directions(-scalarValues.y,
-					scalarValues.y,
-				   -scalarValues.x,
-					scalarValues.x);*/
+	Directions(XY base, XY scalarDifference) {
+		top =	 base.y - scalarDifference.y;
+		bottom = base.y + scalarDifference.y;
+		left =	 base.x - scalarDifference.x;
+		right =	 base.x + scalarDifference.x;
 	} 
 };
 

@@ -19,9 +19,6 @@ public:
 	// Run the game, stick it in the game loop
 	void run();
 
-	// Add an entity to the list of entities.
-    void addEntity(Entity* entity);
-
 	// Move all of the entities by a certain amount
 	void MoveEverything(XY displacement);
 

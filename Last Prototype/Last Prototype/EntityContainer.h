@@ -17,6 +17,9 @@ public:
 	// Move this Entity and, all of its children, by a displacement
 	void move(XY displacement);
 
+	// Whether or not this, or any of its children, are on screen.
+	bool IsOnScreen(void);
+
 protected:
 	std::list<Entity*> children; // A list of the child Entities within this container.
 };

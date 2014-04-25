@@ -12,12 +12,27 @@ EntityContainer::~EntityContainer()
 
 void EntityContainer::render(void)
 {
-	Entity::render();
+	if (ShouldRenderImage()) Entity::render();
 
 	for (Entity* child : children)
 	{
-		child->render();
+		child->e_render();
 	}
+}
+
+bool EntityContainer::IsOnScreen(void)
+{
+	if (Entity::IsOnScreen()) return true;
+	else
+	{
+		for (Entity* child : children)
+
+		{
+			if (child->IsOnScreen()) return true;
+		}
+	}
+
+	return false;
 }
 
 void EntityContainer::move(XY displacement)
