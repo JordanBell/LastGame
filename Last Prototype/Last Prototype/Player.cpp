@@ -47,6 +47,12 @@ void Player::walk(E_Direction direction)
 	}
 }
 
+void Player::interact()
+{
+	GridTile* ft = GetFrontTile();
+	ft->onInteract();
+}
+
 GridTile* Player::GetFrontTile(void)
 {
 	XY frontGridPosition = GetGridPosition();

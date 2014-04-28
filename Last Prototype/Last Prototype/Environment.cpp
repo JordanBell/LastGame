@@ -9,6 +9,13 @@ void Environment::centerOn(Player* player)
 {
 	// Check to see where this would center to
 	XY distFromCenter = player->pos - SCREEN_CENTER;
+
+	// Get the dist to a multiple of TILE_SIZE
+	distFromCenter /= TILE_SIZE;
+	distFromCenter.x = (int) distFromCenter.x;
+	distFromCenter.y = (int) distFromCenter.y;
+	distFromCenter *= TILE_SIZE;
+
 	XY suggestedPos = pos - distFromCenter;
 
 	// Only center it if those coordinates are within the edges (Make x and y centering independant)

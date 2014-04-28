@@ -11,11 +11,11 @@ class Entity
 {
 public:
 	XY pos;			// The x and y coordinates, relative to the parent's position. If the parent is NULL, then these coordinates are direct.
-
+	
 	Entity(float x, float y) : pos( XY(x,y) ), 
 							   isInSight(true),
 							   parent(NULL){}
-	~Entity(void) { SDL_FreeSurface(&sprite_sheet); }
+	~Entity(void) {}
 	
 	// Move this object's coordinates by a displacement amount
 	virtual void move(XY displacement);

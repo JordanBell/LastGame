@@ -1,6 +1,5 @@
 #pragma once
 #include <String>
-//#include "Config.h"
 
 // Direction enumeration
 enum E_Direction{

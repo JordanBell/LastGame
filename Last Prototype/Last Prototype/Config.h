@@ -3,15 +3,15 @@
 
 // ENVIRONMENT
 const int TILE_SIZE = 32;
-const int WORLD_WIDTH  = 60; // (In terms of TILE_SIZEs)
-const int WORLD_HEIGHT = 40; // (In terms of TILE_SIZEs)
+const int WORLD_WIDTH  = 38; // (In terms of TILE_SIZEs)
+const int WORLD_HEIGHT = 38; // (In terms of TILE_SIZEs)
 const XY WORLD_DIMENSIONS = XY((WORLD_WIDTH), WORLD_HEIGHT);
 const bool ONLY_MOVE_WORLD = true;
 const int PLAYER_MOVEMENT_THRESHOLD = ONLY_MOVE_WORLD ? 0 : 4; // The number of tiles either side of the edge of the screen, beyond which the world is animated around instead of the player
 
 // SCREEN
-const int SCREEN_WIDTH  = 1664;
-const int SCREEN_HEIGHT = 960;
+const int SCREEN_WIDTH  = 24*TILE_SIZE;
+const int SCREEN_HEIGHT = 20*TILE_SIZE;
 //const int SCREEN_WIDTH  = WORLD_WIDTH*TILE_SIZE;
 //const int SCREEN_HEIGHT = WORLD_HEIGHT*TILE_SIZE;
 const XY SCREEN_CENTER = XY(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);

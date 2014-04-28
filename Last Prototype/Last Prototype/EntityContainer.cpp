@@ -2,12 +2,10 @@
 
 EntityContainer::~EntityContainer()
 {
-	// Delete and remove all of the children
-	while (children.size() > 0)
-	{
-		delete children.front();
-		children.pop_front();
-	}
+	// Remove all of the children
+	int numChildren = children.size();
+	for (int i = 0; i < numChildren; i++)
+		children.pop_back();
 }
 
 void EntityContainer::render(void)

@@ -13,15 +13,10 @@ Game::Game() : running(true)
 
 Game::~Game()
 {
-	// Delete all entities
-	for (Entity* e : m_Entities) { delete e; }
-
-	// Delete Player pointers
-	delete player;
+	// Delete Player
 	delete g_player;
 
-	// Delete Environment pointers
-	delete environment;
+	// Delete Environment
 	delete g_environment;
 }
 
@@ -87,7 +82,8 @@ void Game::HandleKeys()
 		if (keystates[SDLK_d])	g_player->walk(RIGHT);
 
 		// Toggling formatting
-		if (keystates[SDLK_f]) toggleScreenFormat();
+		if (keystates[SDLK_f]) g_player->interact();
+		if (keystates[SDLK_RETURN]) toggleScreenFormat();
 		if (keystates[SDLK_ESCAPE]) exitFullScreen();
 }
 

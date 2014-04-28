@@ -8,10 +8,6 @@ void WorldBuilder::build()
 
 	HouseGenerator hg = HouseGenerator();
 	hg.run();
-	/*BuildRoom(XY(4, 4), XY(11, 8));
-	BuildRoom(XY(4, 19), XY(14, 11));
-	BuildRoom(XY(7, 21), XY(7, 5));
-	BuildRoom(XY(19, 4), XY(7, 7));*/
 }
 
 void WorldBuilder::BuildRoom(XY pos, XY dimensions, bool randomDoorway)

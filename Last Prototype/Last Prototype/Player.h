@@ -21,15 +21,12 @@ public:
 
 	// Move the player, or the world, based on the player's movement.
 	void walk(E_Direction direction);
+	
+	// Interact with the object in front of the player
+	void interact();
 
 	// Snap the player to the grid, or the grid to a TILE_SIZE multiple coordinate.
 	void SnapPosition(void);
-
-
-
-protected:
-	// Cycles through the walking animation
-	void IncCycle(void) { cycle = (cycle >= (max_cycles-1)) ? 0 : cycle+1; }
 
 
 

@@ -1,8 +1,10 @@
 #pragma once
 #include "Environment.h"
+#include "HouseGenerator.h"
 
 class WorldBuilder
 {
+//friend class HouseGenerator;
 public:
 	// Run the WorldBuilder code
 	static void build(void);
@@ -26,4 +28,3 @@ private:
 	template <class T>
 		static void AddTileTo(XY pos);
 };
-
