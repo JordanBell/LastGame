@@ -37,11 +37,12 @@ XY Entity::getBlittingPos(void)
 
 XY Entity::GetGridPosition(XY _pos)
 {
-	XY diff = (_pos - g_environment->pos) - TILE_SIZE/2;
+	//XY diff = (_pos - g_environment->pos) - TILE_SIZE/2;
 	// Note: TILE_SIZE/2 is subtracted so that the rounding rounds to the nearest number, not just towards 0. Thus, this prevents incorrectly jumping to an adjacent square.
 
 	// Round down to the nearest coordinate in terms of TILE_SIZE
-	XY r_gridPosition = diff/TILE_SIZE + 1; // Add 1 to compensate for consistent deviation
+	//XY r_gridPosition = diff/TILE_SIZE + 1; // Add 1 to compensate for consistent deviation
+	XY r_gridPosition = _pos/TILE_SIZE; // Add 1 to compensate for consistent deviation
 
 	return r_gridPosition;
 }

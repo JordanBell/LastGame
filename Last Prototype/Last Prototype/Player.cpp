@@ -2,10 +2,11 @@
 #include "Environment.h"
 #include "Resources.h"
 #include "Tools.h"
+#include "AllContainer.h"
 
 Player* g_player = NULL;
 
-Player::Player(int gridX, int gridY) : Sprite(gridX*TILE_SIZE -1, gridY*TILE_SIZE -3), // Place the player in terms of TILE sizes. Subtract 1 and 3 respectively for squaring correction.
+Player::Player(int gridX, int gridY) : Sprite(gridX*TILE_SIZE, gridY*TILE_SIZE), // Place the player in terms of TILE sizes. Subtract 1 and 3 respectively for squaring correction.
 									   direction(DOWN), moving(false), misalignment(0)
 {
 	// Initialise Fields
@@ -56,6 +57,8 @@ void Player::interact()
 GridTile* Player::GetFrontTile(void)
 {
 	XY frontGridPosition = GetGridPosition();
+
+	// Find the gridPosition in front of the direction the player is facing
 	frontGridPosition.addDirection(direction);
 	
 	return g_environment->getTileAt(frontGridPosition);
@@ -67,21 +70,16 @@ void Player::update(int delta)
 
 	if (moving) // The player should keep moving in its last assigned direction 
 	{
-		bool moveWorld = IsAtThreshold();
-		// Point to the coordinates of the object being moved
-		XY* accessedCoordinates = moveWorld ? &g_environment->pos : &pos;
-
 		int pixelsToMove;
 		// Add the option to compensate the speed during slow framerates
 		if (PLAYER_COMPENSATE_FOR_SLOW_FRAMERATES) pixelsToMove = PLAYER_SPEED * delta;
 		else									   pixelsToMove = PLAYER_SPEED * (1000/FRAME_RATE);
-		pixelsToMove *= moveWorld? -1 : 1; // Make the world move in the opposite direcion than the player
 		
-		// Move either this player or the world around it
-		accessedCoordinates->addDirection(direction, pixelsToMove);
+		// Move the player by this amount
+		pos.addDirection(direction, pixelsToMove);
+
 		// Increment the misalignment from the grid by this amount
 		misalignment += pixelsToMove;
-
 	}
 
 	// Check to see if the player should stop
@@ -91,56 +89,20 @@ void Player::update(int delta)
 		moving = false;
 		misalignment = 0;
 
-		// Snap either the player or the environment to its TILE_SIZE multiple.
+		// Snap the player to a TILE_SIZE multiple.
 		SnapPosition();
 	}
 }
 
 void Player::SnapPosition(void)
 {
-	// Determine which to move
-	bool moveWorld = IsAtThreshold();
+	// Round down this position to the nearest grid position TILE_SIZE multiple
+	//pos = GetGridPosition() * TILE_SIZE;
+	pos /= TILE_SIZE;
+	pos.RoundToInt();
+	pos *= TILE_SIZE;
 
-	if (moveWorld)
-	{
-		// Round the grid's position down to the nearest TILE_SIZE multiple
-		g_environment->pos.x -= ((int)g_environment->pos.x % TILE_SIZE);
-		g_environment->pos.y -= ((int)g_environment->pos.y % TILE_SIZE);
-	}
-	else
-	{
-		XY gp = GetGridPosition();
-
-		pos = g_environment->pos + (gp * TILE_SIZE);
-
-		// Correct the position, due to the inconsistency of the sprite dimensions
-		pos.x -= 1;
-		pos.y -= 3;
-	}
-}
-
-bool Player::IsAtThreshold(void)
-{
-	// Do not move the camera if the map is at the edge - we don't want to show unrendered areas. It's glitch city in there!
-	Directions<bool> noShows = g_environment->GetEdgeBools();
-		
-	if ((noShows.top	&& direction == UP)	  ||
-		(noShows.bottom && direction == DOWN) ||
-		(noShows.left   && direction == LEFT) ||
-		(noShows.right  && direction == RIGHT)) return false;
-
-	// Find the distances from the center for each threshold (all the same, different directions)
-	int tilesFromCenter = PLAYER_MOVEMENT_THRESHOLD * TILE_SIZE;
-	XY center = SCREEN_CENTER;
-
-	// Set the thresholds
-	Directions<float> thresholds(center.y - tilesFromCenter,
-								 center.y + tilesFromCenter,
-								 center.x - tilesFromCenter,
-								 center.x + tilesFromCenter);
-
-	return (((pos.x <= thresholds.left)   && (direction == LEFT))   ||
-			((pos.x >= thresholds.right)  && (direction == RIGHT))  ||
-			((pos.y <= thresholds.top)	  && (direction == UP))		||
-			((pos.y >= thresholds.bottom) && (direction == DOWN)));
+	// Correct the position, due to the inconsistency of the sprite dimensions
+	//pos.x -= 1;
+	//pos.y -= 3;
 }

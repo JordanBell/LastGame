@@ -8,14 +8,20 @@ EntityContainer::~EntityContainer()
 		children.pop_back();
 }
 
+void EntityContainer::update(int delta)
+{
+	Entity::update(delta);
+
+	for (Entity* child : children)
+		child->update(delta);
+}
+
 void EntityContainer::render(void)
 {
 	if (ShouldRenderImage()) Entity::render();
 
 	for (Entity* child : children)
-	{
 		child->e_render();
-	}
 }
 
 bool EntityContainer::IsOnScreen(void)
@@ -24,21 +30,8 @@ bool EntityContainer::IsOnScreen(void)
 	else
 	{
 		for (Entity* child : children)
-
-		{
 			if (child->IsOnScreen()) return true;
-		}
 	}
 
 	return false;
-}
-
-void EntityContainer::move(XY displacement)
-{
-	Entity::move(displacement);
-
-	/*for (Entity* child : children)
-	{
-		child->move(displacement);
-	}*/
 }

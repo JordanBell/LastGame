@@ -9,9 +9,12 @@ enum E_Direction{
 	LEFT
 };
 
+
+
 // An X and Y pairing
 struct XY { 
 	float x, y; 
+	XY(float val) : x(val), y(val) {}
 	XY(float _x, float _y) : x(_x), y(_y) {}
 
 	// Finding the manhatten distances between the two (or other pythagorean theorum contexts)
@@ -25,6 +28,13 @@ struct XY {
 		y +=  (d == DOWN) * f;
 		x -=  (d == LEFT) * f;
 		x += (d == RIGHT) * f;
+	}
+
+	// Round the values to their nearest integers
+	void RoundToInt(void)
+	{
+		x = (int) x;
+		y = (int) y;
 	}
 
 	/// +, -, *, /

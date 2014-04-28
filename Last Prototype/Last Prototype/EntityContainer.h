@@ -13,9 +13,9 @@ public:
 	
 	// Render this entity, as well as the children entities
 	virtual void render(void);
-
-	// Move this Entity and, all of its children, by a displacement
-	void move(XY displacement);
+	
+	// Update this entity, as well as the children entities
+	virtual void update(int delta);
 
 	// Whether or not this, or any of its children, are on screen.
 	bool IsOnScreen(void);

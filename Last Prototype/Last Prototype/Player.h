@@ -28,6 +28,9 @@ public:
 	// Snap the player to the grid, or the grid to a TILE_SIZE multiple coordinate.
 	void SnapPosition(void);
 
+	// Return the player's direction
+	E_Direction getDirection(void) { return direction; }
+
 
 
 private:
@@ -43,9 +46,6 @@ private:
 
 	// Set the skin (sprite) for this object, based on its direction and progress through the walk cycle.
 	void set_skin(void) { skin = (moving) ? clips[direction][cycle/PLAYER_WALK_CYCLE_SPEED] : clips[direction][STILL]; }
-
-	// Return whether or not the player is at the movement threshold, at which the environment is animated rather than the player
-	bool IsAtThreshold(void);
 };
 
 // A global player object

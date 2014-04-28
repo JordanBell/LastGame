@@ -2,6 +2,8 @@
 #include "SDL.h"
 #include <time.h>
 #include "WorldBuilder.h"
+#include "Player.h"
+#include "Environment.h"
 
 Game* g_game = NULL;
 
@@ -11,35 +13,19 @@ Game::Game() : running(true)
 	srand(time(NULL));
 }
 
-Game::~Game()
-{
-	// Delete Player
-	delete g_player;
-
-	// Delete Environment
-	delete g_environment;
-}
+Game::~Game() { delete g_all; }
 
 void Game::init()
 {
-	// ENVIRONMENT
+	// Initiailise the Environment and Player
 	g_environment = new Environment(0, 0);
-	environment = g_environment;
-
-	// WORLD BUILDER
 	WorldBuilder::build();
-
-	// PLAYER
 	g_player = new Player((int)(WORLD_WIDTH/2), (int)(WORLD_HEIGHT/2));
-	player = g_player;
-	
-	// Add these to the entities list
-	m_Entities.push_back(environment);
-	m_Entities.push_back(player);
 
+	// Add everything to the AllContainer
+	g_all = new AllContainer();
 	// Center everything on the player
-	environment->centerOn(player);
-	//MoveEverything(XY(32, 32));
+	//g_environment->centerOn(g_player);
 }
 
 void Game::run()
@@ -67,7 +53,7 @@ void Game::Update()
 	HandleKeys();
 	
 	// Update the entities
-	for (Entity* e : m_Entities) e->update(delta);
+	g_all->update(delta);
 }
 
 void Game::HandleKeys()
@@ -92,8 +78,8 @@ void Game::Render()
     // Clear the screen
     SDL_FillRect(screen,NULL,0x000000);
 
-	// Render all of the entities
-	for (Entity* e : m_Entities) { e->e_render(); }
+	// Render everything
+	g_all->render();
 
 	// Flip (update) the screen
 	SDL_Flip(screen);
@@ -114,12 +100,6 @@ int Game::RegulateFrameRate()
     }
 	
 	return 1000/ticks;
-}
-
-void Game::MoveEverything(XY displacement)
-{
-	// Move all entities by the specified displacement
-	for (Entity* e : m_Entities) e->move(displacement);
 }
 
 void Game::Poll()
