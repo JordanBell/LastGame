@@ -18,7 +18,7 @@ public:
 	~Entity(void) {}
 	
 	// Move this object's coordinates by a displacement amount
-	virtual void move(XY displacement);
+	virtual void move(XY displacement) { pos += displacement; }
 
 	// Update this object's data, make available a delta value depicting the time since the last update
 	virtual void update(int delta) {}
@@ -49,7 +49,7 @@ protected:
 
 
 	// Render this object - may be overridden
-	virtual void render(void);
+	virtual void render(void) { blit(); }
 
 	// Apply this object's sprite sheet onto the screen at this object's blitting position
 	void blit(void);

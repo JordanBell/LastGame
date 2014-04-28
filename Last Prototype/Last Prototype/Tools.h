@@ -37,6 +37,14 @@ struct XY {
 		y = (int) y;
 	}
 
+	void RoundToNearest(void)
+	{
+		// Add 0.5 to exploit the round-to-zero function of int conversion
+		x += 0.5;
+		y += 0.5;
+		RoundToInt();
+	}
+
 	/// +, -, *, /
 	// Other XYs
 	XY operator+(XY xy) {

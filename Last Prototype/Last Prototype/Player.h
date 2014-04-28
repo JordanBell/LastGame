@@ -45,7 +45,7 @@ private:
 	GridTile* GetFrontTile(void);
 
 	// Set the skin (sprite) for this object, based on its direction and progress through the walk cycle.
-	void set_skin(void) { skin = (moving) ? clips[direction][cycle/PLAYER_WALK_CYCLE_SPEED] : clips[direction][STILL]; }
+	void set_skin(void);
 };
 
 // A global player object

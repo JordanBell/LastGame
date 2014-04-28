@@ -3,20 +3,9 @@
 #include "Environment.h"
 #include "Player.h"
 
-void Entity::move(XY displacement)
-{
-	pos += displacement;
-	//pos -= displacement;
-}
-
 void Entity::e_render(void) 
 { 
 	if (ShouldRenderImage()) render();
-}
-
-void Entity::render(void) 
-{ 
-	blit();
 }
 
 void Entity::blit()
@@ -37,12 +26,11 @@ XY Entity::getBlittingPos(void)
 
 XY Entity::GetGridPosition(XY _pos)
 {
-	//XY diff = (_pos - g_environment->pos) - TILE_SIZE/2;
-	// Note: TILE_SIZE/2 is subtracted so that the rounding rounds to the nearest number, not just towards 0. Thus, this prevents incorrectly jumping to an adjacent square.
+	XY r_gridPosition = _pos;
 
-	// Round down to the nearest coordinate in terms of TILE_SIZE
-	//XY r_gridPosition = diff/TILE_SIZE + 1; // Add 1 to compensate for consistent deviation
-	XY r_gridPosition = _pos/TILE_SIZE; // Add 1 to compensate for consistent deviation
+	// Round to the nearest multiple of TILE_SIZE
+	r_gridPosition /= (float)TILE_SIZE;
+	r_gridPosition.RoundToNearest();
 
 	return r_gridPosition;
 }
@@ -55,6 +43,7 @@ bool Entity::IsInSight(void)
 		XY distsFromPlayer = g_player->pos - getBlittingPos();
 		int manDist = distsFromPlayer.manhatten() / TILE_SIZE;
 
+		// Return whether this is within sight distance of the player
 		return (manDist <= SIGHT_DISTANCE);
 	}
 }

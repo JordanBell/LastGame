@@ -2,7 +2,7 @@
 #include "Environment.h"
 #include "Resources.h"
 #include "Tools.h"
-#include "AllContainer.h"
+#include "Camera.h"
 
 Player* g_player = NULL;
 
@@ -11,7 +11,9 @@ Player::Player(int gridX, int gridY) : Sprite(gridX*TILE_SIZE, gridY*TILE_SIZE),
 {
 	// Initialise Fields
 	sprite_sheet = Resources::GetPlayerSheet();
-	max_cycles = 3 * PLAYER_WALK_CYCLE_SPEED;
+	
+	// It's 	 4 *, because the walk cycle reuses the still sprite as an inbetween
+	max_cycles = 4 * PLAYER_WALK_CYCLE_SPEED;
 
 	//Initialise the clips of the sprite_sheet
 	int clip_w = (sprite_sheet.w / 3);
@@ -66,10 +68,9 @@ GridTile* Player::GetFrontTile(void)
 
 void Player::update(int delta)
 {
-	IncCycle();
-
 	if (moving) // The player should keep moving in its last assigned direction 
 	{
+		IncCycle();
 		int pixelsToMove;
 		// Add the option to compensate the speed during slow framerates
 		if (PLAYER_COMPENSATE_FOR_SLOW_FRAMERATES) pixelsToMove = PLAYER_SPEED * delta;
@@ -97,12 +98,16 @@ void Player::update(int delta)
 void Player::SnapPosition(void)
 {
 	// Round down this position to the nearest grid position TILE_SIZE multiple
-	//pos = GetGridPosition() * TILE_SIZE;
-	pos /= TILE_SIZE;
-	pos.RoundToInt();
-	pos *= TILE_SIZE;
+	pos = GetGridPosition() * TILE_SIZE;
+}
 
-	// Correct the position, due to the inconsistency of the sprite dimensions
-	//pos.x -= 1;
-	//pos.y -= 3;
+void Player::set_skin(void)
+{ 
+	int cycleIndex = cycle/PLAYER_WALK_CYCLE_SPEED;
+	if (cycleIndex == 3) cycleIndex = 1; // If at the fourth part of the cycle, set the index at 1 (in between forward and back)
+
+	// Set the skin based on the index
+	skin = (moving) ? 
+			clips[direction][cycleIndex] : 
+			clips[direction][STILL]; 
 }

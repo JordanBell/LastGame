@@ -13,7 +13,7 @@ Game::Game() : running(true)
 	srand(time(NULL));
 }
 
-Game::~Game() { delete g_all; }
+Game::~Game() { delete g_camera; }
 
 void Game::init()
 {
@@ -23,9 +23,7 @@ void Game::init()
 	g_player = new Player((int)(WORLD_WIDTH/2), (int)(WORLD_HEIGHT/2));
 
 	// Add everything to the AllContainer
-	g_all = new AllContainer();
-	// Center everything on the player
-	//g_environment->centerOn(g_player);
+	g_camera = new Camera();
 }
 
 void Game::run()
@@ -53,7 +51,7 @@ void Game::Update()
 	HandleKeys();
 	
 	// Update the entities
-	g_all->update(delta);
+	g_camera->update(delta);
 }
 
 void Game::HandleKeys()
@@ -79,7 +77,7 @@ void Game::Render()
     SDL_FillRect(screen,NULL,0x000000);
 
 	// Render everything
-	g_all->render();
+	g_camera->render();
 
 	// Flip (update) the screen
 	SDL_Flip(screen);
