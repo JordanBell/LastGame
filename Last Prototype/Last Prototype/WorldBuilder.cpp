@@ -8,6 +8,8 @@ void WorldBuilder::build()
 
 	HouseGenerator hg = HouseGenerator();
 	hg.run();
+
+	//BuildTestHouse(WORLD_WIDTH/2, WORLD_HEIGHT/2);
 }
 
 void WorldBuilder::BuildRoom(XY pos, XY dimensions, bool randomDoorway)
@@ -99,9 +101,12 @@ void WorldBuilder::BuildRectangle(XY pos, XY dimensions, bool filled)
 }
 
 template <class T>
-void WorldBuilder::AddTileTo(XY pos)
+void WorldBuilder::AddTileTo(XY pos, bool top)
 {
+	// Create an object of that tile type
 	T* tile = new T(pos.x, pos.y);
-	g_environment->tiles[(int)pos.x][(int)pos.y] = tile;
-	g_environment->addChild(tile);
+
+	// Add the tile to the specified layer
+	if (top) g_environment->AddTileToTop(tile);
+	else	 g_environment->AddTileToBottom(tile);
 }

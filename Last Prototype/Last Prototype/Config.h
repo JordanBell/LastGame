@@ -8,11 +8,10 @@ const int WORLD_HEIGHT = 38; // (In terms of TILE_SIZEs)
 const XY WORLD_DIMENSIONS = XY((WORLD_WIDTH), WORLD_HEIGHT);
 
 // SCREEN
-const int SCREEN_WIDTH  = 24*TILE_SIZE;
-const int SCREEN_HEIGHT = 20*TILE_SIZE;
-//const int SCREEN_WIDTH  = WORLD_WIDTH*TILE_SIZE;
-//const int SCREEN_HEIGHT = WORLD_HEIGHT*TILE_SIZE;
-const XY SCREEN_CENTER = XY(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+const XY WINDOWED_SCREEN_RES(24*TILE_SIZE, 20*TILE_SIZE);
+const int SCREEN_WIDTH  = WINDOWED_SCREEN_RES.x;
+const int SCREEN_HEIGHT = WINDOWED_SCREEN_RES.y;
+const XY SCREEN_CENTER(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
 const int SCREEN_BPP = 32;
 const bool FULL_SCREEN = false;
 
@@ -20,7 +19,7 @@ const bool FULL_SCREEN = false;
 const int FRAME_RATE = 60;
 
 // PLAYER
-const float PLAYER_SPEED = 0.15;			 // The player's movement speed (independent of framerate). ADVISED: Keep between 0 and 1 to prevent wall clipping.
+const float PLAYER_SPEED = 0.15;		 // The player's movement speed (independent of framerate). ADVISED: Keep between 0 and 1 to prevent wall clipping.
 const int	PLAYER_WALK_CYCLE_SPEED = 4; // The number of frames between the player's clip changes
 const bool  PLAYER_COMPENSATE_FOR_SLOW_FRAMERATES = false;
 const bool	LIMIT_RENDER_BY_SIGHT = false;

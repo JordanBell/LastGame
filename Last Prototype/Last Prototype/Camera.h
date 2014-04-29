@@ -20,6 +20,7 @@ public:
 
 	// Change the x and y, so that the player is in the center of the screen.
 	void update(int delta);
+	void render(void);
 };
 
 extern Camera* g_camera;

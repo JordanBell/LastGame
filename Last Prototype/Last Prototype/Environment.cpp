@@ -5,7 +5,18 @@
 
 Environment* g_environment = NULL;
 
-GridTile* Environment::getTileAt(XY gridPosition)
+Environment::Environment(float x, float y) : EntityContainer(x, y)
+{ 
+	topLayer = EnvironmentLayer(); 
+	bottomLayer = EnvironmentLayer(); 
+
+	addChild(&topLayer);
+	addChild(&bottomLayer);
+}
+
+GridTile* Environment::GetTileAt(XY position, bool top)
 {
-	return tiles[(int)gridPosition.x][(int)gridPosition.y];
+	return top ? 
+		   topLayer.GetTileAt(position) : 
+		   bottomLayer.GetTileAt(position);
 }

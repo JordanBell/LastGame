@@ -6,8 +6,7 @@
 #include "Config.h"
 #include "Tools.h"
 #include "Player.h"
-
-#define WORLD_BORDER ShinyBlockTile
+#include "EnvironmentLayer.h"
 
 /*
 The environment is the EntityContainer that holds all of the tiles and 
@@ -16,17 +15,18 @@ holds all of the entities that aren't either the player, or some sort of HUD.
 */
 class Environment : public EntityContainer
 {
+	EnvironmentLayer topLayer;
+	EnvironmentLayer bottomLayer;
+
 
 public:
-	GridTile* tiles[WORLD_WIDTH][WORLD_HEIGHT]; // 2D array of tiles in the world
+	Environment(float x, float y);
 
-	Environment(float x, float y) : EntityContainer(x, y) {}
-
-	// Get the tile at a particular position
-	GridTile* getTileAt(XY gridPosition);
-
-private:
-	int width, height; //The total size of the world
+	void RenderTop(void) { topLayer.e_render(); }
+	void RenderBottom(void) { bottomLayer.e_render(); }
+	GridTile* GetTileAt(XY position, bool top = false);
+	void AddTileToTop(GridTile* tile) { topLayer.addChild(tile); }
+	void AddTileToBottom(GridTile* tile) { bottomLayer.addChild(tile); }
 };
 
 extern Environment* g_environment;

@@ -72,6 +72,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityContainer.cpp" />
     <ClCompile Include="Environment.cpp" />
+    <ClCompile Include="EnvironmentLayer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HouseGenerator.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -87,6 +88,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityContainer.h" />
     <ClInclude Include="Environment.h" />
+    <ClInclude Include="EnvironmentLayer.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GridTiles.h" />
     <ClInclude Include="HouseGenerator.h" />

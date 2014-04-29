@@ -10,9 +10,16 @@ bool inFullScreen;
 
 void toggleScreenFormat()
 {
+	// Get the native screen resolution
+	const SDL_VideoInfo* info = SDL_GetVideoInfo();
+
+	// Change the screen width and height variables to the nearest TILE_SIZE multiple of the native res
+	//SCREEN_WIDTH = info->current_w;
+	//SCREEN_HEIGHT = info->current_h;
+	
 	screen = inFullScreen ? 
-			 SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE) :
-			 SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_FULLSCREEN);
+			 SDL_SetVideoMode(WINDOWED_SCREEN_RES.x, WINDOWED_SCREEN_RES.y, SCREEN_BPP, SDL_SWSURFACE) :
+			 SDL_SetVideoMode(info->current_w,		 info->current_h,		SCREEN_BPP, SDL_FULLSCREEN);
 	inFullScreen = !inFullScreen;
 }
 

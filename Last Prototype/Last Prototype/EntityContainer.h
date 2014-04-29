@@ -9,7 +9,7 @@ public:
 	~EntityContainer(void);
 
 	// Add a child entity to this container
-	void addChild(Entity* child) { children.push_back(child); child->setParent(this); }
+	virtual void addChild(Entity* child) { children.push_back(child); child->setParent(this); }
 	
 	// Render this entity, as well as the children entities
 	virtual void render(void);

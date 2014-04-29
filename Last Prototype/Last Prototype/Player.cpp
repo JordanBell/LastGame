@@ -63,7 +63,7 @@ GridTile* Player::GetFrontTile(void)
 	// Find the gridPosition in front of the direction the player is facing
 	frontGridPosition.addDirection(direction);
 	
-	return g_environment->getTileAt(frontGridPosition);
+	return g_environment->GetTileAt(frontGridPosition);
 }
 
 void Player::update(int delta)

@@ -9,7 +9,6 @@ Camera::Camera(void) : EntityContainer(0, 0)
 	addChild(g_player);
 }
 
-
 Camera::~Camera(void)
 {
 	// Delete Player
@@ -26,6 +25,13 @@ void Camera::update(int delta)
 	
 	// Center the camera onto the player
 	CenterOnPlayer(); 
+}
+
+void Camera::render(void)
+{
+	g_environment->RenderBottom();
+	g_player->e_render();
+	g_environment->RenderTop();
 }
 
 void Camera::CenterOnPlayer()
