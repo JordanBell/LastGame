@@ -1,5 +1,11 @@
 #include "EnvironmentLayer.h"
 
+EnvironmentLayer::EnvironmentLayer() : EntityContainer(0, 0) 
+{
+	for (int i = 0; i < WORLD_WIDTH; i++)
+		for (int j = 0; j < WORLD_HEIGHT; j++)
+			tiles[i][j] = NULL;
+}
 void EnvironmentLayer::addChild(GridTile* child)
 {
 	// Add it to the tiles array

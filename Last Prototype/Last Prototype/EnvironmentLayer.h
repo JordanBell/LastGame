@@ -12,7 +12,7 @@ class EnvironmentLayer : public EntityContainer
 
 	GridTile* tiles[WORLD_WIDTH][WORLD_HEIGHT]; // 2D array of tiles in this layer
 
-	EnvironmentLayer() : EntityContainer(0, 0) {}
+	EnvironmentLayer();
 
 	// When adding a child, add it to the array of tiles as well
 	void addChild(GridTile* child);

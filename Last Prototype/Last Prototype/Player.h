@@ -40,9 +40,12 @@ private:
 	SDL_Rect clips[ 4 ][ 3 ]; //The 12 sprite locations in the sprite sheet: [direction] by [cycle].
 
 
+	
+	// Return whether or not the player can move forward
+	bool CanMoveForward(void);
 
 	// Get the GridTile object in front of the player's position
-	GridTile* GetFrontTile(void);
+	GridTile* GetFrontTile(bool top = false);
 
 	// Set the skin (sprite) for this object, based on its direction and progress through the walk cycle.
 	void set_skin(void);

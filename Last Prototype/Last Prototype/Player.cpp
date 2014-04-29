@@ -45,9 +45,26 @@ void Player::walk(E_Direction direction)
 		this->direction = direction;
 
 		// Check to see if the player can move to the front tile.
-		GridTile* ft = GetFrontTile();
-		if (ft->canMoveThrough) moving = true;
+		moving = CanMoveForward();
 	}
+}
+
+bool Player::CanMoveForward()
+{
+	// The player can move forward if none of the tiles in front of them are solid
+	GridTile* ft;
+	
+	// Check the bottom layer
+	ft = GetFrontTile(false);
+	if (ft != NULL)
+		if (!ft->canMoveThrough) return false;
+
+	// Check the top layer
+	ft = GetFrontTile(true);
+	if (ft != NULL)
+		if (!ft->canMoveThrough) return false;
+
+	return true;
 }
 
 void Player::interact()
@@ -56,14 +73,14 @@ void Player::interact()
 	ft->onInteract();
 }
 
-GridTile* Player::GetFrontTile(void)
+GridTile* Player::GetFrontTile(bool top)
 {
 	XY frontGridPosition = GetGridPosition();
 
 	// Find the gridPosition in front of the direction the player is facing
 	frontGridPosition.addDirection(direction);
 	
-	return g_environment->GetTileAt(frontGridPosition);
+	return g_environment->GetTileAt(frontGridPosition, top);
 }
 
 void Player::update(int delta)

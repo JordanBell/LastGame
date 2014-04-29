@@ -35,7 +35,6 @@ protected:
 	}
 };
 
-// A GridTile that 
 class GridTile_Sprite : public virtual GridTile, public virtual Sprite {
 public:
 	bool canMoveThrough; // Whether or not the player can pass over this object
@@ -124,6 +123,16 @@ public:
 	StoneFloorTile_LightBrown(int x, int y) : WorldTile(), GridTile(x, y) { SetTileClip(6, 1); }
 };
 
+// Blacks
+class Tile_Black : public WorldTile {
+public:
+	Tile_Black(int x, int y) : WorldTile(), GridTile(x, y) { SetTileClip(3, 0); }
+};
+class Tile_Black_Solid : public WorldTile, public GridTileSolid {
+public:
+	Tile_Black_Solid(int x, int y) : WorldTile(), GridTileSolid(), GridTile(x, y) { SetTileClip(3, 0); }
+};
+
 // Environment Walls
 class StoneWallTile : public WorldTile, public GridTileSolid {
 public:
@@ -132,6 +141,14 @@ public:
 class WoodWallTile : public WorldTile, public GridTileSolid {
 public:
 	WoodWallTile(int x, int y) : WorldTile(), GridTileSolid(), GridTile(x, y)  { SetTileClip(1, 1); }
+};
+class WoodWallTile_NotSolid : public WorldTile{
+public:
+	WoodWallTile_NotSolid(int x, int y) : WorldTile(), GridTile(x, y)  { SetTileClip(1, 1); }
+};
+class WoodWallTile_Bottom : public WorldTile {
+public:
+	WoodWallTile_Bottom(int x, int y) : WorldTile(), GridTile(x, y)  { SetTileClip(4, 0); }
 };
 class ShinyBlockTile : public WorldTile, public GridTileSolid {
 public:
