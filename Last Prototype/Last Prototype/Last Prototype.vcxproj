@@ -94,6 +94,7 @@
     <ClInclude Include="HouseGenerator.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Resources.h" />
+    <ClInclude Include="ShapeBuilder.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="toolkit.h" />

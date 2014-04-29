@@ -1,6 +1,8 @@
 #include "WorldBuilder.h"
 #include "HouseGenerator.h"
 
+using namespace ShapeBuilder;
+
 void WorldBuilder::build()
 {
 	// Default tiles (grass, surrounded by a wall so that the player can't escape)
@@ -10,6 +12,23 @@ void WorldBuilder::build()
 	//hg.run();
 
 	BuildTestHouse(XY(WORLD_WIDTH/2-3, WORLD_HEIGHT/2-4));
+}
+
+template <class T>
+void WorldBuilder::AddTileTo(XY pos, bool top, bool* setSolidityTo)
+{
+	// Create an object of that tile type
+	T* tile = new T(pos.x, pos.y);
+
+	if (setSolidityTo)
+	{
+		printf("Overriding solidity to: %d", setSolidityTo);
+		tile->canMoveThrough = *setSolidityTo;
+	}
+
+	// Add the tile to the specified layer
+	if (top) g_environment->AddTileToTop(tile);
+	else	 g_environment->AddTileToBottom(tile);
 }
 
 void WorldBuilder::BuildTestHouse(XY pos)
@@ -119,6 +138,36 @@ void WorldBuilder::BuildTestHouse(XY pos)
 	BuildLine<Tile_Black>(XY(pos.x+2, pos.y+mainRoomDimensions.y), XY(pos.x+3, pos.y+mainRoomDimensions.y), true);
 }
 
+// Build a column
+template <class T_Wall>
+void WorldBuilder::BuildColumn(XY pos, bool solidTop)
+{
+	// Delegate to create the arch (solidly)
+	BuildArchAbove<T_Wall>(pos, true, solidTop);
+	// Add the wall below the arch
+	AddTileTo<WoodWallTile>(XY(pos.x, pos.y), false);
+	
+	// TODO: Add corresponding wall type permutations - so that this can dynamically add the bottom tile type
+	//AddTileTo<T_Wall>(XY(pos.x, pos.y-1), true);
+	//AddTileTo<T_Wall>(XY(pos.x, pos.y), false);
+
+	// Bottom Edge
+	//AddTileTo<WoodWallTile_Bottom>(XY(pos.x, pos.y+1), false);
+}
+
+// Build an arch over the column
+template <class T_Wall>
+void WorldBuilder::BuildArchAbove(XY pos, bool solidWall, bool solidTop)
+{
+	// Black top (wall cut-off)
+	if (solidTop) AddTileTo<Tile_Black_Solid>(XY(pos.x, pos.y-2), true);
+	else		  AddTileTo<Tile_Black>(XY(pos.x, pos.y-2), true);
+
+	// Wall Below Black
+	if (solidWall) AddTileTo<WoodWallTile>(XY(pos.x, pos.y-1), true);
+	else		   AddTileTo<WoodWallTile_NotSolid>(XY(pos.x, pos.y-1), true);
+}
+
 void WorldBuilder::BuildRoom(XY pos, XY dimensions, bool randomDoorway)
 {
 	// Draw the border
@@ -175,117 +224,4 @@ void WorldBuilder::BuildRandomDoorway(XY pos, XY dimensions)
 		
 	// Build the door
 	BuildRectangle<StoneFloorTile_LightBrown>(doorPos, doorDimensions);
-}
-
-template <class T_Fill, class T_Border>
-void WorldBuilder::BuildBorderedRectangle(XY pos, XY dimensions, bool top)
-{
-	// Draw the border
-	BuildRectangle<T_Border>(pos, dimensions, false, top);
-	// Draw the fill
-	BuildRectangle<T_Fill>(pos+1, dimensions-2, true, top);
-}
-
-template <class T>
-void WorldBuilder::BuildRectangle(XY pos, XY dimensions, bool filled, bool top)
-{
-	for (float i = pos.x; i < pos.x + dimensions.x; i++)
-	{
-		for (float j = pos.y; j < pos.y + dimensions.y; j++)
-		{
-			if (filled) AddTileTo<T>(XY(i, j), top);
-			else
-			{
-				XY upperBounds = pos + dimensions - 1;
-				bool xEdge = ((i == pos.x) || (i == upperBounds.x));
-				bool yEdge = ((j == pos.y) || (j == upperBounds.y));
-
-				if (xEdge || yEdge) AddTileTo<T>(XY(i, j), top);
-			}
-		}
-	}
-}
-
-// Build a column
-template <class T_Wall>
-void WorldBuilder::BuildArchAbove(XY pos, bool solidWall, bool solidTop)
-{
-	// Black top (wall cut-off)
-	if (solidTop) AddTileTo<Tile_Black_Solid>(XY(pos.x, pos.y-2), true);
-	else		  AddTileTo<Tile_Black>(XY(pos.x, pos.y-2), true);
-
-	// Wall Below Black
-	if (solidWall) AddTileTo<WoodWallTile>(XY(pos.x, pos.y-1), true);
-	else		   AddTileTo<WoodWallTile_NotSolid>(XY(pos.x, pos.y-1), true);
-}
-
-// Build a column
-template <class T_Wall>
-void WorldBuilder::BuildColumn(XY pos, bool solidTop)
-{
-	// Delegate to create the arch (solidly)
-	BuildArchAbove<T_Wall>(pos, true, solidTop);
-	// Add the wall below the arch
-	AddTileTo<WoodWallTile>(XY(pos.x, pos.y), false);
-	
-	// TODO: Add corresponding wall type permutations - so that this can dynamically add the bottom tile type
-	//AddTileTo<T_Wall>(XY(pos.x, pos.y-1), true);
-	//AddTileTo<T_Wall>(XY(pos.x, pos.y), false);
-
-	// Bottom Edge
-	//AddTileTo<WoodWallTile_Bottom>(XY(pos.x, pos.y+1), false);
-}
-
-template <class T>
-//void WorldBuilder::BuildLine(XY start, XY end, bool top, void (*drawFunction)(XY pos) = AddTileTo<T>)
-void WorldBuilder::BuildLine(XY start, XY end, bool top)
-{
-	bool xEqual = (start.x == end.x);
-	bool yEqual = (start.y == end.y);
-
-	// Point to the differing coordinates
-	float* differingStart;
-	float* differingEnd;
-
-	// Point to the coordinates that differ
-	if (xEqual)
-	{
-		differingStart = &start.y;
-		differingEnd = &end.y;
-	}
-	else if (yEqual)
-	{
-		differingStart = &start.x;
-		differingEnd = &end.x;
-	}
-	else throw new std::runtime_error("Cannot draw diagonal lines.");
-
-	int directionPolarity = (*differingStart < *differingEnd) ? 1 : -1; // Negative or positive, based on the direction of the line
-
-	XY tileCoords = start; // The coordinates for each tile drawn
-	for (int i = *differingStart; i != *differingEnd + directionPolarity /*Inclusive*/; i += directionPolarity) // i loops through the positions between the two points, in the direction of their differing coordinates
-	{
-		if (xEqual) tileCoords.y = i; // Alter Y
-		if (yEqual) tileCoords.x = i; // Alter X
-		
-		// Add a tile to that position
-		AddTileTo<T>(tileCoords, top);
-	}
-}
-
-template <class T>
-void WorldBuilder::AddTileTo(XY pos, bool top, bool* setSolidityTo)
-{
-	// Create an object of that tile type
-	T* tile = new T(pos.x, pos.y);
-
-	if (setSolidityTo)
-	{
-		printf("Overriding solidity to: %d", setSolidityTo);
-		tile->canMoveThrough = *setSolidityTo;
-	}
-
-	// Add the tile to the specified layer
-	if (top) g_environment->AddTileToTop(tile);
-	else	 g_environment->AddTileToBottom(tile);
 }
