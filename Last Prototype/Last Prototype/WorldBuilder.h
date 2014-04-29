@@ -14,7 +14,7 @@ public:
 
 	// Add a type of tile to the environment on a specified layer
 	template <class T>
-		static void AddTileTo(XY pos, bool top = false, bool* setSolidityTo = NULL);
+		static void AddTileTo(XY pos, bool top = false, bool reverseSolidarity = false);
 
 private:
 

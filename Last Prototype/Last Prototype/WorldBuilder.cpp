@@ -15,16 +15,11 @@ void WorldBuilder::build()
 }
 
 template <class T>
-void WorldBuilder::AddTileTo(XY pos, bool top, bool* setSolidityTo)
+void WorldBuilder::AddTileTo(XY pos, bool top, bool reverseSolidarity)
 {
 	// Create an object of that tile type
 	T* tile = new T(pos.x, pos.y);
-
-	if (setSolidityTo)
-	{
-		printf("Overriding solidity to: %d", setSolidityTo);
-		tile->canMoveThrough = *setSolidityTo;
-	}
+	if (reverseSolidarity) tile->canMoveThrough = !tile->canMoveThrough; // Reverse it, if set to do so
 
 	// Add the tile to the specified layer
 	if (top) g_environment->AddTileToTop(tile);
@@ -159,13 +154,8 @@ void WorldBuilder::BuildColumn(XY pos, bool solidTop)
 template <class T_Wall>
 void WorldBuilder::BuildArchAbove(XY pos, bool solidWall, bool solidTop)
 {
-	// Black top (wall cut-off)
-	if (solidTop) AddTileTo<Tile_Black_Solid>(XY(pos.x, pos.y-2), true);
-	else		  AddTileTo<Tile_Black>(XY(pos.x, pos.y-2), true);
-
-	// Wall Below Black
-	if (solidWall) AddTileTo<WoodWallTile>(XY(pos.x, pos.y-1), true);
-	else		   AddTileTo<WoodWallTile_NotSolid>(XY(pos.x, pos.y-1), true);
+	AddTileTo<Tile_Black>(XY(pos.x, pos.y-2), true, solidTop); // Black
+	AddTileTo<WoodWallTile>(XY(pos.x, pos.y-1), true, !solidWall);   // Wall
 }
 
 void WorldBuilder::BuildRoom(XY pos, XY dimensions, bool randomDoorway)

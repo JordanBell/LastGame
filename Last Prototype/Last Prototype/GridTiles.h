@@ -128,31 +128,23 @@ class Tile_Black : public WorldTile {
 public:
 	Tile_Black(int x, int y) : WorldTile(), GridTile(x, y) { SetTileClip(3, 0); }
 };
-class Tile_Black_Solid : public WorldTile, public GridTileSolid {
-public:
-	Tile_Black_Solid(int x, int y) : WorldTile(), GridTileSolid(), GridTile(x, y) { SetTileClip(3, 0); }
-};
 
 // Environment Walls
 class StoneWallTile : public WorldTile, public GridTileSolid {
 public:
 	StoneWallTile(int x, int y) : WorldTile(), GridTileSolid(), GridTile(x, y) { SetTileClip(6, 0); }
 };
+class ShinyBlockTile : public WorldTile, public GridTileSolid {
+public:
+	ShinyBlockTile(int x, int y) : WorldTile(), GridTileSolid(), GridTile(x, y)  { SetTileClip(2, 4); }
+};
 class WoodWallTile : public WorldTile, public GridTileSolid {
 public:
 	WoodWallTile(int x, int y) : WorldTile(), GridTileSolid(), GridTile(x, y)  { SetTileClip(1, 1); }
 };
-class WoodWallTile_NotSolid : public WorldTile{
-public:
-	WoodWallTile_NotSolid(int x, int y) : WorldTile(), GridTile(x, y)  { SetTileClip(1, 1); }
-};
 class WoodWallTile_Bottom : public WorldTile {
 public:
 	WoodWallTile_Bottom(int x, int y) : WorldTile(), GridTile(x, y)  { SetTileClip(4, 0); }
-};
-class ShinyBlockTile : public WorldTile, public GridTileSolid {
-public:
-	ShinyBlockTile(int x, int y) : WorldTile(), GridTileSolid(), GridTile(x, y)  { SetTileClip(2, 4); }
 };
 class InvisibleWallTile : public WorldTile, public GridTileSolid {
 public:
