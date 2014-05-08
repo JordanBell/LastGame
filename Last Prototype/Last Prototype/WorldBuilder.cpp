@@ -1,3 +1,5 @@
+#pragma once
+
 #include "WorldBuilder.h"
 #include "HouseGenerator.h"
 
@@ -8,14 +10,13 @@ void WorldBuilder::build()
 	// Default tiles (grass, surrounded by a wall so that the player can't escape)
 	BuildBorderedRectangle<GrassTile, WORLD_BORDER>(XY(0, 0), XY(WORLD_WIDTH, WORLD_HEIGHT));
 
-	HouseGenerator hg = HouseGenerator();
-	//hg.run();
+	HouseGenerator::generate();
 
-	BuildTestHouse(XY(WORLD_WIDTH/2-3, WORLD_HEIGHT/2-4));
+	//BuildTestHouse(XY(WORLD_WIDTH/2-3, WORLD_HEIGHT/2-4));
 }
 
 template <class T>
-void WorldBuilder::AddTileTo(XY pos, bool top, bool reverseSolidarity)
+void WorldBuilder::AddTileTo(const XY pos, const bool top, const bool reverseSolidarity)
 {
 	// Create an object of that tile type
 	T* tile = new T(pos.x, pos.y);
@@ -26,152 +27,110 @@ void WorldBuilder::AddTileTo(XY pos, bool top, bool reverseSolidarity)
 	else	 g_environment->AddTileToBottom(tile);
 }
 
-void WorldBuilder::BuildTestHouse(XY pos)
-{
+void WorldBuilder::BuildTestHouse(const XY pos)
+{	
 	XY mainRoomDimensions(6, 7);
 	
 	// Main floor
-	BuildRectangle<StoneFloorTile_LightBrown>(pos, mainRoomDimensions);
+	BuildTileRectangle<StoneFloorTile_LightBrown>(pos, XY(mainRoomDimensions.x, mainRoomDimensions.y+1));
 	// Left floor
-	BuildRectangle<StoneFloorTile>(XY(pos.x-mainRoomDimensions.x+2, pos.y), XY(4, 8));
+	BuildTileRectangle<StoneFloorTile>(XY(pos.x-mainRoomDimensions.x+2, pos.y), XY(4, 8));
 	// Right floor
-	BuildRectangle<StoneFloorTile>(XY(pos.x+mainRoomDimensions.x, pos.y), XY(4, 8));
+	BuildTileRectangle<StoneFloorTile>(XY(pos.x+mainRoomDimensions.x, pos.y), XY(4, 8));
 	// Entry way floor
-	BuildRectangle<StoneFloorTile_LightBrown>(XY(pos.x+1, pos.y+mainRoomDimensions.y), XY(4, 2));
+	BuildTileRectangle<StoneFloorTile_LightBrown>(XY(pos.x+1, pos.y+mainRoomDimensions.y+2), XY(4, 2));
 
-	// Black rectangle
-	//BuildRectangle<Tile_Black>(pos-1, mainRoomDimensions+2, false, true);
-
-	///////////// LEFT ROOM
+	//// LEFT ROOM
 	// Back Wall
-	BuildColumn<WoodWallTile>(XY(pos.x-2, pos.y+mainRoomDimensions.y-8));
-	BuildArchAbove<WoodWallTile>(XY(pos.x-3, pos.y+mainRoomDimensions.y-8));
-	BuildColumn<WoodWallTile>(XY(pos.x-4, pos.y+mainRoomDimensions.y-8));
-	BuildColumn<WoodWallTile>(XY(pos.x-5, pos.y+mainRoomDimensions.y-8));
-
+		BuildLine(XY(pos.x-2, pos.y+mainRoomDimensions.y-8), XY(pos.x-5, pos.y+mainRoomDimensions.y-8), BuildColumn<WoodWallTile>);
 	// Left Wall
-	BuildColumn<WoodWallTile>(XY(pos.x-5, pos.y+mainRoomDimensions.y-7));
-	BuildColumn<WoodWallTile>(XY(pos.x-5, pos.y+mainRoomDimensions.y-6));
-	BuildColumn<WoodWallTile>(XY(pos.x-5, pos.y+mainRoomDimensions.y-5));
-	BuildColumn<WoodWallTile>(XY(pos.x-5, pos.y+mainRoomDimensions.y-4));
-	BuildColumn<WoodWallTile>(XY(pos.x-5, pos.y+mainRoomDimensions.y-3));
-	BuildColumn<WoodWallTile>(XY(pos.x-5, pos.y+mainRoomDimensions.y-2));
-	BuildColumn<WoodWallTile>(XY(pos.x-5, pos.y+mainRoomDimensions.y-1));
-	BuildColumn<WoodWallTile>(XY(pos.x-5, pos.y+mainRoomDimensions.y));
-	BuildColumn<WoodWallTile>(XY(pos.x-5, pos.y+mainRoomDimensions.y+1));
-
+		BuildLine(XY(pos.x-5, pos.y+mainRoomDimensions.y-7), XY(pos.x-5, pos.y+mainRoomDimensions.y+1), BuildColumn<WoodWallTile>);
 	// Front Wall
-	BuildColumn<WoodWallTile>(XY(pos.x-2, pos.y+mainRoomDimensions.y+1));
-	BuildArchAbove<WoodWallTile>(XY(pos.x-3, pos.y+mainRoomDimensions.y+1));
-	BuildColumn<WoodWallTile>(XY(pos.x-4, pos.y+mainRoomDimensions.y+1));
-	BuildColumn<WoodWallTile>(XY(pos.x-5, pos.y+mainRoomDimensions.y+1));
+		BuildLine(XY(pos.x-2, pos.y+mainRoomDimensions.y+1), XY(pos.x-5, pos.y+mainRoomDimensions.y+1), BuildColumn<WoodWallTile>);
 
-	///////////// RIGHT ROOM
+	//// RIGHT ROOM
 	// Back Wall
-	BuildColumn<WoodWallTile>(XY(pos.x+7, pos.y+mainRoomDimensions.y-8));
-	BuildArchAbove<WoodWallTile>(XY(pos.x+8, pos.y+mainRoomDimensions.y-8));
-	BuildColumn<WoodWallTile>(XY(pos.x+9, pos.y+mainRoomDimensions.y-8));
-	BuildColumn<WoodWallTile>(XY(pos.x+10, pos.y+mainRoomDimensions.y-8));
-
+		BuildLine(XY(pos.x+7, pos.y+mainRoomDimensions.y-8), XY(pos.x+10, pos.y+mainRoomDimensions.y-8), BuildColumn<WoodWallTile>);
 	// Right Wall
-	BuildColumn<WoodWallTile>(XY(pos.x+10, pos.y+mainRoomDimensions.y-7));
-	BuildColumn<WoodWallTile>(XY(pos.x+10, pos.y+mainRoomDimensions.y-6));
-	BuildColumn<WoodWallTile>(XY(pos.x+10, pos.y+mainRoomDimensions.y-5));
-	BuildColumn<WoodWallTile>(XY(pos.x+10, pos.y+mainRoomDimensions.y-4));
-	BuildColumn<WoodWallTile>(XY(pos.x+10, pos.y+mainRoomDimensions.y-3));
-	BuildColumn<WoodWallTile>(XY(pos.x+10, pos.y+mainRoomDimensions.y-2));
-	BuildColumn<WoodWallTile>(XY(pos.x+10, pos.y+mainRoomDimensions.y-1));
-	BuildColumn<WoodWallTile>(XY(pos.x+10, pos.y+mainRoomDimensions.y));
-	BuildColumn<WoodWallTile>(XY(pos.x+10, pos.y+mainRoomDimensions.y+1));
-
-	// Back Wall
-	BuildColumn<WoodWallTile>(XY(pos.x+7, pos.y+mainRoomDimensions.y+1));
-	BuildArchAbove<WoodWallTile>(XY(pos.x+8, pos.y+mainRoomDimensions.y+1));
-	BuildColumn<WoodWallTile>(XY(pos.x+9, pos.y+mainRoomDimensions.y+1));
-	BuildColumn<WoodWallTile>(XY(pos.x+10, pos.y+mainRoomDimensions.y+1));
+		BuildLine(XY(pos.x+10, pos.y+mainRoomDimensions.y-7), XY(pos.x+10, pos.y+mainRoomDimensions.y+1), BuildColumn<WoodWallTile>);
+	// Front Wall
+		BuildLine(XY(pos.x+7, pos.y+mainRoomDimensions.y+1), XY(pos.x+10, pos.y+mainRoomDimensions.y+1), BuildColumn<WoodWallTile>);
 
 	///////////// MAIN ROOM
 	// Back Wall
-	BuildColumn<WoodWallTile>(XY(pos.x-1, pos.y+mainRoomDimensions.y-8));
-	BuildColumn<WoodWallTile>(XY(pos.x, pos.y+mainRoomDimensions.y-8));
-	BuildColumn<WoodWallTile>(XY(pos.x+1, pos.y+mainRoomDimensions.y-8));
-	BuildColumn<WoodWallTile>(XY(pos.x+2, pos.y+mainRoomDimensions.y-8));
-	BuildColumn<WoodWallTile>(XY(pos.x+3, pos.y+mainRoomDimensions.y-8));
-	BuildColumn<WoodWallTile>(XY(pos.x+4, pos.y+mainRoomDimensions.y-8));
-	BuildColumn<WoodWallTile>(XY(pos.x+5, pos.y+mainRoomDimensions.y-8));
-	BuildColumn<WoodWallTile>(XY(pos.x+6, pos.y+mainRoomDimensions.y-8));
+		BuildLine(XY(pos.x-1, pos.y+mainRoomDimensions.y-8), XY(pos.x+6, pos.y+mainRoomDimensions.y-8), BuildColumn<WoodWallTile>);
 	
 	//// Left Wall
-	BuildColumn<WoodWallTile>(XY(pos.x-1, pos.y+mainRoomDimensions.y-8));
-	BuildColumn<WoodWallTile>(XY(pos.x-1, pos.y+mainRoomDimensions.y-7));
-	BuildColumn<WoodWallTile>(XY(pos.x-1, pos.y+mainRoomDimensions.y-6));
-
-	BuildColumn<WoodWallTile>(XY(pos.x-1, pos.y+mainRoomDimensions.y-2));
-	BuildColumn<WoodWallTile>(XY(pos.x-1, pos.y+mainRoomDimensions.y-1));
-	BuildColumn<WoodWallTile>(XY(pos.x-1, pos.y+mainRoomDimensions.y));
-	BuildColumn<WoodWallTile>(XY(pos.x-1, pos.y+mainRoomDimensions.y+1));
+		BuildLine(XY(pos.x-1, pos.y+mainRoomDimensions.y-8), XY(pos.x-1, pos.y+mainRoomDimensions.y-6), BuildColumn<WoodWallTile>);
+		BuildLine(XY(pos.x-1, pos.y+mainRoomDimensions.y-2), XY(pos.x-1, pos.y+mainRoomDimensions.y+1), BuildColumn<WoodWallTile>);
 
 	//// Right Wall
-	BuildColumn<WoodWallTile>(XY(pos.x+mainRoomDimensions.x, pos.y+mainRoomDimensions.y-8));
-	BuildColumn<WoodWallTile>(XY(pos.x+mainRoomDimensions.x, pos.y+mainRoomDimensions.y-7));
-	BuildColumn<WoodWallTile>(XY(pos.x+mainRoomDimensions.x, pos.y+mainRoomDimensions.y-6));
-
-	BuildColumn<WoodWallTile>(XY(pos.x+mainRoomDimensions.x, pos.y+mainRoomDimensions.y-2));
-	BuildColumn<WoodWallTile>(XY(pos.x+mainRoomDimensions.x, pos.y+mainRoomDimensions.y-1));
-	BuildColumn<WoodWallTile>(XY(pos.x+mainRoomDimensions.x, pos.y+mainRoomDimensions.y));
-	BuildColumn<WoodWallTile>(XY(pos.x+mainRoomDimensions.x, pos.y+mainRoomDimensions.y+1));
+		BuildLine(XY(pos.x+mainRoomDimensions.x, pos.y+mainRoomDimensions.y-8), XY(pos.x+mainRoomDimensions.x, pos.y+mainRoomDimensions.y-6), BuildColumn<WoodWallTile>);
+		BuildLine(XY(pos.x+mainRoomDimensions.x, pos.y+mainRoomDimensions.y-2), XY(pos.x+mainRoomDimensions.x, pos.y+mainRoomDimensions.y+1), BuildColumn<WoodWallTile>);
 	
 	//// Bottom Wall
 	// Column left
-	BuildColumn<WoodWallTile>(XY(pos.x, pos.y+mainRoomDimensions.y+1));
+	BuildColumn<WoodWallTile>(XY(pos.x, pos.y+mainRoomDimensions.y+2));
 	// Column right
-	BuildColumn<WoodWallTile>(XY(pos.x+mainRoomDimensions.x-1, pos.y+mainRoomDimensions.y+1));
+	BuildColumn<WoodWallTile>(XY(pos.x+mainRoomDimensions.x-1, pos.y+mainRoomDimensions.y+2));
 	// FrontColumns
-	BuildColumn<WoodWallTile>(XY(pos.x+1, pos.y+mainRoomDimensions.y+2));
-	BuildColumn<WoodWallTile>(XY(pos.x+4, pos.y+mainRoomDimensions.y+2));
+	BuildColumnLarge<WoodWallTile>(XY(pos.x+1, pos.y+mainRoomDimensions.y+3));
+	BuildColumnLarge<WoodWallTile>(XY(pos.x+4, pos.y+mainRoomDimensions.y+3));
 	// Arch
-	BuildLine<Tile_Black>(XY(pos.x+2, pos.y+mainRoomDimensions.y), XY(pos.x+3, pos.y+mainRoomDimensions.y), true);
+	//BuildLine<Tile_Black>(XY(pos.x+2, pos.y+mainRoomDimensions.y), XY(pos.x+3, pos.y+mainRoomDimensions.y), true);
+	BuildLine(XY(pos.x+2, pos.y+mainRoomDimensions.y+3), XY(pos.x+3, pos.y+mainRoomDimensions.y+3), BuildArchAbove<WoodWallTile>);
+}
+
+// Build a small column
+template <class T_Wall>
+void WorldBuilder::BuildColumn(const XY pos)
+{
+	AddTileTo<Tile_Black>(XY(pos.x, pos.y-1), true);	// Black
+	AddTileTo<WoodWallTile>(pos);								// Wall
+
+	// Bottom Edge
+	AddTileTo<WoodWallTile_Bottom>(XY(pos.x, pos.y+1), false);
 }
 
 // Build a column
 template <class T_Wall>
-void WorldBuilder::BuildColumn(XY pos, bool solidTop)
+void WorldBuilder::BuildColumnLarge(const XY pos)
 {
 	// Delegate to create the arch (solidly)
-	BuildArchAbove<T_Wall>(pos, true, solidTop);
+	BuildColumn<T_Wall>(XY(pos.x, pos.y-1));
 	// Add the wall below the arch
-	AddTileTo<WoodWallTile>(XY(pos.x, pos.y), false);
-	
-	// TODO: Add corresponding wall type permutations - so that this can dynamically add the bottom tile type
-	//AddTileTo<T_Wall>(XY(pos.x, pos.y-1), true);
-	//AddTileTo<T_Wall>(XY(pos.x, pos.y), false);
+	AddTileTo<WoodWallTile>(pos);
 
 	// Bottom Edge
-	//AddTileTo<WoodWallTile_Bottom>(XY(pos.x, pos.y+1), false);
+	AddTileTo<WoodWallTile_Bottom>(XY(pos.x, pos.y+1), false);
 }
 
-// Build an arch over the column
+// Build an arch over a position
 template <class T_Wall>
-void WorldBuilder::BuildArchAbove(XY pos, bool solidWall, bool solidTop)
+void WorldBuilder::BuildArchAbove(const XY pos)
 {
-	AddTileTo<Tile_Black>(XY(pos.x, pos.y-2), true, solidTop); // Black
-	AddTileTo<WoodWallTile>(XY(pos.x, pos.y-1), true, !solidWall);   // Wall
+	AddTileTo<Tile_Black>(XY(pos.x, pos.y-2), true);			// Black
+	AddTileTo<WoodWallTile>(XY(pos.x, pos.y-1), true, true);	// Wall
 }
 
-void WorldBuilder::BuildRoom(XY pos, XY dimensions, bool randomDoorway)
+void WorldBuilder::BuildRoom(const XY pos, const XY dimensions)
 {
 	// Draw the border
-	XY wd = WORLD_DIMENSIONS;
-	bool staysWithinWorld = (pos + dimensions) < wd;
+	const bool staysWithinWorld = (pos + dimensions) < WORLD_DIMENSIONS;
 
 	if (staysWithinWorld)
 	{
-		BuildBorderedRectangle<StoneFloorTile_LightBrown, WoodWallTile>(pos, dimensions);
-		if (randomDoorway) BuildRandomDoorway(pos, dimensions);
+		BuildTileRectangle<StoneFloorTile_LightBrown>(pos, dimensions);
+		BuildRectangle(pos, dimensions, BuildColumn<WoodWallTile>, false);
+
+		// TopDown, primitive style
+		/*BuildBorderedRectangle<StoneFloorTile_LightBrown, WoodWallTile>(pos, dimensions);
+		BuildRandomDoorway(pos, dimensions);*/
 	}
 }
 
-void WorldBuilder::BuildRandomDoorway(XY pos, XY dimensions)
+// Deprecated upon implementation of uniplanar isometric houses
+void WorldBuilder::BuildRandomDoorway(const XY pos, const XY dimensions)
 {
 	// Find where along the wall the doorway should go
 	XY doorPos = XY(0, 0);
@@ -213,5 +172,5 @@ void WorldBuilder::BuildRandomDoorway(XY pos, XY dimensions)
 							isOnHorizontal? 2 : 1);
 		
 	// Build the door
-	BuildRectangle<StoneFloorTile_LightBrown>(doorPos, doorDimensions);
+	BuildTileRectangle<StoneFloorTile_LightBrown>(doorPos, doorDimensions);
 }

@@ -64,3 +64,8 @@ Directions<bool> Camera::GetEdgeBools(XY _pos)
 
 	return r_directions;
 }
+
+void ZoomToWidth(const int width)
+{
+	// Zoom to a level that fits the given width, in terms of tiles
+}

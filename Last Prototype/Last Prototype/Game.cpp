@@ -21,7 +21,6 @@ void Game::init()
 	g_environment = new Environment(0, 0);
 	WorldBuilder::build();
 	g_player = new Player((int)(WORLD_WIDTH/2), (int)(WORLD_HEIGHT/2));
-
 	// Add everything to the AllContainer
 	g_camera = new Camera();
 }

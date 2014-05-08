@@ -5,13 +5,16 @@
 #include "Environment.h"
 #include <stdlib.h>
 
-void HouseGenerator::run(void)
+HouseGenerator::HouseSize HouseGenerator::SMALL(XY(7, 7), 1);
+HouseGenerator::HouseSize HouseGenerator::MEDIUM(XY(10, 10), 2);
+HouseGenerator::HouseSize HouseGenerator::LARGE(XY(13, 13), 3);
+
+void HouseGenerator::generate(void)
 {
 	// Warning: Not a very smart calculation on the number of houses allowed on the screen.
-	XY world = WORLD_DIMENSIONS;
 	XY maxHouseDimensions = LARGE.dimensions * (float)(1 + HOUSE_SIZE_DEVIATION);
 
-	XY numHouses = world / maxHouseDimensions;
+	XY numHouses = WORLD_DIMENSIONS / maxHouseDimensions;
 	numHouses.RoundToInt();
 
 	for (int i = 0; i < numHouses.x; i++)
@@ -44,18 +47,18 @@ void HouseGenerator::run(void)
 				XY dimensions = size.dimensions + sizeDeviation;
 
 				// Build the room with a random door (for now... random doors can't work with connected rooms)
-				WorldBuilder::BuildRoom(position, dimensions, true);
+				WorldBuilder::BuildRoom(position, dimensions);
 
 				// Extra: Add a small room to the center of large houses
-				if (size.numRooms == 3) WorldBuilder::BuildRoom(position + dimensions/4, dimensions/2, true);
+				if (size.numRooms == 3) WorldBuilder::BuildRoom(position + dimensions/4, dimensions/2);
 			}
 		}
 	}
 }
 
-HouseGenerator::HouseSize HouseGenerator::ComputeRandomSize(void)
+const HouseGenerator::HouseSize HouseGenerator::ComputeRandomSize(void)
 {
-	int size = rand() % 3;
+	const int size = rand() % 3;
 	switch (size)
 	{
 		case 0: return SMALL;

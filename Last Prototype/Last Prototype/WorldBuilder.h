@@ -15,25 +15,35 @@ public:
 	// Add a type of tile to the environment on a specified layer
 	template <class T>
 		static void AddTileTo(XY pos, bool top = false, bool reverseSolidarity = false);
+	// Add a tile to a bottom position
+	template <class T>
+		static void AddTileToBottom(XY pos) { AddTileTo<T>(pos, false); }
+	// Add a tile to a bottom position
+	template <class T>
+		static void AddTileToTop(XY pos) { AddTileTo<T>(pos, true); }
 
 private:
 
 	////// STRUCTURES
 
 	// Build a test house
-	static void BuildTestHouse(XY pos);
+	static void BuildTestHouse(const XY pos);
+
+	// Build a small column
+	template <class T_Wall>
+		static void BuildColumn(const XY pos);
 
 	// Build a column of walls, topped with an optionally solid Black.
 	template <class T_Wall>
-		static void BuildColumn(XY pos, bool solidTop = false);
+		static void BuildColumnLarge(const XY pos);
 
 	// An arch above a certain point - a wall and an optionally solid black
 	template <class T_Wall>
-		static void BuildArchAbove(XY pos, bool solidWall = false, bool solidTop = false);
+		static void BuildArchAbove(const XY pos);
 
 	// Build a stone bordered square with optional random doorway
-	static void BuildRoom(XY pos, XY dimensions, bool randomDoorway = false);
+	static void BuildRoom(const XY pos, const XY dimensions);
 
 	// Build a random doorway along a given square
-	static void BuildRandomDoorway(XY pos, XY dimensions);
+	static void BuildRandomDoorway(const XY pos, const XY dimensions);
 };

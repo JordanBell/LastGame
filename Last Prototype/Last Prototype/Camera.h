@@ -14,6 +14,9 @@ class Camera : public EntityContainer
 	// Return, for each direction, whether or not a given position will expose the unrendered edge of the world
 	Directions<bool> GetEdgeBools(XY _pos);
 
+	// Zoom the camera in
+	void ZoomToWidth(const int width);
+
 public:
 	Camera(void);
 	~Camera(void);

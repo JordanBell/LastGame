@@ -1,5 +1,5 @@
 #pragma once
-#include <String>
+#include <cmath>
 
 // Direction enumeration
 enum E_Direction{
@@ -14,15 +14,15 @@ enum E_Direction{
 // An X and Y pairing
 struct XY { 
 	float x, y; 
-	XY(float val) : x(val), y(val) {}
-	XY(float _x, float _y) : x(_x), y(_y) {}
+	XY(const float val) : x(val), y(val) {}
+	XY(const float _x, const float _y) : x(_x), y(_y) {}
 
 	// Finding the manhatten distances between the two (or other pythagorean theorum contexts)
-	float manhatten() { return sqrt(x*x + y*y); }
+	const float manhatten(void) const { return sqrt(x*x + y*y); }
 
 	// Alter the values based on a direction
-	void addDirection(E_Direction d) { addDirection(d, 1); }
-	void addDirection(E_Direction d, float f)
+	void addDirection(const E_Direction d) { addDirection(d, 1); }
+	void addDirection(const E_Direction d, const float f)
 	{
 		y -=    (d == UP) * f;
 		y +=  (d == DOWN) * f;
@@ -47,28 +47,28 @@ struct XY {
 
 	/// +, -, *, /
 	// Other XYs
-	XY operator+(XY xy) {
+	const XY operator+(const XY& xy) const {
 		XY result = *this;
 		result += xy;
 
 		return result;
 	}
 
-	XY operator-(XY xy) {
+	const XY operator-(const XY& xy) const {
 		XY result = *this;
 		result -= xy;
 
 		return result;
 	}
 
-	XY operator/(XY xy) {
+	const XY operator/(const XY& xy) const {
 		XY result = *this;
 		result /= xy;
 
 		return result;
 	}
 
-	XY operator*(XY xy) {
+	const XY operator*(const XY& xy) const {
 		XY result = *this;
 		result *= xy;
 
@@ -76,28 +76,28 @@ struct XY {
 	}
 
 	// floats
-	XY operator+(float i) {
+	const XY operator+(const float i) const {
 		XY result = *this;
 		result += i;
 
 		return result;
 	}
 
-	XY operator-(float i) {
+	const XY operator-(const float i) const {
 		XY result = *this;
 		result -= i;
 
 		return result;
 	}
 
-	XY operator*(float i) {
+	const XY operator*(const float i) const {
 		XY result = *this;
 		result *= i;
 
 		return result;
 	}
 
-	XY operator/(float i) {
+	const XY operator/(const float i) const {
 		XY result = *this;
 		result /= i;
 
@@ -105,28 +105,28 @@ struct XY {
 	}
 
 	// ints
-	XY operator+(int i) {
+	const XY operator+(const int i) const {
 		XY result = *this;
 		result += i;
 
 		return result;
 	}
 
-	XY operator-(int i) {
+	const XY operator-(const int i) const {
 		XY result = *this;
 		result -= i;
 
 		return result;
 	}
 
-	XY operator*(int i) {
+	const XY operator*(const int i) const {
 		XY result = *this;
 		result *= i;
 
 		return result;
 	}
 
-	XY operator/(int i) {
+	const XY operator/(const int i) const {
 		XY result = *this;
 		result /= i;
 
@@ -136,28 +136,28 @@ struct XY {
 
 	/// +=, -=, *=, /=
 	// Other XYs
-	XY operator+=(XY xy) {
+	const XY operator+=(const XY& xy) {
 		x += xy.x;
 		y += xy.y;
 
 		return *this;
 	}
 
-	XY operator-=(XY xy) {
+	const XY operator-=(const XY& xy) {
 		x -= xy.x;
 		y -= xy.y;
 
 		return *this;
 	}
 
-	XY operator/=(XY xy) {
+	const XY operator/=(const XY& xy) {
 		x /= xy.x;
 		y /= xy.y;
 
 		return *this;
 	}
 
-	XY operator*=(XY xy) {
+	const XY operator*=(const XY& xy) {
 		x *= xy.x;
 		y *= xy.y;
 
@@ -165,28 +165,28 @@ struct XY {
 	}
 	
 	// floats
-	XY operator+=(float i) {
+	const XY operator+=(const float i) {
 		x += i;
 		y += i;
 
 		return *this;
 	}
 
-	XY operator-=(float i) {
+	const XY operator-=(const float i) {
 		x -= i;
 		y -= i;
 
 		return *this;
 	}
 
-	XY operator*=(float i) {
+	const XY operator*=(const float i) {
 		x *= i;
 		y *= i;
 
 		return *this;
 	}
 
-	XY operator/=(float i) {
+	const XY operator/=(const float i) {
 		x /= i;
 		y /= i;
 
@@ -194,28 +194,28 @@ struct XY {
 	}
 	
 	// ints
-	XY operator+=(int i) {
+	const XY operator+=(const int i) {
 		x += i;
 		y += i;
 
 		return *this;
 	}
 
-	XY operator-=(int i) {
+	const XY operator-=(const int i) {
 		x -= i;
 		y -= i;
 
 		return *this;
 	}
 
-	XY operator*=(int i) {
+	const XY operator*=(const int i) {
 		x *= i;
 		y *= i;
 
 		return *this;
 	}
 
-	XY operator/=(int i) {
+	const XY operator/=(const int i) {
 		x = (int)x / i;
 		y = (int)y / i;
 
@@ -223,18 +223,18 @@ struct XY {
 	}
 
 	// <, >
-	bool operator<(XY xy) {
+	const bool operator<(const XY& xy) const {
 		return ((x < xy.x) &&
 				(y < xy.y));
 	}
 
-	bool operator>(XY xy) {
+	const bool operator>(const XY& xy) const {
 		return ((x > xy.x) &&
 				(y > xy.y));
 	}
 
 	// ==
-	bool operator==(XY xy) {
+	const bool operator==(const XY& xy) const {
 		return ((x == xy.x) &&
 				(y == xy.y));
 	}
@@ -245,15 +245,15 @@ template <class E>
 struct Directions {
 	E top, bottom, left, right;
 
-	Directions(E t, E b, E l, E r) 
-		     : top(t), bottom(b), left(l), right(r) {} 
+	Directions(const E& t, const E& b, const E& l, const E& r) 
+		     : top(t), bottom(b), left(l), right(r) {}
 };
 
 template <>
 struct Directions<float> {
 	float top, bottom, left, right;
 
-	Directions(float t, float b, float l, float r) 
+	Directions(const float t, const float b, const float l, const float r) 
 		     : top(t), bottom(b), left(l), right(r) 
 	{
 		top = t;
@@ -263,7 +263,7 @@ struct Directions<float> {
 	} 
 
 	// Specialised Constructor using XY values
-	Directions(XY base, XY scalarDifference) {
+	Directions(const XY& base, const XY& scalarDifference) {
 		top =	 base.y - scalarDifference.y;
 		bottom = base.y + scalarDifference.y;
 		left =	 base.x - scalarDifference.x;
@@ -276,18 +276,18 @@ template <>
 struct Directions<bool> {
 	bool top, bottom, left, right;
 
-	Directions(bool t, bool b, bool l, bool r) 
+	Directions(const bool t, const bool b, const bool l, const bool r) 
 		   : top(t), bottom(b), left(l), right(r) {} 
 
 	// Overload equality and inequality operators
-	bool operator==(bool b) {
+	const bool operator==(const bool b) const {
 		return ((top	== b) &&
 				(bottom == b) &&
 				(left	== b) &&
 				(right	== b));
 	}
 	
-	bool operator!=(bool b) {
+	const bool operator!=(const bool b) const {
 		return ((top	!= b) &&
 				(bottom != b) &&
 				(left	!= b) &&

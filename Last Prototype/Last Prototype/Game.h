@@ -14,14 +14,9 @@ public:
 	Game();
 	// Delete all entities.
 	~Game(void);
-
-
-
+	
 	// Run the game, stick it in the game loop
 	void run();
-
-	// Move all of the entities by a certain amount
-	//void MoveEverything(XY displacement);
 
 private:
 	int delta; // The time since the last frame
@@ -29,8 +24,6 @@ private:
 
 	Timer m_FPSTimer; // The timer that keeps track of the time since the last update
 
-	//Player* player; // The player in the game.
-	//Environment* environment; // The EntityContainer containing the entire environment
 	std::list<Entity*> m_Entities; // A list of entities used to call their render and update functions during the game loop
 
 
