@@ -30,7 +30,7 @@ struct XY {
 		x += (d == RIGHT) * f;
 	}
 
-	// Round the values to their nearest integers
+	// Round the values to their integer values towards 0
 	void RoundToInt(void)
 	{
 		x = (int) x;

@@ -7,11 +7,11 @@
 #include <stdexcept>
 
 // Player sheet consts
-const std::string Resources::playerSheetFile = "playerSheet.png";
+const std::string Resources::playerSheetFile = (TILE_SIZE==32) ? "playerSheet.png" : "playerSheet16Bit.png";
 SDL_Surface* Resources::playerSheet = NULL;
 
 // Environment sheet consts
-const std::string Resources::environmentSheetFile = "environment.png";
+const std::string Resources::environmentSheetFile = (TILE_SIZE==32) ? "environment.png" : "environment16Bit.png";
 SDL_Surface* Resources::environmentSheet = NULL;
 
 SDL_Surface Resources::GetPlayerSheet()

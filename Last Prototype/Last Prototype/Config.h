@@ -2,9 +2,9 @@
 #include "Tools.h"
 
 // ENVIRONMENT
-const int TILE_SIZE = 32;
-const int WORLD_WIDTH  = 38; // (In terms of TILE_SIZEs)
-const int WORLD_HEIGHT = 38; // (In terms of TILE_SIZEs)
+const int TILE_SIZE = 32; // Note: Sprite Sheets must support the selected TILE_SIZE
+const int WORLD_WIDTH  = 25; // (In terms of TILE_SIZEs)
+const int WORLD_HEIGHT = 25; // (In terms of TILE_SIZEs)
 const XY WORLD_DIMENSIONS = XY((WORLD_WIDTH), WORLD_HEIGHT);
 
 // SCREEN

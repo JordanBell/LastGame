@@ -2,12 +2,13 @@
 #include "Environment.h"
 #include "HouseGenerator.h"
 #include "ShapeBuilder.h"
+#include "Room.h"
 
 #define WORLD_BORDER ShinyBlockTile
 
 class WorldBuilder
 {
-friend class HouseGenerator;
+friend class Room;
 public:
 	// Run the WorldBuilder code
 	static void build(void);
@@ -29,6 +30,9 @@ private:
 	// Build a test house
 	static void BuildTestHouse(const XY pos);
 
+	// Build a stone bordered square
+	static void BuildRoom(const XY pos, const XY dimensions);
+
 	// Build a small column
 	template <class T_Wall>
 		static void BuildColumn(const XY pos);
@@ -40,9 +44,6 @@ private:
 	// An arch above a certain point - a wall and an optionally solid black
 	template <class T_Wall>
 		static void BuildArchAbove(const XY pos);
-
-	// Build a stone bordered square with optional random doorway
-	static void BuildRoom(const XY pos, const XY dimensions);
 
 	// Build a random doorway along a given square
 	static void BuildRandomDoorway(const XY pos, const XY dimensions);

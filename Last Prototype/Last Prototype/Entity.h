@@ -15,7 +15,7 @@ public:
 	Entity(float x, float y) : pos( XY(x,y) ), 
 							   isInSight(true),
 							   parent(NULL){}
-	~Entity(void) {}
+	virtual ~Entity(void) {}
 	
 	// Move this object's coordinates by a displacement amount
 	virtual void move(XY displacement) { pos += displacement; }

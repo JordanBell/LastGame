@@ -7,12 +7,15 @@ using namespace ShapeBuilder;
 
 void WorldBuilder::build()
 {
-	// Default tiles (grass, surrounded by a wall so that the player can't escape)
-	BuildBorderedRectangle<GrassTile, WORLD_BORDER>(XY(0, 0), XY(WORLD_WIDTH, WORLD_HEIGHT));
+	// Grass World
+	BuildTileRectangle<GrassTile>(XY(0, 0), XY(WORLD_WIDTH, WORLD_HEIGHT));
 
 	HouseGenerator::generate();
 
 	//BuildTestHouse(XY(WORLD_WIDTH/2-3, WORLD_HEIGHT/2-4));
+
+	// Overlay the outer walls. This is done last, to prevent other structures from overriding the walls, were they done earlier
+	BuildTileRectangle<WORLD_BORDER>(XY(0, 0), XY(WORLD_WIDTH, WORLD_HEIGHT), false, true);
 }
 
 template <class T>

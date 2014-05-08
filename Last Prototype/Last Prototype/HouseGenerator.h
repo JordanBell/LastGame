@@ -16,8 +16,6 @@ public:
 	static void generate(void);
 
 private:
-	static HouseSize SMALL, MEDIUM, LARGE; // House Size data
-
 	// Get a random size from the above house sizes
 	static const HouseSize ComputeRandomSize(void);
 };

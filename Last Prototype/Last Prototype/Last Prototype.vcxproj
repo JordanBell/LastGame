@@ -74,10 +74,12 @@
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="EnvironmentLayer.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="House.cpp" />
     <ClCompile Include="HouseGenerator.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Resources.cpp" />
+    <ClCompile Include="Room.cpp" />
     <ClCompile Include="ShapeBuilder.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="toolkit.cpp" />
@@ -92,9 +94,11 @@
     <ClInclude Include="EnvironmentLayer.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GridTiles.h" />
+    <ClInclude Include="House.h" />
     <ClInclude Include="HouseGenerator.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Resources.h" />
+    <ClInclude Include="Room.h" />
     <ClInclude Include="ShapeBuilder.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Timer.h" />
