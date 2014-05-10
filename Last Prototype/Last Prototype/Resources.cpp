@@ -14,6 +14,10 @@ SDL_Surface* Resources::playerSheet = NULL;
 const std::string Resources::environmentSheetFile = (TILE_SIZE==32) ? "environment.png" : "environment16Bit.png";
 SDL_Surface* Resources::environmentSheet = NULL;
 
+// Door sheet consts
+const std::string Resources::doorSheetFile = "doorSheet.png";
+SDL_Surface* Resources::doorSheet = NULL;
+
 SDL_Surface Resources::GetPlayerSheet()
 {
 	if (playerSheet == NULL)
@@ -40,6 +44,19 @@ SDL_Surface Resources::GetEnvironmentImage()
 	return *environmentSheet;
 }
 
+SDL_Surface Resources::GetDoorImage()
+{
+	if (doorSheet == NULL)
+	{
+		doorSheet = load_image(doorSheetFile);
+
+		// Check for failures
+		if (!doorSheet) throw std::runtime_error("The door file failed to load.");
+	}
+
+	return *doorSheet;
+}
+
 //SDL_Surface Resources::GetPlayerSheet()
 //{
 //	try { return GetSheet(playerSheet); }
@@ -58,12 +75,12 @@ SDL_Surface Resources::GetEnvironmentImage()
 //	}
 //}
 //
-//SDL_Surface Resources::GetSheet(SDL_Surface* sheet)
+//SDL_Surface Resources::GetSheet(SDL_Surface& sheet)
 //{
 //	if (sheet == NULL)
 //	{
-//			 if (sheet == playerSheet)		*sheet = *load_image(playerSheetFile);
-//		else if (sheet == environmentSheet) *sheet = *load_image(environmentSheetFile);
+//			 if (sheet == *playerSheet)		 sheet = *load_image(playerSheetFile);
+//		else if (sheet == *environmentSheet) sheet = *load_image(environmentSheetFile);
 //
 //		// Check for failures
 //		if (!sheet) throw std::runtime_error("The environment file failed to load.");

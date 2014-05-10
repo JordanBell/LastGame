@@ -53,9 +53,9 @@ bool Entity::IsOnScreen(void)
 	XY blittingPos = getBlittingPos();
 	XY dimensions(skin.h, skin.w);
 
-	Directions<float>entityEdges(blittingPos.y - skin.h,
+	Directions<float>entityEdges(blittingPos.y,
 								 blittingPos.y + skin.h,
-								 blittingPos.x - skin.w,
+								 blittingPos.x,
 								 blittingPos.x + skin.w);
 
 	// Return whether or not any of the edges peek over the screen

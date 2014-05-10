@@ -69,8 +69,11 @@ bool Player::CanMoveForward()
 
 void Player::interact()
 {
-	GridTile* ft = GetFrontTile();
-	ft->onInteract();
+	if (!moving)
+	{
+		GridTile* ft = GetFrontTile();
+		ft->onInteract();
+	}
 }
 
 GridTile* Player::GetFrontTile(bool top)

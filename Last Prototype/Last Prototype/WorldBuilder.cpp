@@ -10,12 +10,12 @@ void WorldBuilder::build()
 	// Grass World
 	BuildTileRectangle<GrassTile>(XY(0, 0), XY(WORLD_WIDTH, WORLD_HEIGHT));
 
-	HouseGenerator::generate();
+	// Content
+	//HouseGenerator::generate();
+	BuildTestHouse(XY(WORLD_WIDTH/2-3, WORLD_HEIGHT/2-4));
 
-	//BuildTestHouse(XY(WORLD_WIDTH/2-3, WORLD_HEIGHT/2-4));
-
-	// Overlay the outer walls. This is done last, to prevent other structures from overriding the walls, were they done earlier
-	BuildTileRectangle<WORLD_BORDER>(XY(0, 0), XY(WORLD_WIDTH, WORLD_HEIGHT), false, true);
+	// Outer Walls
+	//BuildTileRectangle<WORLD_BORDER>(XY(0, 0), XY(WORLD_WIDTH, WORLD_HEIGHT), false, true);
 }
 
 template <class T>
@@ -23,7 +23,7 @@ void WorldBuilder::AddTileTo(const XY pos, const bool top, const bool reverseSol
 {
 	// Create an object of that tile type
 	T* tile = new T(pos.x, pos.y);
-	if (reverseSolidarity) tile->canMoveThrough = !tile->canMoveThrough; // Reverse it, if set to do so
+	if (reverseSolidarity) tile->GridTile::canMoveThrough = !tile->GridTile::canMoveThrough; // Reverse it, if set to do so
 
 	// Add the tile to the specified layer
 	if (top) g_environment->AddTileToTop(tile);
@@ -80,8 +80,10 @@ void WorldBuilder::BuildTestHouse(const XY pos)
 	BuildColumnLarge<WoodWallTile>(XY(pos.x+1, pos.y+mainRoomDimensions.y+3));
 	BuildColumnLarge<WoodWallTile>(XY(pos.x+4, pos.y+mainRoomDimensions.y+3));
 	// Arch
-	//BuildLine<Tile_Black>(XY(pos.x+2, pos.y+mainRoomDimensions.y), XY(pos.x+3, pos.y+mainRoomDimensions.y), true);
-	BuildLine(XY(pos.x+2, pos.y+mainRoomDimensions.y+3), XY(pos.x+3, pos.y+mainRoomDimensions.y+3), BuildArchAbove<WoodWallTile>);
+	//BuildLine(XY(pos.x+2, pos.y+mainRoomDimensions.y+3), XY(pos.x+3, pos.y+mainRoomDimensions.y+3), BuildArchAbove<WoodWallTile>);
+	BuildColumnLarge<WoodWallTile>(XY(pos.x+2, pos.y+mainRoomDimensions.y+3));
+	AddTileTo<Door>(XY(pos.x+3, pos.y+mainRoomDimensions.y+3));
+	BuildArchAbove<WoodWallTile>(XY(pos.x+3, pos.y+mainRoomDimensions.y+3));
 }
 
 // Build a small column

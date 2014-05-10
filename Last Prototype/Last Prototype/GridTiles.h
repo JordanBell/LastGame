@@ -8,7 +8,7 @@
 
 /*------------============ SUPER CLASSES ============------------*/
 
-class GridTile : public Entity {
+class GridTile : public Sprite {
 public:
 	bool canMoveThrough; // Whether or not the player can pass over this object
 
@@ -16,7 +16,13 @@ public:
 	virtual void onInteract() {};
 
 protected:
-	GridTile(int x, int y) : Entity(x*TILE_SIZE, y*TILE_SIZE), canMoveThrough(true) {}
+	GridTile(int x, int y) : Sprite(x*TILE_SIZE, y*TILE_SIZE), canMoveThrough(true) {}
+};
+
+// A GridTile that player's can't move through
+class GridTileSolid : public virtual GridTile {
+protected:
+	GridTileSolid() : GridTile(0, 0) { canMoveThrough = false; }
 };
 
 class WorldTile : public virtual GridTile {
@@ -35,79 +41,70 @@ protected:
 	}
 };
 
-class GridTile_Sprite : public virtual GridTile, public virtual Sprite {
-public:
-	bool canMoveThrough; // Whether or not the player can pass over this object
-
-	// Override this function to give the tile a function when being interacted with. If not overridden, nothing will happen.
-	virtual void onInteract() {};
-
-protected:
-	GridTile_Sprite() : Sprite(0, 0), GridTile(0, 0) {}
-};
-
-// A GridTile that player's can't move through
-class GridTileSolid : public virtual GridTile {
-protected:
-	GridTileSolid() : GridTile(0, 0) { canMoveThrough = false; }
-};
-
-//// A door which opens and closes on interact
-//class Door : public GridTile_Sprite {
-//protected:
-//	const int numClips = 5;
-//
-//	bool open; // Whether or not this door is currently open
-//	bool inAnimation;
-//	SDL_Rect clips[3];
-//
-//	Door(int x, int y) : GridTile_Sprite(x, y), Sprite(x*TILE_SIZE, y*TILE_SIZE), open(false), inAnimation(false) 
-//	{ 
-//		canMoveThrough = false; 
-//
-//		// Initialise the clips
-//		for (int i = 0; i < numClips; i++)
-//		{
-//			SDL_Rect clip;
-//			clip.x = i;
-//			clip.y = 0;
-//			clip.w = clip.h = TILE_SIZE;
-//		}
-//	}
-//
-//	// On interaction, open this door.
-//	void onInteract()
-//	{
-//		open = !open;
-//		//inAnimation = true;
-//	}
-//
-//	void set_skin()
-//	{
-//
-//	}
-//
-//	void update(int delta)
-//	{
-//		set_skin();
-//
-//		/*if (inAnimation)
-//		{
-//			if (open)
-//			IncCycle();
-//
-//			// If at the end of an animation
-//			if ((cycle == 0) || (cycle == max_cycles-1))
-//			{
-//				inAnimation = false;
-//			}
-//		}*/
-//	}
-//};
-
 
 
 /*------------============ CHILD TILES ============------------*/
+
+// A door which opens and closes on interact
+class Door : public GridTile {
+public:
+	Door(int x, int y) : GridTile(x, y), open(false), inAnimation(false)
+	{ 
+		max_cycles = 20;
+		canMoveThrough = false; 
+		Sprite::sprite_sheet = Resources::GetDoorImage();
+
+		// Initialise the clips
+		for (int i = 0; i < numClips; i++)
+		{
+			SDL_Rect clip;
+			clip.x = i*TILE_SIZE;
+			clip.y = 0;
+			clip.w = TILE_SIZE;
+			clip.h = TILE_SIZE*1.5;
+
+			clips[i] = clip;
+		}
+	}
+
+protected:
+	static const int numClips = 20;
+	SDL_Rect clips[numClips];
+
+	bool open; // Whether or not this door is currently open
+	bool inAnimation; // If the door is animating closed or open
+
+	inline void setMoveThrough() { canMoveThrough = open; }
+
+	// On interaction, open this door.
+	void onInteract()
+	{
+		if (!inAnimation)
+		{
+			open = !open; // Toggle
+			if (!open) setMoveThrough(); // If closing, set the door as closed immediately.
+			inAnimation = true; // Start the animation
+		}
+	}
+
+	void set_skin() { Sprite::skin = clips[cycle/4]; }
+
+	void update(int delta)
+	{
+		if (inAnimation)
+		{
+			if (open) IncCycle(); // Increment if opening
+			else	  DecCycle(); // Decrement if opening
+
+			// If at the end of an animation
+			if ((cycle == 0) || (cycle == max_cycles-1))
+			{
+				inAnimation = false;
+				setMoveThrough();
+			}
+		}
+	}
+};
 
 // Environment Floors
 class GrassTile : public WorldTile {
@@ -148,5 +145,5 @@ public:
 };
 class InvisibleWallTile : public WorldTile, public GridTileSolid {
 public:
-	InvisibleWallTile(int x, int y) : WorldTile(), GridTileSolid(), GridTile(x, y)  { SetTileClip(3, 4); }
+	InvisibleWallTile(int x, int y) : WorldTile(), GridTileSolid(), GridTile(x, y) { SetTileClip(3, 4); }
 };

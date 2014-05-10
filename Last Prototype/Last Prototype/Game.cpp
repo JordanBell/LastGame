@@ -67,7 +67,7 @@ void Game::HandleKeys()
 		// Toggling formatting
 		if (keystates[SDLK_f]) g_player->interact();
 		if (keystates[SDLK_RETURN]) toggleScreenFormat();
-		if (keystates[SDLK_ESCAPE]) exitFullScreen();
+		if (keystates[SDLK_ESCAPE]) running = false;
 }
 
 void Game::Render()

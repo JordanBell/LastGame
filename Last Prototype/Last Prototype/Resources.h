@@ -14,6 +14,9 @@ public:
 	
 	// Return the environment sprite sheet surface
 	static SDL_Surface GetEnvironmentImage();
+	
+	// Return the environment sprite sheet surface
+	static SDL_Surface GetDoorImage();
 
 private:
 	Resources(void);
@@ -21,9 +24,11 @@ private:
 
 	static const std::string playerSheetFile; // The filepath to the player's sprite sheet
 	static const std::string environmentSheetFile; // The filepath to the environment's sprite sheet
+	static const std::string doorSheetFile; // The filepath to the door's sprite sheet
 
 	static SDL_Surface* playerSheet; // The player sprite sheet 
 	static SDL_Surface* environmentSheet; // The environment sprite sheet
+	static SDL_Surface* doorSheet; // The door sprite sheet
 
 	// Returns a sprite sheet based on the SDL_Surface identifier passed as argument
 	static SDL_Surface GetSheet(SDL_Surface* sheet);
