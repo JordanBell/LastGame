@@ -17,7 +17,7 @@ SDL_Surface* load_image(std::string filename);
 void toggleScreenFormat();
 void exitFullScreen();
 
-void apply_surface(XY pos, SDL_Surface source, SDL_Surface* destination, SDL_Rect* clip = NULL);
+void apply_surface(const XY& pos, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip = NULL);
 bool SDL_init();
 void SDL_deinit();
 

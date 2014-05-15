@@ -18,13 +18,14 @@ void EntityContainer::update(int delta)
 
 void EntityContainer::render(void)
 {
-	if (ShouldRenderImage()) Entity::render();
+	Entity::render();
 
 	for (Entity* child : children)
 		child->e_render();
+
 }
 
-bool EntityContainer::IsOnScreen(void)
+bool EntityContainer::IsOnScreen(void) const
 {
 	if (Entity::IsOnScreen()) return true;
 	else

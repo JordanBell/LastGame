@@ -16,7 +16,7 @@ public:
 	virtual void onInteract() {};
 
 protected:
-	GridTile(int x, int y) : Sprite(x*TILE_SIZE, y*TILE_SIZE), canMoveThrough(true) {}
+	GridTile(const int x, const int y) : Sprite(x*TILE_SIZE, y*TILE_SIZE), canMoveThrough(true) {}
 };
 
 // A GridTile that player's can't move through
@@ -30,7 +30,7 @@ protected:
 	WorldTile() : GridTile(0, 0) { sprite_sheet = Resources::GetEnvironmentImage(); }
 
 	// Set the clip of this tile, based on its index in the Environment sprite sheet
-	void SetTileClip(int index1, int index2)
+	void SetTileClip(const int index1, const int index2)
 	{
 		SDL_Rect clip = SDL_Rect();
 		clip.x = index1 * TILE_SIZE;
@@ -48,11 +48,11 @@ protected:
 // A door which opens and closes on interact
 class Door : public GridTile {
 public:
-	Door(int x, int y) : GridTile(x, y), open(false), inAnimation(false)
+	Door(const int x, const int y) : GridTile(x, y), open(false), inAnimation(false)
 	{ 
-		max_cycles = 20;
-		canMoveThrough = false; 
-		Sprite::sprite_sheet = Resources::GetDoorImage();
+		max_cycles = numClips*framesPerClip;
+		canMoveThrough = open; 
+		sprite_sheet = Resources::GetDoorImage();
 
 		// Initialise the clips
 		for (int i = 0; i < numClips; i++)
@@ -68,13 +68,19 @@ public:
 	}
 
 protected:
-	static const int numClips = 20;
+	static const int framesPerClip = 2;
+	static const int numClips = 5;
 	SDL_Rect clips[numClips];
 
 	bool open; // Whether or not this door is currently open
 	bool inAnimation; // If the door is animating closed or open
 
 	inline void setMoveThrough() { canMoveThrough = open; }
+
+	virtual void render()
+	{
+		EntityContainer::render();
+	}
 
 	// On interaction, open this door.
 	void onInteract()
@@ -87,14 +93,14 @@ protected:
 		}
 	}
 
-	void set_skin() { Sprite::skin = clips[cycle/4]; }
+	void set_skin() { skin = clips[cycle/framesPerClip]; }
 
-	void update(int delta)
+	void update(const int delta)
 	{
 		if (inAnimation)
 		{
 			if (open) IncCycle(); // Increment if opening
-			else	  DecCycle(); // Decrement if opening
+			else	  DecCycle(); // Decrement if closing
 
 			// If at the end of an animation
 			if ((cycle == 0) || (cycle == max_cycles-1))

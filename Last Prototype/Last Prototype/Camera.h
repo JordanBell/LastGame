@@ -9,10 +9,10 @@ class Camera : public EntityContainer
 	void CenterOnPlayer(void);
 
 	// Return, for each direction, whether or not this position exposes the unrendered edge of the world
-	Directions<bool> GetEdgeBools() { return GetEdgeBools(g_environment->getBlittingPos()); }
+	Directions<bool> GetEdgeBools() const { return GetEdgeBools(g_environment->getBlittingPos()); }
 
 	// Return, for each direction, whether or not a given position will expose the unrendered edge of the world
-	Directions<bool> GetEdgeBools(XY _pos);
+	Directions<bool> GetEdgeBools(XY _pos) const;
 
 	// Zoom the camera in
 	void ZoomToWidth(const int width);
@@ -22,7 +22,7 @@ public:
 	~Camera(void);
 
 	// Change the x and y, so that the player is in the center of the screen.
-	void update(int delta);
+	void update(const int delta);
 	void render(void);
 };
 

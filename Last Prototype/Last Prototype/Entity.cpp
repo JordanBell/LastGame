@@ -3,7 +3,7 @@
 #include "Environment.h"
 #include "Player.h"
 
-void Entity::e_render(void) 
+void Entity::e_render(void)
 { 
 	if (ShouldRenderImage()) render();
 }
@@ -14,7 +14,7 @@ void Entity::blit()
 	apply_surface(blitPos, sprite_sheet, screen, &skin);
 }
 
-XY Entity::getBlittingPos(void) 
+XY Entity::getBlittingPos(void) const
 {
 	if (parent == NULL) return pos;
 	else
@@ -24,7 +24,7 @@ XY Entity::getBlittingPos(void)
 	}
 }
 
-XY Entity::GetGridPosition(XY _pos)
+XY Entity::GetGridPosition(const XY& _pos)
 {
 	XY r_gridPosition = _pos;
 
@@ -35,37 +35,41 @@ XY Entity::GetGridPosition(XY _pos)
 	return r_gridPosition;
 }
 
-bool Entity::IsInSight(void)
+bool Entity::IsInSight(void) const
 {
-	if (this == g_player) return true;
-	else
+	if (this != g_player)
 	{
-		XY distsFromPlayer = g_player->pos - getBlittingPos();
-		int manDist = distsFromPlayer.manhatten() / TILE_SIZE;
+		if (g_player != NULL)
+		{
+			XY distsFromPlayer = g_player->pos - getBlittingPos();
+			int manDist = distsFromPlayer.manhatten() / TILE_SIZE;
 
-		// Return whether this is within sight distance of the player
-		return (manDist <= SIGHT_DISTANCE);
+			// Return whether this is within sight distance of the player
+			return (manDist <= SIGHT_DISTANCE);
+		}
 	}
+	
+	return true;
 }
 
-bool Entity::IsOnScreen(void)
+bool Entity::IsOnScreen(void) const
 {
-	XY blittingPos = getBlittingPos();
-	XY dimensions(skin.h, skin.w);
+	const XY blittingPos = getBlittingPos();
+	const XY dimensions(skin.h, skin.w);
 
-	Directions<float>entityEdges(blittingPos.y,
-								 blittingPos.y + skin.h,
-								 blittingPos.x,
-								 blittingPos.x + skin.w);
+	const Directions<float>entityEdges(blittingPos.y,
+									   blittingPos.y + skin.h,
+									   blittingPos.x,
+									   blittingPos.x + skin.w);
 
 	// Return whether or not any of the edges peek over the screen
-	return ((entityEdges.top	< screen->h) ||
-			(entityEdges.left	< screen->w) ||
-			(entityEdges.bottom > 0)		 ||
+	return ((entityEdges.top	< screen->h) &&
+			(entityEdges.left	< screen->w) &&
+			(entityEdges.bottom > 0)		 &&
 			(entityEdges.right	> 0));
 }
 
-bool Entity::ShouldRenderImage(void)
+bool Entity::ShouldRenderImage(void) const
 {
 	if (IsOnScreen()) 
 	{

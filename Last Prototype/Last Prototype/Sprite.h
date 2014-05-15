@@ -11,7 +11,7 @@ public:
 	~Sprite(void) {}
 
 	// Set this sprite's skin, and render
-	void render(void) { set_skin(); EntityContainer::render(); }
+	virtual void render(void) { set_skin(); EntityContainer::render(); }
 
 protected:
 	int cycle; // The index cycle through a cycling animation

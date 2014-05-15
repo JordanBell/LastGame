@@ -15,10 +15,10 @@ public:
 	virtual void render(void);
 	
 	// Update this entity, as well as the children entities
-	virtual void update(int delta);
+	virtual void update(const int delta);
 
 	// Whether or not this, or any of its children, are on screen.
-	bool IsOnScreen(void);
+	bool IsOnScreen(void) const;
 
 protected:
 	std::list<Entity*> children; // A list of the child Entities within this container.

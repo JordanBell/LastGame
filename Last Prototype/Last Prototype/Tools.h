@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include <iostream>
 
 // Direction enumeration
 enum E_Direction{
@@ -256,18 +257,18 @@ struct Directions<float> {
 	Directions(const float t, const float b, const float l, const float r) 
 		     : top(t), bottom(b), left(l), right(r) 
 	{
-		top = t;
-		bottom = b;
-		left = l;
-		right = r;
+		top		= t;
+		bottom	= b;
+		left	= l;
+		right	= r;
 	} 
 
 	// Specialised Constructor using XY values
 	Directions(const XY& base, const XY& scalarDifference) {
-		top =	 base.y - scalarDifference.y;
+		top	   = base.y - scalarDifference.y;
 		bottom = base.y + scalarDifference.y;
-		left =	 base.x - scalarDifference.x;
-		right =	 base.x + scalarDifference.x;
+		left   = base.x - scalarDifference.x;
+		right  = base.x + scalarDifference.x;
 	} 
 };
 
@@ -292,5 +293,14 @@ struct Directions<bool> {
 				(bottom != b) &&
 				(left	!= b) &&
 				(right	!= b));
+	}
+
+	void print(const bool invert = false, const char* title = "Directions are:")
+	{
+		printf("%s\n", title);
+		printf("\tTop: %s\n", (invert? !top : top) ? "Yes" : "No");
+		printf("\tBottom: %s\n", (invert? !bottom : bottom) ? "Yes" : "No");
+		printf("\tLeft: %s\n", (invert? !left : left) ? "Yes" : "No");
+		printf("\tRight: %s\n", (invert? !right : right) ? "Yes" : "No");
 	}
 };

@@ -15,7 +15,7 @@ void WorldBuilder::build()
 	BuildTestHouse(XY(WORLD_WIDTH/2-3, WORLD_HEIGHT/2-4));
 
 	// Outer Walls
-	//BuildTileRectangle<WORLD_BORDER>(XY(0, 0), XY(WORLD_WIDTH, WORLD_HEIGHT), false, true);
+	BuildTileRectangle<WORLD_BORDER>(XY(0, 0), XY(WORLD_WIDTH, WORLD_HEIGHT), false, true);
 }
 
 template <class T>

@@ -19,7 +19,7 @@ Camera::~Camera(void)
 	delete g_environment;
 }
 
-void Camera::update(int delta)
+void Camera::update(const int delta)
 { 
 	// Call the usual Container update
 	EntityContainer::update(delta);
@@ -53,11 +53,11 @@ void Camera::CenterOnPlayer()
 	if (canCenterY) pos.y = suggestedPos.y;
 }
 
-Directions<bool> Camera::GetEdgeBools(XY _pos)
+Directions<bool> Camera::GetEdgeBools(XY _pos) const
 {
 	_pos.RoundToInt();
 
-	Directions<bool> r_directions = Directions<bool>(
+	const Directions<bool> r_directions(
 		_pos.y >= 0,
 		_pos.y <= SCREEN_HEIGHT - WORLD_HEIGHT * TILE_SIZE,
 		_pos.x >= 0,

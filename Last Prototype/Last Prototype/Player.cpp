@@ -16,8 +16,8 @@ Player::Player(int gridX, int gridY) : Sprite(gridX*TILE_SIZE, gridY*TILE_SIZE),
 	max_cycles = 4 * PLAYER_WALK_CYCLE_SPEED;
 
 	//Initialise the clips of the sprite_sheet
-	int clip_w = (sprite_sheet.w / 3);
-	int clip_h = (sprite_sheet.h / 4);
+	int clip_w = (sprite_sheet->w / 3);
+	int clip_h = (sprite_sheet->h / 4);
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -36,7 +36,7 @@ Player::Player(int gridX, int gridY) : Sprite(gridX*TILE_SIZE, gridY*TILE_SIZE),
 	}
 }
 
-void Player::walk(E_Direction direction)
+void Player::walk(const E_Direction& direction)
 {
 	// Only allow the user the ability to move the player if the player is not already in the motion of movement
 	if (!moving)
@@ -49,44 +49,52 @@ void Player::walk(E_Direction direction)
 	}
 }
 
-bool Player::CanMoveForward()
+bool Player::CanMoveForward() const
 {
 	// The player can move forward if none of the tiles in front of them are solid
-	GridTile* ft;
+
+	list<GridTile*> frontTiles;
 	
 	// Check the bottom layer
-	ft = GetFrontTile(false);
-	if (ft != NULL)
+	frontTiles = GetFrontTiles(false);
+	for (GridTile* ft : frontTiles)
 		if (!ft->canMoveThrough) return false;
 
 	// Check the top layer
-	ft = GetFrontTile(true);
-	if (ft != NULL)
+	frontTiles = GetFrontTiles(true);
+	for (GridTile* ft : frontTiles)
 		if (!ft->canMoveThrough) return false;
 
 	return true;
 }
 
-void Player::interact()
+void Player::interact() const
 {
 	if (!moving)
 	{
-		GridTile* ft = GetFrontTile();
-		ft->onInteract();
+		// Get all of the tiles in front of the player
+		list<GridTile*> frontTiles = GetFrontTiles();
+
+		// Interact with them all
+		for (GridTile* ft : frontTiles)
+			ft->onInteract();
+
+		//// Interact with just the top
+		//frontTiles.front()->onInteract();
 	}
 }
 
-GridTile* Player::GetFrontTile(bool top)
+list<GridTile*>& Player::GetFrontTiles(bool top) const
 {
-	XY frontGridPosition = GetGridPosition();
+	XY& frontGridPosition = GetGridPosition();
 
 	// Find the gridPosition in front of the direction the player is facing
 	frontGridPosition.addDirection(direction);
 	
-	return g_environment->GetTileAt(frontGridPosition, top);
+	return g_environment->GetTilesAt(frontGridPosition, top);
 }
 
-void Player::update(int delta)
+void Player::update(const int delta)
 {
 	if (moving) // The player should keep moving in its last assigned direction 
 	{

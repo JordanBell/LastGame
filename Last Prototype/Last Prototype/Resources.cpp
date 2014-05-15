@@ -18,7 +18,7 @@ SDL_Surface* Resources::environmentSheet = NULL;
 const std::string Resources::doorSheetFile = "doorSheet.png";
 SDL_Surface* Resources::doorSheet = NULL;
 
-SDL_Surface Resources::GetPlayerSheet()
+SDL_Surface* const Resources::GetPlayerSheet()
 {
 	if (playerSheet == NULL)
 	{
@@ -28,10 +28,10 @@ SDL_Surface Resources::GetPlayerSheet()
 		if (!playerSheet) throw std::runtime_error("The player sheet file failed to load.");
 	}
 
-	return *playerSheet;
+	return playerSheet;
 }
 
-SDL_Surface Resources::GetEnvironmentImage()
+SDL_Surface* const Resources::GetEnvironmentImage()
 {
 	if (environmentSheet == NULL)
 	{
@@ -41,10 +41,10 @@ SDL_Surface Resources::GetEnvironmentImage()
 		if (!environmentSheet) throw std::runtime_error("The environment file failed to load.");
 	}
 
-	return *environmentSheet;
+	return environmentSheet;
 }
 
-SDL_Surface Resources::GetDoorImage()
+SDL_Surface* const Resources::GetDoorImage()
 {
 	if (doorSheet == NULL)
 	{
@@ -54,36 +54,5 @@ SDL_Surface Resources::GetDoorImage()
 		if (!doorSheet) throw std::runtime_error("The door file failed to load.");
 	}
 
-	return *doorSheet;
+	return doorSheet;
 }
-
-//SDL_Surface Resources::GetPlayerSheet()
-//{
-//	try { return GetSheet(playerSheet); }
-//	catch (std::runtime_error e) 
-//	{
-//		throw std::runtime_error("The player sheet file failed to load.");
-//	}
-//}
-//
-//SDL_Surface Resources::GetEnvironmentImage()
-//{
-//	try { return GetSheet(environmentSheet); }
-//	catch (std::runtime_error e) 
-//	{
-//		throw std::runtime_error("The environment file failed to load.");
-//	}
-//}
-//
-//SDL_Surface Resources::GetSheet(SDL_Surface& sheet)
-//{
-//	if (sheet == NULL)
-//	{
-//			 if (sheet == *playerSheet)		 sheet = *load_image(playerSheetFile);
-//		else if (sheet == *environmentSheet) sheet = *load_image(environmentSheetFile);
-//
-//		// Check for failures
-//		if (!sheet) throw std::runtime_error("The environment file failed to load.");
-//	}
-//	else return *sheet;
-//}

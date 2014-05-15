@@ -5,18 +5,15 @@
 
 Environment* g_environment = NULL;
 
-Environment::Environment(float x, float y) : EntityContainer(x, y)
+Environment::Environment(float x, float y) : EntityContainer(x, y), topLayer(EnvironmentLayer()), bottomLayer(EnvironmentLayer())
 { 
-	topLayer = EnvironmentLayer(); 
-	bottomLayer = EnvironmentLayer(); 
-
 	addChild(&topLayer);
 	addChild(&bottomLayer);
 }
 
-GridTile* Environment::GetTileAt(XY position, bool top)
+list<GridTile*>& Environment::GetTilesAt(const XY& position, const bool top)
 {
 	return top ? 
-		   topLayer.GetTileAt(position) : 
-		   bottomLayer.GetTileAt(position);
+		   topLayer.GetTilesAt(position) : 
+		   bottomLayer.GetTilesAt(position);
 }

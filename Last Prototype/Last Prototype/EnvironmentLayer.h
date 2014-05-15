@@ -6,11 +6,13 @@
 #include "Tools.h"
 #include "Player.h"
 
+using namespace std;
+
 class EnvironmentLayer : public EntityContainer
 {
 	friend class Environment; // Only the Environment class can access its layers
 
-	GridTile* tiles[WORLD_WIDTH][WORLD_HEIGHT]; // 2D array of tiles in this layer
+	list<GridTile*> tiles[WORLD_WIDTH][WORLD_HEIGHT]; // 2D array of tiles in this layer
 
 	EnvironmentLayer();
 
@@ -18,5 +20,5 @@ class EnvironmentLayer : public EntityContainer
 	void addChild(GridTile* child);
 
 	// Get the tile at a particular position
-	GridTile* GetTileAt(XY gridPosition);
+	list<GridTile*>& GetTilesAt(XY gridPosition);
 };

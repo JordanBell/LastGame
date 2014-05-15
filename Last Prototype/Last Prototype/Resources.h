@@ -9,14 +9,14 @@ Loads and holds the sprite sheets and other resources.
 class Resources
 {
 public:
-	// Return the player sprite sheet surface
-	static SDL_Surface GetPlayerSheet();
+	// Refer to the player sprite sheet surface
+	static SDL_Surface* const GetPlayerSheet();
 	
-	// Return the environment sprite sheet surface
-	static SDL_Surface GetEnvironmentImage();
+	// Refer to the environment sprite sheet surface
+	static SDL_Surface* const GetEnvironmentImage();
 	
-	// Return the environment sprite sheet surface
-	static SDL_Surface GetDoorImage();
+	// Refer to the environment sprite sheet surface
+	static SDL_Surface* const GetDoorImage();
 
 private:
 	Resources(void);
@@ -29,9 +29,6 @@ private:
 	static SDL_Surface* playerSheet; // The player sprite sheet 
 	static SDL_Surface* environmentSheet; // The environment sprite sheet
 	static SDL_Surface* doorSheet; // The door sprite sheet
-
-	// Returns a sprite sheet based on the SDL_Surface identifier passed as argument
-	static SDL_Surface GetSheet(SDL_Surface* sheet);
 };
 
 extern Resources* g_resources;
