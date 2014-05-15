@@ -2,6 +2,18 @@
 #include "Tools.h"
 
 // ENVIRONMENT
+<<<<<<< HEAD
+const int TILE_SIZE = 32; // Note: Sprite Sheets must support the selected TILE_SIZE
+const int WORLD_WIDTH  = 50; // (In terms of TILE_SIZEs)
+const int WORLD_HEIGHT = 50; // (In terms of TILE_SIZEs)
+const XY WORLD_DIMENSIONS = XY((WORLD_WIDTH), WORLD_HEIGHT);
+
+// SCREEN
+const XY WINDOWED_SCREEN_RES(15*TILE_SIZE, 10*TILE_SIZE);
+const int SCREEN_WIDTH  = WINDOWED_SCREEN_RES.x;
+const int SCREEN_HEIGHT = WINDOWED_SCREEN_RES.y;
+const XY SCREEN_CENTER(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+=======
 const int TILE_SIZE = 32;
 const int WORLD_WIDTH  = 100; // (In terms of TILE_SIZEs)
 const int WORLD_HEIGHT = 100; // (In terms of TILE_SIZEs)
@@ -14,6 +26,7 @@ const int SCREEN_HEIGHT = 960;
 //const int SCREEN_WIDTH  = 32*TILE_SIZE;
 //const int SCREEN_HEIGHT = 20*TILE_SIZE;
 const XY SCREEN_CENTER = XY(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+>>>>>>> parent of f6a1270... Oh wait, no. Conversion Complete
 const int SCREEN_BPP = 32;
 const bool FULL_SCREEN = true;
 
@@ -21,8 +34,8 @@ const bool FULL_SCREEN = true;
 const int FRAME_RATE = 60;
 
 // PLAYER
-const float PLAYER_SPEED = 0.3;			 // The player's movement speed (independent of framerate). ADVISED: Keep between 0 and 1 to prevent wall clipping.
-const int	PLAYER_WALK_CYCLE_SPEED = 3; // The number of frames between the player's clip changes
+const float PLAYER_SPEED = 0.15;		 // The player's movement speed (independent of framerate). ADVISED: Keep between 0 and 1 to prevent wall clipping.
+const int	PLAYER_WALK_CYCLE_SPEED = 4; // The number of frames between the player's clip changes
 const bool  PLAYER_COMPENSATE_FOR_SLOW_FRAMERATES = false;
 const bool	LIMIT_RENDER_BY_SIGHT = true;
 const int	SIGHT_DISTANCE = 4;

@@ -9,90 +9,156 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="Source Files\General">
+      <UniqueIdentifier>{0d9250a6-edc2-4267-ae5b-ee24be8b71a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities">
+      <UniqueIdentifier>{8e356e24-145d-4adb-9b48-905d70417798}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\World Building">
+      <UniqueIdentifier>{a505ef46-1b39-45ee-94fd-899e462becfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\General">
+      <UniqueIdentifier>{7b8f7bb8-34c9-44da-843c-e623e1f6c505}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities">
+      <UniqueIdentifier>{6de66060-7770-4f77-8f3a-987c44e8a842}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\World Building">
+      <UniqueIdentifier>{bbb65462-f420-4893-a82a-c4120dd6fbfc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="toolkit.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\General</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Environment.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\General</Filter>
     </ClCompile>
     <ClCompile Include="Resources.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\General</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\General</Filter>
     </ClCompile>
-    <ClCompile Include="EntityContainer.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="toolkit.cpp">
+      <Filter>Source Files\General</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityContainer.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="EnvironmentLayer.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="House.cpp">
+      <Filter>Source Files\World Building</Filter>
     </ClCompile>
     <ClCompile Include="HouseGenerator.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\World Building</Filter>
     </ClCompile>
+    <ClCompile Include="Room.cpp">
+      <Filter>Source Files\World Building</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeBuilder.cpp">
+      <Filter>Source Files\World Building</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="WorldBuilder.cpp">
+      <Filter>Source Files\World Building</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Source Files\Entities</Filter>
+=======
     <ClCompile Include="WorldGenerator.cpp">
       <Filter>Source Files</Filter>
+>>>>>>> parent of f6a1270... Oh wait, no. Conversion Complete
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="toolkit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Entities</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="EntityContainer.h">
+      <Filter>Header Files\Entities</Filter>
+=======
     <ClInclude Include="KeyCode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
+>>>>>>> parent of f6a1270... Oh wait, no. Conversion Complete
     </ClInclude>
     <ClInclude Include="Environment.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Resources.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="EnvironmentLayer.h">
+      <Filter>Header Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="GridTiles.h">
+      <Filter>Header Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="House.h">
+      <Filter>Header Files\World Building</Filter>
     </ClInclude>
-    <ClInclude Include="EntityContainer.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="HouseGenerator.h">
+      <Filter>Header Files\World Building</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files\General</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Config.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\General</Filter>
     </ClInclude>
-    <ClInclude Include="GridTiles.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources.h">
+      <Filter>Header Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="toolkit.h">
+      <Filter>Header Files\General</Filter>
     </ClInclude>
     <ClInclude Include="Tools.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\General</Filter>
     </ClInclude>
-    <ClInclude Include="HouseGenerator.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Room.h">
+      <Filter>Header Files\World Building</Filter>
     </ClInclude>
+    <ClInclude Include="ShapeBuilder.h">
+      <Filter>Header Files\World Building</Filter>
+    </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="WorldBuilder.h">
+      <Filter>Header Files\World Building</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Header Files\Entities</Filter>
+=======
     <ClInclude Include="WorldGenerator.h">
       <Filter>Header Files</Filter>
+>>>>>>> parent of f6a1270... Oh wait, no. Conversion Complete
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

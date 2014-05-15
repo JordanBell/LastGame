@@ -5,6 +5,19 @@
 
 Environment* g_environment = NULL;
 
+<<<<<<< HEAD
+Environment::Environment(float x, float y) : EntityContainer(x, y), topLayer(EnvironmentLayer()), bottomLayer(EnvironmentLayer())
+{ 
+	addChild(&topLayer);
+	addChild(&bottomLayer);
+}
+
+list<GridTile*>& Environment::GetTilesAt(const XY& position, const bool top)
+{
+	return top ? 
+		   topLayer.GetTilesAt(position) : 
+		   bottomLayer.GetTilesAt(position);
+=======
 Environment::Environment(float x, float y) : EntityContainer(x, y) 
 {
 	// Default tiles (grass, surrounded by a wall so that the player can't escape)
@@ -139,4 +152,5 @@ void Environment::AddTileTo(int _x, int _y)
 	T* tile = new T(_x, _y);
 	tiles[_x][_y] = tile;
 	addChild(tile);
+>>>>>>> parent of f6a1270... Oh wait, no. Conversion Complete
 }

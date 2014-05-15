@@ -1,19 +1,45 @@
 #pragma once
 #include "HouseGenerator.h"
+<<<<<<< HEAD
+#include "House.h"
+#include "WorldBuilder.h"
+=======
+>>>>>>> parent of f6a1270... Oh wait, no. Conversion Complete
 #include "Environment.h"
 #include <stdlib.h>
 
-void HouseGenerator::run(void)
+void HouseGenerator::generate(void)
 {
 	// Warning: Not a very smart calculation on the number of houses allowed on the screen.
+<<<<<<< HEAD
+	XY maxHouseDimensions(20, 20);
+
+	XY numHouses = WORLD_DIMENSIONS / maxHouseDimensions;
+	numHouses.RoundToInt();
+=======
 	XY numHouses = XY(
 		WORLD_WIDTH  / (LARGE.w + 5),
 		WORLD_HEIGHT / (LARGE.h + 5)); 
+>>>>>>> parent of f6a1270... Oh wait, no. Conversion Complete
 
 	for (int i = 0; i < numHouses.x; i++)
 	{
 		for (int j = 0; j < numHouses.y; j++)
 		{
+<<<<<<< HEAD
+			// Get the size of this house
+			//HouseSize size = ComputeRandomSize();
+			const int numRooms = rand() % 3;
+
+			// Compute the position of this house (in pixels)
+			XY gridPos(i, j);
+			int separation(2);
+			XY position = gridPos * maxHouseDimensions + separation;
+
+			House h(position, maxHouseDimensions, numRooms);
+		}
+	}
+=======
 			HouseSize size = ComputeRandomSize();
 			XY* position = new XY(
 				(i * LARGE.w*(1+HOUSE_SIZE_DEVIATION)) +5, 
@@ -56,4 +82,5 @@ HouseGenerator::HouseSize HouseGenerator::ComputeRandomSize(void)
 	}
 
 	//return LARGE;
+>>>>>>> parent of f6a1270... Oh wait, no. Conversion Complete
 }

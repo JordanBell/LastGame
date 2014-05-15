@@ -1,24 +1,155 @@
+#pragma once
+
 #include "WorldBuilder.h"
 #include "HouseGenerator.h"
 
+using namespace ShapeBuilder;
+
 void WorldBuilder::build()
 {
+<<<<<<< HEAD
+	// Grass World
+	BuildTileRectangle<GrassTile>(XY(0, 0), XY(WORLD_WIDTH, WORLD_HEIGHT));
+
+	// Content
+	//HouseGenerator::generate();
+	BuildTestHouse(XY(WORLD_WIDTH/2-3, WORLD_HEIGHT/2-4));
+
+	// Outer Walls
+	BuildTileRectangle<WORLD_BORDER>(XY(0, 0), XY(WORLD_WIDTH, WORLD_HEIGHT), false, true);
+}
+
+template <class T>
+void WorldBuilder::AddTileTo(const XY pos, const bool top, const bool reverseSolidarity)
+{
+	// Create an object of that tile type
+	T* tile = new T(pos.x, pos.y);
+	if (reverseSolidarity) tile->GridTile::canMoveThrough = !tile->GridTile::canMoveThrough; // Reverse it, if set to do so
+
+	// Add the tile to the specified layer
+	if (top) g_environment->AddTileToTop(tile);
+	else	 g_environment->AddTileToBottom(tile);
+}
+
+void WorldBuilder::BuildTestHouse(const XY pos)
+{	
+	XY mainRoomDimensions(6, 7);
+	
+	// Main floor
+	BuildTileRectangle<StoneFloorTile_LightBrown>(pos, XY(mainRoomDimensions.x, mainRoomDimensions.y+1));
+	// Left floor
+	BuildTileRectangle<StoneFloorTile>(XY(pos.x-mainRoomDimensions.x+2, pos.y), XY(4, 8));
+	// Right floor
+	BuildTileRectangle<StoneFloorTile>(XY(pos.x+mainRoomDimensions.x, pos.y), XY(4, 8));
+	// Entry way floor
+	BuildTileRectangle<StoneFloorTile_LightBrown>(XY(pos.x+1, pos.y+mainRoomDimensions.y+2), XY(4, 2));
+
+	//// LEFT ROOM
+	// Back Wall
+		BuildLine(XY(pos.x-2, pos.y+mainRoomDimensions.y-8), XY(pos.x-5, pos.y+mainRoomDimensions.y-8), BuildColumn<WoodWallTile>);
+	// Left Wall
+		BuildLine(XY(pos.x-5, pos.y+mainRoomDimensions.y-7), XY(pos.x-5, pos.y+mainRoomDimensions.y+1), BuildColumn<WoodWallTile>);
+	// Front Wall
+		BuildLine(XY(pos.x-2, pos.y+mainRoomDimensions.y+1), XY(pos.x-5, pos.y+mainRoomDimensions.y+1), BuildColumn<WoodWallTile>);
+
+	//// RIGHT ROOM
+	// Back Wall
+		BuildLine(XY(pos.x+7, pos.y+mainRoomDimensions.y-8), XY(pos.x+10, pos.y+mainRoomDimensions.y-8), BuildColumn<WoodWallTile>);
+	// Right Wall
+		BuildLine(XY(pos.x+10, pos.y+mainRoomDimensions.y-7), XY(pos.x+10, pos.y+mainRoomDimensions.y+1), BuildColumn<WoodWallTile>);
+	// Front Wall
+		BuildLine(XY(pos.x+7, pos.y+mainRoomDimensions.y+1), XY(pos.x+10, pos.y+mainRoomDimensions.y+1), BuildColumn<WoodWallTile>);
+
+	///////////// MAIN ROOM
+	// Back Wall
+		BuildLine(XY(pos.x-1, pos.y+mainRoomDimensions.y-8), XY(pos.x+6, pos.y+mainRoomDimensions.y-8), BuildColumn<WoodWallTile>);
+	
+	//// Left Wall
+		BuildLine(XY(pos.x-1, pos.y+mainRoomDimensions.y-8), XY(pos.x-1, pos.y+mainRoomDimensions.y-6), BuildColumn<WoodWallTile>);
+		BuildLine(XY(pos.x-1, pos.y+mainRoomDimensions.y-2), XY(pos.x-1, pos.y+mainRoomDimensions.y+1), BuildColumn<WoodWallTile>);
+
+	//// Right Wall
+		BuildLine(XY(pos.x+mainRoomDimensions.x, pos.y+mainRoomDimensions.y-8), XY(pos.x+mainRoomDimensions.x, pos.y+mainRoomDimensions.y-6), BuildColumn<WoodWallTile>);
+		BuildLine(XY(pos.x+mainRoomDimensions.x, pos.y+mainRoomDimensions.y-2), XY(pos.x+mainRoomDimensions.x, pos.y+mainRoomDimensions.y+1), BuildColumn<WoodWallTile>);
+	
+	//// Bottom Wall
+	// Column left
+	BuildColumn<WoodWallTile>(XY(pos.x, pos.y+mainRoomDimensions.y+2));
+	// Column right
+	BuildColumn<WoodWallTile>(XY(pos.x+mainRoomDimensions.x-1, pos.y+mainRoomDimensions.y+2));
+	// FrontColumns
+	BuildColumnLarge<WoodWallTile>(XY(pos.x+1, pos.y+mainRoomDimensions.y+3));
+	BuildColumnLarge<WoodWallTile>(XY(pos.x+4, pos.y+mainRoomDimensions.y+3));
+	// Arch
+	//BuildLine(XY(pos.x+2, pos.y+mainRoomDimensions.y+3), XY(pos.x+3, pos.y+mainRoomDimensions.y+3), BuildArchAbove<WoodWallTile>);
+	BuildColumnLarge<WoodWallTile>(XY(pos.x+2, pos.y+mainRoomDimensions.y+3));
+	AddTileTo<Door>(XY(pos.x+3, pos.y+mainRoomDimensions.y+3));
+	BuildArchAbove<WoodWallTile>(XY(pos.x+3, pos.y+mainRoomDimensions.y+3));
+}
+
+// Build a small column
+template <class T_Wall>
+void WorldBuilder::BuildColumn(const XY pos)
+{
+	AddTileTo<Tile_Black>(XY(pos.x, pos.y-1), true);	// Black
+	AddTileTo<WoodWallTile>(pos);								// Wall
+
+	// Bottom Edge
+	AddTileTo<WoodWallTile_Bottom>(XY(pos.x, pos.y+1), false);
+}
+
+// Build a column
+template <class T_Wall>
+void WorldBuilder::BuildColumnLarge(const XY pos)
+{
+	// Delegate to create the arch (solidly)
+	BuildColumn<T_Wall>(XY(pos.x, pos.y-1));
+	// Add the wall below the arch
+	AddTileTo<WoodWallTile>(pos);
+
+	// Bottom Edge
+	AddTileTo<WoodWallTile_Bottom>(XY(pos.x, pos.y+1), false);
+}
+
+// Build an arch over a position
+template <class T_Wall>
+void WorldBuilder::BuildArchAbove(const XY pos)
+{
+	AddTileTo<Tile_Black>(XY(pos.x, pos.y-2), true);			// Black
+	AddTileTo<WoodWallTile>(XY(pos.x, pos.y-1), true, true);	// Wall
+=======
 	// Default tiles (grass, surrounded by a wall so that the player can't escape)
 	BuildBorderedRectangle<GrassTile, WORLD_BORDER>(XY(0, 0), XY(WORLD_WIDTH, WORLD_HEIGHT));
 
 	HouseGenerator hg = HouseGenerator();
 	hg.run();
+>>>>>>> parent of f6a1270... Oh wait, no. Conversion Complete
 }
 
-void WorldBuilder::BuildRoom(XY pos, XY dimensions, bool randomDoorway)
+void WorldBuilder::BuildRoom(const XY pos, const XY dimensions)
 {
 	// Draw the border
+<<<<<<< HEAD
+	const bool staysWithinWorld = (pos + dimensions) < WORLD_DIMENSIONS;
+
+	if (staysWithinWorld)
+	{
+		BuildTileRectangle<StoneFloorTile_LightBrown>(pos, dimensions);
+		BuildRectangle(pos, dimensions, BuildColumn<WoodWallTile>, false);
+
+		// TopDown, primitive style
+		/*BuildBorderedRectangle<StoneFloorTile_LightBrown, WoodWallTile>(pos, dimensions);
+		BuildRandomDoorway(pos, dimensions);*/
+	}
+=======
 	BuildBorderedRectangle<StoneFloorTile, StoneWallTile>(pos, dimensions);
 
 	if (randomDoorway) BuildRandomDoorway(pos, dimensions);
+>>>>>>> parent of f6a1270... Oh wait, no. Conversion Complete
 }
 
-void WorldBuilder::BuildRandomDoorway(XY pos, XY dimensions)
+// Deprecated upon implementation of uniplanar isometric houses
+void WorldBuilder::BuildRandomDoorway(const XY pos, const XY dimensions)
 {
 	// Find where along the wall the doorway should go
 	XY doorPos = XY(0, 0);
@@ -60,6 +191,10 @@ void WorldBuilder::BuildRandomDoorway(XY pos, XY dimensions)
 							isOnHorizontal? 2 : 1);
 		
 	// Build the door
+<<<<<<< HEAD
+	BuildTileRectangle<StoneFloorTile_LightBrown>(doorPos, doorDimensions);
+}
+=======
 	BuildRectangle<StoneFloorTile>(doorPos, doorDimensions);
 }
 
@@ -100,3 +235,4 @@ void WorldBuilder::AddTileTo(XY pos)
 	g_environment->tiles[(int)pos.x][(int)pos.y] = tile;
 	g_environment->addChild(tile);
 }
+>>>>>>> parent of f6a1270... Oh wait, no. Conversion Complete
