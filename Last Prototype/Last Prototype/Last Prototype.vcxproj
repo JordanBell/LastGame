@@ -51,6 +51,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>SDL.lib;SDLmain.lib;SDL_image.lib;SDL_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -67,30 +68,41 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityContainer.cpp" />
     <ClCompile Include="Environment.cpp" />
+    <ClCompile Include="EnvironmentLayer.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="House.cpp" />
     <ClCompile Include="HouseGenerator.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Resources.cpp" />
+    <ClCompile Include="Room.cpp" />
+    <ClCompile Include="ShapeBuilder.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="toolkit.cpp" />
     <ClCompile Include="WorldGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityContainer.h" />
     <ClInclude Include="Environment.h" />
+    <ClInclude Include="EnvironmentLayer.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GridTiles.h" />
+    <ClInclude Include="House.h" />
     <ClInclude Include="HouseGenerator.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="KeyCode.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Resources.h" />
+    <ClInclude Include="Room.h" />
+    <ClInclude Include="ShapeBuilder.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="toolkit.h" />
