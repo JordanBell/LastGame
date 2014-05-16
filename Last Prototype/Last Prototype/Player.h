@@ -42,7 +42,7 @@ private:
 	bool CanMoveForward(void) const;
 
 	// Get the GridTile object in front of the player's position
-	list<GridTile<Entity>*>& GetFrontTiles(bool top = false) const;
+	list<TileEntity*>& GetFrontTiles(bool top = false) const;
 
 	// Set the skin (sprite) for this object, based on its direction and progress through the walk cycle.
 	void set_skin(void);

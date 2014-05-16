@@ -23,7 +23,7 @@ void WorldBuilder::AddTileTo(const XY pos, const bool top, const bool reverseSol
 {
 	// Create an object of that tile type
 	T* tile = new T(pos.x, pos.y);
-	if (reverseSolidarity) tile->GridTile::canMoveThrough = !tile->GridTile::canMoveThrough; // Reverse it, if set to do so
+	if (reverseSolidarity) tile->Tile::canMoveThrough = !tile->Tile::canMoveThrough; // Reverse it, if set to do so
 
 	// Add the tile to the specified layer
 	if (top) g_environment->AddTileToTop(tile);

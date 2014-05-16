@@ -12,7 +12,7 @@ Player::Player(int gridX, int gridY) : Sprite(gridX*TILE_SIZE, gridY*TILE_SIZE),
 	// Initialise Fields
 	sprite_sheet = Resources::GetPlayerSheet();
 	
-	// It's 	 4 *, because the walk cycle reuses the still sprite as an inbetween
+	// It's 4 *, because the walk cycle reuses the still sprite as an inbetween
 	max_cycles = 4 * PLAYER_WALK_CYCLE_SPEED;
 
 	//Initialise the clips of the sprite_sheet
@@ -53,17 +53,19 @@ bool Player::CanMoveForward() const
 {
 	// The player can move forward if none of the tiles in front of them are solid
 
-	list<GridTile<Entity>*> frontTiles;
+	list<TileEntity*> frontTiles;
 	
 	// Check the bottom layer
 	frontTiles = GetFrontTiles(false);
-	for (GridTile<Entity>* ft : frontTiles)
+	for (TileEntity* ft : frontTiles) {
 		if (!ft->canMoveThrough) return false;
+	}
 
 	// Check the top layer
 	frontTiles = GetFrontTiles(true);
-	for (GridTile<Entity>* ft : frontTiles)
+	for (TileEntity* ft : frontTiles) {
 		if (!ft->canMoveThrough) return false;
+	}
 
 	return true;
 }
@@ -73,10 +75,10 @@ void Player::interact() const
 	if (!moving)
 	{
 		// Get all of the tiles in front of the player
-		list<GridTile<Entity>*> frontTiles = GetFrontTiles();
+		list<TileEntity*> frontTiles = GetFrontTiles();
 
 		// Interact with them all
-		for (GridTile<Entity>* ft : frontTiles)
+		for (TileEntity* ft : frontTiles)
 			ft->onInteract();
 
 		//// Interact with just the top
@@ -84,7 +86,7 @@ void Player::interact() const
 	}
 }
 
-list<GridTile<Entity>*>& Player::GetFrontTiles(bool top) const
+list<TileEntity*>& Player::GetFrontTiles(bool top) const
 {
 	XY& frontGridPosition = GetGridPosition();
 
