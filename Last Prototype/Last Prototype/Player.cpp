@@ -53,16 +53,16 @@ bool Player::CanMoveForward() const
 {
 	// The player can move forward if none of the tiles in front of them are solid
 
-	list<GridTile*> frontTiles;
+	list<GridTile<Entity>*> frontTiles;
 	
 	// Check the bottom layer
 	frontTiles = GetFrontTiles(false);
-	for (GridTile* ft : frontTiles)
+	for (GridTile<Entity>* ft : frontTiles)
 		if (!ft->canMoveThrough) return false;
 
 	// Check the top layer
 	frontTiles = GetFrontTiles(true);
-	for (GridTile* ft : frontTiles)
+	for (GridTile<Entity>* ft : frontTiles)
 		if (!ft->canMoveThrough) return false;
 
 	return true;
@@ -73,10 +73,10 @@ void Player::interact() const
 	if (!moving)
 	{
 		// Get all of the tiles in front of the player
-		list<GridTile*> frontTiles = GetFrontTiles();
+		list<GridTile<Entity>*> frontTiles = GetFrontTiles();
 
 		// Interact with them all
-		for (GridTile* ft : frontTiles)
+		for (GridTile<Entity>* ft : frontTiles)
 			ft->onInteract();
 
 		//// Interact with just the top
@@ -84,7 +84,7 @@ void Player::interact() const
 	}
 }
 
-list<GridTile*>& Player::GetFrontTiles(bool top) const
+list<GridTile<Entity>*>& Player::GetFrontTiles(bool top) const
 {
 	XY& frontGridPosition = GetGridPosition();
 

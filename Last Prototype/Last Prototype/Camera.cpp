@@ -8,6 +8,7 @@ Camera::Camera(void) : EntityContainer(0, 0)
 {
 	addChild(g_environment);
 	addChild(g_player);
+	CenterOnPlayer();
 }
 
 Camera::~Camera(void)

@@ -8,7 +8,10 @@
 
 /*------------============ SUPER CLASSES ============------------*/
 
-class GridTile : public Sprite {
+template <class E>
+class GridTile : public E {
+	void validateTemplate(Entity e) {};
+
 public:
 	bool canMoveThrough; // Whether or not the player can pass over this object
 
@@ -16,18 +19,21 @@ public:
 	virtual void onInteract() {};
 
 protected:
-	GridTile(const int x, const int y) : Sprite(x*TILE_SIZE, y*TILE_SIZE), canMoveThrough(true) {}
+	GridTile(const int x, const int y) : E(x*TILE_SIZE, y*TILE_SIZE), canMoveThrough(true) 
+	{ 
+		try { validateTemplate(E(0, 0)); }
+		catch (runtime_error e) { 
+			printf("GridTiles must implement an Entity class or Entity subclass.");
+			throw e;
+		}
+	}
 };
 
-// A GridTile that player's can't move through
-class GridTileSolid : public virtual GridTile {
-protected:
-	GridTileSolid() : GridTile(0, 0) { canMoveThrough = false; }
-};
 
-class WorldTile : public virtual GridTile {
+
+class WorldTile : public GridTile<Entity> {
 protected:
-	WorldTile() : GridTile(0, 0) { sprite_sheet = Resources::GetEnvironmentImage(); }
+	WorldTile(const int x, const int y) : GridTile<Entity>(x, y) { sprite_sheet = Resources::GetEnvironmentImage(); }
 
 	// Set the clip of this tile, based on its index in the Environment sprite sheet
 	void SetTileClip(const int index1, const int index2)
@@ -36,9 +42,17 @@ protected:
 		clip.x = index1 * TILE_SIZE;
 		clip.y = index2 * TILE_SIZE;
 		clip.w = clip.h = TILE_SIZE;
-
+		
 		skin = clip;
 	}
+};
+
+
+
+// A GridTile that player's can't move through
+class WorldTileSolid : public WorldTile {
+protected:
+	WorldTileSolid(const int x, const int y) : WorldTile(x, y) { canMoveThrough = false; }
 };
 
 
@@ -46,9 +60,9 @@ protected:
 /*------------============ CHILD TILES ============------------*/
 
 // A door which opens and closes on interact
-class Door : public GridTile {
+class Door : public GridTile<Sprite> {
 public:
-	Door(const int x, const int y) : GridTile(x, y), open(false), inAnimation(false)
+	Door(const int x, const int y) : GridTile<Sprite>(x, y), open(false), inAnimation(false)
 	{ 
 		max_cycles = numClips*framesPerClip;
 		canMoveThrough = open; 
@@ -76,11 +90,6 @@ protected:
 	bool inAnimation; // If the door is animating closed or open
 
 	inline void setMoveThrough() { canMoveThrough = open; }
-
-	virtual void render()
-	{
-		EntityContainer::render();
-	}
 
 	// On interaction, open this door.
 	void onInteract()
@@ -112,44 +121,50 @@ protected:
 	}
 };
 
+
+
 // Environment Floors
 class GrassTile : public WorldTile {
 public:
-	GrassTile(int x, int y) : WorldTile(), GridTile(x, y) { SetTileClip(2, 0); }
+	GrassTile(const int x, const int y) : WorldTile(x, y) { SetTileClip(2, 0); }
 };
 class StoneFloorTile : public WorldTile {
 public:
-	StoneFloorTile(int x, int y) : WorldTile(), GridTile(x, y) { SetTileClip(7, 1); }
+	StoneFloorTile(const int x, const int y) : WorldTile(x, y) { SetTileClip(7, 1); }
 };
 class StoneFloorTile_LightBrown : public WorldTile {
 public:
-	StoneFloorTile_LightBrown(int x, int y) : WorldTile(), GridTile(x, y) { SetTileClip(6, 1); }
+	StoneFloorTile_LightBrown(const int x, const int y) : WorldTile(x, y) { SetTileClip(6, 1); }
 };
+
+
 
 // Blacks
 class Tile_Black : public WorldTile {
 public:
-	Tile_Black(int x, int y) : WorldTile(), GridTile(x, y) { SetTileClip(3, 0); }
+	Tile_Black(const int x, const int y) : WorldTile(x, y) { SetTileClip(3, 0); }
 };
 
+
+
 // Environment Walls
-class StoneWallTile : public WorldTile, public GridTileSolid {
+class StoneWallTile : public WorldTileSolid {
 public:
-	StoneWallTile(int x, int y) : WorldTile(), GridTileSolid(), GridTile(x, y) { SetTileClip(6, 0); }
+	StoneWallTile(const int x, const int y) : WorldTileSolid(x, y) { SetTileClip(6, 0); }
 };
-class ShinyBlockTile : public WorldTile, public GridTileSolid {
+class ShinyBlockTile : public WorldTileSolid {
 public:
-	ShinyBlockTile(int x, int y) : WorldTile(), GridTileSolid(), GridTile(x, y)  { SetTileClip(2, 4); }
+	ShinyBlockTile(const int x, const int y) : WorldTileSolid(x, y)  { SetTileClip(2, 4); }
 };
-class WoodWallTile : public WorldTile, public GridTileSolid {
+class WoodWallTile : public WorldTileSolid {
 public:
-	WoodWallTile(int x, int y) : WorldTile(), GridTileSolid(), GridTile(x, y)  { SetTileClip(1, 1); }
+	WoodWallTile(const int x, const int y) : WorldTileSolid(x, y)  { SetTileClip(1, 1); }
 };
 class WoodWallTile_Bottom : public WorldTile {
 public:
-	WoodWallTile_Bottom(int x, int y) : WorldTile(), GridTile(x, y)  { SetTileClip(4, 0); }
+	WoodWallTile_Bottom(const int x, const int y) : WorldTile(x, y)  { SetTileClip(4, 0); }
 };
-class InvisibleWallTile : public WorldTile, public GridTileSolid {
+class InvisibleWallTile : public WorldTileSolid {
 public:
-	InvisibleWallTile(int x, int y) : WorldTile(), GridTileSolid(), GridTile(x, y) { SetTileClip(3, 4); }
+	InvisibleWallTile(const int x, const int y) : WorldTileSolid(x, y) { SetTileClip(3, 4); }
 };

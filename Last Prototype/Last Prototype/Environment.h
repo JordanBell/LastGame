@@ -23,9 +23,9 @@ public:
 
 	void RenderTop(void) { topLayer.e_render(); }
 	void RenderBottom(void) { bottomLayer.e_render(); }
-	list<GridTile*>& GetTilesAt(const XY& position, const bool top = false);
-	void AddTileToTop(GridTile* tile) { topLayer.addChild(tile); }
-	void AddTileToBottom(GridTile* tile) { bottomLayer.addChild(tile); }
+	list<GridTile<Entity>*>& GetTilesAt(const XY& position, const bool top = false);
+	void AddTileToTop(GridTile<Entity>* tile) { topLayer.addChild(tile); }
+	void AddTileToBottom(GridTile<Entity>* tile) { bottomLayer.addChild(tile); }
 };
 
 extern Environment* g_environment;

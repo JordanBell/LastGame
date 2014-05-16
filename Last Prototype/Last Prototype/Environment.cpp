@@ -11,7 +11,7 @@ Environment::Environment(float x, float y) : EntityContainer(x, y), topLayer(Env
 	addChild(&bottomLayer);
 }
 
-list<GridTile*>& Environment::GetTilesAt(const XY& position, const bool top)
+list<GridTile<Entity>*>& Environment::GetTilesAt(const XY& position, const bool top)
 {
 	return top ? 
 		   topLayer.GetTilesAt(position) : 

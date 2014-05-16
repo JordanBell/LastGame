@@ -39,6 +39,10 @@ public:
 	// Return whether or not this entity's image should be rendered
 	bool ShouldRenderImage(void) const;
 
+	void SetSpriteSheet(SDL_Surface* ss) { sprite_sheet = ss; }
+
+	void SetSkin(SDL_Rect _skin) { skin = _skin; }
+
 
 
 protected:
