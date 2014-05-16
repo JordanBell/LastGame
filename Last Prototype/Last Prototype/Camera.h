@@ -9,7 +9,7 @@ class Camera : public EntityContainer
 	void CenterOnPlayer(void);
 
 	// Return, for each direction, whether or not this position exposes the unrendered edge of the world
-	Directions<bool> GetEdgeBools() const { return GetEdgeBools(g_environment->getBlittingPos()); }
+	Directions<bool> GetEdgeBools() const { return GetEdgeBools(g_environment->getAbsolutePos()); }
 
 	// Return, for each direction, whether or not a given position will expose the unrendered edge of the world
 	Directions<bool> GetEdgeBools(XY _pos) const;

@@ -15,7 +15,8 @@ public:
 	Entity(float x, float y) : pos( XY(x,y) ), 
 							   isInSight(true),
 							   parent(NULL),
-							   sprite_sheet(NULL) {}
+							   sprite_sheet(NULL),
+							   blitOffset(0, 0) {}
 	virtual ~Entity(void) {}
 	
 	// Move this object's coordinates by a displacement amount
@@ -31,7 +32,10 @@ public:
 	void setParent(EntityContainer* p) {parent = p;}
 
 	// Get the blitting position of this object
-	XY getBlittingPos(void) const;
+	XY getBlittingPos(void) const { return getAbsolutePos() + blitOffset; }
+
+	// Get the absolute position of this object
+	XY getAbsolutePos(void) const;
 
 	// Return whether or not a visible part of this object is on the screen. 
 	virtual bool IsOnScreen(void) const;
@@ -50,6 +54,7 @@ protected:
 	bool isInSight;				// Whether or not this object is "within sight" of the player
 	SDL_Rect skin;				// Section of the sprite_sheet to blit
 	SDL_Surface* sprite_sheet;	// The image (from file) which this entity displays
+	XY blitOffset;				// The number of pixels from the origin that this object is blitted
 
 
 

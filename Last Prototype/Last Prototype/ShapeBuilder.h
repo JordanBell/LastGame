@@ -4,17 +4,15 @@
 
 namespace ShapeBuilder
 {	
-	// WARNING: Does not add option for adding to the top
 	// Apply a given Build function in a rectangular pattern
-	void BuildRectangle(XY pos, XY dimensions, void (*drawFunction)(XY), bool filled = true);
-
-	//void WorldBuilder::BuildLine(XY start, XY end, bool top, void (*drawFunction)(XY pos) = WorldBuilder::AddTileTo<T>)
-	void BuildLine(XY start, XY end, void (*drawFunction)(XY));
+	void BuildRectangle(const XY& pos, const XY& dimensions, void (*drawFunction)(const XY&), bool filled = true);
+	// Apply a given Build function in a line
+	void BuildLine(XY start, XY end, void (*drawFunction)(const XY&));
 
 
 	// Straight-up Tile Shapes
 	template <class T_Fill, class T_Border>
-	void BuildBorderedRectangle(XY pos, XY dimensions, bool top = false)
+	void BuildBorderedRectangle(const XY& pos, const XY& dimensions, bool top = false)
 	{
 		// Draw the border
 		BuildTileRectangle<T_Border>(pos, dimensions, false, top);
@@ -23,7 +21,7 @@ namespace ShapeBuilder
 	}
 
 	template <class T>
-	void BuildTileRectangle(XY pos, XY dimensions, bool filled = true, bool top = false)
+	void BuildTileRectangle(const XY& pos, const XY& dimensions, bool filled = true, bool top = false)
 	{
 		// Call BuildRectangle, with the tile adding function of type T
 		if (top)	BuildRectangle(pos, dimensions, WorldBuilder::AddTileToTop<T>, filled);

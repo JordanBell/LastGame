@@ -1,6 +1,6 @@
 #include "ShapeBuilder.h"
 
-void ShapeBuilder::BuildRectangle(XY pos, XY dimensions, void (*drawFunction)(XY), bool filled)
+void ShapeBuilder::BuildRectangle(const XY& pos, const XY& dimensions, void (*drawFunction)(const XY&), bool filled)
 {
 	for (float i = pos.x; i < pos.x + dimensions.x; i++)
 	{
@@ -19,7 +19,7 @@ void ShapeBuilder::BuildRectangle(XY pos, XY dimensions, void (*drawFunction)(XY
 	}
 }
 
-void ShapeBuilder::BuildLine(XY start, XY end, void (*drawFunction)(XY))
+void ShapeBuilder::BuildLine(XY start, XY end, void (*drawFunction)(const XY&))
 {
 	bool xEqual = (start.x == end.x);
 	bool yEqual = (start.y == end.y);

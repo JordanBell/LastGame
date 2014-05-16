@@ -11,6 +11,7 @@ Player::Player(int gridX, int gridY) : Sprite(gridX*TILE_SIZE, gridY*TILE_SIZE),
 {
 	// Initialise Fields
 	sprite_sheet = Resources::GetPlayerSheet();
+	blitOffset = XY(0, -TILE_SIZE/2);
 	
 	// It's 4 *, because the walk cycle reuses the still sprite as an inbetween
 	max_cycles = 4 * PLAYER_WALK_CYCLE_SPEED;

@@ -14,13 +14,13 @@ void Entity::blit()
 	apply_surface(blitPos, sprite_sheet, screen, &skin);
 }
 
-XY Entity::getBlittingPos(void) const
+XY Entity::getAbsolutePos(void) const
 {
 	if (parent == NULL) return pos;
 	else
 	{
 		// Add the parent's blitting x to this one
-		return pos + parent->getBlittingPos();
+		return pos + parent->getAbsolutePos();
 	}
 }
 

@@ -19,7 +19,7 @@ void WorldBuilder::build()
 }
 
 template <class T>
-void WorldBuilder::AddTileTo(const XY pos, const bool top, const bool reverseSolidarity)
+void WorldBuilder::AddTileTo(const XY& pos, const bool top, const bool reverseSolidarity)
 {
 	// Create an object of that tile type
 	T* tile = new T(pos.x, pos.y);
@@ -30,7 +30,7 @@ void WorldBuilder::AddTileTo(const XY pos, const bool top, const bool reverseSol
 	else	 g_environment->AddTileToBottom(tile);
 }
 
-void WorldBuilder::BuildTestHouse(const XY pos)
+void WorldBuilder::BuildTestHouse(const XY& pos)
 {	
 	XY mainRoomDimensions(6, 7);
 	
@@ -77,48 +77,49 @@ void WorldBuilder::BuildTestHouse(const XY pos)
 	// Column right
 	BuildColumn<WoodWallTile>(XY(pos.x+mainRoomDimensions.x-1, pos.y+mainRoomDimensions.y+2));
 	// FrontColumns
-	BuildColumnLarge<WoodWallTile>(XY(pos.x+1, pos.y+mainRoomDimensions.y+3));
-	BuildColumnLarge<WoodWallTile>(XY(pos.x+4, pos.y+mainRoomDimensions.y+3));
+	BuildColumn<WoodWallTile>(XY(pos.x+1, pos.y+mainRoomDimensions.y+3));
+	BuildColumn<WoodWallTile>(XY(pos.x+4, pos.y+mainRoomDimensions.y+3));
 	// Arch
-	//BuildLine(XY(pos.x+2, pos.y+mainRoomDimensions.y+3), XY(pos.x+3, pos.y+mainRoomDimensions.y+3), BuildArchAbove<WoodWallTile>);
-	BuildColumnLarge<WoodWallTile>(XY(pos.x+2, pos.y+mainRoomDimensions.y+3));
-	AddTileTo<Door>(XY(pos.x+3, pos.y+mainRoomDimensions.y+3));
-	BuildArchAbove<WoodWallTile>(XY(pos.x+3, pos.y+mainRoomDimensions.y+3));
+	BuildColumn<WoodWallTile>(XY(pos.x+2, pos.y+mainRoomDimensions.y+3));
+	BuildDoorColumn(XY(pos.x+3, pos.y+mainRoomDimensions.y+3));
 }
 
 // Build a small column
 template <class T_Wall>
-void WorldBuilder::BuildColumn(const XY pos)
+void WorldBuilder::BuildColumn(const XY& pos)
 {
-	AddTileTo<Tile_Black>(XY(pos.x, pos.y-1), true);	// Black
-	AddTileTo<WoodWallTile>(pos);								// Wall
-
-	// Bottom Edge
-	AddTileTo<WoodWallTile_Bottom>(XY(pos.x, pos.y+1), false);
+	AddTileTo<Tile_Black>(XY(pos.x, pos.y-2), true);	// Black
+	AddTileTo<WoodWallTile>(XY(pos.x, pos.y-1));		// Wall
+	AddTileTo<WoodWallTile>(pos);						// Wall
 }
 
 // Build a column
 template <class T_Wall>
-void WorldBuilder::BuildColumnLarge(const XY pos)
+void WorldBuilder::BuildColumnLarge(const XY& pos)
 {
 	// Delegate to create the arch (solidly)
 	BuildColumn<T_Wall>(XY(pos.x, pos.y-1));
 	// Add the wall below the arch
 	AddTileTo<WoodWallTile>(pos);
-
-	// Bottom Edge
-	AddTileTo<WoodWallTile_Bottom>(XY(pos.x, pos.y+1), false);
 }
 
 // Build an arch over a position
 template <class T_Wall>
-void WorldBuilder::BuildArchAbove(const XY pos)
+void WorldBuilder::BuildArchAbove(const XY& pos)
 {
 	AddTileTo<Tile_Black>(XY(pos.x, pos.y-2), true);			// Black
 	AddTileTo<WoodWallTile>(XY(pos.x, pos.y-1), true, true);	// Wall
 }
 
-void WorldBuilder::BuildRoom(const XY pos, const XY dimensions)
+// Build an arch over a position
+void WorldBuilder::BuildDoorColumn(const XY& pos)
+{
+	AddTileTo<Tile_Black>(XY(pos.x, pos.y-2), true);			// Black
+	AddTileTo<WoodWallTile_Half>(XY(pos.x, pos.y-1), true);	// Wall Half
+	AddTileTo<Door>(pos);
+}
+
+void WorldBuilder::BuildRoom(const XY& pos, const XY& dimensions)
 {
 	// Draw the border
 	const bool staysWithinWorld = (pos + dimensions) < WORLD_DIMENSIONS;
@@ -135,7 +136,7 @@ void WorldBuilder::BuildRoom(const XY pos, const XY dimensions)
 }
 
 // Deprecated upon implementation of uniplanar isometric houses
-void WorldBuilder::BuildRandomDoorway(const XY pos, const XY dimensions)
+void WorldBuilder::BuildRandomDoorway(const XY& pos, const XY& dimensions)
 {
 	// Find where along the wall the doorway should go
 	XY doorPos = XY(0, 0);

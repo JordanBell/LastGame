@@ -75,6 +75,7 @@ public:
 		max_cycles = numClips*framesPerClip;
 		canMoveThrough = open; 
 		sprite_sheet = Resources::GetDoorImage();
+		blitOffset = XY(0, -TILE_SIZE/2);
 
 		// Initialise the clips
 		for (int i = 0; i < numClips; i++)
@@ -170,9 +171,9 @@ class WoodWallTile : public EnvironmentTileSolid {
 public:
 	WoodWallTile(const int x, const int y) : EnvironmentTileSolid(x, y)  { SetTileClip(1, 1); }
 };
-class WoodWallTile_Bottom : public EnvironmentTile {
+class WoodWallTile_Half : public EnvironmentTile {
 public:
-	WoodWallTile_Bottom(const int x, const int y) : EnvironmentTile(x, y)  { SetTileClip(4, 0); }
+	WoodWallTile_Half(const int x, const int y) : EnvironmentTile(x, y)  { SetTileClip(4, 0); }
 };
 class InvisibleWallTile : public EnvironmentTileSolid {
 public:
