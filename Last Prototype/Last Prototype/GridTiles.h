@@ -22,15 +22,14 @@ protected:
 };
 
 
-
-// A Tile contains both the members of the GridTile, and one of the Entity classes
+// A Tile and Entity
 class TileEntity : public Tile, public Entity 
 {
 public:
 	TileEntity(const int x, const int y) : Entity(x*TILE_SIZE, y*TILE_SIZE) {}
 	TileEntity() : Entity(0, 0) {}
 };
-
+// A Tile and Animation (Technically not a sprite, as it is not an EntityContainer)
 class TileSprite : public TileEntity, public AnimatedObject
 {
 public:
@@ -44,15 +43,7 @@ protected:
 	EnvironmentTile(const int x, const int y) : TileEntity(x, y) { sprite_sheet = Resources::GetEnvironmentImage(); }
 
 	// Set the clip of this tile, based on its index in the Environment sprite sheet
-	void SetTileClip(const int index1, const int index2)
-	{
-		SDL_Rect clip = SDL_Rect();
-		clip.x = index1 * TILE_SIZE;
-		clip.y = index2 * TILE_SIZE;
-		clip.w = clip.h = TILE_SIZE;
-		
-		skin = clip;
-	}
+	void SetTileClip(const int index1, const int index2);
 };
 
 
@@ -70,25 +61,7 @@ protected:
 // A door which opens and closes on interact
 class Door : public TileSprite {
 public:
-	Door(const int x, const int y) : TileSprite(x, y), open(false), inAnimation(false)
-	{ 
-		max_cycles = numClips*framesPerClip;
-		canMoveThrough = open; 
-		sprite_sheet = Resources::GetDoorImage();
-		blitOffset = XY(0, -TILE_SIZE/2);
-
-		// Initialise the clips
-		for (int i = 0; i < numClips; i++)
-		{
-			SDL_Rect clip;
-			clip.x = i*TILE_SIZE;
-			clip.y = 0;
-			clip.w = TILE_SIZE;
-			clip.h = TILE_SIZE*1.5;
-
-			clips[i] = clip;
-		}
-	}
+	Door(const int x, const int y);
 
 protected:
 	static const int framesPerClip = 2;
@@ -101,34 +74,10 @@ protected:
 	inline void setMoveThrough() { canMoveThrough = open; }
 
 	// On interaction, open this door.
-	void onInteract()
-	{
-		if (!inAnimation)
-		{
-			open = !open; // Toggle
-			if (!open) setMoveThrough(); // If closing, set the door as closed immediately.
-			inAnimation = true; // Start the animation
-		}
-	}
-
+	void onInteract(void);
 	void set_skin() { skin = clips[cycle/framesPerClip]; }
 
-	void update(const int delta)
-	{
-		if (inAnimation)
-		{
-			if (open) IncCycle(); // Increment if opening
-			else	  DecCycle(); // Decrement if closing
-
-			// If at the end of an animation
-			if ((cycle == 0) || (cycle == max_cycles-1))
-			{
-				inAnimation = false;
-				setMoveThrough();
-			}
-		}
-	}
-
+	void update(const int delta);
 	virtual void render(void) { set_skin(); TileSprite::render(); }
 };
 

@@ -6,8 +6,8 @@
 
 Player* g_player = NULL;
 
-Player::Player(int gridX, int gridY) : Sprite(gridX*TILE_SIZE, gridY*TILE_SIZE), // Place the player in terms of TILE sizes. Subtract 1 and 3 respectively for squaring correction.
-									   direction(DOWN), moving(false), misalignment(0)
+Player::Player(int x, int y) : Sprite(x*TILE_SIZE, x*TILE_SIZE), // Place the player in terms of TILE sizes.
+							   direction(DOWN), moving(false), misalignment(0), inputBuffer(0)
 {
 	// Initialise Fields
 	sprite_sheet = Resources::GetPlayerSheet();
@@ -39,15 +39,33 @@ Player::Player(int gridX, int gridY) : Sprite(gridX*TILE_SIZE, gridY*TILE_SIZE),
 
 void Player::walk(const E_Direction& direction)
 {
-	// Only allow the user the ability to move the player if the player is not already in the motion of movement
-	if (!moving)
-	{		
-		// Set the new direction
-		this->direction = direction;
+	// Only move when the input buffer is 0
+	if (inputBuffer == 0)
+	{
+		// Only allow the user the ability to move the player if the player is not already in the motion of movement
+		if (!moving)
+		{		
+			// If not facing the direction of movement, turn that direction
+			if (this->direction != direction) {
+				TurnToFace(direction);
+				return;
+			}
 
-		// Check to see if the player can move to the front tile.
-		moving = CanMoveForward();
+			// Set the new direction
+			this->direction = direction;
+
+			// Check to see if the player can move to the front tile.
+			moving = CanMoveForward();
+		}
 	}
+}
+
+void Player::TurnToFace(const E_Direction& direction)
+{
+	// Set the new direction
+	this->direction = direction;
+
+	inputBuffer = 2;
 }
 
 bool Player::CanMoveForward() const
@@ -99,6 +117,9 @@ list<TileEntity*>& Player::GetFrontTiles(bool top) const
 
 void Player::update(const int delta)
 {
+	// Update the input buffer
+	if (inputBuffer > 0) inputBuffer--;
+
 	if (moving) // The player should keep moving in its last assigned direction 
 	{
 		IncCycle();

@@ -20,6 +20,9 @@ public:
 
 	// Move the player, or the world, based on the player's movement.
 	void walk(const E_Direction& direction);
+
+	// Turn to face a direction
+	void TurnToFace(const E_Direction& direction);
 	
 	// Interact with the object in front of the player
 	void interact() const;
@@ -33,6 +36,7 @@ public:
 
 
 private:
+	int inputBuffer; // Frames until input is reenabled. Input is enabled when inputBuffer == 0.
 	int misalignment; // The tracked difference between the player and their last TILE-aligned position.
 	E_Direction direction; //The direction being faced by the player.
 	bool moving; // Whether or not the player is moving.
