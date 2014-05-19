@@ -40,7 +40,7 @@ public:
 
 class EnvironmentTile : public TileEntity {
 protected:
-	EnvironmentTile(const int x, const int y) : TileEntity(x, y) { sprite_sheet = Resources::GetEnvironmentImage(); }
+	EnvironmentTile(const int x, const int y) : TileEntity(x, y) { m_spriteSheet = Resources::GetEnvironmentImage();}
 
 	// Set the clip of this tile, based on its index in the Environment sprite sheet
 	void SetTileClip(const int index1, const int index2);
@@ -75,7 +75,7 @@ protected:
 
 	// On interaction, open this door.
 	void onInteract(void);
-	void set_skin() { skin = clips[cycle/framesPerClip]; }
+	void set_skin() { m_skin = clips[cycle/framesPerClip]; }
 
 	void update(const int delta);
 	virtual void render(void) { set_skin(); TileSprite::render(); }

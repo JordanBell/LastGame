@@ -39,7 +39,7 @@ void Camera::render(void)
 void Camera::CenterOnPlayer()
 {
 	// Get the coordinates that the camera would move to to center on the player
-	XY screenCenter = SCREEN_CENTER;
+	XY screenCenter(g_windowSurface->w/2, g_windowSurface->h/2);
 	XY suggestedPos = screenCenter - g_player->pos;
 
 	// Check to see if that would reveal any edges
@@ -60,9 +60,9 @@ Directions<bool> Camera::GetEdgeBools(XY _pos) const
 
 	const Directions<bool> r_directions(
 		_pos.y >= 0,
-		_pos.y <= SCREEN_HEIGHT - WORLD_HEIGHT * TILE_SIZE,
+		_pos.y <= g_windowSurface->h - WORLD_HEIGHT * TILE_SIZE,
 		_pos.x >= 0,
-		_pos.x <= SCREEN_WIDTH  - WORLD_WIDTH * TILE_SIZE);
+		_pos.x <= g_windowSurface->w  - WORLD_WIDTH * TILE_SIZE);
 
 	return r_directions;
 }

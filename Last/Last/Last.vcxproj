@@ -11,7 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AnimatedObject.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityContainer.cpp" />
@@ -26,20 +25,22 @@
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="ShapeBuilder.cpp" />
+    <ClCompile Include="TextureContainer.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="toolkit.cpp" />
     <ClCompile Include="WorldBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedObject.h" />
+    <ClInclude Include="AnimationIterator.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityContainer.h" />
+    <ClInclude Include="EntityFormat.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="EnvironmentLayer.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GridTile.h" />
     <ClInclude Include="GridTiles.h" />
     <ClInclude Include="House.h" />
     <ClInclude Include="HouseGenerator.h" />
@@ -48,6 +49,7 @@
     <ClInclude Include="Room.h" />
     <ClInclude Include="ShapeBuilder.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="TextureContainer.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="toolkit.h" />
     <ClInclude Include="Tools.h" />

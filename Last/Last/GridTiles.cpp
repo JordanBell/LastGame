@@ -7,14 +7,14 @@ void EnvironmentTile::SetTileClip(const int index1, const int index2)
 	clip.y = index2 * TILE_SIZE;
 	clip.w = clip.h = TILE_SIZE;
 		
-	skin = clip;
+	m_skin = clip;
 }
 
 Door::Door(const int x, const int y) : TileSprite(x, y), open(false), inAnimation(false)
 { 
 	max_cycles = numClips*framesPerClip;
 	canMoveThrough = open; 
-	sprite_sheet = Resources::GetDoorImage();
+	m_spriteSheet = Resources::GetDoorImage();
 	blitOffset = XY(0, -TILE_SIZE/2);
 
 	// Initialise the clips
@@ -44,11 +44,13 @@ void Door::update(const int delta)
 {
 	if (inAnimation)
 	{
-		if (open) IncCycle(); // Increment if opening
-		else	  DecCycle(); // Decrement if closing
+		if (open) cycle.Inc(); // Increment if opening
+		else	  cycle.Dec(); // Decrement if closing
+
+		inAnimation = cycle.IsAtEnd();
 
 		// If at the end of an animation
-		if ((cycle == 0) || (cycle == max_cycles-1))
+		if ()
 		{
 			inAnimation = false;
 			setMoveThrough();

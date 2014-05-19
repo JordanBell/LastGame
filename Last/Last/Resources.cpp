@@ -7,52 +7,108 @@
 #include <stdexcept>
 
 // Player sheet consts
-const std::string Resources::playerSheetFile = (TILE_SIZE==32) ? "playerSheet.png" : "playerSheet16Bit.png";
-SDL_Surface* Resources::playerSheet = NULL;
+const std::string Resources::playerSheetFile = "playerSheet.png";
+SDL_Texture* Resources::playerSheet = NULL;
 
 // Environment sheet consts
-const std::string Resources::environmentSheetFile = (TILE_SIZE==32) ? "environment.png" : "environment16Bit.png";
-SDL_Surface* Resources::environmentSheet = NULL;
+const std::string Resources::environmentSheetFile = "environment.png";
+SDL_Texture* Resources::environmentSheet = NULL;
 
 // Door sheet consts
 const std::string Resources::doorSheetFile = "doorSheet.png";
-SDL_Surface* Resources::doorSheet = NULL;
+SDL_Texture* Resources::doorSheet = NULL;
 
-SDL_Surface* const Resources::GetPlayerSheet()
+SDL_Texture* const Resources::GetPlayerSheet()
 {
-	if (playerSheet == NULL)
+	try { 
+		return GetImage(&playerSheetFile);
+	}
+	catch (std::runtime_error e)
 	{
-		playerSheet = load_image(playerSheetFile);
-
-		// Check for failures
-		if (!playerSheet) throw std::runtime_error("The player sheet file failed to load.");
+		printf("Failed to load the player image.");
 	}
 
-	return playerSheet;
+	//// Load if not already
+	//if (playerSheet == NULL)
+	//{
+	//	playerSheet = load_image(environmentSheetFile);
+
+	//	// Check for failures
+	//	if (!playerSheet) throw std::runtime_error("The environment file failed to load.");
+	//}
+
+	//return playerSheet;
 }
 
-SDL_Surface* const Resources::GetEnvironmentImage()
+SDL_Texture* const Resources::GetEnvironmentImage()
 {
-	if (environmentSheet == NULL)
+	try { 
+		return GetImage(&environmentSheetFile);
+	}
+	catch (std::runtime_error e)
 	{
-		environmentSheet = load_image(environmentSheetFile);
-
-		// Check for failures
-		if (!environmentSheet) throw std::runtime_error("The environment file failed to load.");
+		printf("Failed to load the environment image.");
 	}
 
-	return environmentSheet;
+	//// Load if not already
+	//if (environmentSheet == NULL)
+	//{
+	//	environmentSheet = load_image(environmentSheetFile);
+
+	//	// Check for failures
+	//	if (!environmentSheet) throw std::runtime_error("The environment file failed to load.");
+	//}
+
+	//return environmentSheet;
 }
 
-SDL_Surface* const Resources::GetDoorImage()
+SDL_Texture* const Resources::GetDoorImage()
 {
-	if (doorSheet == NULL)
+	try { 
+		return GetImage(&doorSheetFile);
+	}
+	catch (std::runtime_error e)
 	{
-		doorSheet = load_image(doorSheetFile);
-
-		// Check for failures
-		if (!doorSheet) throw std::runtime_error("The door file failed to load.");
+		printf("Failed to load the door image.");
 	}
 
-	return doorSheet;
+	//// Load if not already
+	//if (doorSheet == NULL)
+	//{
+	//	doorSheet = load_image(doorSheetFile);
+
+	//	// Check for failures
+	//	if (!doorSheet) throw std::runtime_error("The door file failed to load.");
+	//}
+
+	//return doorSheet;
+}
+
+SDL_Texture* const Resources::GetImage(const std::string* filename)
+{
+	// Pointer to the texture pointer
+	SDL_Texture** targetTexture = NULL;
+	
+		 if (filename == &playerSheetFile)		targetTexture = &playerSheet;
+	else if (filename == &environmentSheetFile) targetTexture = &environmentSheet;
+	else if (filename == &doorSheetFile)		targetTexture = &doorSheet;
+
+	// Load if not already
+	if (targetTexture)
+	{
+		if (*targetTexture == NULL)
+		{
+			*targetTexture = load_image(*filename);
+
+			// Check for failures
+			if (!*targetTexture) throw std::runtime_error("Failed to get an image from Resources.");
+		}
+
+		return *targetTexture;
+	}
+	else
+	{
+		printf("Stop trying to be efficient, this doesn't work. filename: %s\n", *filename);
+		throw std::runtime_error("Failed to recognise the filename in GetImage.");
+	}
 }

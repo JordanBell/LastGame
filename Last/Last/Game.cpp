@@ -72,14 +72,17 @@ void Game::HandleKeys()
 
 void Game::Render()
 {
-    // Clear the screen
-    SDL_FillRect(g_windowSurface, NULL, 0x000000);
+	//Clear screen
+    SDL_RenderClear(g_renderer);
 
 	// Render everything
 	g_camera->render();
 
 	// Flip (update) the screen
 	SDL_UpdateWindowSurface(g_window);
+
+    //Update screen
+    SDL_RenderPresent(g_renderer);
 }
 
 // Regulate the frame rate, and return the time (ms) since the last call

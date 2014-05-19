@@ -10,15 +10,15 @@ Player::Player(int x, int y) : Sprite(x*TILE_SIZE, x*TILE_SIZE), // Place the pl
 							   direction(DOWN), moving(false), misalignment(0), inputBuffer(0)
 {
 	// Initialise Fields
-	sprite_sheet = Resources::GetPlayerSheet();
+	m_spriteSheet = Resources::GetPlayerSheet();
 	blitOffset = XY(0, -TILE_SIZE/2);
 	
 	// It's 4 *, because the walk cycle reuses the still sprite as an inbetween
 	max_cycles = 4 * PLAYER_WALK_CYCLE_SPEED;
 
-	//Initialise the clips of the sprite_sheet
-	int clip_w = (sprite_sheet->w / 3);
-	int clip_h = (sprite_sheet->h / 4);
+	//Initialise the clips of the m_spriteSheet
+	int clip_w = TILE_SIZE;
+	int clip_h = TILE_SIZE;
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -159,7 +159,7 @@ void Player::set_skin(void)
 	if (cycleIndex == 3) cycleIndex = 1; // If at the fourth part of the cycle, set the index at 1 (in between forward and back)
 
 	// Set the skin based on the index
-	skin = (moving) ? 
+	m_skin = (moving) ? 
 			clips[direction][cycleIndex] : 
 			clips[direction][STILL]; 
 }

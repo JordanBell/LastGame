@@ -8,15 +8,26 @@
 
 extern SDL_Window* g_window;
 extern SDL_Surface* g_windowSurface;
+extern SDL_Renderer* g_renderer;
+extern SDL_DisplayMode* g_displayMode;
 extern SDL_Event event;
 
 // Functions
-SDL_Surface* load_image(std::string filename);
+void initDisplayModeInfo();
+void defineWindow();
+void initRenderer();
 
-void toggleScreenFormat();
-void exitFullScreen();
+SDL_Texture* load_image(std::string filename);
 
-void apply_surface(const XY& pos, SDL_Surface* source, SDL_Rect* clip = NULL);
+// Inline convenience
+inline void toggleScreenFormat();
+inline void exitFullScreen();
+
+// Applying Images
+void RenderSurface(const XY& pos, SDL_Surface* source, SDL_Rect* clip = NULL);
+void RenderTexture(const XY& pos, SDL_Texture* source, SDL_Rect* clip = NULL);
+//void ApplyTexture(SDL_Texture* source, SDL_Rect* clip = NULL, SDL_Rect* targetRect = NULL);
+
 bool SDL_init();
 void SDL_deinit();
 

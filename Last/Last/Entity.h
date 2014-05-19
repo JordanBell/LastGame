@@ -4,6 +4,9 @@
 #include "SDL.h"
 #include "toolkit.h"
 #include "Tools.h"
+#include "EntityFormat.h"
+
+using namespace FormatInformation;
 
 class EntityContainer;
 
@@ -11,11 +14,13 @@ class Entity
 {
 public:
 	XY pos;			// The x and y coordinates, relative to the parent's position. If the parent is NULL, then these coordinates are direct.
+	const EntityFormat* format;
 	
 	Entity(float x, float y) : pos( XY(x,y) ), 
 							   isInSight(true),
 							   parent(NULL),
-							   sprite_sheet(NULL),
+							   m_spriteSheet(NULL),
+							   format(&FRMT_STATIC),
 							   blitOffset(0, 0) {}
 	virtual ~Entity(void) {}
 	
@@ -29,10 +34,10 @@ public:
 	void e_render(void);
 
 	// Set an EntityContainer as this object's parent.
-	void setParent(EntityContainer* p) {parent = p;}
+	inline void setParent(EntityContainer* p) { parent = p; }
 
 	// Get the blitting position of this object
-	XY getBlittingPos(void) const { return getAbsolutePos() + blitOffset; }
+	inline XY getBlittingPos(void) const { return getAbsolutePos() + blitOffset; }
 
 	// Get the absolute position of this object
 	XY getAbsolutePos(void) const;
@@ -43,17 +48,17 @@ public:
 	// Return whether or not this entity's image should be rendered
 	bool ShouldRenderImage(void) const;
 
-	void SetSpriteSheet(SDL_Surface* ss) { sprite_sheet = ss; }
+	void SetSpriteSheet(SDL_Texture* spriteSheet) { m_spriteSheet = spriteSheet; }
 
-	void SetSkin(SDL_Rect _skin) { skin = _skin; }
+	void SetSkin(SDL_Rect skin) { m_skin = skin; }
 
 
 
 protected:
 	EntityContainer* parent;	// The parent of this Entity
 	bool isInSight;				// Whether or not this object is "within sight" of the player
-	SDL_Rect skin;				// Section of the sprite_sheet to blit
-	SDL_Surface* sprite_sheet;	// The image (from file) which this entity displays
+	SDL_Rect m_skin;			// Section of the sprite_sheet to blit
+	SDL_Texture* m_spriteSheet;	// The image (from file) which this entity displays
 	XY blitOffset;				// The number of pixels from the origin that this object is blitted
 
 
@@ -72,6 +77,9 @@ protected:
 
 	// Get a set of coordinates' position on the grid (pos/TILE_SIZE)
 	static XY GetGridPosition(const XY& _pos);
+
+private:
+	void ApplyTextureToParent(void);
 };
 
 #endif

@@ -7,28 +7,55 @@ and may not be redistributed without written permission.*/
 
 const char* WINDOW_TITLE("Last");
 SDL_Window* g_window;
+SDL_Renderer* g_renderer;
 SDL_Surface* g_windowSurface;
+SDL_DisplayMode* g_displayMode;
 SDL_Event event;
 bool inFullScreen;
 
-void toggleScreenFormat()
+void initDisplayModeInfo()
 {
-	// Change the screen width and height variables to the nearest TILE_SIZE multiple of the native res
-	//SCREEN_WIDTH = info->current_w;
-	//SCREEN_HEIGHT = info->current_h;
-	
+	// Get current display mode of all displays.
+	for(int i = 0; i < SDL_GetNumVideoDisplays(); ++i)
+	{
+		int errorIndicator = SDL_GetCurrentDisplayMode(i, g_displayMode);
+
+		if (errorIndicator != 0) {
+			printf("Could not get display mode for video display #%d: %s", i, SDL_GetError());
+		}
+	}
+}
+
+void defineWindow()
+{
 	g_window = inFullScreen ? 
+		SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+						 HARD_MONITOR_RES.x, 
+						 HARD_MONITOR_RES.y,
+						 SDL_WINDOW_FULLSCREEN_DESKTOP) :
 		SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 						 WINDOWED_SCREEN_RES.x, 
 						 WINDOWED_SCREEN_RES.y,
-						 SDL_WINDOW_SHOWN) :
-		SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-						 1680, 
-						 1050,
-						 SDL_WINDOW_FULLSCREEN);
+						 SDL_WINDOW_SHOWN);
+}
 
+void initRenderer()
+{
+	// Set up the renderer and window with this information
+	g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+	// Set some rendering info
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+	SDL_RenderSetLogicalSize(g_renderer, WINDOWED_SCREEN_RES.x, WINDOWED_SCREEN_RES.y);
+}
+
+inline void toggleScreenFormat()
+{
 	// Toggle
 	inFullScreen = !inFullScreen;
+	
+	// Redefine
+	defineWindow();
 }
 
 inline void exitFullScreen() { if (inFullScreen) toggleScreenFormat(); }
@@ -38,14 +65,20 @@ bool SDL_init()
 	//Init Subsystems
 	if (SDL_Init(SDL_INIT_EVERYTHING) == -1) return false;
     
-	//Init Screen
-	inFullScreen = !FULL_SCREEN_INITIAL;
+	//Init Screen bool
+	inFullScreen = FULL_SCREEN_INITIAL;
 
-	// Initialise the screen
-	toggleScreenFormat();
+	// Display info
+	initDisplayModeInfo();
+	// Window
+	defineWindow();
+	// Window renderer
+	initRenderer();
 
-	// Get the window's surface, if its initialisation was successful
-	if (g_window == NULL) return false;
+	// If initialisation was successful, get the window's surface
+	if ((g_displayMode == NULL) ||
+		(g_window == NULL)		||
+		(g_renderer == NULL))	return false;
 	else g_windowSurface = SDL_GetWindowSurface(g_window);
     
 	return true;
@@ -57,35 +90,60 @@ void SDL_deinit()
 	SDL_Quit();
 }
 
-SDL_Surface* load_image(std::string filename)
+SDL_Texture* LoadImage(std::string filename)
 {
+	SDL_Texture* r_texture;
+
 	SDL_Surface* loadedImage = NULL;
-	SDL_Surface* optimizedImage = NULL;
 
 	loadedImage = IMG_Load(filename.c_str());
-	if (loadedImage != NULL)
+	if (loadedImage == NULL) {
+		printf("Unable to load image: %s\n", filename.c_str());
+	}
+	else
 	{
-		optimizedImage = SDL_ConvertSurface( loadedImage, g_windowSurface->format, NULL);
-		SDL_FreeSurface(loadedImage);
+		r_texture = SDL_CreateTextureFromSurface(g_renderer, loadedImage);
 
-		if (optimizedImage != NULL)
-		{
-			Uint32 colorkey = SDL_MapRGB(optimizedImage->format, 0, 0xFF, 0xFF);
-			SDL_SetColorKey(optimizedImage, SDL_TRUE, colorkey);
+		if (r_texture == NULL) {
+			printf("Unable to create texture for loaded image %s\n", filename.c_str());
 		}
+
+		SDL_FreeSurface(loadedImage);
 	}
 
-	return optimizedImage;
+	return r_texture;
 }
 
-void apply_surface(const XY& pos, SDL_Surface* source, SDL_Rect* clip)
+// !!!!!!!!!!!!!!!!!!!!!!!!! Changed XY to Directions for pos, as this will highlight wherever I've used this
+void RenderSurface(const XY& pos, SDL_Surface* source, SDL_Rect* clip)
 {
 	if (source != NULL)
 	{
-		SDL_Rect offset;
+		SDL_Rect offset = {0,0,0,0};
 
-		offset.x = pos.x;
-		offset.y = pos.y;
+		/*offset.x = pos.x;
+		offset.y = pos.y;*/
 		SDL_BlitSurface(source, clip, g_windowSurface, &offset);
 	}
 }
+
+void RenderTexture(SDL_Texture* source, SDL_Rect* clip, const XY& pos)
+{
+	if (source != NULL)
+	{
+		// Create rect for pos
+		SDL_Rect wholeScreenArea = {(int)pos.x, (int)pos.y, clip->w, clip->h};
+
+		// Render
+		SDL_RenderCopy(g_renderer, source, clip, &wholeScreenArea);
+	}
+}
+
+//void RenderTexture(SDL_Texture* source, SDL_Rect* clip, SDL_Rect* targetRect)
+//{
+//	if (source != NULL)
+//	{
+//		// Render
+//		SDL_RenderCopy(g_renderer, source, clip, targetRect);
+//	}
+//}

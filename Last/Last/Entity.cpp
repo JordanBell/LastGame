@@ -11,7 +11,7 @@ void Entity::e_render(void)
 void Entity::blit()
 {
 	XY blitPos = getBlittingPos();
-	apply_surface(blitPos, sprite_sheet, &skin);
+	RenderTexture(blitPos, m_spriteSheet, &m_skin);
 }
 
 XY Entity::getAbsolutePos(void) const
@@ -55,12 +55,12 @@ bool Entity::IsInSight(void) const
 bool Entity::IsOnScreen(void) const
 {
 	const XY blittingPos = getBlittingPos();
-	const XY dimensions(skin.h, skin.w);
+	const XY dimensions(m_skin.h, m_skin.w);
 
 	const Directions<float>entityEdges(blittingPos.y,
-									   blittingPos.y + skin.h,
+									   blittingPos.y + m_skin.h,
 									   blittingPos.x,
-									   blittingPos.x + skin.w);
+									   blittingPos.x + m_skin.w);
 
 	// Return whether or not any of the edges peek over the screen
 	return ((entityEdges.top	< g_windowSurface->h) &&
