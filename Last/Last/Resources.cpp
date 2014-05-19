@@ -8,17 +8,17 @@
 
 // Player sheet consts
 const std::string Resources::playerSheetFile = "playerSheet.png";
-SDL_Texture* Resources::playerSheet = NULL;
+SDL_Surface* Resources::playerSheet = NULL;
 
 // Environment sheet consts
 const std::string Resources::environmentSheetFile = "environment.png";
-SDL_Texture* Resources::environmentSheet = NULL;
+SDL_Surface* Resources::environmentSheet = NULL;
 
 // Door sheet consts
 const std::string Resources::doorSheetFile = "doorSheet.png";
-SDL_Texture* Resources::doorSheet = NULL;
+SDL_Surface* Resources::doorSheet = NULL;
 
-SDL_Texture* const Resources::GetPlayerSheet()
+SDL_Surface* const Resources::GetPlayerImage()
 {
 	try { 
 		return GetImage(&playerSheetFile);
@@ -40,7 +40,7 @@ SDL_Texture* const Resources::GetPlayerSheet()
 	//return playerSheet;
 }
 
-SDL_Texture* const Resources::GetEnvironmentImage()
+SDL_Surface* const Resources::GetEnvironmentImage()
 {
 	try { 
 		return GetImage(&environmentSheetFile);
@@ -62,7 +62,7 @@ SDL_Texture* const Resources::GetEnvironmentImage()
 	//return environmentSheet;
 }
 
-SDL_Texture* const Resources::GetDoorImage()
+SDL_Surface* const Resources::GetDoorImage()
 {
 	try { 
 		return GetImage(&doorSheetFile);
@@ -84,27 +84,27 @@ SDL_Texture* const Resources::GetDoorImage()
 	//return doorSheet;
 }
 
-SDL_Texture* const Resources::GetImage(const std::string* filename)
+SDL_Surface* const Resources::GetImage(const std::string* filename)
 {
 	// Pointer to the texture pointer
-	SDL_Texture** targetTexture = NULL;
+	SDL_Surface** targetPtr = NULL;
 	
-		 if (filename == &playerSheetFile)		targetTexture = &playerSheet;
-	else if (filename == &environmentSheetFile) targetTexture = &environmentSheet;
-	else if (filename == &doorSheetFile)		targetTexture = &doorSheet;
+		 if (filename == &playerSheetFile)		targetPtr = &playerSheet;
+	else if (filename == &environmentSheetFile) targetPtr = &environmentSheet;
+	else if (filename == &doorSheetFile)		targetPtr = &doorSheet;
 
 	// Load if not already
-	if (targetTexture)
+	if (targetPtr)
 	{
-		if (*targetTexture == NULL)
+		if (*targetPtr == NULL)
 		{
-			*targetTexture = load_image(*filename);
+			*targetPtr = LoadImageSurface(*filename);
 
 			// Check for failures
-			if (!*targetTexture) throw std::runtime_error("Failed to get an image from Resources.");
+			if (!*targetPtr) throw std::runtime_error("Failed to get an image from Resources.");
 		}
 
-		return *targetTexture;
+		return *targetPtr;
 	}
 	else
 	{

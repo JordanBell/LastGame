@@ -10,11 +10,24 @@ enum E_Direction{
 	LEFT
 };
 
+// EntityFormat index enumeration
+enum EntityFormatIndices
+{
+	ANIMATED,
+	UPDATES,
+	TRAVELS,
+	INTERACTABLE,
+	TANGIBLE,
+	ILLUMINATES,
+	GRID_INDEPENDENT
+};
+
 
 
 // An X and Y pairing
 struct XY { 
 	float x, y; 
+	XY(void) { XY(0); }
 	XY(const float val) : x(val), y(val) {}
 	XY(const float _x, const float _y) : x(_x), y(_y) {}
 

@@ -6,12 +6,13 @@ and may not be redistributed without written permission.*/
 #include <string>
 
 const char* WINDOW_TITLE("Last");
-SDL_Window* g_window;
-SDL_Renderer* g_renderer;
-SDL_Surface* g_windowSurface;
+bool inFullScreen;
+
+SDL_Window*		 g_window;
+SDL_Renderer*	 g_renderer;
+SDL_Surface*	 g_windowSurface;
 SDL_DisplayMode* g_displayMode;
 SDL_Event event;
-bool inFullScreen;
 
 void initDisplayModeInfo()
 {
@@ -90,40 +91,66 @@ void SDL_deinit()
 	SDL_Quit();
 }
 
-SDL_Texture* LoadImage(std::string filename)
+SDL_Surface* LoadImageSurface(std::string filename)
+{
+	SDL_Surface* r_surface = NULL;
+
+	r_surface = IMG_Load(filename.c_str());
+	if (r_surface == NULL) {
+		printf("Unable to load image: %s\n", filename.c_str());
+	}
+
+	return r_surface;
+}
+
+SDL_Texture* LoadImageTexture(std::string filename)
 {
 	SDL_Texture* r_texture;
 
-	SDL_Surface* loadedImage = NULL;
+	SDL_Surface* loadedSurface = LoadImageSurface(filename);
 
-	loadedImage = IMG_Load(filename.c_str());
-	if (loadedImage == NULL) {
-		printf("Unable to load image: %s\n", filename.c_str());
+	if (loadedSurface == NULL) {
+		printf("Failed to create texture from NULL image.\n");
 	}
 	else
 	{
-		r_texture = SDL_CreateTextureFromSurface(g_renderer, loadedImage);
+		r_texture = SDL_CreateTextureFromSurface(g_renderer, loadedSurface);
 
 		if (r_texture == NULL) {
 			printf("Unable to create texture for loaded image %s\n", filename.c_str());
 		}
 
-		SDL_FreeSurface(loadedImage);
+		SDL_FreeSurface(loadedSurface);
 	}
 
 	return r_texture;
 }
 
-// !!!!!!!!!!!!!!!!!!!!!!!!! Changed XY to Directions for pos, as this will highlight wherever I've used this
+void SurfaceToSurface(const XY& pos, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip)
+{
+	if (source && destination)
+	{
+		// Create an offset, using the given information
+		SDL_Rect offset;
+		
+		offset.x = (int)pos.x;
+		offset.y = (int)pos.y;
+			
+		if (clip)
+		{
+			offset.w = clip->w;
+			offset.h = clip->h;
+		}
+
+		SDL_BlitSurface(source, clip, destination, &offset);
+	}
+}
+
 void RenderSurface(const XY& pos, SDL_Surface* source, SDL_Rect* clip)
 {
 	if (source != NULL)
 	{
-		SDL_Rect offset = {0,0,0,0};
-
-		/*offset.x = pos.x;
-		offset.y = pos.y;*/
-		SDL_BlitSurface(source, clip, g_windowSurface, &offset);
+		SurfaceToSurface(pos, source, g_windowSurface, clip);
 	}
 }
 

@@ -1,21 +1,29 @@
 #pragma once
 
-namespace FormatInformation
+struct EntityFormat
 {
-	class EntityFormat
-	{
-	public:
-		EntityFormat(bool animated) : m_animated(animated) {}
-		virtual ~EntityFormat(void) {}
+	EntityFormat(bool _animated,
+				 bool _updates,
+				 bool _travels,
+				 bool _interactable,
+				 bool _tangible,
+				 bool _illuminates,
+				 bool _gridIndependent);
+	~EntityFormat(void) {}
 
-		bool isAnimated(void) { return m_animated; }
+	// Array of format booleans
+	bool properties[7];
 
-	protected:
+	// Array access convenience overload
+	bool operator[](int index);
 
-		// Format information
-		bool m_animated;
-	};
-	
-	static const EntityFormat FRMT_ANIMATED = EntityFormat(true);
-	static const EntityFormat FRMT_STATIC = EntityFormat(true);
-}
+private:
+	// Format information
+	bool animated, 
+		 updates,
+		 travels,
+		 interactable,
+		 tangible,
+		 illuminates,
+		 gridOndependent;
+};

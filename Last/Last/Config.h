@@ -1,5 +1,11 @@
 #pragma once
 #include "Tools.h"
+#include "EntityFormat.h"
+
+// ENTITY FORMATS
+const EntityFormat TRAVELLER_FRMT(true, true, true, true, true, false, false);
+const EntityFormat PLAYER_FRMT(true, true, true, false, false, false, false);
+const EntityFormat DOOR_FRMT(true, false, false, true, true, false, false);
 
 // ENVIRONMENT
 const int TILE_SIZE = 32; // Note: Sprite Sheets must support the selected TILE_SIZE
@@ -14,6 +20,7 @@ const XY HARD_MONITOR_RES(1680, 1050);
 
 // GAME
 const int FRAME_RATE = 30;
+const float TRAVELLER_SPEED = 0.15;		 // Default traveller speed. ADVISED: Keep between 0 and 1 to prevent wall clipping.
 
 // PLAYER
 const float PLAYER_SPEED = 0.15;		 // The player's movement speed (independent of framerate). ADVISED: Keep between 0 and 1 to prevent wall clipping.

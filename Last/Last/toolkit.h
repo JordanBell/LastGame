@@ -17,7 +17,8 @@ void initDisplayModeInfo();
 void defineWindow();
 void initRenderer();
 
-SDL_Texture* load_image(std::string filename);
+SDL_Surface* LoadImageSurface(std::string filename);
+SDL_Texture* LoadImageTexture(std::string filename);
 
 // Inline convenience
 inline void toggleScreenFormat();
@@ -26,7 +27,8 @@ inline void exitFullScreen();
 // Applying Images
 void RenderSurface(const XY& pos, SDL_Surface* source, SDL_Rect* clip = NULL);
 void RenderTexture(const XY& pos, SDL_Texture* source, SDL_Rect* clip = NULL);
-//void ApplyTexture(SDL_Texture* source, SDL_Rect* clip = NULL, SDL_Rect* targetRect = NULL);
+//void RenderTexture(SDL_Texture* source, SDL_Rect* clip = NULL, SDL_Rect* targetRect = NULL);
+void SurfaceToSurface(const XY& pos, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip = NULL);
 
 bool SDL_init();
 void SDL_deinit();

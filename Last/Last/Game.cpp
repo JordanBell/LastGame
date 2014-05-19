@@ -20,7 +20,8 @@ void Game::init()
 	// Initiailise the Environment and Player
 	g_environment = new Environment(0, 0);
 	WorldBuilder::build();
-	g_player = new Player((int)(WORLD_WIDTH/2), (int)(WORLD_HEIGHT/2));
+	XY worldCenter((WORLD_WIDTH/2), (WORLD_HEIGHT/2));
+	g_player = new Player(worldCenter);
 	// Add everything to the AllContainer
 	g_camera = new Camera();
 }

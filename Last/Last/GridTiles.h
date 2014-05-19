@@ -3,7 +3,6 @@
 #include "Entity.h"
 #include "Resources.h"
 #include "Config.h"
-#include "Sprite.h"
 
 
 /*------------============ SUPER CLASSES ============------------*/
@@ -57,31 +56,6 @@ protected:
 
 
 /*------------============ CHILD TILES ============------------*/
-
-// A door which opens and closes on interact
-class Door : public TileSprite {
-public:
-	Door(const int x, const int y);
-
-protected:
-	static const int framesPerClip = 2;
-	static const int numClips = 5;
-	SDL_Rect clips[numClips];
-
-	bool open; // Whether or not this door is currently open
-	bool inAnimation; // If the door is animating closed or open
-
-	inline void setMoveThrough() { canMoveThrough = open; }
-
-	// On interaction, open this door.
-	void onInteract(void);
-	void set_skin() { m_skin = clips[cycle/framesPerClip]; }
-
-	void update(const int delta);
-	virtual void render(void) { set_skin(); TileSprite::render(); }
-};
-
-
 
 // Environment Floors
 class GrassTile : public EnvironmentTile {
