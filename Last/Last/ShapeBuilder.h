@@ -1,30 +1,32 @@
 #pragma once
 #include "Tools.h"
-#include <iostream>
 
 namespace ShapeBuilder
 {	
 	// Apply a given Build function in a rectangular pattern
-	void BuildRectangle(const XY& pos, const XY& dimensions, void (*drawFunction)(const XY&), bool filled = true);
+	void BuildRectangle(const Coordinates& pos, const Dimensions& dimensions, void (*drawFunction)(const Coordinates&), bool filled = true);
 	// Apply a given Build function in a line
-	void BuildLine(XY start, XY end, void (*drawFunction)(const XY&));
+	void BuildLine(Coordinates start, Dimensions end, void (*drawFunction)(const Coordinates&));
 
 
 	// Straight-up Tile Shapes
 	template <class T_Fill, class T_Border>
-	void BuildBorderedRectangle(const XY& pos, const XY& dimensions, bool top = false)
+	void BuildBorderedRectangle(const Coordinates& pos, const Dimensions& dimensions, Layer layer = BOTTOM_LAYER)
 	{
 		// Draw the border
-		BuildTileRectangle<T_Border>(pos, dimensions, false, top);
+		BuildTileRectangle<T_Border>(pos, dimensions, false, layer);
 		// Draw the fill
-		BuildTileRectangle<T_Fill>(pos+1, dimensions-2, true, top);
+		BuildTileRectangle<T_Fill>(pos+1, dimensions-2, true, layer);
 	}
 
 	template <class T>
-	void BuildTileRectangle(const XY& pos, const XY& dimensions, bool filled = true, bool top = false)
+	void BuildTileRectangle(const Coordinates& pos, const Dimensions& dimensions, bool filled = true, Layer layer = BOTTOM_LAYER)
 	{
 		// Call BuildRectangle, with the tile adding function of type T
-		if (top)	BuildRectangle(pos, dimensions, WorldBuilder::AddTileToTop<T>, filled);
-		else		BuildRectangle(pos, dimensions, WorldBuilder::AddTileToBottom<T>, filled);
+		switch (layer) {
+			case TOP_LAYER:	   BuildRectangle(pos, dimensions, WorldBuilder::AddToTop<T>, filled);
+			case MIDDLE_LAYER: BuildRectangle(pos, dimensions, WorldBuilder::AddToMiddle<T>, filled);
+			case BOTTOM_LAYER: BuildRectangle(pos, dimensions, WorldBuilder::AddToBottom<T>, filled);
+		}
 	}
 }

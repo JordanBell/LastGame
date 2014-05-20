@@ -22,6 +22,13 @@ enum EntityFormatIndices
 	GRID_INDEPENDENT
 };
 
+// A layer of the environment
+enum Layer {
+	TOP_LAYER,
+	MIDDLE_LAYER,
+	BOTTOM_LAYER
+};
+
 
 
 // An X and Y pairing
@@ -253,6 +260,10 @@ struct XY {
 				(y == xy.y));
 	}
 };
+
+// Common contexts for XY
+typedef XY Coordinates;
+typedef XY Dimensions;
 
 // A bunch of directions
 template <class E>

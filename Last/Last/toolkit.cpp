@@ -1,9 +1,9 @@
 /*Some of this source code copyrighted by Lazy Foo' Productions (2004-2013)
 and may not be redistributed without written permission.*/
 
-#include "toolkit.h"
-#include "Resources.h"
-#include <string>
+#include "ToolKit.h"
+#include "Config.h"
+#include "SDL_image.h"
 
 const char* WINDOW_TITLE("Last");
 bool inFullScreen;
@@ -50,7 +50,7 @@ void initRenderer()
 	SDL_RenderSetLogicalSize(g_renderer, WINDOWED_SCREEN_RES.x, WINDOWED_SCREEN_RES.y);
 }
 
-inline void toggleScreenFormat()
+void ToggleScreenFormat(void)
 {
 	// Toggle
 	inFullScreen = !inFullScreen;
@@ -59,7 +59,7 @@ inline void toggleScreenFormat()
 	defineWindow();
 }
 
-inline void exitFullScreen() { if (inFullScreen) toggleScreenFormat(); }
+void exitFullScreen() { if (inFullScreen) ToggleScreenFormat(); }
 
 bool SDL_init()
 {
@@ -126,7 +126,7 @@ SDL_Texture* LoadImageTexture(std::string filename)
 	return r_texture;
 }
 
-void SurfaceToSurface(const XY& pos, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip)
+void SurfaceToSurface(const Coordinates& pos, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip)
 {
 	if (source && destination)
 	{
@@ -146,7 +146,7 @@ void SurfaceToSurface(const XY& pos, SDL_Surface* source, SDL_Surface* destinati
 	}
 }
 
-void RenderSurface(const XY& pos, SDL_Surface* source, SDL_Rect* clip)
+void RenderSurface(const Coordinates& pos, SDL_Surface* source, SDL_Rect* clip)
 {
 	if (source != NULL)
 	{
@@ -154,7 +154,7 @@ void RenderSurface(const XY& pos, SDL_Surface* source, SDL_Rect* clip)
 	}
 }
 
-void RenderTexture(SDL_Texture* source, SDL_Rect* clip, const XY& pos)
+void RenderTexture(const Coordinates& pos, SDL_Texture* source, SDL_Rect* clip, SDL_Renderer* renderer)
 {
 	if (source != NULL)
 	{
@@ -162,7 +162,7 @@ void RenderTexture(SDL_Texture* source, SDL_Rect* clip, const XY& pos)
 		SDL_Rect wholeScreenArea = {(int)pos.x, (int)pos.y, clip->w, clip->h};
 
 		// Render
-		SDL_RenderCopy(g_renderer, source, clip, &wholeScreenArea);
+		SDL_RenderCopy(renderer, source, clip, &wholeScreenArea);
 	}
 }
 

@@ -1,17 +1,15 @@
 #ifndef player_h
 #define player_h
 
-#include "Config.h"
-#include "Entity.h"
-#include "GridTiles.h"
 #include "Traveller.h"
+#include "Config.h"
 #include <list>
 
 using namespace std;
 
 class Player : public Traveller {
 public:	
-	Player(XY _pos) : Traveller(_pos), inputBuffer(0) { m_speed = PLAYER_SPEED; OverrideFormat(PLAYER_FRMT); }
+	Player(Coordinates _pos) : Traveller(_pos), inputBuffer(0) { m_speed = PLAYER_SPEED; OverrideFormat(PLAYER_FRMT); }
 	
 	// Update the player's data
 	void E_Update(const int delta);

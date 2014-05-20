@@ -1,13 +1,13 @@
 #pragma once
 #include "Camera.h"
 #include "Player.h"
+#include "toolkit.h"
 
 Camera* g_camera = NULL;
 
-Camera::Camera(void) : EntityContainer(0, 0)
+Camera::Camera(void) : EntityContainer(WORLD_DIMENSIONS * TILE_SIZE)
 {
-	addChild(g_environment);
-	addChild(g_player);
+	AddChild(g_environment);
 	CenterOnPlayer();
 }
 
@@ -20,27 +20,25 @@ Camera::~Camera(void)
 	delete g_environment;
 }
 
-void Camera::update(const int delta)
+void Camera::E_Update(const int delta)
 { 
 	// Call the usual Container update
-	EntityContainer::update(delta);
+	EntityContainer::E_Update(delta);
 	
 	// Center the camera onto the player
 	CenterOnPlayer(); 
 }
 
-void Camera::render(void)
+void Camera::E_Render(void)
 {
-	g_environment->RenderBottom();
-	g_player->e_render();
-	g_environment->RenderTop();
+	g_environment->Render();
 }
 
 void Camera::CenterOnPlayer()
 {
-	// Get the coordinates that the camera would move to to center on the player
-	XY screenCenter(g_windowSurface->w/2, g_windowSurface->h/2);
-	XY suggestedPos = screenCenter - g_player->pos;
+	// Get the coordinates that the camera would move to, to center on the player
+	Coordinates screenCenter(g_windowSurface->w/2, g_windowSurface->h/2);
+	Coordinates suggestedPos = screenCenter - g_player->pos;
 
 	// Check to see if that would reveal any edges
 	Directions<bool> edgeBools = GetEdgeBools(suggestedPos);
@@ -54,7 +52,7 @@ void Camera::CenterOnPlayer()
 	if (canCenterY) pos.y = suggestedPos.y;
 }
 
-Directions<bool> Camera::GetEdgeBools(XY _pos) const
+Directions<bool> Camera::GetEdgeBools(Coordinates _pos) const
 {
 	_pos.RoundToInt();
 
@@ -67,7 +65,17 @@ Directions<bool> Camera::GetEdgeBools(XY _pos) const
 	return r_directions;
 }
 
-void ZoomToWidth(const int width)
+void Camera::ZoomToWidth(const int newWidth)
 {
-	// Zoom to a level that fits the given width, in terms of tiles
+	// Get the 1:1 size of the camera
+	Dimensions maxSize = Dimensions(0);
+	SDL_RenderGetLogicalSize(g_renderer, (int*)(&maxSize.x), (int*)(&maxSize.y));
+	maxSize /= TILE_SIZE;
+	
+	// Scale to fit the new width
+	float newScale = maxSize.x / newWidth;
+	SDL_RenderSetScale(m_renderer, newScale, newScale);
+
+	// Add BlitOffset to keep the center of the Camera's rendered size in the center of the screen
+	m_blitOffset = (maxSize.x-newWidth) * TILE_SIZE;
 }

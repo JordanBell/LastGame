@@ -6,9 +6,9 @@ class HouseGenerator
 public:
 	// Contains information about the dimensions and number of rooms in the house.
 	struct HouseSize {
-		HouseSize(XY _dimensions, int _rooms) : dimensions(_dimensions), numRooms(_rooms) {}
+		HouseSize(Dimensions _dimensions, int _rooms) : dimensions(_dimensions), numRooms(_rooms) {}
 
-		XY dimensions;
+		Dimensions dimensions;
 		int numRooms;
 	};
 

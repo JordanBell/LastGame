@@ -1,8 +1,4 @@
 #include "Player.h"
-#include "Environment.h"
-#include "Resources.h"
-#include "Tools.h"
-#include "Camera.h"
 
 Player* g_player = NULL;
 
@@ -27,14 +23,14 @@ void Player::interact() const
 	if (!m_moving)
 	{
 		// Get all of the tiles in front of the player
-		list<TileEntity*> frontTiles = GetFrontTiles();
+		list<Entity*> frontEntities = GetFrontEntities();
 
 		// Interact with them all
-		for (TileEntity* ft : frontTiles)
-			ft->onInteract();
+		for (Entity* ft : frontEntities)
+			ft->OnInteract();
 
 		//// Interact with just the top tile
-		//frontTiles.front()->onInteract();
+		//frontEntities.front()->OnInteract();
 	}
 }
 

@@ -1,8 +1,7 @@
 #pragma once
+#include "Tools.h"
+#include "ToolKit.h"
 #include "Environment.h"
-#include "HouseGenerator.h"
-#include "ShapeBuilder.h"
-#include "Room.h"
 
 #define WORLD_BORDER ShinyBlockTile
 
@@ -13,41 +12,44 @@ public:
 	// Run the WorldBuilder code
 	static void build(void);
 
-	// Add a type of tile to the environment on a specified layer
-	template <class T>
-		static void AddTileTo(const XY& pos, bool top = false, bool reverseSolidarity = false);
-	// Add a tile to a bottom position
-	template <class T>
-		static void AddTileToBottom(const XY& pos) { AddTileTo<T>(pos, false); }
-	// Add a tile to a bottom position
-	template <class T>
-		static void AddTileToTop(const XY& pos) { AddTileTo<T>(pos, true); }
+	// Add a type of Entity to the environment on a specified layer
+	template <class E>
+		static void AddTo(const Coordinates& pos, Layer layer = BOTTOM_LAYER);
+	// Add an Entity to a top position
+	template <class E>
+		static void AddToTop(const Coordinates& pos) { g_environment->AddToTop(new E(pos)); }
+	// Add an Entity to a bottom position
+	template <class E>
+		static void AddToMiddle(const Coordinates& pos) { g_environment->AddToMiddle(new E(pos)); }
+	// Add an Entity to a bottom position
+	template <class E>
+		static void AddToBottom(const Coordinates& pos) { g_environment->AddToBottom(new E(pos)); }
 
 private:
 
 	////// STRUCTURES
 
 	// Build a test house
-	static void BuildTestHouse(const XY& pos);
+	static void BuildTestHouse(const Coordinates& pos);
 
 	// Build a stone bordered square
-	static void BuildRoom(const XY& pos, const XY& dimensions);
+	static void BuildRoom(const Coordinates& pos, const XY& dimensions);
 
 	// Build a small column
 	template <class T_Wall>
-		static void BuildColumn(const XY& pos);
+		static void BuildColumn(const Coordinates& pos);
 
 	// Build a column of walls, topped with an optionally solid Black.
 	template <class T_Wall>
-		static void BuildColumnLarge(const XY& pos);
+		static void BuildColumnLarge(const Coordinates& pos);
 
-	// An arch above a certain point - a wall and an optionally solid black
+	// An arch above a certain point
 	template <class T_Wall>
-		static void BuildArchAbove(const XY& pos);
+		static void BuildArchAbove(const Coordinates& pos);
 
 	// Builds a door with a column above it
-	static void BuildDoorColumn(const XY& pos);
+	static void BuildDoorColumn(const Coordinates& pos);
 
 	// Build a random doorway along a given square
-	static void BuildRandomDoorway(const XY& pos, const XY& dimensions);
+	static void BuildRandomDoorway(const Coordinates& pos, const Dimensions& dimensions);
 };

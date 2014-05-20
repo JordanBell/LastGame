@@ -2,21 +2,24 @@
 #include "Tools.h"
 #include "EntityFormat.h"
 
-// ENTITY FORMATS
-const EntityFormat TRAVELLER_FRMT(true, true, true, true, true, false, false);
-const EntityFormat PLAYER_FRMT(true, true, true, false, false, false, false);
-const EntityFormat DOOR_FRMT(true, false, false, true, true, false, false);
+// ENTITY FORMATS                    ANIMTD UPDTES TRAVLS INTRCT TNGBL LGHTSRC GRD_INDPNDNT
+const EntityFormat CONTAINER_FRMT	(false, true,  false, false, false, false, true);
+const EntityFormat TRAVELLER_FRMT	(true,  true,  true,  true,  true,  false, false);
+const EntityFormat PLAYER_FRMT		(true,  true,  true,  false, false, false, false);
+const EntityFormat DOOR_FRMT		(true,  false, false, true,  true,  false, false);
+const EntityFormat TILE_FLOOR_FRMT	(false, false, false, false, false, false, false);
+const EntityFormat TILE_WALL_FRMT	(false, false, false, false, true,  false, false);
 
 // ENVIRONMENT
 const int TILE_SIZE = 32; // Note: Sprite Sheets must support the selected TILE_SIZE
 const int WORLD_WIDTH  = 100; // (In terms of TILE_SIZEs)
 const int WORLD_HEIGHT = 100; // (In terms of TILE_SIZEs)
-const XY WORLD_DIMENSIONS = XY((WORLD_WIDTH), WORLD_HEIGHT);
+const Dimensions WORLD_DIMENSIONS((WORLD_WIDTH), WORLD_HEIGHT);
 
 // SCREEN
 const bool FULL_SCREEN_INITIAL = true;
-const XY WINDOWED_SCREEN_RES(16*TILE_SIZE, 10*TILE_SIZE);
-const XY HARD_MONITOR_RES(1680, 1050);
+const Dimensions WINDOWED_SCREEN_RES(16*TILE_SIZE, 10*TILE_SIZE);
+const Dimensions HARD_MONITOR_RES(1680, 1050);
 
 // GAME
 const int FRAME_RATE = 30;

@@ -4,7 +4,7 @@
 // A door which opens and closes on interact
 class Door : public Entity {
 public:
-	Door(const XY& _pos);
+	Door(const Coordinates& _pos);
 
 protected:
 	// On interact, open the door.

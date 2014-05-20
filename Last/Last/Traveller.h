@@ -1,13 +1,12 @@
 #pragma once
 #include "Entity.h"
 #include <list>
-#include "GridTiles.h"
 
 class Traveller : public Entity
 {
 public:
-	Traveller(const XY& _pos);
-	~Traveller(void);
+	Traveller(const Coordinates& _pos);
+	~Traveller(void) {};
 
 	// Turn to face a direction
 	void TurnToFace(const E_Direction& direction);
@@ -26,8 +25,8 @@ protected:
 	// Update movement data
 	void E_Update(const int delta);
 
-	// Get the GridTile object in front of the traveller's position
-	std::list<TileEntity*>& GetFrontTiles(bool top = false) const;
+	// Get the Entities in front of the traveller's position
+	std::list<Entity*>& GetFrontEntities(bool top = false) const;
 
 private:
 	int misalignment; // The tracked difference between the traveller and their last tile-aligned position.

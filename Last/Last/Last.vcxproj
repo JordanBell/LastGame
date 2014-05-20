@@ -11,13 +11,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationIterator.cpp" />
+    <ClCompile Include="AnimationModule.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Door.cpp" />
+    <ClCompile Include="DoorAnimation.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityContainer.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="EnvironmentLayer.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GridTiles.cpp" />
+    <ClCompile Include="Tiles.cpp" />
     <ClCompile Include="House.cpp" />
     <ClCompile Include="HouseGenerator.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -25,34 +29,40 @@
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="ShapeBuilder.cpp" />
-    <ClCompile Include="TextureContainer.cpp" />
     <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="toolkit.cpp" />
+    <ClCompile Include="ToolKit.cpp" />
+    <ClCompile Include="Traveller.cpp" />
     <ClCompile Include="WorldBuilder.cpp" />
+    <ClCompile Include="EntityFormat.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AnimatedObject.h" />
     <ClInclude Include="AnimationIterator.h" />
+    <ClInclude Include="AnimationIteratorException.h" />
+    <ClInclude Include="AnimationModule.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Config.h" />
+    <ClInclude Include="ConfigTiles.h" />
+    <ClInclude Include="Door.h" />
+    <ClInclude Include="DoorAnimation.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityContainer.h" />
     <ClInclude Include="EntityFormat.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="EnvironmentLayer.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GridTiles.h" />
+    <ClInclude Include="Tiles.h" />
     <ClInclude Include="House.h" />
     <ClInclude Include="HouseGenerator.h" />
+    <ClInclude Include="ModuleMisuseException.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="ShapeBuilder.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="TextureContainer.h" />
     <ClInclude Include="Timer.h" />
-    <ClInclude Include="toolkit.h" />
+    <ClInclude Include="ToolKit.h" />
     <ClInclude Include="Tools.h" />
+    <ClInclude Include="Traveller.h" />
+    <ClInclude Include="TravellerAnimation.h" />
     <ClInclude Include="WorldBuilder.h" />
   </ItemGroup>
   <ItemGroup>
@@ -99,7 +109,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <DisableSpecificWarnings>4244;4305;4800;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4305;4800;4996;4098;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

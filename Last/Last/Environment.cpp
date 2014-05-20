@@ -1,19 +1,36 @@
 #include "Environment.h"
-#include "Resources.h"
-#include "HouseGenerator.h"
-#include "Game.h"
+#include "Config.h"
 
 Environment* g_environment = NULL;
 
-Environment::Environment(float x, float y) : EntityContainer(x, y), topLayer(EnvironmentLayer()), bottomLayer(EnvironmentLayer())
+Environment::Environment() : EntityContainer(WORLD_DIMENSIONS * TILE_SIZE), 
+							 topLayer(true), 
+							 middleLayer(), 
+							 bottomLayer(true)
 { 
-	addChild(&topLayer);
-	addChild(&bottomLayer);
+	AddChild(&topLayer);
+	AddChild(&middleLayer);
+	AddChild(&bottomLayer);
 }
 
-list<TileEntity*>& Environment::GetTilesAt(const XY& position, const bool top)
+void Environment::E_Render(void)
 {
-	return top ? 
-		   topLayer.GetTilesAt(position) : 
-		   bottomLayer.GetTilesAt(position);
+	topLayer.E_Render();
+	middleLayer.E_Render();
+	bottomLayer.E_Render();
+}
+
+list<Entity*>& Environment::GetEntitiesAt(const Coordinates& position, const Layer layer)
+{
+	switch (layer)
+	{
+	case TOP_LAYER:
+		return topLayer.GetEntitiesAt(position);
+	case MIDDLE_LAYER:
+		return middleLayer.GetEntitiesAt(position);
+	case BOTTOM_LAYER:
+		return bottomLayer.GetEntitiesAt(position);
+	default:
+		throw std::runtime_error("Cannot access undefined Environment layer.");
+	}
 }

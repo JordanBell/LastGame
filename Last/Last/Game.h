@@ -1,13 +1,7 @@
-#ifndef game_h
-#define game_h
+#pragma once
 
-#include <list>
-#include "Entity.h"
-//#include "Player.h"
-//#include "Environment.h"
 #include "Timer.h"
-#include "Config.h"
-#include "Camera.h"
+
 class Game
 {	
 public:
@@ -23,8 +17,6 @@ private:
 	bool running; // Whether or not the program is running - controls the game loop.
 
 	Timer m_FPSTimer; // The timer that keeps track of the time since the last update
-
-	std::list<Entity*> m_Entities; // A list of entities used to call their render and update functions during the game loop
 
 
 
@@ -44,5 +36,3 @@ private:
 };
 
 extern Game* g_game;
-
-#endif

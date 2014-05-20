@@ -1,8 +1,7 @@
 #include "Traveller.h"
 #include "TravellerAnimation.h"
 #include "Environment.h"
-
-Traveller::Traveller(const XY& _pos) : Entity(_pos, XY(0, -TILE_SIZE/2), SSID_PLAYER, TRAVELLER_FRMT, NULL, new TravellerAnimation()), 
+Traveller::Traveller(const Coordinates& _pos) : Entity(_pos, Coordinates(0, -TILE_SIZE/2), SSID_PLAYER, TRAVELLER_FRMT, NULL, new TravellerAnimation()), 
 									   direction(DOWN),
 									   m_moving(false),
 									   misalignment(0),
@@ -21,18 +20,22 @@ void Traveller::E_Update(const int delta)
 		pos.addDirection(direction, pixelsToMove);
 
 		// Increment the misalignment from the grid by this amount
-		misalignment += pixelsToMove;
+		if (!m_format[GRID_INDEPENDENT]) misalignment += pixelsToMove;
 	}
 
 	// Check to see if the traveller should stop
-	if (abs(misalignment) >= TILE_SIZE) // The traveller has reached the next tile
+	if (m_format[GRID_INDEPENDENT]) m_moving = false;
+	else
 	{
-		// Reset the movement variables
-		m_moving = false;
-		misalignment = 0;
+		if (abs(misalignment) >= TILE_SIZE) // The traveller has reached the next tile
+		{
+			// Reset the movement variables
+			m_moving = false;
+			misalignment = 0;
 
-		// Snap the traveller to a TILE_SIZE multiple.
-		SnapPosition();
+			// Snap the traveller to a TILE_SIZE multiple.
+			SnapPosition();
+		}
 	}
 }
 
@@ -63,31 +66,31 @@ void Traveller::SnapPosition(void)
 
 bool Traveller::CanMoveForward() const
 {
-	// The traveller can move forward if none of the tiles in front of them are solid
+	// The traveller can move forward if none of the Entities in front of them are Tangible
 
-	list<TileEntity*> frontTiles;
+	list<Entity*> frontEntities;
 	
 	// Check the bottom layer
-	frontTiles = GetFrontTiles(false);
-	for (TileEntity* ft : frontTiles) {
-		if (!ft->canMoveThrough) return false;
+	frontEntities = GetFrontEntities(false);
+	for (Entity* ft : frontEntities) {
+		if (!ft->CanMoveThrough()) return false;
 	}
 
 	// Check the top layer
-	frontTiles = GetFrontTiles(true);
-	for (TileEntity* ft : frontTiles) {
-		if (!ft->canMoveThrough) return false;
+	frontEntities = GetFrontEntities(true);
+	for (Entity* ft : frontEntities) {
+		if (!ft->CanMoveThrough()) return false;
 	}
 
 	return true;
 }
 
-list<TileEntity*>& Traveller::GetFrontTiles(bool top) const
+list<Entity*>& Traveller::GetFrontEntities(bool top) const
 {
-	XY& frontGridPosition = GetGridPosition();
+	Coordinates& frontGridPosition = GetGridPosition();
 
 	// Find the gridPosition in front of the direction the traveller is facing
 	frontGridPosition.addDirection(direction);
 	
-	return g_environment->GetTilesAt(frontGridPosition, top);
+	return g_environment->GetEntitiesAt(frontGridPosition, TOP_LAYER);
 }

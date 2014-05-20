@@ -1,17 +1,15 @@
 #pragma once
 #pragma warning(disable: 4715)
 #include "HouseGenerator.h"
+#include "Config.h"
 #include "House.h"
-#include "WorldBuilder.h"
-#include "Environment.h"
-#include <stdlib.h>
 
 void HouseGenerator::generate(void)
 {
 	// Warning: Not a very smart calculation on the number of houses allowed on the screen.
-	XY maxHouseDimensions(20, 20);
+	Dimensions maxHouseDimensions(20, 20);
 
-	XY numHouses = WORLD_DIMENSIONS / maxHouseDimensions;
+	XY numHouses = WORLD_DIMENSIONS / maxHouseDimensions; // Number of houses in X and Y direction
 	numHouses.RoundToInt();
 
 	for (int i = 0; i < numHouses.x; i++)
@@ -23,9 +21,9 @@ void HouseGenerator::generate(void)
 			const int numRooms = rand() % 3;
 
 			// Compute the position of this house (in pixels)
-			XY gridPos(i, j);
+			Coordinates gridPos(i, j);
 			int separation(2);
-			XY position = gridPos * maxHouseDimensions + separation;
+			Coordinates position = gridPos * maxHouseDimensions + separation;
 
 			House h(position, maxHouseDimensions, numRooms);
 		}

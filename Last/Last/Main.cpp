@@ -1,6 +1,5 @@
 #include "toolkit.h"
 #include "Game.h"
-#include <stdexcept>
 
 int main(int argc, char* args[])
 {

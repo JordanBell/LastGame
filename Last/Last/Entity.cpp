@@ -1,13 +1,17 @@
+#pragma once
 #include "Entity.h"
+#include "EntityContainer.h"
+#include "toolkit.h"
+#include "Resources.h"
 #include "Player.h" // For recognizing self as g_player
 
-Entity::Entity(const XY& _pos,
-		   const XY& blitOffset,
+Entity::Entity(const Coordinates& _pos,
+		   const Coordinates& blitOffset,
 		   int spriteSheetID,
 		   EntityFormat format,	
 		   SDL_Rect* clip,
 		   AnimationModule* personalisedAnimationModule) 
-		   : m_format(format), m_clip(clip), a_module(personalisedAnimationModule), parent(NULL)
+		   : m_format(format), m_clip(clip), a_module(personalisedAnimationModule), parent(NULL), parentRenderer(&g_renderer)
 {
 	// If GridDependent, take _pos as a grid position
 	pos = (m_format[GRID_INDEPENDENT]) ? _pos : _pos*TILE_SIZE;
@@ -28,11 +32,20 @@ Entity::~Entity(void)
 	delete a_module;
 }
 
+void Entity::SetParent(EntityContainer* p) 
+{ 
+	parent = p; 
+	parentRenderer = parent->GetRenderer(); 
+}
+
 void Entity::InitSpriteSheet(int ssid)
 {
 	// Set the sprite sheet from the SpriteSheetID
 	switch (ssid)
 	{
+	case SSID_NULL:
+		m_spriteSheet = NULL;
+		break;
 	case SSID_ENVIRONMENT:
 		m_spriteSheet = Resources::GetEnvironmentImage();
 		break;
@@ -49,35 +62,39 @@ void Entity::InitSpriteSheet(int ssid)
 
 void Entity::InitImageTexture(void)
 {
-	if (m_format[ANIMATED])
+	if (m_spriteSheet)
 	{
-		// Just create the texture from the surface
-		m_image = SDL_CreateTextureFromSurface(g_renderer, m_spriteSheet);
-	}
-	else // If this is not animated, it will save time to just take the clipping now, and set the clip to null to prevent clipping every frame
-	{
-		// Create a surface to hold the clipped image
-		SDL_Surface* clippedImage = SDL_CreateRGBSurface(SDL_SWSURFACE, m_clip->w, m_clip->h, 0, 0, 0, 0, 0);
-		// Clip the image onto the surface
-		SurfaceToSurface(XY(0, 0), m_spriteSheet, clippedImage, m_clip);
+		if (m_format[ANIMATED])
+		{
+			// Just create the texture from the surface
+			m_image = SDL_CreateTextureFromSurface(g_renderer, m_spriteSheet);
+		}
+		else // If this is not animated, it will save time to just take the clipping now, and set the clip to null to prevent clipping every frame
+		{
+			// Create a surface to hold the clipped image
+			SDL_Surface* clippedImage = SDL_CreateRGBSurface(SDL_SWSURFACE, m_clip->w, m_clip->h, 0, 0, 0, 0, 0);
+			// Clip the image onto the surface
+			SurfaceToSurface(Coordinates(0, 0), m_spriteSheet, clippedImage, m_clip);
 
-		// Create the image from the clipped surface
-		m_image = SDL_CreateTextureFromSurface(g_renderer, clippedImage);
+			// Create the image from the clipped surface
+			m_image = SDL_CreateTextureFromSurface(g_renderer, clippedImage);
 
-		// Free the surface
-		SDL_FreeSurface(clippedImage);
-		// Set the clip to NULL, to prevent clipping every frame.
-		m_clip = NULL;
+			// Free the surface
+			SDL_FreeSurface(clippedImage);
+			// Set the clip to NULL, to prevent clipping every frame.
+			m_clip = NULL;
+		}
 	}
+	else m_image = NULL;
 }
 
-void Entity::Blit()
+void Entity::BlitToParent()
 {
-	XY blitPos = GetBlittingPos();
-	RenderTexture(blitPos, m_image, m_clip);
+	Coordinates blitPos = GetBlittingPos();
+	RenderTexture(blitPos, m_image, m_clip, *parentRenderer);
 }
 
-XY Entity::GetAbsolutePos(void) const
+Coordinates Entity::GetAbsolutePos(void) const
 {
 	if (parent == NULL) return pos;
 	else
@@ -87,9 +104,9 @@ XY Entity::GetAbsolutePos(void) const
 	}
 }
 
-XY Entity::GetGridPosition(const XY& _pos)
+Coordinates Entity::GetGridPosition(const Coordinates& _pos)
 {
-	XY r_gridPosition = _pos;
+	Coordinates r_gridPosition = _pos;
 
 	// Round to the nearest multiple of TILE_SIZE
 	r_gridPosition /= (float)TILE_SIZE;
@@ -117,10 +134,10 @@ bool Entity::IsInSight(void) const
 
 bool Entity::IsOnScreen(void) const
 {
-	const XY blittingPos = GetBlittingPos();
-	const XY dimensions = (m_clip) ?
-						  XY(m_clip->h, m_clip->w) :
-						  XY(m_spriteSheet->h, m_spriteSheet->w);
+	const Coordinates blittingPos = GetBlittingPos();
+	const Dimensions dimensions = (m_clip) ?
+								   Dimensions(m_clip->h, m_clip->w) :
+								   Dimensions(m_spriteSheet->h, m_spriteSheet->w);
 
 	const Directions<float>entityEdges(blittingPos.y,
 									   blittingPos.y + dimensions.x,
@@ -136,16 +153,20 @@ bool Entity::IsOnScreen(void) const
 
 bool Entity::ShouldRenderImage(void) const
 {
-	if (IsOnScreen()) 
+	if (m_image)
 	{
-		if (LIMIT_RENDER_BY_SIGHT) { 
-			if (IsInSight()) return true; 
+		if (IsOnScreen()) 
+		{
+			if (LIMIT_RENDER_BY_SIGHT) { 
+				if (IsInSight()) return true; 
+			}
+			else return true;
 		}
-		else return true;
 	}
 
 	return false;
 }
+
 
 /**** CHECKED DELEGATION FUNCTIONS ****/
 

@@ -1,9 +1,10 @@
 #include "Door.h"
 #include "DoorAnimation.h"
+#include "Config.h"
 
-Door::Door(const XY& _pos) 
+Door::Door(const Coordinates& _pos) 
 	: Entity(_pos, 
-			 XY(0, -TILE_SIZE/2), 
+			 Coordinates(0, -TILE_SIZE/2), 
 			 SSID_DOOR, 
 			 DOOR_FRMT, 
 			 NULL, 

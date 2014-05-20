@@ -1,23 +1,26 @@
 #include "EnvironmentLayer.h"
+#include "Config.h"
 
-EnvironmentLayer::EnvironmentLayer() : EntityContainer(0, 0) 
+EnvironmentLayer::EnvironmentLayer(bool staticImage) : EntityContainer(WORLD_DIMENSIONS * TILE_SIZE, Coordinates(), staticImage) 
 {
 	for (int i = 0; i < WORLD_WIDTH; i++)
 		for (int j = 0; j < WORLD_HEIGHT; j++)
-			tiles[i][j] = std::list<TileEntity*>();
+			grid[i][j] = std::list<Entity*>();
 }
-void EnvironmentLayer::addChild(TileEntity* child)
+void EnvironmentLayer::AddChild(Entity* child)
 {
-	// Add it to the tiles array
-	XY childGridPos = child->pos / TILE_SIZE;
-	list<TileEntity*>& tilesAtThisPosition = GetTilesAt(childGridPos);
-	tilesAtThisPosition.push_back(child);
+	if ((*child)[GRID_INDEPENDENT]) throw ModuleMisuseException("Cannot add a grid independent Entity to the EnvironmentLayer grid.");
+
+	// Add it to the Entity array
+	Coordinates childGridPos = child->pos / TILE_SIZE;
+	list<Entity*>& entitiesAtThisPosition = GetEntitiesAt(childGridPos);
+	entitiesAtThisPosition.push_back(child);
 
 	// Add the child as usual
-	EntityContainer::addChild(child);
+	EntityContainer::AddChild(child);
 }
 
-list<TileEntity*>& EnvironmentLayer::GetTilesAt(XY gridPosition)
+list<Entity*>& EnvironmentLayer::GetEntitiesAt(Coordinates gridPosition)
 {
-	return tiles[(int)gridPosition.x][(int)gridPosition.y];
+	return grid[(int)gridPosition.x][(int)gridPosition.y];
 }

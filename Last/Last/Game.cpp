@@ -1,9 +1,10 @@
+#pragma once
+
 #include "Game.h"
-#include "SDL.h"
-#include <time.h>
-#include "WorldBuilder.h"
-#include "Player.h"
-#include "Environment.h"
+#include <time.h>	// Initialising timer
+#include "Camera.h" // Initialising g_camera
+#include "Player.h" // Initialising g_player
+#include "WorldBuilder.h" // Building the world
 
 Game* g_game = NULL;
 
@@ -17,12 +18,16 @@ Game::~Game() { delete g_camera; }
 
 void Game::init()
 {
-	// Initiailise the Environment and Player
-	g_environment = new Environment(0, 0);
-	WorldBuilder::build();
-	XY worldCenter((WORLD_WIDTH/2), (WORLD_HEIGHT/2));
+	// Initialise the Player
+	Coordinates worldCenter((WORLD_WIDTH/2), (WORLD_HEIGHT/2));
 	g_player = new Player(worldCenter);
-	// Add everything to the AllContainer
+
+	// Initiailise the Environment
+	g_environment = new Environment();
+	WorldBuilder::build();
+	g_environment->AddToMiddle(g_player); // Add the player to the environment
+
+	// Add everything to the Camera
 	g_camera = new Camera();
 }
 
@@ -51,7 +56,7 @@ void Game::Update()
 	HandleKeys();
 	
 	// Update the entities
-	g_camera->update(delta);
+	g_camera->Update(delta);
 }
 
 void Game::HandleKeys()
@@ -60,14 +65,14 @@ void Game::HandleKeys()
 	const Uint8* keystates = SDL_GetKeyboardState(NULL);
 	
 		//WASD moves the player
-		if (keystates[SDL_SCANCODE_W])	g_player->walk(UP);
-		if (keystates[SDL_SCANCODE_S])	g_player->walk(DOWN);
-		if (keystates[SDL_SCANCODE_A])	g_player->walk(LEFT);
-		if (keystates[SDL_SCANCODE_D])	g_player->walk(RIGHT);
+		if (keystates[SDL_SCANCODE_W])	g_player->MovePlayer(UP);
+		if (keystates[SDL_SCANCODE_S])	g_player->MovePlayer(DOWN);
+		if (keystates[SDL_SCANCODE_A])	g_player->MovePlayer(LEFT);
+		if (keystates[SDL_SCANCODE_D])	g_player->MovePlayer(RIGHT);
 
 		// Toggling formatting
 		if (keystates[SDL_SCANCODE_F]) g_player->interact();
-		if (keystates[SDL_SCANCODE_RETURN]) toggleScreenFormat();
+		if (keystates[SDL_SCANCODE_RETURN]) ToggleScreenFormat();
 		if (keystates[SDL_SCANCODE_ESCAPE]) running = false;
 }
 
@@ -77,7 +82,7 @@ void Game::Render()
     SDL_RenderClear(g_renderer);
 
 	// Render everything
-	g_camera->render();
+	g_camera->Render();
 
 	// Flip (update) the screen
 	SDL_UpdateWindowSurface(g_window);

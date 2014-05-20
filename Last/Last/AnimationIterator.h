@@ -27,6 +27,6 @@ public:
 	void Dec(void);
 
 	// Return whether or not the cycle has reached an edge value, either MIN or MAX.
-	bool IsAtEnd(void) { MIN || MAX; }
+	bool IsAtEnd(void) { return (MIN || MAX); }
 };
 

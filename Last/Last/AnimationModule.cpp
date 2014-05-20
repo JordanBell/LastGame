@@ -4,8 +4,8 @@
 Iterates through and provides rectangular clips for given sprite sheet information.
 Main method: GetClip(), which returns the currently selected rectangle clip.
 */
-AnimationModule::AnimationModule(XY spriteSheetDimensions, // Width and Height of the sprite sheet this is providing clips for
-								 XY clipSize,		// The Width and Height of the desired clips
+AnimationModule::AnimationModule(Dimensions spriteSheetDimensions, // Width and Height of the sprite sheet this is providing clips for
+								 Dimensions clipSize,		// The Width and Height of the desired clips
 								 int numClipCycles, // Number of different clips in the cyclical direction
 								 int framesPerClip, // Number of frames spent on each clip
 								 bool backAndForth) // If set as true, cycles iterate back and forth between MIN and MAX

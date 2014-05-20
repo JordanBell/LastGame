@@ -1,6 +1,6 @@
 #pragma once
-#include "Tools.h"
 #include "AnimationIterator.h"
+#include "Tools.h"
 #include "SDL.h"
 
 /* 
@@ -16,7 +16,7 @@ Abstract function Update() will only be called when the AnimationModule is on
 class AnimationModule
 {
 public:
-	AnimationModule(XY spriteSheetDimensions, XY clipSize, int maxCycles, int framesPerClip = 1, bool backAndForth = false);
+	AnimationModule(Dimensions spriteSheetDimensions, Dimensions clipSize, int maxCycles, int framesPerClip = 1, bool backAndForth = false);
 	virtual ~AnimationModule(void);
 
 	// Called by Entity only, updates the animation if turned on
@@ -35,7 +35,7 @@ protected:
 
 private:
 	SDL_Rect** m_clips;
-	XY m_dimensions;
-	XY m_clipSize;
+	Dimensions m_dimensions;
+	Dimensions m_clipSize;
 	int m_framesPerClip;
 };

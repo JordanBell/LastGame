@@ -5,7 +5,7 @@
 class DoorAnimation : public AnimationModule
 {
 public:
-	DoorAnimation(void) : AnimationModule(XY(5, 1), XY(32, 48), 5, 2) {}
+	DoorAnimation(void) : AnimationModule(Dimensions(5, 1), Dimensions(32, 48), 5, 2), animateOpen(true) {}
 
 	void Open(void);
 	void Close(void);
@@ -15,4 +15,5 @@ protected:
 
 private:
 	void (*cycleFunction)(void); // The function that is called, to change the cycle of animation - Opening or Closing
+	bool animateOpen;
 };

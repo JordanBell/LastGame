@@ -2,10 +2,9 @@
 #include "EntityContainer.h"
 class Room
 {
-	XY pos;
-	XY dimensions;
+	Coordinates pos;
+	Dimensions dimensions;
 
 public:
-	Room(const XY pos, const XY dimensions);
-	~Room(void) {}
+	Room(const Coordinates pos, const Dimensions dimensions);
 };
