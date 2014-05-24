@@ -24,7 +24,7 @@ public:
 
 	SDL_Rect* GetClip(E_Direction direction = UP);
 	bool IsAnimating(void) { return on; }
-	void Start(void) { on = true; m_iterator.TurnOn(); }
+	void Start(void) { on = true;  m_iterator.TurnOn(); }
 	void Stop(void)  { on = false; m_iterator.TurnOff(); }
 
 protected:

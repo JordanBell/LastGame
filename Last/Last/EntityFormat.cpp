@@ -3,24 +3,16 @@
 #include "EntityFormat.h"
 #include "Tools.h"
 
-EntityFormat::EntityFormat(bool _animated,
-						   bool _updates,
-						   bool _travels,
-						   bool _interactable,
-						   bool _tangible,
-						   bool _illuminates,
-						   bool _gridIndependent)
-{
-	properties[ANIMATED]		= _animated;
-	properties[UPDATES]			= _updates;
-	properties[TRAVELS]			= _travels;
-	properties[INTERACTABLE]	= _interactable;
-	properties[TANGIBLE]		= _tangible;
-	properties[ILLUMINATES]		= _illuminates;
-	properties[GRID_INDEPENDENT]= _gridIndependent;
-}
-
 bool EntityFormat::operator[](int index)
 {
-	return properties[index];
+	return (m_formatCode>>index & 1);
+
+	/*
+	This method checks if a given bit of the formatCode has been OR'd into it.
+
+	1. Shift the bits "index" times to the right, truncating any bits right of the target.
+	2. Bitwise AND, with the number 1, checks the value of the right-most bit
+	3. If the bit at "index" position in the formatCode was 1, the statement is true.
+	If not, the bitwise AND computes to 0, meaning false, which is returned.
+	*/
 }

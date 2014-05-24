@@ -3,12 +3,28 @@
 #include "EntityFormat.h"
 
 // ENTITY FORMATS                    ANIMTD UPDTES TRAVLS INTRCT TNGBL LGHTSRC GRD_INDPNDNT
-const EntityFormat CONTAINER_FRMT	(false, true,  false, false, false, false, true);
-const EntityFormat TRAVELLER_FRMT	(true,  true,  true,  true,  true,  false, false);
-const EntityFormat PLAYER_FRMT		(true,  true,  true,  false, false, false, false);
-const EntityFormat DOOR_FRMT		(true,  false, false, true,  true,  false, false);
-const EntityFormat TILE_FLOOR_FRMT	(false, false, false, false, false, false, false);
-const EntityFormat TILE_WALL_FRMT	(false, false, false, false, true,  false, false);
+//const EntityFormat CONTAINER_FRMT	(false, true,  false, false, false, false, true);
+//const EntityFormat TRAVELLER_FRMT	(true,  true,  true,  true,  true,  false, false);
+//const EntityFormat PLAYER_FRMT	(true,  true,  true,  false, false, false, false);
+//const EntityFormat DOOR_FRMT		(true,  false, false, true,  true,  false, false);
+//const EntityFormat TILE_FLOOR_FRMT(false, false, false, false, false, false, false);
+//const EntityFormat TILE_WALL_FRMT	(false, false, false, false, true,  false, false);
+
+const Uint8 ENTITY_GRIDINDEPENDENT	= 0x1;
+const Uint8 ENTITY_LIGHTSOURCE		= 0x2;
+const Uint8 ENTITY_TANGIBLE			= 0x4;
+const Uint8 ENTITY_INTERACTABLE		= 0x8;
+const Uint8 ENTITY_TRAVELLER		= 0x10;
+const Uint8 ENTITY_UPDATABLE		= 0x20;
+const Uint8 ENTITY_ANIMATED			= 0x30;
+const Uint8 ENTITY_GRAPHIC			= 0x40;
+
+const Uint8 CONTAINER_FRMT = ENTITY_UPDATABLE | ENTITY_GRIDINDEPENDENT;
+const Uint8 TRAVELLER_FRMT = ENTITY_UPDATABLE | ENTITY_ANIMATED | ENTITY_TRAVELLER | ENTITY_INTERACTABLE | ENTITY_TANGIBLE;
+const Uint8 PLAYER_FRMT	=	 ENTITY_UPDATABLE | ENTITY_ANIMATED | ENTITY_TRAVELLER;
+const Uint8 DOOR_FRMT =		 ENTITY_UPDATABLE | ENTITY_INTERACTABLE | ENTITY_TANGIBLE;
+const Uint8 TILE_FLOOR_FRMT= ENTITY_GRAPHIC;
+const Uint8 TILE_WALL_FRMT = ENTITY_TANGIBLE;
 
 // ENVIRONMENT
 const int TILE_SIZE = 32; // Note: Sprite Sheets must support the selected TILE_SIZE
@@ -17,8 +33,8 @@ const int WORLD_HEIGHT = 100; // (In terms of TILE_SIZEs)
 const Dimensions WORLD_DIMENSIONS((WORLD_WIDTH), WORLD_HEIGHT);
 
 // SCREEN
-const bool FULL_SCREEN_INITIAL = true;
-const Dimensions WINDOWED_SCREEN_RES(16*TILE_SIZE, 10*TILE_SIZE);
+const bool FULL_SCREEN_INITIAL = false;
+const Dimensions WINDOWED_SCREEN_RES = (16*TILE_SIZE, 10*TILE_SIZE);
 const Dimensions HARD_MONITOR_RES(1680, 1050);
 
 // GAME

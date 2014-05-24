@@ -6,8 +6,10 @@ Environment* g_environment = NULL;
 Environment::Environment() : EntityContainer(WORLD_DIMENSIONS * TILE_SIZE), 
 							 topLayer(true), 
 							 middleLayer(), 
-							 bottomLayer(true)
-{ 
+							 bottomLayer(true) {}
+
+void Environment::InitLayers(void)
+{
 	AddChild(&topLayer);
 	AddChild(&middleLayer);
 	AddChild(&bottomLayer);
@@ -15,9 +17,9 @@ Environment::Environment() : EntityContainer(WORLD_DIMENSIONS * TILE_SIZE),
 
 void Environment::E_Render(void)
 {
-	topLayer.E_Render();
-	middleLayer.E_Render();
-	bottomLayer.E_Render();
+	topLayer.Render();
+	middleLayer.Render();
+	bottomLayer.Render();
 }
 
 list<Entity*>& Environment::GetEntitiesAt(const Coordinates& position, const Layer layer)

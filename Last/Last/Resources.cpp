@@ -1,4 +1,3 @@
-#pragma warning(disable: 4715)
 #include "Resources.h"
 #include "ToolKit.h"
 
@@ -106,7 +105,6 @@ SDL_Surface* const Resources::GetImage(const std::string* filename)
 	}
 	else
 	{
-		printf("Stop trying to be efficient, this doesn't work. filename: %s\n", *filename);
 		throw std::runtime_error("Failed to recognise the filename in GetImage.");
 	}
 }

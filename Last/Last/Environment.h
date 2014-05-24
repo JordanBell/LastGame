@@ -15,6 +15,7 @@ class Environment : public EntityContainer
 
 public:
 	Environment();
+	void InitLayers(void);
 
 	void E_Render(void);
 

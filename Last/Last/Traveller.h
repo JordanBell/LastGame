@@ -12,7 +12,7 @@ public:
 	void TurnToFace(const E_Direction& direction);
 
 	// Move one TILE_SIZE in the specified direction
-	void Walk(const E_Direction& direction);
+	virtual void Walk(const E_Direction& direction);
 
 	// Return the traveller's direction
 	E_Direction& GetDirection(void) { return direction; }
@@ -23,10 +23,13 @@ protected:
 	E_Direction direction;	// The direction being faced by the traveller.
 
 	// Update movement data
-	void E_Update(const int delta);
+	virtual void E_Update(const int delta);
 
 	// Get the Entities in front of the traveller's position
-	std::list<Entity*>& GetFrontEntities(bool top = false) const;
+	std::list<Entity*>& GetFrontEntities(Layer layer = BOTTOM_LAYER) const;
+
+	// Get the Entities in front of the traveller's position
+	std::list<Entity*>* GetAllFrontEntities(void) const;
 
 private:
 	int misalignment; // The tracked difference between the traveller and their last tile-aligned position.

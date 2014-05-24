@@ -21,6 +21,10 @@
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="EnvironmentLayer.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Renderer_Wrapper.cpp" />
+    <ClCompile Include="SDLTools.cpp" />
+    <ClCompile Include="Test.cpp" />
+    <ClCompile Include="Texture_Wrapper.cpp" />
     <ClCompile Include="Tiles.cpp" />
     <ClCompile Include="House.cpp" />
     <ClCompile Include="HouseGenerator.cpp" />
@@ -32,6 +36,7 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="ToolKit.cpp" />
     <ClCompile Include="Traveller.cpp" />
+    <ClCompile Include="Window_Wrapper.cpp" />
     <ClCompile Include="WorldBuilder.cpp" />
     <ClCompile Include="EntityFormat.cpp" />
   </ItemGroup>
@@ -50,6 +55,10 @@
     <ClInclude Include="Environment.h" />
     <ClInclude Include="EnvironmentLayer.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Renderer_Wrapper.h" />
+    <ClInclude Include="SDLTools.h" />
+    <ClInclude Include="Test.h" />
+    <ClInclude Include="Texture_Wrapper.h" />
     <ClInclude Include="Tiles.h" />
     <ClInclude Include="House.h" />
     <ClInclude Include="HouseGenerator.h" />
@@ -63,15 +72,8 @@
     <ClInclude Include="Tools.h" />
     <ClInclude Include="Traveller.h" />
     <ClInclude Include="TravellerAnimation.h" />
+    <ClInclude Include="Window_Wrapper.h" />
     <ClInclude Include="WorldBuilder.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="doorSheet.png" />
-    <Image Include="environment.png" />
-    <Image Include="environment16Bit.png" />
-    <Image Include="HouseSheet.png" />
-    <Image Include="playerSheet.png" />
-    <Image Include="playerSheet16Bit.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9CA19DEC-F443-45C3-BDB2-92CC834F997F}</ProjectGuid>
@@ -109,12 +111,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <DisableSpecificWarnings>4244;4305;4800;4996;4098;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4244;4305;4800;4996;4098;4715;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -9,6 +9,8 @@ public:
 	Camera(void);
 	~Camera(void);
 
+	void InitChildren(void);
+
 	// Zoom to a level that fits the given width, in terms of tiles
 	void ZoomToWidth(const int width);
 

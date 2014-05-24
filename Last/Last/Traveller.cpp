@@ -24,7 +24,7 @@ void Traveller::E_Update(const int delta)
 	}
 
 	// Check to see if the traveller should stop
-	if (m_format[GRID_INDEPENDENT]) m_moving = false;
+	if (m_format[GRID_INDEPENDENT]) m_moving = false; // No need to check to see if at TILE_SIZE multiple if Grid Independent
 	else
 	{
 		if (abs(misalignment) >= TILE_SIZE) // The traveller has reached the next tile
@@ -67,30 +67,40 @@ void Traveller::SnapPosition(void)
 bool Traveller::CanMoveForward() const
 {
 	// The traveller can move forward if none of the Entities in front of them are Tangible
-
-	list<Entity*> frontEntities;
+	list<Entity*>* frontEntitiesPerLayer = GetAllFrontEntities();
 	
-	// Check the bottom layer
-	frontEntities = GetFrontEntities(false);
-	for (Entity* ft : frontEntities) {
-		if (!ft->CanMoveThrough()) return false;
-	}
-
-	// Check the top layer
-	frontEntities = GetFrontEntities(true);
-	for (Entity* ft : frontEntities) {
-		if (!ft->CanMoveThrough()) return false;
+	// For each layer
+	for (int layerIndex = BOTTOM_LAYER; layerIndex < TOP_LAYER; layerIndex++)
+	{
+		// Get the front entities there
+		list<Entity*> layer = frontEntitiesPerLayer[layerIndex];
+		
+		// Check all of the front entities
+		for (Entity* ft : layer) {
+			if (!ft->CanMoveThrough()) return false;
+		}
 	}
 
 	return true;
 }
 
-list<Entity*>& Traveller::GetFrontEntities(bool top) const
+list<Entity*>& Traveller::GetFrontEntities(Layer layer) const
 {
 	Coordinates& frontGridPosition = GetGridPosition();
 
 	// Find the gridPosition in front of the direction the traveller is facing
 	frontGridPosition.addDirection(direction);
 	
-	return g_environment->GetEntitiesAt(frontGridPosition, TOP_LAYER);
+	return g_environment->GetEntitiesAt(frontGridPosition, layer);
+}
+
+list<Entity*>* Traveller::GetAllFrontEntities(void) const
+{
+	list<Entity*>* r_entities = new list<Entity*>[3];
+
+	r_entities[0] = GetFrontEntities(BOTTOM_LAYER);
+	r_entities[1] = GetFrontEntities(MIDDLE_LAYER);
+	r_entities[2] = GetFrontEntities(TOP_LAYER);
+
+	return r_entities;
 }

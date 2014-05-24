@@ -10,7 +10,7 @@ class Tile : public Entity
 protected:
 	Tile(const Coordinates& _pos, const Coordinates& _tileIndex, EntityFormat format = TILE_FLOOR_FRMT) 
 		: Entity(_pos,
-				 Coordinates(0),
+				 Coordinates(0, 0),
 				 SSID_ENVIRONMENT,
 				 format,
 				 &GetTileClip(_tileIndex),

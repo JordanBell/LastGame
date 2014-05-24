@@ -1,10 +1,11 @@
 #pragma once
 #include <cmath>
 #include <iostream>
+#include "SDL.h"
 
-// Direction enumeration
+// Direction enumeration, can be used as indices for Traveller animation
 enum E_Direction{
-	UP,
+	UP = 0,
 	RIGHT,
 	DOWN,
 	LEFT
@@ -13,20 +14,28 @@ enum E_Direction{
 // EntityFormat index enumeration
 enum EntityFormatIndices
 {
-	ANIMATED,
-	UPDATES,
-	TRAVELS,
-	INTERACTABLE,
-	TANGIBLE,
+	GRID_INDEPENDENT = 0,
 	ILLUMINATES,
-	GRID_INDEPENDENT
+	TANGIBLE,
+	INTERACTABLE,
+	TRAVELS,
+	UPDATES,
+	ANIMATED
 };
 
-// A layer of the environment
+// A layer of the environment. Can be used in parameters, switch statements and array indices
 enum Layer {
-	TOP_LAYER,
+	BOTTOM_LAYER = 0,
 	MIDDLE_LAYER,
-	BOTTOM_LAYER
+	TOP_LAYER
+};
+
+// Sprite sheet ID numbers
+enum SSID {
+	SSID_NULL,
+	SSID_PLAYER,
+	SSID_ENVIRONMENT,
+	SSID_DOOR
 };
 
 
@@ -34,7 +43,7 @@ enum Layer {
 // An X and Y pairing
 struct XY { 
 	float x, y; 
-	XY(void) { XY(0); }
+	XY(void) : x(0), y(0) {}
 	XY(const float val) : x(val), y(val) {}
 	XY(const float _x, const float _y) : x(_x), y(_y) {}
 
@@ -285,6 +294,14 @@ struct Directions<float> {
 		bottom	= b;
 		left	= l;
 		right	= r;
+	} 
+
+	Directions(SDL_Rect rect) 
+	{
+		top		= rect.y;
+		bottom	= rect.y + rect.h;
+		left	= rect.x;
+		right	= rect.x + rect.w;
 	} 
 
 	// Specialised Constructor using XY values

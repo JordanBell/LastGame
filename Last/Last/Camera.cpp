@@ -5,11 +5,7 @@
 
 Camera* g_camera = NULL;
 
-Camera::Camera(void) : EntityContainer(WORLD_DIMENSIONS * TILE_SIZE)
-{
-	AddChild(g_environment);
-	CenterOnPlayer();
-}
+Camera::Camera(void) : EntityContainer(WORLD_DIMENSIONS * TILE_SIZE) {}
 
 Camera::~Camera(void)
 {
@@ -18,6 +14,12 @@ Camera::~Camera(void)
 
 	// Delete Environment
 	delete g_environment;
+}
+
+void Camera::InitChildren(void)
+{
+	AddChild(g_environment);
+	CenterOnPlayer();
 }
 
 void Camera::E_Update(const int delta)
@@ -37,7 +39,8 @@ void Camera::E_Render(void)
 void Camera::CenterOnPlayer()
 {
 	// Get the coordinates that the camera would move to, to center on the player
-	Coordinates screenCenter(g_windowSurface->w/2, g_windowSurface->h/2);
+	Dimensions screenSize = g_renderer.GetWindowSize();
+	Coordinates screenCenter(screenSize.x/2, screenSize.y/2);
 	Coordinates suggestedPos = screenCenter - g_player->pos;
 
 	// Check to see if that would reveal any edges
@@ -56,11 +59,13 @@ Directions<bool> Camera::GetEdgeBools(Coordinates _pos) const
 {
 	_pos.RoundToInt();
 
+	Dimensions screenSize = g_renderer.GetWindowSize();
+
 	const Directions<bool> r_directions(
 		_pos.y >= 0,
-		_pos.y <= g_windowSurface->h - WORLD_HEIGHT * TILE_SIZE,
+		_pos.y <= screenSize.y - WORLD_HEIGHT * TILE_SIZE,
 		_pos.x >= 0,
-		_pos.x <= g_windowSurface->w  - WORLD_WIDTH * TILE_SIZE);
+		_pos.x <= screenSize.x - WORLD_WIDTH * TILE_SIZE);
 
 	return r_directions;
 }
@@ -68,13 +73,12 @@ Directions<bool> Camera::GetEdgeBools(Coordinates _pos) const
 void Camera::ZoomToWidth(const int newWidth)
 {
 	// Get the 1:1 size of the camera
-	Dimensions maxSize = Dimensions(0);
-	SDL_RenderGetLogicalSize(g_renderer, (int*)(&maxSize.x), (int*)(&maxSize.y));
+	Dimensions maxSize = g_renderer.GetLogicalSize();
 	maxSize /= TILE_SIZE;
 	
 	// Scale to fit the new width
 	float newScale = maxSize.x / newWidth;
-	SDL_RenderSetScale(m_renderer, newScale, newScale);
+	g_renderer.SetScale(newScale);
 
 	// Add BlitOffset to keep the center of the Camera's rendered size in the center of the screen
 	m_blitOffset = (maxSize.x-newWidth) * TILE_SIZE;

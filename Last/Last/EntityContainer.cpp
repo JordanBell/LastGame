@@ -3,18 +3,10 @@
 #include "Config.h"
 
 EntityContainer::EntityContainer(const Dimensions& dimensions, const Coordinates& _pos, bool staticImage) 
-	: Entity(_pos, Coordinates(), SSID_NULL, CONTAINER_FRMT), m_staticImage(staticImage)
+	: Entity(_pos, Coordinates(0, 0), SSID_NULL, CONTAINER_FRMT), m_staticImage(staticImage)
 {
-	// ReInitialise the texture so that it's an empty texture with Streaming access. 
-	m_image = SDL_CreateTexture(g_renderer, 
-								SDL_PIXELFORMAT_RGBA8888, 
-								SDL_TEXTUREACCESS_STREAMING, 
-								dimensions.x,
-								dimensions.y);
-	m_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
-
-	// Have the member renderer render to the m_image
-	SDL_SetRenderTarget(m_renderer, m_image);
+	// ReInitialise the texture image as an ImageStreamer
+	m_image = ImageStreamer(NULL);
 }
 
 EntityContainer::~EntityContainer()
@@ -37,8 +29,6 @@ void EntityContainer::AddChild(Entity* child)
 
 void EntityContainer::E_Update(int delta)
 {
-	Entity::E_Update(delta);
-
 	for (Entity* child : children)
 		child->Update(delta);
 }
@@ -46,7 +36,8 @@ void EntityContainer::E_Update(int delta)
 // Removed, as its children are only rendered once, onto this container's texture. Leave render as is from Entity
 void EntityContainer::E_Render(void)
 {
-	Entity::E_Render();
+	// Check if own image should render
+	if (ShouldRenderImage()) Entity::E_Render();
 
 	// Only render children if the image is dynamic
 	if (!m_staticImage)

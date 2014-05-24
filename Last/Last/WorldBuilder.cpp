@@ -140,7 +140,7 @@ void WorldBuilder::BuildRoom(const Coordinates& pos, const Dimensions& dimension
 void WorldBuilder::BuildRandomDoorway(const Coordinates& pos, const Dimensions& dimensions)
 {
 	// Find where along the wall the doorway should go
-	Coordinates doorPos = Coordinates();
+	Coordinates doorPos = Coordinates(0, 0);
 	bool isOnHorizontal = rand() % 2;
 
 	// If one side can't accomodate a door, pick the other

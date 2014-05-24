@@ -4,13 +4,13 @@
 #include "EntityFormat.h"
 #include "AnimationModule.h"
 #include "ModuleMisuseException.h"
-
+#include "Texture_Wrapper.h"
 
 class EntityContainer;
 
 /*
 An entity is an object which:
-	* Is rendered onto the window
+	* Is rendered
 	* Has a position
 	* Has an image related to it
 	* Adheres to any number of EntityFormat declarations
@@ -19,16 +19,8 @@ The exact implementation of the entity is dictated by the EntityFormat
 class Entity
 {
 public:
-	// Sprite sheet ID numbers
-	enum SSID {
-		SSID_NULL,
-		SSID_PLAYER,
-		SSID_ENVIRONMENT,
-		SSID_DOOR
-	};
 
-	Coordinates pos;	// Relative to the parent's position. If the parent is NULL, then these coordinates are direct.
-
+	Coordinates pos; // Relative to the parent's position. If the parent is NULL, then these coordinates are direct.
 	virtual ~Entity(void);
 
 	
@@ -44,14 +36,14 @@ public:
 
 
 
-	// Get the absolute position of this object
+	// Get the absolute position of this object.
 	Coordinates GetAbsolutePos(void) const;
+
+	// Whether or not E_Render should be called from Render. Overridden by EntityContainers.
+	virtual bool ShouldRender(void) const { return ShouldRenderImage(); }
 
 	// Return whether or not a visible part of this object is on the screen. 
 	virtual bool IsOnScreen(void) const; // Overridden for EntityContainers
-
-	// Return whether or not this entity's image should be rendered
-	bool ShouldRenderImage(void) const;
 
 	// Apply this object's sprite sheet onto the screen at this object's blitting position
 	void BlitToParent(void);
@@ -69,20 +61,29 @@ public:
 protected:
 	// Only Entity subclasses can construct a new entity
 	Entity(const Coordinates& _pos,		  // Entity Position
-		   const Coordinates& blitOffset,  // Blit offset, the distance from this Entity's position that its image is rendered
-		   int spriteSheetID,	  // Accepts IDs from the SSID enum in tools.h
+		   const Coordinates& blitOffset, // Blit offset, the distance from this Entity's position that its image is rendered
+		   SSID spriteSheetID,	  // Accepts IDs from the SSID enum in tools.h
 		   EntityFormat format,	  // Accepts prewritten formats from config.h
 		   SDL_Rect* clip = NULL, // If NULL, image will be blitted as entire SpriteSheet surface
 		   AnimationModule* personalisedAnimationModule = NULL // An animation module that has already been initialised with this Entity's animation data
 		   );
 
-	SDL_Texture* m_image;		// The image (from file) which this entity displays.
 	EntityFormat m_format;		// The format of this entity, dictating its behavior.
-	Coordinates	 m_blitOffset;	// The number of pixels that this object is blitted from the origin.
+	Image m_image;				// The image which this entity displays.
+	Coordinates m_blitOffset;	// The number of pixels that this object is blitted from the origin.
 	EntityContainer* parent;	// The parent of this Entity
 	AnimationModule* a_module;	// Encapsulated Animation handler. NULL if this entity is not animated.
 
 	void OverrideFormat(const EntityFormat& format) { m_format = format; }
+
+	// Return whether or not this entity's image should be rendered
+	bool ShouldRenderImage(void) const;
+
+	// Get this object's position on the grid (pos/TILE_SIZE)
+	Coordinates GetGridPosition(void) const { return GetGridPosition(pos); }
+
+	// Get a set of coordinates' position on the grid (pos/TILE_SIZE)
+	static Coordinates GetGridPosition(const Coordinates& _pos);
 
 	/**** CHECKED VIRTUAL FUNCTIONS ****/
 	/*
@@ -94,17 +95,8 @@ protected:
 	virtual void E_OnInteract(void) { throw ModuleMisuseException("An interactable Entity must override Entity::E_OnInteract()"); };
 	virtual bool E_CanMoveThrough(void) { return false; }
 
-	// Get this object's position on the grid (pos/TILE_SIZE)
-	Coordinates GetGridPosition(void) const { return GetGridPosition(pos); }
-
-	// Get a set of coordinates' position on the grid (pos/TILE_SIZE)
-	static Coordinates GetGridPosition(const Coordinates& _pos);
-
 private:
-	SDL_Rect*	 m_clip;		// Section of the sprite_sheet to blit.
-	SDL_Surface* m_spriteSheet;	// The sprite sheet (from file) from which the image is generated (using the m_clip to set the bounds).
-	SDL_Renderer** parentRenderer; // Pointer to the parent's renderer
-	bool isInSight;				// Whether or not this object is "within sight" of the player.
+	bool isInSight;	// Whether or not this object is "within sight" of the player.
 
 	// Initialise the Entity's sprite sheet
 	void InitSpriteSheet(const int ssid);

@@ -7,11 +7,15 @@
 
 Entity::Entity(const Coordinates& _pos,
 		   const Coordinates& blitOffset,
-		   int spriteSheetID,
+		   SSID spriteSheetID,
 		   EntityFormat format,	
 		   SDL_Rect* clip,
 		   AnimationModule* personalisedAnimationModule) 
-		   : m_format(format), m_clip(clip), a_module(personalisedAnimationModule), parent(NULL), parentRenderer(&g_renderer)
+		   : m_image(spriteSheetID, !format[ANIMATED], clip), 
+		     m_format(format), 
+			 m_blitOffset(blitOffset), 
+			 a_module(personalisedAnimationModule), 
+			 parent(NULL)
 {
 	// If GridDependent, take _pos as a grid position
 	pos = (m_format[GRID_INDEPENDENT]) ? _pos : _pos*TILE_SIZE;
@@ -20,78 +24,23 @@ Entity::Entity(const Coordinates& _pos,
 	// ANIMATION
 	if (format[ANIMATED] && !a_module) throw ModuleMisuseException("Animated Entities must be initialised with an Animation Module.");
 	if (!format[ANIMATED] && a_module) throw ModuleMisuseException("You cannot pass an Animation Module to a non-animated Entity.");
-
-	InitSpriteSheet(spriteSheetID);
-	InitImageTexture(); 
 }	
 
 Entity::~Entity(void)
 {
-	SDL_FreeSurface(m_spriteSheet);
-	SDL_DestroyTexture(m_image);
 	delete a_module;
 }
 
 void Entity::SetParent(EntityContainer* p) 
 { 
 	parent = p; 
-	parentRenderer = parent->GetRenderer(); 
-}
-
-void Entity::InitSpriteSheet(int ssid)
-{
-	// Set the sprite sheet from the SpriteSheetID
-	switch (ssid)
-	{
-	case SSID_NULL:
-		m_spriteSheet = NULL;
-		break;
-	case SSID_ENVIRONMENT:
-		m_spriteSheet = Resources::GetEnvironmentImage();
-		break;
-	case SSID_PLAYER:
-		m_spriteSheet = Resources::GetPlayerImage();
-		break;
-	case SSID_DOOR:
-		m_spriteSheet = Resources::GetDoorImage();
-		break;
-	default:
-		throw ModuleMisuseException("SSID not recognised during Entity construction.");
-	}
-}
-
-void Entity::InitImageTexture(void)
-{
-	if (m_spriteSheet)
-	{
-		if (m_format[ANIMATED])
-		{
-			// Just create the texture from the surface
-			m_image = SDL_CreateTextureFromSurface(g_renderer, m_spriteSheet);
-		}
-		else // If this is not animated, it will save time to just take the clipping now, and set the clip to null to prevent clipping every frame
-		{
-			// Create a surface to hold the clipped image
-			SDL_Surface* clippedImage = SDL_CreateRGBSurface(SDL_SWSURFACE, m_clip->w, m_clip->h, 0, 0, 0, 0, 0);
-			// Clip the image onto the surface
-			SurfaceToSurface(Coordinates(0, 0), m_spriteSheet, clippedImage, m_clip);
-
-			// Create the image from the clipped surface
-			m_image = SDL_CreateTextureFromSurface(g_renderer, clippedImage);
-
-			// Free the surface
-			SDL_FreeSurface(clippedImage);
-			// Set the clip to NULL, to prevent clipping every frame.
-			m_clip = NULL;
-		}
-	}
-	else m_image = NULL;
+	m_image.SetStreamer(parent->GetStreamer());
 }
 
 void Entity::BlitToParent()
 {
 	Coordinates blitPos = GetBlittingPos();
-	RenderTexture(blitPos, m_image, m_clip, *parentRenderer);
+	m_image.RenderToTarget(blitPos);
 }
 
 Coordinates Entity::GetAbsolutePos(void) const
@@ -134,26 +83,28 @@ bool Entity::IsInSight(void) const
 
 bool Entity::IsOnScreen(void) const
 {
-	const Coordinates blittingPos = GetBlittingPos();
-	const Dimensions dimensions = (m_clip) ?
-								   Dimensions(m_clip->h, m_clip->w) :
-								   Dimensions(m_spriteSheet->h, m_spriteSheet->w);
+	// Get the size of the texture
+	const Dimensions imageSize = m_image.Size();
+	if (imageSize < Dimensions(0)) return false;
 
-	const Directions<float>entityEdges(blittingPos.y,
-									   blittingPos.y + dimensions.x,
-									   blittingPos.x,
-									   blittingPos.x + dimensions.y);
+	// Get its position
+	const Coordinates blittingPos = GetBlittingPos();
+
+	// Get the edges of the entity
+	const Directions<float>entityEdges(RectFromXY(blittingPos, imageSize));
 
 	// Return whether or not any of the edges peek over the screen
-	return ((entityEdges.top	< g_windowSurface->h) &&
-			(entityEdges.left	< g_windowSurface->w) &&
+	Dimensions screenSize = g_renderer.GetWindowSize();
+
+	return ((entityEdges.top	< screenSize.y) &&
+			(entityEdges.left	< screenSize.x) &&
 			(entityEdges.bottom > 0)		 &&
 			(entityEdges.right	> 0));
 }
 
 bool Entity::ShouldRenderImage(void) const
 {
-	if (m_image)
+	if (m_image.ShouldRender())
 	{
 		if (IsOnScreen()) 
 		{
@@ -163,7 +114,7 @@ bool Entity::ShouldRenderImage(void) const
 			else return true;
 		}
 	}
-
+	
 	return false;
 }
 
@@ -181,15 +132,12 @@ void Entity::Render(void)
 	// Update animation information prior to rendering.
 	if (m_format[ANIMATED])
 	{
-		if (a_module) 
-		{ 
-			a_module->UpdateModule(); 
-			m_clip = a_module->GetClip();
-		}
+		a_module->UpdateModule(); 
+		m_image.SetClip( a_module->GetClip() );
 	}
 
 	// Make visible if deemed necessary
-	if (ShouldRenderImage()) Render();
+	if (ShouldRender()) E_Render();
 }
 
 void Entity::OnInteract(void)

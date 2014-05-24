@@ -29,6 +29,7 @@ void Game::init()
 
 	// Add everything to the Camera
 	g_camera = new Camera();
+	g_camera->InitChildren();
 }
 
 void Game::run()
@@ -65,30 +66,27 @@ void Game::HandleKeys()
 	const Uint8* keystates = SDL_GetKeyboardState(NULL);
 	
 		//WASD moves the player
-		if (keystates[SDL_SCANCODE_W])	g_player->MovePlayer(UP);
-		if (keystates[SDL_SCANCODE_S])	g_player->MovePlayer(DOWN);
-		if (keystates[SDL_SCANCODE_A])	g_player->MovePlayer(LEFT);
-		if (keystates[SDL_SCANCODE_D])	g_player->MovePlayer(RIGHT);
+		if (keystates[SDL_SCANCODE_W])	g_player->Walk(UP);
+		if (keystates[SDL_SCANCODE_S])	g_player->Walk(DOWN);
+		if (keystates[SDL_SCANCODE_A])	g_player->Walk(LEFT);
+		if (keystates[SDL_SCANCODE_D])	g_player->Walk(RIGHT);
 
 		// Toggling formatting
-		if (keystates[SDL_SCANCODE_F]) g_player->interact();
-		if (keystates[SDL_SCANCODE_RETURN]) ToggleScreenFormat();
+		if (keystates[SDL_SCANCODE_F]) g_player->Interact();
+		if (keystates[SDL_SCANCODE_RETURN]) g_renderer.ToggleFullscreen();
 		if (keystates[SDL_SCANCODE_ESCAPE]) running = false;
 }
 
 void Game::Render()
 {
 	//Clear screen
-    SDL_RenderClear(g_renderer);
+	g_renderer.Clear();
 
-	// Render everything
+	// Render camera (Everything on screen)
 	g_camera->Render();
 
-	// Flip (update) the screen
-	SDL_UpdateWindowSurface(g_window);
-
-    //Update screen
-    SDL_RenderPresent(g_renderer);
+	// Update the screen
+	g_renderer.Update();
 }
 
 // Regulate the frame rate, and return the time (ms) since the last call
