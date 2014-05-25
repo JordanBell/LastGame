@@ -16,7 +16,6 @@
     <ClInclude Include="Resources.h" />
     <ClInclude Include="SDLTools.h" />
     <ClInclude Include="Test.h" />
-    <ClInclude Include="Texture_Wrapper.h" />
     <ClInclude Include="ToolKit.h" />
     <ClInclude Include="Tools.h" />
     <ClInclude Include="Window_Wrapper.h" />
@@ -27,7 +26,6 @@
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="SDLTools.cpp" />
     <ClCompile Include="Test.cpp" />
-    <ClCompile Include="Texture_Wrapper.cpp" />
     <ClCompile Include="ToolKit.cpp" />
     <ClCompile Include="Window_Wrapper.cpp" />
   </ItemGroup>

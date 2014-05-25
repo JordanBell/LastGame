@@ -22,9 +22,6 @@
     <ClInclude Include="Test.h">
       <Filter>Files</Filter>
     </ClInclude>
-    <ClInclude Include="Texture_Wrapper.h">
-      <Filter>Files</Filter>
-    </ClInclude>
     <ClInclude Include="ToolKit.h">
       <Filter>Files</Filter>
     </ClInclude>
@@ -49,9 +46,6 @@
       <Filter>Files</Filter>
     </ClCompile>
     <ClCompile Include="Test.cpp">
-      <Filter>Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture_Wrapper.cpp">
       <Filter>Files</Filter>
     </ClCompile>
     <ClCompile Include="ToolKit.cpp">

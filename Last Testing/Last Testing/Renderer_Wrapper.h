@@ -1,6 +1,6 @@
 #pragma once
 #include "SDL.h"
-#include "Texture_Wrapper.h"
+//#include "Texture_Wrapper.h"
 #include "Window_Wrapper.h"
 
 class Renderer_Wrapper

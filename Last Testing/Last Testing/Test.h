@@ -2,7 +2,7 @@
 #include "SDL.h"
 #include <iostream>
 //#include "Entity.h"
-#include "Texture_Wrapper.h"
+//#include "Texture_Wrapper.h"
 #include "Renderer_Wrapper.h"
 #include "Config.h"
 

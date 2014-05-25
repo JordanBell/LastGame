@@ -114,6 +114,8 @@ void Renderer_Wrapper::RenderRectToTexture(SDL_Texture* destination, SDL_Rect* r
 void Renderer_Wrapper::RenderRectToWindow(SDL_Rect* rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
 	SetTarget(NULL);
+	RenderRectToTarget(rect, r,g,b,a);
+	ResetTarget();
 }
 
 void Renderer_Wrapper::RenderRectToTarget(SDL_Rect* rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
