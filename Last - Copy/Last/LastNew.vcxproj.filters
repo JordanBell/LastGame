@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Animation">
+      <UniqueIdentifier>{df19eec2-841e-4c8d-ad7e-408a7ea81b3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\General">
+      <UniqueIdentifier>{138c16bc-4408-464e-ad30-d6fce859073e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\World Generation">
+      <UniqueIdentifier>{a24591b9-795a-4b27-b4a0-d0f4012bce10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entity">
+      <UniqueIdentifier>{b34bb1e5-d739-4864-bf9a-355d9ad41d9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entity\Base">
+      <UniqueIdentifier>{90670a04-4b27-47bd-a468-cdae28c32128}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entity\Container">
+      <UniqueIdentifier>{e661bff1-d4e6-4b9a-aaf0-9f205c06bade}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entity\Containers">
+      <UniqueIdentifier>{63e2742e-54c5-4577-8b9a-16714fdc5f94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entity\Implementations">
+      <UniqueIdentifier>{d4c3fdef-096c-4914-8335-3da99f13f207}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entity\Tools">
+      <UniqueIdentifier>{fbdab319-a298-4b4c-b506-1b00cce67813}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Animation\Base">
+      <UniqueIdentifier>{52475443-4f56-44c9-b5b2-cfa2dbd44247}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Animation\Implementation">
+      <UniqueIdentifier>{a7da89cd-ff5e-4ce8-b50e-b8e5826bce78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Animation\Tools">
+      <UniqueIdentifier>{34835234-ac3f-43a7-bbf6-58c5c316c29d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Animation">
+      <UniqueIdentifier>{33a0b354-f7b9-48dc-a015-3f9964b10713}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entity">
+      <UniqueIdentifier>{e6f35954-4202-4a26-8af6-c2f752b92324}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\General">
+      <UniqueIdentifier>{b46a634f-6d47-43dc-b961-9b12c315a409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\WorldGeneration">
+      <UniqueIdentifier>{cf6689e3-31e1-4bc3-b201-96aa41e5ff79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entity\Base">
+      <UniqueIdentifier>{32c9c179-4f48-425c-8d05-bc472e3df0d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entity\Container">
+      <UniqueIdentifier>{6f7975c8-3b2d-4231-af18-c8da9b94c80a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entity\Containers">
+      <UniqueIdentifier>{8d1db80b-2702-4438-be60-569c6641389f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entity\Implementations">
+      <UniqueIdentifier>{38ccd9d2-6d38-4a5e-b88c-aeb095550bc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entity\Tools">
+      <UniqueIdentifier>{59d6bf92-e0d6-4697-8ec7-644e1c2ced3c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AnimationIterator.cpp">
+      <Filter>Source Files\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationModule.cpp">
+      <Filter>Source Files\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="DoorAnimation.cpp">
+      <Filter>Source Files\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\General</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files\General</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources.cpp">
+      <Filter>Source Files\General</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files\General</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\Entity\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Traveller.cpp">
+      <Filter>Source Files\Entity\Implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="Tiles.cpp">
+      <Filter>Source Files\Entity\Implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Entity\Implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Source Files\Entity\Implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Entity\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment.cpp">
+      <Filter>Source Files\Entity\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="EnvironmentLayer.cpp">
+      <Filter>Source Files\Entity\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityContainer.cpp">
+      <Filter>Source Files\Entity\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityFormat.cpp">
+      <Filter>Source Files\Entity\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolKit.cpp">
+      <Filter>Source Files\General</Filter>
+    </ClCompile>
+    <ClCompile Include="House.cpp">
+      <Filter>Source Files\WorldGeneration</Filter>
+    </ClCompile>
+    <ClCompile Include="HouseGenerator.cpp">
+      <Filter>Source Files\WorldGeneration</Filter>
+    </ClCompile>
+    <ClCompile Include="Room.cpp">
+      <Filter>Source Files\WorldGeneration</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeBuilder.cpp">
+      <Filter>Source Files\WorldGeneration</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldBuilder.cpp">
+      <Filter>Source Files\WorldGeneration</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Config.h">
+      <Filter>Header Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources.h">
+      <Filter>Header Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools.h">
+      <Filter>Header Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="House.h">
+      <Filter>Header Files\World Generation</Filter>
+    </ClInclude>
+    <ClInclude Include="HouseGenerator.h">
+      <Filter>Header Files\World Generation</Filter>
+    </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>Header Files\World Generation</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeBuilder.h">
+      <Filter>Header Files\World Generation</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldBuilder.h">
+      <Filter>Header Files\World Generation</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigTiles.h">
+      <Filter>Header Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\Entity\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityContainer.h">
+      <Filter>Header Files\Entity\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Entity\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment.h">
+      <Filter>Header Files\Entity\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="EnvironmentLayer.h">
+      <Filter>Header Files\Entity\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>Header Files\Entity\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Entity\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="Tiles.h">
+      <Filter>Header Files\Entity\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="Traveller.h">
+      <Filter>Header Files\Entity\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityFormat.h">
+      <Filter>Header Files\Entity\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleMisuseException.h">
+      <Filter>Header Files\Entity\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationIterator.h">
+      <Filter>Header Files\Animation\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationIteratorException.h">
+      <Filter>Header Files\Animation\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationModule.h">
+      <Filter>Header Files\Animation\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="TravellerAnimation.h">
+      <Filter>Header Files\Animation\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="DoorAnimation.h">
+      <Filter>Header Files\Animation\Implementation</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolKit.h">
+      <Filter>Header Files\General</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="doorSheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="environment.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="environment16Bit.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="HouseSheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="playerSheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="playerSheet16Bit.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
