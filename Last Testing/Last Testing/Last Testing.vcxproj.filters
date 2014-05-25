@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Config.h">
+      <Filter>Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer_Wrapper.h">
+      <Filter>Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources.h">
+      <Filter>Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SDLTools.h">
+      <Filter>Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Test.h">
+      <Filter>Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture_Wrapper.h">
+      <Filter>Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolKit.h">
+      <Filter>Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tools.h">
+      <Filter>Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Window_Wrapper.h">
+      <Filter>Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer_Wrapper.cpp">
+      <Filter>Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources.cpp">
+      <Filter>Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SDLTools.cpp">
+      <Filter>Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.cpp">
+      <Filter>Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture_Wrapper.cpp">
+      <Filter>Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolKit.cpp">
+      <Filter>Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Window_Wrapper.cpp">
+      <Filter>Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
