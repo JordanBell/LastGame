@@ -15,6 +15,12 @@ SDL_Surface* LoadImageSurface(std::string filename);
 // Short Convenience
 SDL_Rect RectFromXY(Coordinates pos, Dimensions dims);
 
+// Check if a given texture has a queried access
+bool TextureHasAccess(SDL_Texture* texture, Uint32 queriedAccess);
+
+// Check if a number contains a bit
+bool ContainsBit(int target, int query);
+
 
 
 // RENDERER DELEGATIONS
@@ -31,9 +37,9 @@ SDL_Rect RectFromXY(Coordinates pos, Dimensions dims);
 		{ chk(); return g_renderer->CreateTexture(size, access, format); }
 	
 	// Actual Rendering
-	inline void RenderToTexture(SDL_Texture* source, SDL_Texture* destination, SDL_Rect* srcrect = NULL, SDL_Rect* dstrect = NULL) 
+	inline void RenderTextureToTexture(SDL_Texture* source, SDL_Texture* destination, SDL_Rect* srcrect = NULL, SDL_Rect* dstrect = NULL) 
 		{ chk(); g_renderer->RenderToTexture(source, destination, srcrect, dstrect); }
-	inline void RenderToWindow(SDL_Texture* source, SDL_Rect* srcrect = NULL, SDL_Rect* dstrect = NULL) 
+	inline void RenderTextureToWindow(SDL_Texture* source, SDL_Rect* srcrect = NULL, SDL_Rect* dstrect = NULL) 
 		{ chk(); g_renderer->RenderToWindow(source, srcrect, dstrect); }
 
 	inline void RenderRectToTexture(SDL_Texture* destination, SDL_Rect* rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a)

@@ -33,7 +33,7 @@ const int WORLD_HEIGHT = 100; // (In terms of TILE_SIZEs)
 const Dimensions WORLD_DIMENSIONS((WORLD_WIDTH), WORLD_HEIGHT);
 
 // SCREEN
-const bool FULL_SCREEN_INITIAL = false;
+const bool FULL_SCREEN_INITIAL = true;
 const Dimensions WINDOWED_SCREEN_RES = (16*TILE_SIZE, 10*TILE_SIZE);
 const Dimensions HARD_MONITOR_RES(1680, 1050);
 

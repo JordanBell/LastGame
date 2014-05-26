@@ -4,16 +4,14 @@
 #include "Renderer_Wrapper.h"
 
 // Player, Door, GridTiles
-Texture_Wrapper::Texture_Wrapper(const SSID ssid, const bool staticClip, SDL_Rect* clip)
+Texture_Wrapper::Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool staticClip) : m_clip(clip), m_staticClip(staticClip), m_target(NULL)
 {
-	m_clip = clip;
 	LoadSource(ssid);
-	m_targetStreamer = NULL;
 
-	if (m_source)
-		CreateTextureFromSource(staticClip);
+	if (ssid == SSID_NULL)
+		CreateTextureForTargetting();
 	else
-		CreateTextureForStreaming();
+		CreateTextureFromSource();
 }
 
 Texture_Wrapper::~Texture_Wrapper(void)
@@ -44,18 +42,19 @@ void Texture_Wrapper::LoadSource(SSID ssid)
 	}
 }
 
-void Texture_Wrapper::CreateTextureFromSource(bool staticClip)
+void Texture_Wrapper::CreateTextureFromSource(void)
 {
 	// Create the texture from the entire sprite sheet source
-	m_texture = g_renderer->CreateTexture(m_source);
+	m_texture = CreateTexture(m_source);
 
-	if (staticClip)
+	if (m_staticClip)
 	{
 		// Save the clipped texture, delete everything else
-		SDL_Texture* clippedTexture = g_renderer->CreateTexture( Dimensions(m_clip->w, m_clip->h),
-																SDL_TEXTUREACCESS_STATIC );
+		SDL_Texture* clippedTexture = CreateTexture( Dimensions(m_clip->w, m_clip->h),
+																SDL_TEXTUREACCESS_TARGET ); // Static access, as it changes only once
+
 		// Render the clip
-		g_renderer->RenderToTexture(m_texture, clippedTexture, m_clip);
+		RenderTextureToTexture(m_texture, clippedTexture, m_clip);
 
 		// Set the m_texture as the new clip
 		m_texture = clippedTexture;
@@ -69,17 +68,14 @@ void Texture_Wrapper::CreateTextureFromSource(bool staticClip)
 	}
 }
 
-void Texture_Wrapper::CreateTextureForStreaming(void)
+void Texture_Wrapper::CreateTextureForTargetting(void)
 {
 	// Texture Streamers don't have their own image, but stream images from others
-	m_texture = g_renderer->CreateTexture(Dimensions(64, 64), SDL_TEXTUREACCESS_TARGET);
-	/*m_texture = g_renderer->CreateTexture(Dimensions(64, 64), 
-										 SDL_TEXTUREACCESS_TARGET | 
-										 SDL_TEXTUREACCESS_STREAMING);*/
+	m_texture = CreateTexture(Dimensions(64, 64), SDL_TEXTUREACCESS_TARGET);
 	
 	// Render an (eventually transparent) rectangle onto the texture
 	SDL_Rect rectangleRect = RectFromXY(XY(), Dimensions(64, 64));
-	g_renderer->RenderRectToTexture(m_texture, &rectangleRect, 0x00, 0xFF, 0x00, 0xFF);
+	RenderRectToTexture(m_texture, &rectangleRect, 0x00, 0xFF, 0x00, 0xFF);
 }
 
 Dimensions Texture_Wrapper::Size(void) const
@@ -89,9 +85,16 @@ Dimensions Texture_Wrapper::Size(void) const
 	int sizeX = 0;
 	int sizeY = 0;
 
-	// Query
-	//int result = SDL_QueryTexture(m_texture, 0, 0, (int*)(&r_size.x), (int*)(&r_size.y));
-	int result = SDL_QueryTexture(m_texture, 0, 0, &sizeX, &sizeY);
+	if (m_clip)
+	{
+		sizeX = m_clip->w;
+		sizeY = m_clip->h;
+	}
+	else
+	{
+		// Query
+		int result = SDL_QueryTexture(m_texture, 0, 0, &sizeX, &sizeY);
+	}
 
 	return Dimensions(sizeX, sizeY);
 }
@@ -101,27 +104,29 @@ void Texture_Wrapper::RenderToTarget(Coordinates pos) const
 	if (m_texture != NULL)
 	{
 		// Render to m_targetStreamer. If m_targetStreamer is NULL, SDL still renders direct to the Window.
-		if (m_targetStreamer) RenderToStreamer(pos);
-		else				  RenderToWindow(pos);
+		if (m_target) RenderToTexture(pos);
+		else		  RenderToWindow(pos);
 	}
 	else throw runtime_error("Cannot render a NULL texture.");
 }
 
-void Texture_Wrapper::RenderToStreamer(Coordinates pos) const
+void Texture_Wrapper::RenderToTexture(Coordinates pos) const
 {
 	// Get the streamed texture of the target
-	SDL_Texture* targetTexture = m_targetStreamer->GetTexture();
+	SDL_Texture* targetTexture = m_target->GetTexture();
 
 	// Render to it
-	g_renderer->RenderToTexture(m_texture, targetTexture, m_clip);
+	RenderTextureToTexture(m_texture, targetTexture, m_clip);
 }
 
 void Texture_Wrapper::RenderToWindow(Coordinates pos) const
 {
 	// Create blitting rect using pos and size
-	//SDL_Rect textureRect = RectFromXY(pos, Size());
+	SDL_Rect textureRect = RectFromXY(pos, Size());
+	//SDL_Rect textureRect = RectFromXY(pos, Dimensions(TILE_SIZE));
+	RenderTextureToWindow(m_texture, m_clip, &textureRect);
 
 	// Create blitting rect using pos
-	SDL_Rect textureRect = RectFromXY(pos, Dimensions());
-	g_renderer->RenderToWindow(m_texture, m_clip, &textureRect);
+	//SDL_Rect textureRect = RectFromXY(pos, Dimensions());
+	//RenderTextureToWindow(m_texture, m_clip, &textureRect);
 }
