@@ -1,6 +1,6 @@
 #include "ToolKit.h"
 #include "SDL.h"
-#include "Game.h"
+//#include "Game.h"
 #include "Test.h"
 
 int main(int argc, char* args[])

@@ -1,7 +1,8 @@
 #pragma once
 #include "SDL.h"
-//#include "Texture_Wrapper.h"
+#include "Texture_Wrapper.h"
 #include "Window_Wrapper.h"
+#include <list>
 
 class Renderer_Wrapper
 {
@@ -33,6 +34,7 @@ public:
 	// Misc
 	void Clear(void);
 	void Update(void);
+	void AddTarget(TextureTarget* target) { m_textureTargets.push_back(target); }
 
 	// Window delegations
 	void ToggleFullscreen(void) { m_window->ToggleFullscreen(); }
@@ -42,6 +44,7 @@ public:
 private:
 	SDL_Renderer* m_renderer;
 	Window*		  m_window;
+	std::list<TextureTarget*> m_textureTargets;
 
 	void RenderRectToTarget(SDL_Rect* rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 	void RenderToTarget(SDL_Texture* target, void (*renderFunction)(void));

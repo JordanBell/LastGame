@@ -14,6 +14,11 @@ Texture_Wrapper::Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool sta
 		CreateTextureFromSource();
 }
 
+TextureTarget::TextureTarget(bool staticImage) : Texture_Wrapper(SSID_NULL, NULL, staticImage) 
+{ 
+	if (!staticImage) g_renderer->AddTarget(this); 
+}
+
 Texture_Wrapper::~Texture_Wrapper(void)
 {
 	SDL_FreeSurface(m_source);
@@ -71,11 +76,7 @@ void Texture_Wrapper::CreateTextureFromSource(void)
 void Texture_Wrapper::CreateTextureForTargetting(void)
 {
 	// Texture Streamers don't have their own image, but stream images from others
-	m_texture = CreateTexture(Dimensions(64, 64), SDL_TEXTUREACCESS_TARGET);
-	
-	// Render an (eventually transparent) rectangle onto the texture
-	SDL_Rect rectangleRect = RectFromXY(XY(), Dimensions(64, 64));
-	RenderRectToTexture(m_texture, &rectangleRect, 0x00, 0xFF, 0x00, 0xFF);
+	m_texture = CreateTexture(Dimensions(16*TILE_SIZE, 10*TILE_SIZE), SDL_TEXTUREACCESS_TARGET);
 }
 
 Dimensions Texture_Wrapper::Size(void) const
@@ -99,11 +100,17 @@ Dimensions Texture_Wrapper::Size(void) const
 	return Dimensions(sizeX, sizeY);
 }
 
+void Texture_Wrapper::Clear(void)
+{
+	SDL_Rect alphaWashRect = {0, 0, Size().x, Size().y};
+	RenderRectToTexture(m_texture, &alphaWashRect, 0x00, 0x00, 0x00, 0x00);
+}
+
 void Texture_Wrapper::RenderToTarget(Coordinates pos) const
 {
 	if (m_texture != NULL)
 	{
-		// Render to m_targetStreamer. If m_targetStreamer is NULL, SDL still renders direct to the Window.
+		// Render to m_target. If m_target is NULL, SDL still renders direct to the Window.
 		if (m_target) RenderToTexture(pos);
 		else		  RenderToWindow(pos);
 	}
@@ -115,8 +122,11 @@ void Texture_Wrapper::RenderToTexture(Coordinates pos) const
 	// Get the streamed texture of the target
 	SDL_Texture* targetTexture = m_target->GetTexture();
 
+	// Create blitting rect using pos and size
+	SDL_Rect textureRect = RectFromXY(pos, Size());
+
 	// Render to it
-	RenderTextureToTexture(m_texture, targetTexture, m_clip);
+	RenderTextureToTexture(m_texture, targetTexture, m_clip, &textureRect);
 }
 
 void Texture_Wrapper::RenderToWindow(Coordinates pos) const

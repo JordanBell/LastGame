@@ -140,6 +140,9 @@ void Renderer_Wrapper::Clear(void)
 {
 	EnsureSuccess(
 		SDL_RenderClear(m_renderer));
+
+	for (TextureTarget* tt : m_textureTargets)
+		tt->Clear();
 }
 
 void Renderer_Wrapper::Update(void)

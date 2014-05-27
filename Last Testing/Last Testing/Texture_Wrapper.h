@@ -20,6 +20,9 @@ public:
 	// Render texture onto renderer-pointer's target
 	void RenderToTarget(Coordinates pos) const;
 
+	// Clear the texture to transparency
+	void Clear(void);
+
 	// Return the raw SDL Texture
 	SDL_Texture* GetTexture(void) const { return m_texture; }
 
@@ -60,7 +63,7 @@ class TextureTarget : public Texture_Wrapper
 {
 public:
 	// Create a texture with NULL source
-	TextureTarget(void) : Texture_Wrapper(SSID_NULL, NULL, false) {}
+	TextureTarget(bool staticImage = false);
 };
 
 typedef TextureTarget ImageTarget;

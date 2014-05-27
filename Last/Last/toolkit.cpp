@@ -4,10 +4,9 @@
 #include "SDL.h"
 #include "SDL_image.h"
 
+Window* g_window = NULL;
+Renderer* g_renderer = NULL;
 bool inFullScreen;
-
-Window g_window = Window();
-Renderer  g_renderer = Renderer(&g_window);
 SDL_Event event;
 
 SDL_Rect RectFromXY(Coordinates pos, Dimensions dims) 
@@ -28,4 +27,17 @@ SDL_Surface* LoadImageSurface(std::string filename)
 	}
 
 	return r_surface;
+}
+
+bool TextureHasAccess(SDL_Texture* texture, Uint32 queriedAccess)
+{
+	int textureAccess;
+	SDL_QueryTexture(texture, NULL, &textureAccess, NULL, NULL);
+
+	return (ContainsBit(textureAccess, queriedAccess));
+}
+
+bool ContainsBit(int target, int query)
+{
+	return ((target & query) != 0);
 }

@@ -77,27 +77,34 @@ void Renderer_Wrapper::RenderToWindow(SDL_Texture* source, SDL_Rect* srcrect, SD
 
 void Renderer_Wrapper::RenderToTexture(SDL_Texture* source, SDL_Texture* destination, SDL_Rect* srcrect, SDL_Rect* dstrect)
 {
-	// Lock
-	EnsureSuccess(
-		SDL_LockTexture(destination, NULL, NULL, NULL));
-	// Set the destination as the renderer target
-	SetTarget(destination);
+	//bool lockable = TextureHasAccess(destination, SDL_TEXTUREACCESS_STREAMING);
 
+	//if (lockable)
+	//{
+	//	// Lock
+	//	EnsureSuccess(
+	//		SDL_LockTexture(destination, NULL, NULL, NULL));
+	//	// Set the destination as the renderer target
+	//}
+
+	// Target the destination
+	SetTarget(destination);
 	// Render onto it
 	EnsureSuccess(
 		SDL_RenderCopy(m_renderer, source, srcrect, dstrect));
-
 	// Reset target to NULL
 	ResetTarget();
-	// Unlock Texture
-	SDL_UnlockTexture(destination);
+
+	//if (lockable)
+	//	// Unlock Texture
+	//	SDL_UnlockTexture(destination);
 }
 
 void Renderer_Wrapper::RenderRectToTexture(SDL_Texture* destination, SDL_Rect* rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
 	// Lock
-	EnsureSuccess(
-		SDL_LockTexture(destination, NULL, NULL, NULL));
+	/*EnsureSuccess(
+		SDL_LockTexture(destination, NULL, NULL, NULL));*/
 	// Target the destination
 	SetTarget(destination);
 
@@ -107,13 +114,15 @@ void Renderer_Wrapper::RenderRectToTexture(SDL_Texture* destination, SDL_Rect* r
 	// Reset target to NULL
 	ResetTarget(); 
 	// Unlock Texture
-	SDL_UnlockTexture(destination);
+	//SDL_UnlockTexture(destination);
 }
 
 
 void Renderer_Wrapper::RenderRectToWindow(SDL_Rect* rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
 	SetTarget(NULL);
+	RenderRectToTarget(rect, r,g,b,a);
+	ResetTarget();
 }
 
 void Renderer_Wrapper::RenderRectToTarget(SDL_Rect* rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
@@ -131,6 +140,9 @@ void Renderer_Wrapper::Clear(void)
 {
 	EnsureSuccess(
 		SDL_RenderClear(m_renderer));
+
+	for (TextureTarget* tt : m_textureTargets)
+		tt->Clear();
 }
 
 void Renderer_Wrapper::Update(void)

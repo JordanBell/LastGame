@@ -10,7 +10,7 @@ class Test
 {
 public:
 	Test(SDL_Rect* clip) : testImage(SSID_ENVIRONMENT, clip, true), 
-						   testTarget() {}
+						   testTarget(true) {}
 	~Test(void) {}
 
 	void InitMembers(void);
