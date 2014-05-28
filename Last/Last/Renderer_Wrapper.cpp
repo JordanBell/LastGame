@@ -1,6 +1,7 @@
 #include "Renderer_Wrapper.h"
 #include "ToolKit.h"
 #include "SDLTools.h"
+#include "SDL_image.h"
 using namespace SDLTools;
 
 Renderer_Wrapper::Renderer_Wrapper(Window* window, Uint32 flags) : m_window(window)
@@ -54,6 +55,18 @@ SDL_Texture* Renderer_Wrapper::CreateTexture(SDL_Surface* surface)
 	EnsureSuccess(result);
 
 	return result;
+}
+
+SDL_Texture* Renderer_Wrapper::LoadImageTexture(std::string filename)
+{
+	SDL_Texture* r_texture = NULL;
+	
+	// Load
+	r_texture = IMG_LoadTexture(m_renderer, filename.c_str());
+	// Check
+	EnsureSuccess(r_texture);
+
+	return r_texture;
 }
 
 SDL_Texture* Renderer_Wrapper::CreateTexture(Dimensions size, int access, Uint32 format)

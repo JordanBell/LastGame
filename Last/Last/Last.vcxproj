@@ -23,7 +23,6 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Renderer_Wrapper.cpp" />
     <ClCompile Include="SDLTools.cpp" />
-    <ClCompile Include="Test.cpp" />
     <ClCompile Include="Texture_Wrapper.cpp" />
     <ClCompile Include="Tiles.cpp" />
     <ClCompile Include="House.cpp" />
@@ -57,7 +56,6 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Renderer_Wrapper.h" />
     <ClInclude Include="SDLTools.h" />
-    <ClInclude Include="Test.h" />
     <ClInclude Include="Texture_Wrapper.h" />
     <ClInclude Include="Tiles.h" />
     <ClInclude Include="House.h" />

@@ -39,7 +39,7 @@ void Camera::E_Render(void)
 void Camera::CenterOnPlayer()
 {
 	// Get the coordinates that the camera would move to, to center on the player
-	Dimensions screenSize = g_renderer.GetWindowSize();
+	Dimensions screenSize = g_renderer->GetWindowSize();
 	Coordinates screenCenter(screenSize.x/2, screenSize.y/2);
 	Coordinates suggestedPos = screenCenter - g_player->pos;
 
@@ -59,7 +59,7 @@ Directions<bool> Camera::GetEdgeBools(Coordinates _pos) const
 {
 	_pos.RoundToInt();
 
-	Dimensions screenSize = g_renderer.GetWindowSize();
+	Dimensions screenSize = g_renderer->GetWindowSize();
 
 	const Directions<bool> r_directions(
 		_pos.y >= 0,
@@ -73,12 +73,12 @@ Directions<bool> Camera::GetEdgeBools(Coordinates _pos) const
 void Camera::ZoomToWidth(const int newWidth)
 {
 	// Get the 1:1 size of the camera
-	Dimensions maxSize = g_renderer.GetLogicalSize();
+	Dimensions maxSize = g_renderer->GetLogicalSize();
 	maxSize /= TILE_SIZE;
 	
 	// Scale to fit the new width
 	float newScale = maxSize.x / newWidth;
-	g_renderer.SetScale(newScale);
+	g_renderer->SetScale(newScale);
 
 	// Add BlitOffset to keep the center of the Camera's rendered size in the center of the screen
 	m_blitOffset = (maxSize.x-newWidth) * TILE_SIZE;

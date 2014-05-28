@@ -1,7 +1,6 @@
 #include "ToolKit.h"
 #include "SDL.h"
-//#include "Game.h"
-#include "Test.h"
+#include "Game.h"
 
 int main(int argc, char* args[])
 {
@@ -13,13 +12,8 @@ int main(int argc, char* args[])
 	freopen("CON", "wt", stderr);
 	 
 	//Game Running
-	/*g_game = new Game();
-	g_game->run();*/
-
-	SDL_Rect testClip = {0, 0, TILE_SIZE, TILE_SIZE};
-	Test test = Test(&testClip);
-	test.InitMembers();
-	test.Run();
+	g_game = new Game();
+	g_game->Run();
 
 	SDL_Quit();
 

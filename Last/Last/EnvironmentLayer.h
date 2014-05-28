@@ -5,7 +5,7 @@
 #include <list>
 using namespace std;
 
-class Environment; // In order to make it a Friend
+class Environment; // In order to make it a Friend, must be declared
 
 class EnvironmentLayer : public EntityContainer
 {

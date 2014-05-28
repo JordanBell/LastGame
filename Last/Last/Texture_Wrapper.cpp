@@ -6,12 +6,12 @@
 // Player, Door, GridTiles
 Texture_Wrapper::Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool staticClip) : m_clip(clip), m_staticClip(staticClip), m_target(NULL)
 {
-	LoadSource(ssid);
-
 	if (ssid == SSID_NULL)
 		CreateTextureForTargetting();
 	else
-		CreateTextureFromSource();
+		CreateTextureFromFile(ssid);
+
+	if (m_staticClip && m_clip) ClipTexture();
 }
 
 TextureTarget::TextureTarget(bool staticImage) : Texture_Wrapper(SSID_NULL, NULL, staticImage) 
@@ -21,56 +21,45 @@ TextureTarget::TextureTarget(bool staticImage) : Texture_Wrapper(SSID_NULL, NULL
 
 Texture_Wrapper::~Texture_Wrapper(void)
 {
-	SDL_FreeSurface(m_source);
 	SDL_DestroyTexture(m_texture);
 }
 
-void Texture_Wrapper::LoadSource(SSID ssid)
+void Texture_Wrapper::CreateTextureFromFile(SSID ssid)
 {
 	// Set the sprite sheet from the SpriteSheetID
 	switch (ssid)
 	{
 	case SSID_NULL:
-		m_source = NULL;
+		m_texture = NULL;
 		break;
 	case SSID_ENVIRONMENT:
-		m_source = Resources::GetEnvironmentImage();
+		m_texture = Resources::GetEnvironmentImage();
 		break;
 	case SSID_PLAYER:
-		m_source = Resources::GetPlayerImage();
+		m_texture = Resources::GetPlayerImage();
 		break;
 	case SSID_DOOR:
-		m_source = Resources::GetDoorImage();
+		m_texture = Resources::GetDoorImage();
 		break;
 	default:
 		throw runtime_error("SSID not recognised during Texture construction.");
 	}
 }
 
-void Texture_Wrapper::CreateTextureFromSource(void)
+void Texture_Wrapper::ClipTexture(void)
 {
-	// Create the texture from the entire sprite sheet source
-	m_texture = CreateTexture(m_source);
+	// Save the clipped texture, delete everything else
+	SDL_Texture* clippedTexture = CreateTexture( Dimensions(m_clip->w, m_clip->h),
+															SDL_TEXTUREACCESS_TARGET);
 
-	if (m_staticClip)
-	{
-		// Save the clipped texture, delete everything else
-		SDL_Texture* clippedTexture = CreateTexture( Dimensions(m_clip->w, m_clip->h),
-																SDL_TEXTUREACCESS_TARGET ); // Static access, as it changes only once
+	// Render the clip from the whole sprite sheet held in m_texture
+	RenderTextureToTexture(m_texture, clippedTexture, m_clip);
 
-		// Render the clip
-		RenderTextureToTexture(m_texture, clippedTexture, m_clip);
+	// Set the new clip as the main texture, m_texture
+	m_texture = clippedTexture;
 
-		// Set the m_texture as the new clip
-		m_texture = clippedTexture;
-
-		// Get rid of any source surface
-		if (m_source) SDL_FreeSurface(m_source);
-
-		// Nullify pointers related to dynamic images
-		m_source = NULL;
-		m_clip = NULL;
-	}
+	// Nullify clip pointer
+	m_clip = NULL;
 }
 
 void Texture_Wrapper::CreateTextureForTargetting(void)
@@ -135,8 +124,4 @@ void Texture_Wrapper::RenderToWindow(Coordinates pos) const
 	SDL_Rect textureRect = RectFromXY(pos, Size());
 	//SDL_Rect textureRect = RectFromXY(pos, Dimensions(TILE_SIZE));
 	RenderTextureToWindow(m_texture, m_clip, &textureRect);
-
-	// Create blitting rect using pos
-	//SDL_Rect textureRect = RectFromXY(pos, Dimensions());
-	//RenderTextureToWindow(m_texture, m_clip, &textureRect);
 }

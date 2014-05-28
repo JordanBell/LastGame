@@ -19,11 +19,11 @@ public:
 		// Or if any of its children are on the screen.
 	bool IsOnScreen(void) const;
 
-	ImageStreamer* GetStreamer() { return &m_image; }
+	ImageTarget* GetStreamer() { return &m_imageStreamer; }
 
 protected:
 	bool m_staticImage;
-	ImageStreamer m_image;
+	ImageTarget m_imageStreamer;
 	std::list<Entity*> children; // A list of the child Entities within this container.
 
 	// Render this entity

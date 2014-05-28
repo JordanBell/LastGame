@@ -11,7 +11,7 @@ Entity::Entity(const Coordinates& _pos,
 		   EntityFormat format,	
 		   SDL_Rect* clip,
 		   AnimationModule* personalisedAnimationModule) 
-		   : m_image(spriteSheetID, !format[ANIMATED], clip), 
+		   : m_image(spriteSheetID, clip, !format[ANIMATED]), 
 		     m_format(format), 
 			 m_blitOffset(blitOffset), 
 			 a_module(personalisedAnimationModule), 
@@ -34,7 +34,7 @@ Entity::~Entity(void)
 void Entity::SetParent(EntityContainer* p) 
 { 
 	parent = p; 
-	m_image.SetStreamer(parent->GetStreamer());
+	m_image.SetTarget(parent->GetStreamer());
 }
 
 void Entity::BlitToParent()
@@ -94,7 +94,7 @@ bool Entity::IsOnScreen(void) const
 	const Directions<float>entityEdges(RectFromXY(blittingPos, imageSize));
 
 	// Return whether or not any of the edges peek over the screen
-	Dimensions screenSize = g_renderer.GetWindowSize();
+	Dimensions screenSize = g_renderer->GetWindowSize();
 
 	return ((entityEdges.top	< screenSize.y) &&
 			(entityEdges.left	< screenSize.x) &&

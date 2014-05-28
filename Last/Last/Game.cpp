@@ -32,14 +32,13 @@ void Game::init()
 	g_camera->InitChildren();
 }
 
-void Game::run()
+void Game::Run()
 {	
 	init();
 
 	while (running)
 	{
 		m_FPSTimer.start();
-
 		// Triumvirate Game loop processes
 		Update();
 		Render();
@@ -73,20 +72,20 @@ void Game::HandleKeys()
 
 		// Toggling formatting
 		if (keystates[SDL_SCANCODE_F]) g_player->Interact();
-		if (keystates[SDL_SCANCODE_RETURN]) g_renderer.ToggleFullscreen();
+		if (keystates[SDL_SCANCODE_RETURN]) ToggleFullscreen();
 		if (keystates[SDL_SCANCODE_ESCAPE]) running = false;
 }
 
 void Game::Render()
 {
 	//Clear screen
-	g_renderer.Clear();
+	ClearWindow();
 
 	// Render camera (Everything on screen)
 	g_camera->Render();
 
 	// Update the screen
-	g_renderer.Update();
+	UpdateWindow();
 }
 
 // Regulate the frame rate, and return the time (ms) since the last call

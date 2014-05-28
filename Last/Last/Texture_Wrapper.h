@@ -6,13 +6,17 @@ class TextureTarget;
 class Texture_Wrapper
 {
 public:
-	// Create a texture from a sprite sheet file
+	/* Create a texture from a sprite sheet file
+		@staticClip A Texture with a static clip will save space, as it 
+					doesn't need to save its entire sprite sheet, but 
+					just the section from the initially specified clip.
+	*/
 	Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool staticClip);
 
 	virtual ~Texture_Wrapper(void);
 
 	// Add a Texture Streamer for this to stream its texture toward
-	void SetStreamer(TextureTarget* streamer) { m_target = streamer; }
+	void SetTarget(TextureTarget* target) { m_target = target; }
 
 	// Change the image's clip
 	void SetClip(SDL_Rect* newClip) { if (!m_staticClip) m_clip = newClip; else throw std::runtime_error("Cannot change the clip of a static texture"); }
@@ -40,17 +44,16 @@ protected:
 	SDL_Rect* m_clip;
 
 private:
-	SDL_Surface* m_source;
 	bool m_staticClip;
 
-	// Load the source surface that this Texture comes from
-	void LoadSource(SSID ssid);
+	// Load the source texture from the SSID
+	void CreateTextureFromFile(SSID ssid);
 
-	// Load the texture from the Source, using the renderer
-	void CreateTextureFromSource(void);
-
-	// Load the texture from the Source, using the renderer
+	// Create a texture formatted for targetting
 	void CreateTextureForTargetting(void);
+
+	// Clip the texture, if its clip is static, and release the clip
+	void ClipTexture(void);
 
 	void RenderToTexture(Coordinates pos) const;
 	void RenderToWindow(Coordinates pos) const;
@@ -62,7 +65,10 @@ typedef Texture_Wrapper Texture;
 class TextureTarget : public Texture_Wrapper
 {
 public:
-	// Create a texture with NULL source
+	/* Create a texture with NULL source
+		@staticImage A target with a static image does not get refreshed 
+					 each time Clear() is called in the g_renderer wrapper.
+	*/
 	TextureTarget(bool staticImage = false);
 };
 

@@ -10,13 +10,13 @@ class Resources
 {
 public:
 	// Refer to the player sprite sheet surface
-	static SDL_Surface* const GetPlayerImage();
+	static SDL_Texture* const GetPlayerImage();
 	
 	// Refer to the environment sprite sheet surface
-	static SDL_Surface* const GetEnvironmentImage();
+	static SDL_Texture* const GetEnvironmentImage();
 	
 	// Refer to the environment sprite sheet surface
-	static SDL_Surface* const GetDoorImage();
+	static SDL_Texture* const GetDoorImage();
 
 private:
 	Resources(void);
@@ -26,10 +26,10 @@ private:
 	static const string environmentSheetFile;	// The filepath to the environment's sprite sheet
 	static const string doorSheetFile;			// The filepath to the door's sprite sheet
 
-	static SDL_Surface* playerSheet;		// The player sprite sheet 
-	static SDL_Surface* environmentSheet;	// The environment sprite sheet
-	static SDL_Surface* doorSheet;			// The door sprite sheet
+	static SDL_Texture* playerSheet;		// The player sprite sheet 
+	static SDL_Texture* environmentSheet;	// The environment sprite sheet
+	static SDL_Texture* doorSheet;			// The door sprite sheet
 
 	// Getting and loading an image into its texture pointer based on a file name
-	static SDL_Surface* const GetImage(const string *filename);
+	static SDL_Texture* const GetImage(const string *filename);
 };

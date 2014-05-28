@@ -10,7 +10,7 @@ public:
 	~Game(void);
 	
 	// Run the game, stick it in the game loop
-	void run();
+	void Run();
 
 private:
 	int delta; // The time since the last frame

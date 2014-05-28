@@ -15,6 +15,7 @@ public:
 	SDL_Texture* CreateTexture(Dimensions size, 
 							   int access = SDL_TEXTUREACCESS_STATIC, 
 							   Uint32 format = SDL_PIXELFORMAT_ARGB8888);
+	SDL_Texture* LoadImageTexture(std::string filename);
 
 	// Logical Size
 	void SetLogicalSize(Dimensions size);

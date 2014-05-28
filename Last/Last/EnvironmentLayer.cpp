@@ -1,7 +1,7 @@
 #include "EnvironmentLayer.h"
 #include "Config.h"
 
-EnvironmentLayer::EnvironmentLayer(bool staticImage) : EntityContainer(WORLD_DIMENSIONS * TILE_SIZE, Coordinates(0, 0), staticImage) 
+EnvironmentLayer::EnvironmentLayer(bool staticImage) : EntityContainer(WORLD_DIMENSIONS * TILE_SIZE, Coordinates(0, 0), staticImage)
 {
 	for (int i = 0; i < WORLD_WIDTH; i++)
 		for (int j = 0; j < WORLD_HEIGHT; j++)

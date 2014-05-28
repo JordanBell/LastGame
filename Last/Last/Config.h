@@ -2,15 +2,15 @@
 #include "Tools.h"
 //#include "EntityFormat.h"
 
-/* Entity format flag. */
-const Uint8 ENTITY_GRAPHIC			= 0x00;
-const Uint8 ENTITY_GRIDINDEPENDENT	= 0x01;
-const Uint8 ENTITY_LIGHTSOURCE		= 0x02;
-const Uint8 ENTITY_TANGIBLE			= 0x04;
-const Uint8 ENTITY_INTERACTABLE		= 0x08;
-const Uint8 ENTITY_TRAVELLER		= 0x10;
-const Uint8 ENTITY_UPDATABLE		= 0x20;
-const Uint8 ENTITY_ANIMATED			= 0x30;
+/* Entity format flags. */
+const Uint8 ENTITY_GRAPHIC			= 0;
+const Uint8 ENTITY_GRIDINDEPENDENT	= 1;
+const Uint8 ENTITY_LIGHTSOURCE		= 2;
+const Uint8 ENTITY_TANGIBLE			= 4;
+const Uint8 ENTITY_INTERACTABLE		= 8;
+const Uint8 ENTITY_TRAVELLER		= 16;
+const Uint8 ENTITY_UPDATABLE		= 32;
+const Uint8 ENTITY_ANIMATED			= 64;
 
 /* Entity format preset. */
 const Uint8 CONTAINER_FRMT = ENTITY_UPDATABLE | ENTITY_GRIDINDEPENDENT;

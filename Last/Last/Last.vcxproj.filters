@@ -41,6 +41,9 @@
     <Filter Include="Files\Entity\Tools">
       <UniqueIdentifier>{fbdab319-a298-4b4c-b506-1b00cce67813}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Files\SDL Wrappers and Tools">
+      <UniqueIdentifier>{82d412a0-08bf-4330-8096-e92f72e917ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationIterator.cpp">
@@ -112,12 +115,17 @@
     <ClCompile Include="EntityFormat.cpp">
       <Filter>Files\Entity\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="Test.cpp" />
-    <ClCompile Include="Texture_Wrapper.cpp" />
-    <ClCompile Include="Renderer_Wrapper.cpp" />
-    <ClCompile Include="Window_Wrapper.cpp" />
     <ClCompile Include="SDLTools.cpp">
-      <Filter>Files</Filter>
+      <Filter>Files\SDL Wrappers and Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer_Wrapper.cpp">
+      <Filter>Files\SDL Wrappers and Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture_Wrapper.cpp">
+      <Filter>Files\SDL Wrappers and Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Window_Wrapper.cpp">
+      <Filter>Files\SDL Wrappers and Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,20 +213,17 @@
     <ClInclude Include="ToolKit.h">
       <Filter>Files\General</Filter>
     </ClInclude>
-    <ClInclude Include="Test.h">
-      <Filter>Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture_Wrapper.h">
-      <Filter>Files</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer_Wrapper.h">
-      <Filter>Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Window_Wrapper.h">
-      <Filter>Files</Filter>
+      <Filter>Files\SDL Wrappers and Tools</Filter>
     </ClInclude>
     <ClInclude Include="SDLTools.h">
-      <Filter>Files</Filter>
+      <Filter>Files\SDL Wrappers and Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture_Wrapper.h">
+      <Filter>Files\SDL Wrappers and Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Window_Wrapper.h">
+      <Filter>Files\SDL Wrappers and Tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
