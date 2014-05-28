@@ -7,7 +7,9 @@
 class Renderer_Wrapper
 {
 public:
-	Renderer_Wrapper(Window* window, Uint32 flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
+	Renderer_Wrapper(Window* window, 
+					 Dimensions logicalSize = Dimensions(16*TILE_SIZE, 10*TILE_SIZE), 
+					 Uint32 flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
 	~Renderer_Wrapper(void);
 	
 	// Texture Creation
@@ -19,7 +21,7 @@ public:
 
 	// Logical Size
 	void SetLogicalSize(Dimensions size);
-	Dimensions GetLogicalSize(void) const;
+	Dimensions GetLogicalSize(void) const { return m_logicalSize; }
 	
 	// Scale
 	void SetScale(float scaleX, float scaleY);
@@ -45,6 +47,7 @@ public:
 private:
 	SDL_Renderer* m_renderer;
 	Window*		  m_window;
+	Dimensions	  m_logicalSize;
 	std::list<TextureTarget*> m_textureTargets;
 
 	void RenderRectToTarget(SDL_Rect* rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a);

@@ -48,6 +48,8 @@ bool ContainsBit(int target, int query);
 		{ chk(); g_renderer->RenderRectToWindow(rect, r,g,b,a); }
 
 	// Misc
+	inline Dimensions GetLogicalSize(void)
+		{ chk(); return g_renderer->GetLogicalSize(); }
 	inline SDL_Texture* LoadImageTexture(std::string filename)
 		{ chk(); return g_renderer->LoadImageTexture(filename); }
 	inline void ClearWindow(void) 

@@ -5,6 +5,7 @@
 #include "Camera.h" // Initialising g_camera
 #include "Player.h" // Initialising g_player
 #include "WorldBuilder.h" // Building the world
+#include "HUD_Layer.h"
 
 Game* g_game = NULL;
 
@@ -18,6 +19,14 @@ Game::~Game() { delete g_camera; }
 
 void Game::init()
 {
+	// Initialise the UI
+	UI_HUD = new HUD_Layer();
+		UI_Fatigue = new UI_Status(g_fatigue, Coordinates(0, 0));
+		UI_Loneliness = new UI_Status(g_loneliness, Coordinates(1, 0));
+		UI_Insanity = new UI_Status(g_insanity, Coordinates(0, 1));
+		UI_Fear = new UI_Status(g_fear, Coordinates(1, 1));
+	UI_HUD->InitChildren(); // Add all of the above to the HUD Layer
+
 	// Initialise the Player
 	Coordinates worldCenter((WORLD_WIDTH/2), (WORLD_HEIGHT/2));
 	g_player = new Player(worldCenter);
@@ -39,6 +48,7 @@ void Game::Run()
 	while (running)
 	{
 		m_FPSTimer.start();
+
 		// Triumvirate Game loop processes
 		Update();
 		Render();

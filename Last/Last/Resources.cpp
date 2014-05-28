@@ -15,6 +15,10 @@ SDL_Texture* Resources::environmentSheet = NULL;
 const std::string Resources::doorSheetFile = "doorSheet.png";
 SDL_Texture* Resources::doorSheet = NULL;
 
+// Status sheet consts
+const std::string Resources::statusSheetFile = "statusSheet.png";
+SDL_Texture* Resources::statusSheet = NULL;
+
 SDL_Texture* const Resources::GetPlayerImage()
 {
 	try { 
@@ -24,17 +28,6 @@ SDL_Texture* const Resources::GetPlayerImage()
 	{
 		printf("Failed to load the player image.");
 	}
-
-	//// Load if not already
-	//if (playerSheet == NULL)
-	//{
-	//	playerSheet = load_image(environmentSheetFile);
-
-	//	// Check for failures
-	//	if (!playerSheet) throw std::runtime_error("The environment file failed to load.");
-	//}
-
-	//return playerSheet;
 }
 
 SDL_Texture* const Resources::GetEnvironmentImage()
@@ -46,17 +39,6 @@ SDL_Texture* const Resources::GetEnvironmentImage()
 	{
 		printf("Failed to load the environment image.");
 	}
-
-	//// Load if not already
-	//if (environmentSheet == NULL)
-	//{
-	//	environmentSheet = load_image(environmentSheetFile);
-
-	//	// Check for failures
-	//	if (!environmentSheet) throw std::runtime_error("The environment file failed to load.");
-	//}
-
-	//return environmentSheet;
 }
 
 SDL_Texture* const Resources::GetDoorImage()
@@ -68,17 +50,17 @@ SDL_Texture* const Resources::GetDoorImage()
 	{
 		printf("Failed to load the door image.");
 	}
+}
 
-	//// Load if not already
-	//if (doorSheet == NULL)
-	//{
-	//	doorSheet = load_image(doorSheetFile);
-
-	//	// Check for failures
-	//	if (!doorSheet) throw std::runtime_error("The door file failed to load.");
-	//}
-
-	//return doorSheet;
+SDL_Texture* const Resources::GetStatusImage()
+{
+	try { 
+		return GetImage(&statusSheetFile);
+	}
+	catch (std::runtime_error e)
+	{
+		printf("Failed to load the status image.");
+	}
 }
 
 SDL_Texture* const Resources::GetImage(const std::string* filename)
@@ -89,6 +71,7 @@ SDL_Texture* const Resources::GetImage(const std::string* filename)
 		 if (filename == &playerSheetFile)		targetPtr = &playerSheet;
 	else if (filename == &environmentSheetFile) targetPtr = &environmentSheet;
 	else if (filename == &doorSheetFile)		targetPtr = &doorSheet;
+	else if (filename == &statusSheetFile)		targetPtr = &statusSheet;
 	else										targetPtr = NULL;
 
 	// Load if not already

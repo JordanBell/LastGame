@@ -41,6 +41,9 @@ void Texture_Wrapper::CreateTextureFromFile(SSID ssid)
 	case SSID_DOOR:
 		m_texture = Resources::GetDoorImage();
 		break;
+	case SSID_STATUS:
+		m_texture = Resources::GetStatusImage();
+		break;
 	default:
 		throw runtime_error("SSID not recognised during Texture construction.");
 	}
@@ -48,6 +51,11 @@ void Texture_Wrapper::CreateTextureFromFile(SSID ssid)
 
 void Texture_Wrapper::ClipTexture(void)
 {
+	// Check for a stupid clip
+	if ((m_clip->w== 0) || (m_clip->h == 0)) {
+		throw std::runtime_error("Cannot pass a clip with width or height as 0");
+	}
+
 	// Save the clipped texture, delete everything else
 	SDL_Texture* clippedTexture = CreateTexture( Dimensions(m_clip->w, m_clip->h),
 															SDL_TEXTUREACCESS_TARGET);

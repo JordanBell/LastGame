@@ -44,6 +44,9 @@
     <Filter Include="Files\SDL Wrappers and Tools">
       <UniqueIdentifier>{82d412a0-08bf-4330-8096-e92f72e917ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Files\UI">
+      <UniqueIdentifier>{3a85f4b8-02ef-4fef-8fb7-5d47ae1a465f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationIterator.cpp">
@@ -126,6 +129,15 @@
     </ClCompile>
     <ClCompile Include="Window_Wrapper.cpp">
       <Filter>Files\SDL Wrappers and Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Status.cpp">
+      <Filter>Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Status.cpp">
+      <Filter>Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD_Layer.cpp">
+      <Filter>Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -224,6 +236,15 @@
     </ClInclude>
     <ClInclude Include="Window_Wrapper.h">
       <Filter>Files\SDL Wrappers and Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD_Layer.h">
+      <Filter>Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Status.h">
+      <Filter>Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Status.h">
+      <Filter>Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -21,8 +21,10 @@
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="EnvironmentLayer.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="HUD_Layer.cpp" />
     <ClCompile Include="Renderer_Wrapper.cpp" />
     <ClCompile Include="SDLTools.cpp" />
+    <ClCompile Include="Status.cpp" />
     <ClCompile Include="Texture_Wrapper.cpp" />
     <ClCompile Include="Tiles.cpp" />
     <ClCompile Include="House.cpp" />
@@ -35,6 +37,7 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="ToolKit.cpp" />
     <ClCompile Include="Traveller.cpp" />
+    <ClCompile Include="UI_Status.cpp" />
     <ClCompile Include="Window_Wrapper.cpp" />
     <ClCompile Include="WorldBuilder.cpp" />
     <ClCompile Include="EntityFormat.cpp" />
@@ -54,8 +57,10 @@
     <ClInclude Include="Environment.h" />
     <ClInclude Include="EnvironmentLayer.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="HUD_Layer.h" />
     <ClInclude Include="Renderer_Wrapper.h" />
     <ClInclude Include="SDLTools.h" />
+    <ClInclude Include="Status.h" />
     <ClInclude Include="Texture_Wrapper.h" />
     <ClInclude Include="Tiles.h" />
     <ClInclude Include="House.h" />
@@ -70,6 +75,7 @@
     <ClInclude Include="Tools.h" />
     <ClInclude Include="Traveller.h" />
     <ClInclude Include="TravellerAnimation.h" />
+    <ClInclude Include="UI_Status.h" />
     <ClInclude Include="Window_Wrapper.h" />
     <ClInclude Include="WorldBuilder.h" />
   </ItemGroup>

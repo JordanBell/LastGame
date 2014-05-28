@@ -17,11 +17,10 @@ Entity::Entity(const Coordinates& _pos,
 			 a_module(personalisedAnimationModule), 
 			 parent(NULL)
 {
-	// If GridDependent, take _pos as a grid position
+	// If not GridIndependent, take _pos as a grid position. Otherwise, take as is
 	pos = (m_format[GRID_INDEPENDENT]) ? _pos : _pos*TILE_SIZE;
 
-	/** Check format dependancies **/
-	// ANIMATION
+	// Check animation dependancies
 	if (format[ANIMATED] && !a_module) throw ModuleMisuseException("Animated Entities must be initialised with an Animation Module.");
 	if (!format[ANIMATED] && a_module) throw ModuleMisuseException("You cannot pass an Animation Module to a non-animated Entity.");
 }	

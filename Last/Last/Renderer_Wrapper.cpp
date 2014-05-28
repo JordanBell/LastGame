@@ -4,11 +4,13 @@
 #include "SDL_image.h"
 using namespace SDLTools;
 
-Renderer_Wrapper::Renderer_Wrapper(Window* window, Uint32 flags) : m_window(window)
+Renderer_Wrapper::Renderer_Wrapper(Window* window, Dimensions logicalSize, Uint32 flags) : m_window(window), m_logicalSize(logicalSize)
 {
 	// Initialise the renderer with that window
 	m_renderer = SDL_CreateRenderer(m_window->GetWindow(), -1, flags);
 	EnsureSuccess(m_renderer);
+
+	SetLogicalSize(m_logicalSize);
 }
 
 Renderer_Wrapper::~Renderer_Wrapper(void)
@@ -22,13 +24,13 @@ void Renderer_Wrapper::SetLogicalSize(Dimensions size)
 		SDL_RenderSetLogicalSize(m_renderer, size.x, size.y));
 }
 
-Dimensions Renderer_Wrapper::GetLogicalSize(void) const
-{
-	Dimensions r_size = Dimensions();
-	SDL_RenderGetLogicalSize(m_renderer, (int*)(&r_size.x), (int*)(&r_size.y));
-
-	return r_size;
-}
+//Dimensions Renderer_Wrapper::GetLogicalSize(void) const
+//{
+//	Dimensions r_size = Dimensions();
+//	SDL_RenderGetLogicalSize(m_renderer, (int*)(&r_size.x), (int*)(&r_size.y));
+//
+//	return r_size;
+//}
 
 Dimensions Renderer_Wrapper::GetWindowSize(void) const
 {
