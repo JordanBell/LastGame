@@ -17,6 +17,7 @@ SDL_Rect RectFromXY(Coordinates pos, Dimensions dims)
 	return r_rect; 
 }
 
+// Deprecated - use Renderer_Wrapper::LoadImageTexture instead
 SDL_Surface* LoadImageSurface(std::string filename)
 {
 	SDL_Surface* r_surface = NULL;

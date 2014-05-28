@@ -9,7 +9,8 @@
 class Test
 {
 public:
-	Test(SDL_Rect* clip) : testImage(SSID_ENVIRONMENT, clip, true), 
+	Test(SDL_Rect* clip) : testImage(SSID_ENVIRONMENT, clip, false), 
+						   testDuplicate(SSID_ENVIRONMENT, clip, true),
 						   testTarget(true) {}
 	~Test(void) {}
 
@@ -18,5 +19,6 @@ public:
 
 private:
 	Image testImage;
+	Image testDuplicate;
 	ImageTarget testTarget;
 };

@@ -5,17 +5,17 @@
 
 // Player sheet consts
 const std::string Resources::playerSheetFile = "playerSheet.png";
-SDL_Surface* Resources::playerSheet = NULL;
+SDL_Texture* Resources::playerSheet = NULL;
 
 // Environment sheet consts
 const std::string Resources::environmentSheetFile = "environment.png";
-SDL_Surface* Resources::environmentSheet = NULL;
+SDL_Texture* Resources::environmentSheet = NULL;
 
 // Door sheet consts
 const std::string Resources::doorSheetFile = "doorSheet.png";
-SDL_Surface* Resources::doorSheet = NULL;
+SDL_Texture* Resources::doorSheet = NULL;
 
-SDL_Surface* const Resources::GetPlayerImage()
+SDL_Texture* const Resources::GetPlayerImage()
 {
 	try { 
 		return GetImage(&playerSheetFile);
@@ -37,7 +37,7 @@ SDL_Surface* const Resources::GetPlayerImage()
 	//return playerSheet;
 }
 
-SDL_Surface* const Resources::GetEnvironmentImage()
+SDL_Texture* const Resources::GetEnvironmentImage()
 {
 	try { 
 		return GetImage(&environmentSheetFile);
@@ -59,7 +59,7 @@ SDL_Surface* const Resources::GetEnvironmentImage()
 	//return environmentSheet;
 }
 
-SDL_Surface* const Resources::GetDoorImage()
+SDL_Texture* const Resources::GetDoorImage()
 {
 	try { 
 		return GetImage(&doorSheetFile);
@@ -81,21 +81,22 @@ SDL_Surface* const Resources::GetDoorImage()
 	//return doorSheet;
 }
 
-SDL_Surface* const Resources::GetImage(const std::string* filename)
+SDL_Texture* const Resources::GetImage(const std::string* filename)
 {
 	// Pointer to the texture pointer
-	SDL_Surface** targetPtr = NULL;
+	SDL_Texture** targetPtr = NULL;
 	
 		 if (filename == &playerSheetFile)		targetPtr = &playerSheet;
 	else if (filename == &environmentSheetFile) targetPtr = &environmentSheet;
 	else if (filename == &doorSheetFile)		targetPtr = &doorSheet;
+	else										targetPtr = NULL;
 
 	// Load if not already
 	if (targetPtr)
 	{
 		if (*targetPtr == NULL)
 		{
-			*targetPtr = LoadImageSurface(*filename);
+			*targetPtr = LoadImageTexture(*filename);
 
 			// Check for failures
 			if (!*targetPtr) throw std::runtime_error("Failed to get an image from Resources.");
