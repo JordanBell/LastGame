@@ -29,7 +29,7 @@ public:
 	void SetParent(EntityContainer* p);
 
 	// Get the blitting position of this object.
-	Coordinates GetBlittingPos(void) const { return GetAbsolutePos() + m_blitOffset; }
+	Coordinates GetBlittingPos(void) const { return /*GetAbsolutePos()*/pos + m_blitOffset; }
 
 	// Move this object's coordinates by a displacement amount.
 	void Move(const XY& displacement) { throw ("Calling Move(XY)...\n"); /* I'm throwing a string here in order to highlight when this function is called. */ pos += displacement; }
@@ -39,11 +39,14 @@ public:
 	// Get the absolute position of this object.
 	Coordinates GetAbsolutePos(void) const;
 
+	// Virtual image retrieval, as the image implementation for EntityContainer can be overridden as an ImageTarget
+	virtual Image& GetImage(void) { return m_image; }
+
 	// Whether or not E_Render should be called from Render. Overridden by EntityContainers.
-	virtual bool ShouldRender(void) const { return ShouldRenderImage(); }
+	virtual bool ShouldRender(void) { return ShouldRenderImage(); }
 
 	// Return whether or not a visible part of this object is on the screen. 
-	virtual bool IsOnScreen(void) const; // Overridden for EntityContainers
+	virtual bool IsOnScreen(void); // Overridden for EntityContainers
 
 	// Apply this object's sprite sheet onto the screen at this object's blitting position
 	void BlitToParent(void);
@@ -69,7 +72,6 @@ protected:
 		   );
 
 	EntityFormat m_format;		// The format of this entity, dictating its behavior.
-	Image m_image;				// The image which this entity displays.
 	Coordinates m_blitOffset;	// The number of pixels that this object is blitted from the origin.
 	EntityContainer* parent;	// The parent of this Entity
 	AnimationModule* a_module;	// Encapsulated Animation handler. NULL if this entity is not animated.
@@ -77,7 +79,7 @@ protected:
 	void OverrideFormat(const EntityFormat& format) { m_format = format; }
 
 	// Return whether or not this entity's image should be rendered
-	bool ShouldRenderImage(void) const;
+	bool ShouldRenderImage(void);
 
 	// Get this object's position on the grid (pos/TILE_SIZE)
 	Coordinates GetGridPosition(void) const { return GetGridPosition(pos); }
@@ -96,6 +98,8 @@ protected:
 	virtual bool E_CanMoveThrough(void) { return false; }
 
 private:
+	Image m_image; // The image which this entity displays.
+
 	bool isInSight;	// Whether or not this object is "within sight" of the player.
 
 	// Initialise the Entity's sprite sheet

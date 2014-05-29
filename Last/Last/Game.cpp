@@ -5,17 +5,24 @@
 #include "Camera.h" // Initialising g_camera
 #include "Player.h" // Initialising g_player
 #include "WorldBuilder.h" // Building the world
-#include "HUD_Layer.h"
+#include "HUD_Layer.h" // UI HUD
+
 
 Game* g_game = NULL;
 
-Game::Game() : running(true)
+Game::Game() : running(true), 
+	testTile(Coordinates()),
+	te()
 {
 	delta = 0;
 	srand(time(NULL));
 }
 
-Game::~Game() { delete g_camera; }
+Game::~Game() 
+{ 
+	delete g_camera; 
+	delete UI_HUD;
+}
 
 void Game::init()
 {
@@ -39,6 +46,9 @@ void Game::init()
 	// Add everything to the Camera
 	g_camera = new Camera();
 	g_camera->InitChildren();
+
+	// Testing
+	te.AddChild(&testTile);
 }
 
 void Game::Run()
@@ -67,6 +77,7 @@ void Game::Update()
 	
 	// Update the entities
 	g_camera->Update(delta);
+	UI_HUD->Update(delta);
 }
 
 void Game::HandleKeys()
@@ -93,6 +104,8 @@ void Game::Render()
 
 	// Render camera (Everything on screen)
 	g_camera->Render();
+	// Render UI HUD
+	UI_HUD->Render();
 
 	// Update the screen
 	UpdateWindow();

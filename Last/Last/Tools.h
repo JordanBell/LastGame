@@ -48,8 +48,12 @@ struct XY {
 	XY(const float val) : x(val), y(val) {}
 	XY(const float _x, const float _y) : x(_x), y(_y) {}
 
-	// Finding the manhatten distances between the two (or other pythagorean theorum contexts)
-	const float manhatten(void) const { return sqrt(x*x + y*y); }
+	// Check if either value equals the argument
+	const bool Contains(float val) { return ((x == val) || (y == val)); }
+	const bool Contains(int val) { return Contains((float)val); }
+
+	// Finding the euclidian distances between the two (or other pythagorean theorum contexts)
+	const float euclidian(void) const { return sqrt(x*x + y*y); }
 
 	// Alter the values based on a direction
 	void addDirection(const E_Direction d) { addDirection(d, 1); }

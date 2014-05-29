@@ -25,6 +25,7 @@
     <ClCompile Include="Renderer_Wrapper.cpp" />
     <ClCompile Include="SDLTools.cpp" />
     <ClCompile Include="Status.cpp" />
+    <ClCompile Include="TestEntity.cpp" />
     <ClCompile Include="Texture_Wrapper.cpp" />
     <ClCompile Include="Tiles.cpp" />
     <ClCompile Include="House.cpp" />
@@ -61,6 +62,7 @@
     <ClInclude Include="Renderer_Wrapper.h" />
     <ClInclude Include="SDLTools.h" />
     <ClInclude Include="Status.h" />
+    <ClInclude Include="TestEntity.h" />
     <ClInclude Include="Texture_Wrapper.h" />
     <ClInclude Include="Tiles.h" />
     <ClInclude Include="House.h" />

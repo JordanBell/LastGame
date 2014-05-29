@@ -6,17 +6,11 @@
 // Player, Door, GridTiles
 Texture_Wrapper::Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool staticClip) : m_clip(clip), m_staticClip(staticClip), m_target(NULL)
 {
-	if (ssid == SSID_NULL)
-		CreateTextureForTargetting();
-	else
-		CreateTextureFromFile(ssid);
+	// Create the texture, based on its SSID. If SSID_NULL, do not load a texture image.
+	DefineTextureFromFile(ssid);
 
+	// If it's a static clip, and only a section of the sprite sheet is used, Clip the Texture (permanently). 
 	if (m_staticClip && m_clip) ClipTexture();
-}
-
-TextureTarget::TextureTarget(bool staticImage) : Texture_Wrapper(SSID_NULL, NULL, staticImage) 
-{ 
-	if (!staticImage) g_renderer->AddTarget(this); 
 }
 
 Texture_Wrapper::~Texture_Wrapper(void)
@@ -24,7 +18,7 @@ Texture_Wrapper::~Texture_Wrapper(void)
 	SDL_DestroyTexture(m_texture);
 }
 
-void Texture_Wrapper::CreateTextureFromFile(SSID ssid)
+void Texture_Wrapper::DefineTextureFromFile(SSID ssid)
 {
 	// Set the sprite sheet from the SpriteSheetID
 	switch (ssid)
@@ -47,6 +41,9 @@ void Texture_Wrapper::CreateTextureFromFile(SSID ssid)
 	default:
 		throw runtime_error("SSID not recognised during Texture construction.");
 	}
+	
+	// Set the blend mode for alpha
+	SDL_SetTextureBlendMode(m_texture, SDL_BLENDMODE_BLEND);
 }
 
 void Texture_Wrapper::ClipTexture(void)
@@ -66,35 +63,10 @@ void Texture_Wrapper::ClipTexture(void)
 	// Set the new clip as the main texture, m_texture
 	m_texture = clippedTexture;
 
+	// Set the size of the new texture, before the clip is nullified.
+	m_size = Dimensions(m_clip->w, m_clip->h);
 	// Nullify clip pointer
 	m_clip = NULL;
-}
-
-void Texture_Wrapper::CreateTextureForTargetting(void)
-{
-	// Texture Streamers don't have their own image, but stream images from others
-	m_texture = CreateTexture(Dimensions(16*TILE_SIZE, 10*TILE_SIZE), SDL_TEXTUREACCESS_TARGET);
-}
-
-Dimensions Texture_Wrapper::Size(void) const
-{
-	Dimensions r_size = Dimensions(0, 0);
-
-	int sizeX = 0;
-	int sizeY = 0;
-
-	if (m_clip)
-	{
-		sizeX = m_clip->w;
-		sizeY = m_clip->h;
-	}
-	else
-	{
-		// Query
-		int result = SDL_QueryTexture(m_texture, 0, 0, &sizeX, &sizeY);
-	}
-
-	return Dimensions(sizeX, sizeY);
 }
 
 void Texture_Wrapper::Clear(void)
@@ -102,6 +74,15 @@ void Texture_Wrapper::Clear(void)
 	SDL_Rect alphaWashRect = {0, 0, Size().x, Size().y};
 	RenderRectToTexture(m_texture, &alphaWashRect, 0x00, 0x00, 0x00, 0x00);
 }
+
+bool Texture_Wrapper::ShouldRender(void) const 
+{ 
+	bool imageValid = (m_texture != NULL);
+	bool renderToTarget = (m_target) ? !m_target->IsStatic() : true;
+
+	return (imageValid && renderToTarget);
+}
+
 
 void Texture_Wrapper::RenderToTarget(Coordinates pos) const
 {
@@ -132,4 +113,29 @@ void Texture_Wrapper::RenderToWindow(Coordinates pos) const
 	SDL_Rect textureRect = RectFromXY(pos, Size());
 	//SDL_Rect textureRect = RectFromXY(pos, Dimensions(TILE_SIZE));
 	RenderTextureToWindow(m_texture, m_clip, &textureRect);
+}
+
+
+
+TextureTarget::TextureTarget(Dimensions size, bool staticImage) : Texture_Wrapper(SSID_NULL, NULL, staticImage)
+{ 
+	// Check for an invalid size
+	if (size.Contains(0)) 
+		throw std::runtime_error("Cannot have a size with width or height of 0.");
+
+	DefineTextureForTargetting(size);
+
+	if (!staticImage) g_renderer->AddTarget(this); 
+}
+
+void TextureTarget::DefineTextureForTargetting(Dimensions size)
+{
+	// Texture Streamers don't have their own image, but stream images from others
+	m_texture = CreateTexture(size, SDL_TEXTUREACCESS_TARGET);
+	m_size = size;
+	
+	// Set the blend mode for alpha
+	SDL_SetTextureBlendMode(m_texture, SDL_BLENDMODE_BLEND);
+
+	Clear();
 }

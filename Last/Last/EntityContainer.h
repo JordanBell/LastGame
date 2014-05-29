@@ -17,13 +17,13 @@ public:
 
 	// Whether or not this in on the screen
 		// Or if any of its children are on the screen.
-	bool IsOnScreen(void) const;
+	bool IsOnScreen(void);
 
-	ImageTarget* GetStreamer() { return &m_imageStreamer; }
+	// Override to return the EntityContainer's image: m_imageTarget
+	virtual ImageTarget& GetImage() { return m_imageTarget; }
 
 protected:
 	bool m_staticImage;
-	ImageTarget m_imageStreamer;
 	std::list<Entity*> children; // A list of the child Entities within this container.
 
 	// Render this entity
@@ -35,4 +35,7 @@ protected:
 
 	// Only be constructed by subclasses
 	EntityContainer(const Dimensions& dimensions, const Coordinates& _pos = Coordinates(0, 0), bool staticImage = false);
+
+private:
+	ImageTarget m_imageTarget;
 };

@@ -41,9 +41,11 @@ void Traveller::E_Update(const int delta)
 
 void Traveller::Walk(const E_Direction& direction)
 {
+	printf("Player walking\n");
 	// Only move if is not already in the motion of movement
 	if (!m_moving)
 	{		
+	//printf("Player walking\n");
 		// Set the new direction
 		TurnToFace(direction);
 

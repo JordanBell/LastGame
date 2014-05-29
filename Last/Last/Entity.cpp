@@ -33,13 +33,13 @@ Entity::~Entity(void)
 void Entity::SetParent(EntityContainer* p) 
 { 
 	parent = p; 
-	m_image.SetTarget(parent->GetStreamer());
+	GetImage().SetTarget(&(parent->GetImage()));
 }
 
 void Entity::BlitToParent()
 {
 	Coordinates blitPos = GetBlittingPos();
-	m_image.RenderToTarget(blitPos);
+	GetImage().RenderToTarget(blitPos);
 }
 
 Coordinates Entity::GetAbsolutePos(void) const
@@ -70,7 +70,7 @@ bool Entity::IsInSight(void) const
 		if (g_player != NULL)
 		{
 			XY distsFromPlayer = g_player->pos - GetBlittingPos();
-			int manDist = distsFromPlayer.manhatten() / TILE_SIZE;
+			int manDist = distsFromPlayer.euclidian() / TILE_SIZE;
 
 			// Return whether this is within sight distance of the player
 			return (manDist <= SIGHT_DISTANCE);
@@ -80,10 +80,10 @@ bool Entity::IsInSight(void) const
 	return true;
 }
 
-bool Entity::IsOnScreen(void) const
+bool Entity::IsOnScreen(void)
 {
 	// Get the size of the texture
-	const Dimensions imageSize = m_image.Size();
+	const Dimensions imageSize = GetImage().Size();
 	if (imageSize < Dimensions(0)) return false;
 
 	// Get its position
@@ -101,9 +101,9 @@ bool Entity::IsOnScreen(void) const
 			(entityEdges.right	> 0));
 }
 
-bool Entity::ShouldRenderImage(void) const
+bool Entity::ShouldRenderImage(void)
 {
-	if (m_image.ShouldRender())
+	if (GetImage().ShouldRender())
 	{
 		if (IsOnScreen()) 
 		{
@@ -132,7 +132,7 @@ void Entity::Render(void)
 	if (m_format[ANIMATED])
 	{
 		a_module->UpdateModule(); 
-		m_image.SetClip( a_module->GetClip() );
+		GetImage().SetClip( a_module->GetClip() );
 	}
 
 	// Make visible if deemed necessary

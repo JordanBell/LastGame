@@ -1,6 +1,8 @@
 #pragma once
-
 #include "Timer.h"
+
+#include "Tiles.h" // Testing. Remove upon completition.
+#include "TestEntity.h"
 
 class Game
 {	
@@ -15,6 +17,8 @@ public:
 private:
 	int delta; // The time since the last frame
 	bool running; // Whether or not the program is running - controls the game loop.
+	GrassTile testTile;
+	TestEntity te;
 
 	Timer m_FPSTimer; // The timer that keeps track of the time since the last update
 

@@ -4,11 +4,7 @@
 
 EntityContainer::EntityContainer(const Dimensions& dimensions, const Coordinates& _pos, bool staticImage) 
 	: Entity(_pos, Coordinates(0, 0), SSID_NULL, CONTAINER_FRMT), m_staticImage(staticImage),
-	m_imageStreamer(staticImage) {}
-//{
-//	// ReInitialise the texture image as an ImageTarget
-//	m_image = ImageTarget(NULL);
-//}
+	m_imageTarget(dimensions, staticImage) {}
 
 EntityContainer::~EntityContainer()
 {
@@ -37,18 +33,18 @@ void EntityContainer::E_Update(int delta)
 // Removed, as its children are only rendered once, onto this container's texture. Leave render as is from Entity
 void EntityContainer::E_Render(void)
 {
-	// Check if own image should render
-	if (ShouldRenderImage()) Entity::E_Render();
-
 	// Only render children if the image is dynamic
 	if (!m_staticImage)
 	{
 		for (Entity* child : children)
 			child->Render(); // Render, not E_Render, as the child must go through the check again
 	}
+	
+	// Check if own image should render
+	if (ShouldRenderImage()) Entity::E_Render();
 }
 
-bool EntityContainer::IsOnScreen(void) const
+bool EntityContainer::IsOnScreen(void)
 {
 	if (Entity::IsOnScreen()) return true;
 	else if (!m_staticImage)

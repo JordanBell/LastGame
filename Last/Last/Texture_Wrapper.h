@@ -30,10 +30,14 @@ public:
 	// Return the raw SDL Texture
 	SDL_Texture* GetTexture(void) const { return m_texture; }
 
-	// Get the width and height of this image
-	virtual Dimensions Size(void) const;
+	// Return whether or not this is static
+	const bool IsStatic(void) const { return m_staticClip; }
 
-	bool ShouldRender(void) const { return (m_texture != NULL); }
+	// Get the width and height of this image
+	Dimensions Size(void) const { return m_size; }
+
+	// Whether or not this Texture is fit for rendering
+	bool ShouldRender(void) const;
 
 protected:
 	// The SDL_Texture that this class wraps around
@@ -42,15 +46,14 @@ protected:
 	const TextureTarget* m_target;
 	// The clip from which this object renders
 	SDL_Rect* m_clip;
-
-private:
+	// The state of the clip's updateability.
 	bool m_staticClip;
 
-	// Load the source texture from the SSID
-	void CreateTextureFromFile(SSID ssid);
+	Dimensions m_size;
 
-	// Create a texture formatted for targetting
-	void CreateTextureForTargetting(void);
+private:
+	// Load the source texture from the SSID
+	void DefineTextureFromFile(SSID ssid);
 
 	// Clip the texture, if its clip is static, and release the clip
 	void ClipTexture(void);
@@ -69,7 +72,11 @@ public:
 		@staticImage A target with a static image does not get refreshed 
 					 each time Clear() is called in the g_renderer wrapper.
 	*/
-	TextureTarget(bool staticImage = false);
+	TextureTarget(Dimensions size = Dimensions(512, 320), bool staticImage = false);
+
+private:
+	// Create a texture formatted for targetting
+	void DefineTextureForTargetting(Dimensions size);
 };
 
 typedef TextureTarget ImageTarget;

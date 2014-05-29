@@ -19,12 +19,6 @@ void Window_Wrapper::RedefineWindow(void)
 	Dimensions size = inFullscreen? Dimensions() : Dimensions(16*TILE_SIZE, 10*TILE_SIZE);
 	Uint32 flags = inFullscreen? SDL_WINDOW_FULLSCREEN : SDL_WINDOW_SHOWN;
 
-	/*m_window = SDL_CreateWindow(WINDOW_TITLE, 
-								SDL_WINDOWPOS_UNDEFINED, 
-								SDL_WINDOWPOS_UNDEFINED,
-								size.x, size.y,
-								flags);*/
-
 	m_window = inFullscreen ? 
 		SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 						 1680, 
