@@ -20,4 +20,6 @@ class EnvironmentLayer : public EntityContainer
 
 	// Get the tile at a particular position
 	list<Entity*>& GetEntitiesAt(Dimensions gridPosition);
+
+	//virtual void E_Update(const int delta) { printf("Updating!\n"); }
 };

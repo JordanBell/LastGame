@@ -7,7 +7,7 @@ Door::Door(const Coordinates& _pos)
 			 Coordinates(0, -TILE_SIZE/2), 
 			 SSID_DOOR, 
 			 DOOR_FRMT, 
-			 NULL, 
+			 nullptr, 
 			 new DoorAnimation()),
 	open(false) {}
 

@@ -1,7 +1,7 @@
 #include "Status.h"
 #include <cstdio>
 
-Status* g_fatigue = NULL;
-Status* g_loneliness = NULL;
-Status* g_insanity = NULL;
-Status* g_fear = NULL;
+Status* g_fatigue = nullptr;
+Status* g_loneliness = nullptr;
+Status* g_insanity = nullptr;
+Status* g_fear = nullptr;

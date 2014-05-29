@@ -3,10 +3,10 @@
 #include "Config.h"
 #include "ToolKit.h"
 
-UI_Status* UI_Fatigue = NULL;
-UI_Status* UI_Loneliness = NULL;
-UI_Status* UI_Insanity = NULL;
-UI_Status* UI_Fear = NULL;
+UI_Status* UI_Fatigue = nullptr;
+UI_Status* UI_Loneliness = nullptr;
+UI_Status* UI_Insanity = nullptr;
+UI_Status* UI_Fear = nullptr;
 
 UI_Status::UI_Status(Status* status, const Coordinates& clipIndex) 
 	: Entity( ComputePosition(clipIndex), 

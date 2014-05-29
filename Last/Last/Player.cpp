@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player* g_player = NULL;
+Player* g_player = nullptr;
 
 void Player::E_Update(const int delta)
 {

@@ -14,7 +14,7 @@ protected:
 				 SSID_ENVIRONMENT,
 				 format,
 				 &GetTileClip(_tileIndex),
-				 NULL) {}
+				 nullptr) {}
 
 private:
 	// Get the clip of a tile, based on its tile index in the Environment sprite sheet

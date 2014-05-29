@@ -15,7 +15,7 @@ Entity::Entity(const Coordinates& _pos,
 		     m_format(format), 
 			 m_blitOffset(blitOffset), 
 			 a_module(personalisedAnimationModule), 
-			 parent(NULL)
+			 parent(nullptr)
 {
 	// If not GridIndependent, take _pos as a grid position. Otherwise, take as is
 	pos = (m_format[GRID_INDEPENDENT]) ? _pos : _pos*TILE_SIZE;
@@ -44,7 +44,7 @@ void Entity::BlitToParent()
 
 Coordinates Entity::GetAbsolutePos(void) const
 {
-	if (parent == NULL) return pos;
+	if (parent == nullptr) return pos;
 	else
 	{
 		// Add the parent's blitting x to this one
@@ -67,7 +67,7 @@ bool Entity::IsInSight(void) const
 {
 	if (this != g_player)
 	{
-		if (g_player != NULL)
+		if (g_player != nullptr)
 		{
 			XY distsFromPlayer = g_player->pos - GetBlittingPos();
 			int manDist = distsFromPlayer.euclidian() / TILE_SIZE;

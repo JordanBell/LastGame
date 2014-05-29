@@ -68,7 +68,7 @@ typedef Texture_Wrapper Texture;
 class TextureTarget : public Texture_Wrapper
 {
 public:
-	/* Create a texture with NULL source
+	/* Create a texture with nullptr source
 		@staticImage A target with a static image does not get refreshed 
 					 each time Clear() is called in the g_renderer wrapper.
 	*/

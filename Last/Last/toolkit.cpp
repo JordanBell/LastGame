@@ -4,8 +4,8 @@
 #include "SDL.h"
 #include "SDL_image.h"
 
-Window* g_window = NULL;
-Renderer* g_renderer = NULL;
+Window* g_window = nullptr;
+Renderer* g_renderer = nullptr;
 bool inFullScreen;
 SDL_Event event;
 
@@ -20,10 +20,10 @@ SDL_Rect RectFromXY(Coordinates pos, Dimensions dims)
 // Deprecated - use Renderer_Wrapper::LoadImageTexture instead
 SDL_Surface* LoadImageSurface(std::string filename)
 {
-	SDL_Surface* r_surface = NULL;
+	SDL_Surface* r_surface = nullptr;
 
 	r_surface = IMG_Load(filename.c_str());
-	if (r_surface == NULL) {
+	if (r_surface == nullptr) {
 		printf("Unable to load image: %s\n", filename.c_str());
 	}
 
@@ -33,7 +33,7 @@ SDL_Surface* LoadImageSurface(std::string filename)
 bool TextureHasAccess(SDL_Texture* texture, Uint32 queriedAccess)
 {
 	int textureAccess;
-	SDL_QueryTexture(texture, NULL, &textureAccess, NULL, NULL);
+	SDL_QueryTexture(texture, nullptr, &textureAccess, nullptr, nullptr);
 
 	return (ContainsBit(textureAccess, queriedAccess));
 }

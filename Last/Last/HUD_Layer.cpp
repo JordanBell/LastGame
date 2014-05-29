@@ -1,6 +1,6 @@
 #include "HUD_Layer.h"
 
-HUD_Layer* UI_HUD = NULL;
+HUD_Layer* UI_HUD = nullptr;
 
 void HUD_Layer::InitChildren(void)
 {

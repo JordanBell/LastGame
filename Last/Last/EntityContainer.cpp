@@ -3,7 +3,7 @@
 #include "Config.h"
 
 EntityContainer::EntityContainer(const Dimensions& dimensions, const Coordinates& _pos, bool staticImage) 
-	: Entity(_pos, Coordinates(0, 0), SSID_NULL, CONTAINER_FRMT), m_staticImage(staticImage),
+	: Entity(_pos, Coordinates(0, 0), SSID_nullptr, CONTAINER_FRMT), m_staticImage(staticImage),
 	m_imageTarget(dimensions, staticImage) {}
 
 EntityContainer::~EntityContainer()

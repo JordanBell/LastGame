@@ -28,8 +28,8 @@ public:
 	void SetScale(float scale) { SetScale(scale, scale); }
 
 	// Rendering
-	void RenderToTexture(SDL_Texture* source, SDL_Texture* destination, SDL_Rect* srcrect = NULL, SDL_Rect* dstrect = NULL);
-	void RenderToWindow(SDL_Texture* source, SDL_Rect* srcrect = NULL, SDL_Rect* dstrect = NULL);
+	void RenderToTexture(SDL_Texture* source, SDL_Texture* destination, SDL_Rect* srcrect = nullptr, SDL_Rect* dstrect = nullptr);
+	void RenderToWindow(SDL_Texture* source, SDL_Rect* srcrect = nullptr, SDL_Rect* dstrect = nullptr);
 	
 	void RenderRectToTexture(SDL_Texture* destination, SDL_Rect* rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 	void RenderRectToWindow(SDL_Rect* rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
@@ -55,7 +55,7 @@ private:
 	
 	// Resets
 	void ResetDrawColor(void);
-	void ResetTarget(SDL_Texture* resetValue = NULL) { SetTarget(resetValue); }
+	void ResetTarget(SDL_Texture* resetValue = nullptr) { SetTarget(resetValue); }
 
 	// Targetting
 	void SetTarget(SDL_Texture* target);

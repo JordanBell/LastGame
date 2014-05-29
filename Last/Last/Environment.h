@@ -17,10 +17,11 @@ public:
 	Environment();
 	void InitLayers(void);
 
+	void E_Update(const int delta);
 	void E_Render(void);
 
 	void AddToTop(Entity* child)	{ topLayer.AddChild(child); }
-	void AddToMiddle(Entity* child)	{ bottomLayer.AddChild(child); }
+	void AddToMiddle(Entity* child)	{ middleLayer.AddChild(child); }
 	void AddToBottom(Entity* child)	{ bottomLayer.AddChild(child); }
 
 	list<Entity*>& GetEntitiesAt(const Coordinates& position, const Layer layer = BOTTOM_LAYER);

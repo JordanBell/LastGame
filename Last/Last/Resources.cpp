@@ -5,19 +5,19 @@
 
 // Player sheet consts
 const std::string Resources::playerSheetFile = "playerSheet.png";
-SDL_Texture* Resources::playerSheet = NULL;
+SDL_Texture* Resources::playerSheet = nullptr;
 
 // Environment sheet consts
 const std::string Resources::environmentSheetFile = "environment.png";
-SDL_Texture* Resources::environmentSheet = NULL;
+SDL_Texture* Resources::environmentSheet = nullptr;
 
 // Door sheet consts
 const std::string Resources::doorSheetFile = "doorSheet.png";
-SDL_Texture* Resources::doorSheet = NULL;
+SDL_Texture* Resources::doorSheet = nullptr;
 
 // Status sheet consts
 const std::string Resources::statusSheetFile = "statusSheet.png";
-SDL_Texture* Resources::statusSheet = NULL;
+SDL_Texture* Resources::statusSheet = nullptr;
 
 SDL_Texture* const Resources::GetPlayerImage()
 {
@@ -66,18 +66,18 @@ SDL_Texture* const Resources::GetStatusImage()
 SDL_Texture* const Resources::GetImage(const std::string* filename)
 {
 	// Pointer to the texture pointer
-	SDL_Texture** targetPtr = NULL;
+	SDL_Texture** targetPtr = nullptr;
 	
 		 if (filename == &playerSheetFile)		targetPtr = &playerSheet;
 	else if (filename == &environmentSheetFile) targetPtr = &environmentSheet;
 	else if (filename == &doorSheetFile)		targetPtr = &doorSheet;
 	else if (filename == &statusSheetFile)		targetPtr = &statusSheet;
-	else										targetPtr = NULL;
+	else										targetPtr = nullptr;
 
 	// Load if not already
 	if (targetPtr)
 	{
-		if (*targetPtr == NULL)
+		if (*targetPtr == nullptr)
 		{
 			*targetPtr = LoadImageTexture(*filename);
 

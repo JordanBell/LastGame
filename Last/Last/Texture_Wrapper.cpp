@@ -4,9 +4,9 @@
 #include "Renderer_Wrapper.h"
 
 // Player, Door, GridTiles
-Texture_Wrapper::Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool staticClip) : m_clip(clip), m_staticClip(staticClip), m_target(NULL)
+Texture_Wrapper::Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool staticClip) : m_clip(clip), m_staticClip(staticClip), m_target(nullptr)
 {
-	// Create the texture, based on its SSID. If SSID_NULL, do not load a texture image.
+	// Create the texture, based on its SSID. If SSID_nullptr, do not load a texture image.
 	DefineTextureFromFile(ssid);
 
 	// If it's a static clip, and only a section of the sprite sheet is used, Clip the Texture (permanently). 
@@ -23,8 +23,8 @@ void Texture_Wrapper::DefineTextureFromFile(SSID ssid)
 	// Set the sprite sheet from the SpriteSheetID
 	switch (ssid)
 	{
-	case SSID_NULL:
-		m_texture = NULL;
+	case SSID_nullptr:
+		m_texture = nullptr;
 		break;
 	case SSID_ENVIRONMENT:
 		m_texture = Resources::GetEnvironmentImage();
@@ -63,10 +63,10 @@ void Texture_Wrapper::ClipTexture(void)
 	// Set the new clip as the main texture, m_texture
 	m_texture = clippedTexture;
 
-	// Set the size of the new texture, before the clip is nullified.
+	// Set the size of the new texture, before the clip is nullptrified.
 	m_size = Dimensions(m_clip->w, m_clip->h);
-	// Nullify clip pointer
-	m_clip = NULL;
+	// nullptrify clip pointer
+	m_clip = nullptr;
 }
 
 void Texture_Wrapper::Clear(void)
@@ -77,7 +77,7 @@ void Texture_Wrapper::Clear(void)
 
 bool Texture_Wrapper::ShouldRender(void) const 
 { 
-	bool imageValid = (m_texture != NULL);
+	bool imageValid = (m_texture != nullptr);
 	bool renderToTarget = (m_target) ? !m_target->IsStatic() : true;
 
 	return (imageValid && renderToTarget);
@@ -86,13 +86,13 @@ bool Texture_Wrapper::ShouldRender(void) const
 
 void Texture_Wrapper::RenderToTarget(Coordinates pos) const
 {
-	if (m_texture != NULL)
+	if (m_texture != nullptr)
 	{
-		// Render to m_target. If m_target is NULL, SDL still renders direct to the Window.
+		// Render to m_target. If m_target is nullptr, SDL still renders direct to the Window.
 		if (m_target) RenderToTexture(pos);
 		else		  RenderToWindow(pos);
 	}
-	else throw runtime_error("Cannot render a NULL texture.");
+	else throw runtime_error("Cannot render a nullptr texture.");
 }
 
 void Texture_Wrapper::RenderToTexture(Coordinates pos) const
@@ -117,7 +117,7 @@ void Texture_Wrapper::RenderToWindow(Coordinates pos) const
 
 
 
-TextureTarget::TextureTarget(Dimensions size, bool staticImage) : Texture_Wrapper(SSID_NULL, NULL, staticImage)
+TextureTarget::TextureTarget(Dimensions size, bool staticImage) : Texture_Wrapper(SSID_nullptr, nullptr, staticImage)
 { 
 	// Check for an invalid size
 	if (size.Contains(0)) 

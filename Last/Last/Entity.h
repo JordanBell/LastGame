@@ -20,7 +20,7 @@ class Entity
 {
 public:
 
-	Coordinates pos; // Relative to the parent's position. If the parent is NULL, then these coordinates are direct.
+	Coordinates pos; // Relative to the parent's position. If the parent is nullptr, then these coordinates are direct.
 	virtual ~Entity(void);
 
 	
@@ -67,14 +67,14 @@ protected:
 		   const Coordinates& blitOffset, // Blit offset, the distance from this Entity's position that its image is rendered
 		   SSID spriteSheetID,	  // Accepts IDs from the SSID enum in tools.h
 		   EntityFormat format,	  // Accepts prewritten formats from config.h
-		   SDL_Rect* clip = NULL, // If NULL, image will be blitted as entire SpriteSheet surface
-		   AnimationModule* personalisedAnimationModule = NULL // An animation module that has already been initialised with this Entity's animation data
+		   SDL_Rect* clip = nullptr, // If nullptr, image will be blitted as entire SpriteSheet surface
+		   AnimationModule* personalisedAnimationModule = nullptr // An animation module that has already been initialised with this Entity's animation data
 		   );
 
 	EntityFormat m_format;		// The format of this entity, dictating its behavior.
 	Coordinates m_blitOffset;	// The number of pixels that this object is blitted from the origin.
 	EntityContainer* parent;	// The parent of this Entity
-	AnimationModule* a_module;	// Encapsulated Animation handler. NULL if this entity is not animated.
+	AnimationModule* a_module;	// Encapsulated Animation handler. nullptr if this entity is not animated.
 
 	void OverrideFormat(const EntityFormat& format) { m_format = format; }
 

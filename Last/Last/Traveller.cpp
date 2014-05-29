@@ -1,7 +1,7 @@
 #include "Traveller.h"
 #include "TravellerAnimation.h"
 #include "Environment.h"
-Traveller::Traveller(const Coordinates& _pos) : Entity(_pos, Coordinates(0, -TILE_SIZE/2), SSID_PLAYER, TRAVELLER_FRMT, NULL, new TravellerAnimation()), 
+Traveller::Traveller(const Coordinates& _pos) : Entity(_pos, Coordinates(0, -TILE_SIZE/2), SSID_PLAYER, TRAVELLER_FRMT, nullptr, new TravellerAnimation()), 
 									   direction(DOWN),
 									   m_moving(false),
 									   misalignment(0),
@@ -41,11 +41,9 @@ void Traveller::E_Update(const int delta)
 
 void Traveller::Walk(const E_Direction& direction)
 {
-	printf("Player walking\n");
 	// Only move if is not already in the motion of movement
 	if (!m_moving)
 	{		
-	//printf("Player walking\n");
 		// Set the new direction
 		TurnToFace(direction);
 

@@ -8,7 +8,7 @@ void SDLTools::ErrorResponse(void)
 	throw std::runtime_error(SDL_GetError());
 }
 
-// Invoke Error Response if argument is NULL
+// Invoke Error Response if argument is nullptr
 void* SDLTools::EnsureSuccess(void* ptr) { 
 	if (!ptr) 
 		ErrorResponse(); 

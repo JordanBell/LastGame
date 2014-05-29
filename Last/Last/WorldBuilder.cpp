@@ -15,7 +15,7 @@ void WorldBuilder::build()
 
 	// Content
 	//HouseGenerator::generate();
-	BuildTestHouse(Coordinates(WORLD_WIDTH/2-3, WORLD_HEIGHT/2-4));
+	//BuildTestHouse(Coordinates(WORLD_WIDTH/2-3, WORLD_HEIGHT/2-4));
 
 	// Outer Walls
 	BuildTileRectangle<WORLD_BORDER>(Coordinates(0, 0), Dimensions(WORLD_WIDTH, WORLD_HEIGHT), false, TOP_LAYER);

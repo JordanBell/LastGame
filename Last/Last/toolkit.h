@@ -28,7 +28,7 @@ bool ContainsBit(int target, int query);
 	inline void InitRendererAndWindow(void) 
 		{ g_window = new Window(); g_renderer = new Renderer(g_window); } // Initialise window and renderer
 	inline void chk(void) 
-		{ if ((!g_renderer) || (!g_window)) InitRendererAndWindow(); } // Initialise window and renderer if they are NULL
+		{ if ((!g_renderer) || (!g_window)) InitRendererAndWindow(); } // Initialise window and renderer if they are nullptr
 
 	// Texture Creation
 	inline SDL_Texture* CreateTexture(SDL_Surface* surface) 
@@ -37,9 +37,9 @@ bool ContainsBit(int target, int query);
 		{ chk(); return g_renderer->CreateTexture(size, access, format); }
 	
 	// Actual Rendering
-	inline void RenderTextureToTexture(SDL_Texture* source, SDL_Texture* destination, SDL_Rect* srcrect = NULL, SDL_Rect* dstrect = NULL) 
+	inline void RenderTextureToTexture(SDL_Texture* source, SDL_Texture* destination, SDL_Rect* srcrect = nullptr, SDL_Rect* dstrect = nullptr) 
 		{ chk(); g_renderer->RenderToTexture(source, destination, srcrect, dstrect); }
-	inline void RenderTextureToWindow(SDL_Texture* source, SDL_Rect* srcrect = NULL, SDL_Rect* dstrect = NULL) 
+	inline void RenderTextureToWindow(SDL_Texture* source, SDL_Rect* srcrect = nullptr, SDL_Rect* dstrect = nullptr) 
 		{ chk(); g_renderer->RenderToWindow(source, srcrect, dstrect); }
 
 	inline void RenderRectToTexture(SDL_Texture* destination, SDL_Rect* rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a)

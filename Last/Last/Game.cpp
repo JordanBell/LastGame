@@ -8,14 +8,13 @@
 #include "HUD_Layer.h" // UI HUD
 
 
-Game* g_game = NULL;
+Game* g_game = nullptr;
 
-Game::Game() : running(true), 
-	testTile(Coordinates()),
-	te()
+Game::Game() : running(true), testTile1(Coordinates()), testTile2(Coordinates(1)), testTile3(Coordinates(2)),
+							  te1(), te2(), te3(), teMain()
 {
 	delta = 0;
-	srand(time(NULL));
+	srand(time(nullptr));
 }
 
 Game::~Game() 
@@ -40,6 +39,7 @@ void Game::init()
 
 	// Initiailise the Environment
 	g_environment = new Environment();
+	g_environment->InitLayers();
 	WorldBuilder::build();
 	g_environment->AddToMiddle(g_player); // Add the player to the environment
 
@@ -48,7 +48,13 @@ void Game::init()
 	g_camera->InitChildren();
 
 	// Testing
-	te.AddChild(&testTile);
+	te1.AddChild(&testTile1);
+	te2.AddChild(&testTile2);
+	te3.AddChild(&testTile3);
+	
+	teMain.AddChild(&te1);
+	teMain.AddChild(&te2);
+	teMain.AddChild(&te3);
 }
 
 void Game::Run()
@@ -83,7 +89,7 @@ void Game::Update()
 void Game::HandleKeys()
 {
 	//Get the keystates
-	const Uint8* keystates = SDL_GetKeyboardState(NULL);
+	const Uint8* keystates = SDL_GetKeyboardState(nullptr);
 	
 		//WASD moves the player
 		if (keystates[SDL_SCANCODE_W])	g_player->Walk(UP);
@@ -101,11 +107,16 @@ void Game::Render()
 {
 	//Clear screen
 	ClearWindow();
+	
+	/*te1.Render();
+	te2.Render();
+	te3.Render();*/
+	teMain.Render();
 
 	// Render camera (Everything on screen)
-	g_camera->Render();
+	//g_camera->Render();
 	// Render UI HUD
-	UI_HUD->Render();
+	//UI_HUD->Render();
 
 	// Update the screen
 	UpdateWindow();

@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "toolkit.h"
 
-Camera* g_camera = NULL;
+Camera* g_camera = nullptr;
 
 Camera::Camera(void) : EntityContainer(WORLD_DIMENSIONS * TILE_SIZE) {}
 
@@ -53,6 +53,8 @@ void Camera::CenterOnPlayer()
 	// Center on the valid axes
 	if (canCenterX) pos.x = suggestedPos.x;
 	if (canCenterY) pos.y = suggestedPos.y;
+
+	//printf("Camera pos (%f, %f).\n", pos.x, pos.y);
 }
 
 Directions<bool> Camera::GetEdgeBools(Coordinates _pos) const

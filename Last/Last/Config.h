@@ -23,8 +23,8 @@ const Uint8 UI_STATUS_FRMT = ENTITY_GRIDINDEPENDENT | ENTITY_UPDATABLE/* | ENTIT
 
 // ENVIRONMENT
 const int TILE_SIZE = 32; // Note: Sprite Sheets must support the selected TILE_SIZE
-const int WORLD_WIDTH  = 100; // (In terms of TILE_SIZEs)
-const int WORLD_HEIGHT = 100; // (In terms of TILE_SIZEs)
+const int WORLD_WIDTH  = 10; // (In terms of TILE_SIZEs)
+const int WORLD_HEIGHT = 10; // (In terms of TILE_SIZEs)
 const Dimensions WORLD_DIMENSIONS((WORLD_WIDTH), WORLD_HEIGHT);
 
 // SCREEN

@@ -32,7 +32,7 @@ enum Layer {
 
 // Sprite sheet ID numbers
 enum SSID {
-	SSID_NULL,
+	SSID_nullptr,
 	SSID_PLAYER,
 	SSID_ENVIRONMENT,
 	SSID_DOOR,
