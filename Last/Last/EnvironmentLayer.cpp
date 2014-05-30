@@ -13,6 +13,13 @@ void EnvironmentLayer::AddChild(Entity* child)
 
 	// Add it to the Entity array
 	Coordinates childGridPos = child->pos / TILE_SIZE;
+
+	// Check validity of position
+	bool validX = ((childGridPos.x >= 0) || (childGridPos.x <= WORLD_WIDTH));
+	bool validY = ((childGridPos.y >= 0) || (childGridPos.y <= WORLD_HEIGHT));
+	if (!validX || !validY) 
+		throw std::runtime_error("Invalid position on the grid.");
+
 	list<Entity*>& entitiesAtThisPosition = GetEntitiesAt(childGridPos);
 	entitiesAtThisPosition.push_back(child);
 

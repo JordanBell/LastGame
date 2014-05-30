@@ -63,58 +63,31 @@ Coordinates Entity::GetGridPosition(const Coordinates& _pos)
 	return r_gridPosition;
 }
 
-bool Entity::IsInSight(void) const
-{
-	if (this != g_player)
-	{
-		if (g_player != nullptr)
-		{
-			XY distsFromPlayer = g_player->pos - GetBlittingPos();
-			int manDist = distsFromPlayer.euclidian() / TILE_SIZE;
-
-			// Return whether this is within sight distance of the player
-			return (manDist <= SIGHT_DISTANCE);
-		}
-	}
-	
-	return true;
-}
-
 bool Entity::IsOnScreen(void)
 {
 	// Get the size of the texture
 	const Dimensions imageSize = GetImage().Size();
-	if (imageSize < Dimensions(0)) return false;
+	if (imageSize.Contains(0)) return false;
 
 	// Get its position
-	const Coordinates blittingPos = GetBlittingPos();
+	const Coordinates absolutePos = GetAbsolutePos();
 
 	// Get the edges of the entity
-	const Directions<float>entityEdges(RectFromXY(blittingPos, imageSize));
+	const Directions<float>entityEdges(RectFromXY(absolutePos, imageSize));
 
 	// Return whether or not any of the edges peek over the screen
-	Dimensions screenSize = g_renderer->GetWindowSize();
-
-	return ((entityEdges.top	< screenSize.y) &&
-			(entityEdges.left	< screenSize.x) &&
-			(entityEdges.bottom > 0)		 &&
+	return ((entityEdges.top	< LOGICAL_SIZE.y) &&
+			(entityEdges.left	< LOGICAL_SIZE.x) &&
+			(entityEdges.bottom > 0)			  &&
 			(entityEdges.right	> 0));
 }
 
 bool Entity::ShouldRenderImage(void)
 {
-	if (GetImage().ShouldRender())
-	{
-		if (IsOnScreen()) 
-		{
-			if (LIMIT_RENDER_BY_SIGHT) { 
-				if (IsInSight()) return true; 
-			}
-			else return true;
-		}
-	}
-	
-	return false;
+	bool validImage = GetImage().ShouldRender();
+	bool onScreen = IsOnScreen();
+
+	return (validImage && onScreen);
 }
 
 
@@ -132,7 +105,10 @@ void Entity::Render(void)
 	if (m_format[ANIMATED])
 	{
 		a_module->UpdateModule(); 
-		GetImage().SetClip( a_module->GetClip() );
+		//GetImage().SetClip( a_module->GetClip() );
+
+		SDL_Rect testRect = { 0, 0, 32, 32 };
+		GetImage().SetClip( &testRect );
 	}
 
 	// Make visible if deemed necessary

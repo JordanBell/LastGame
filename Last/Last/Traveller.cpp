@@ -5,7 +5,7 @@ Traveller::Traveller(const Coordinates& _pos) : Entity(_pos, Coordinates(0, -TIL
 									   direction(DOWN),
 									   m_moving(false),
 									   misalignment(0),
-									   m_speed(TRAVELLER_SPEED) 
+									   m_speed(TRAVELLER_SPEED)
 {
 	if (!m_format[TRAVELS]) throw ModuleMisuseException("An entity cannot inherit from Traveller if its format does not allow travelling.");
 }

@@ -15,20 +15,6 @@ void Environment::InitLayers(void)
 	AddChild(&bottomLayer);
 }
 
-void Environment::E_Update(const int delta)
-{
-	topLayer.Update(delta);
-	middleLayer.Update(delta);
-	bottomLayer.Update(delta);
-}
-
-void Environment::E_Render(void)
-{
-	topLayer.Render();
-	/*middleLayer.Render();
-	bottomLayer.Render();*/
-}
-
 list<Entity*>& Environment::GetEntitiesAt(const Coordinates& position, const Layer layer)
 {
 	switch (layer)

@@ -1,5 +1,6 @@
 #pragma once
 #include "Tools.h"
+#include "Config.h"
 
 class TextureTarget;
 
@@ -72,7 +73,7 @@ public:
 		@staticImage A target with a static image does not get refreshed 
 					 each time Clear() is called in the g_renderer wrapper.
 	*/
-	TextureTarget(Dimensions size = Dimensions(512, 320), bool staticImage = false);
+	TextureTarget(Dimensions size = LOGICAL_SIZE, bool staticImage = false);
 
 private:
 	// Create a texture formatted for targetting

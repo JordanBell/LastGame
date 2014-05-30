@@ -19,13 +19,13 @@ private:
 	bool running; // Whether or not the program is running - controls the game loop.
 	Timer m_FPSTimer; // The timer that keeps track of the time since the last update
 	
-	TestEntity te1;
+	/*TestEntity te1;
 	TestEntity te2;
 	TestEntity te3;
 	TestEntity teMain;
 	GrassTile testTile1;
 	GrassTile testTile2;
-	GrassTile testTile3;
+	GrassTile testTile3;*/
 
 
 	// Initialise all of the objects in the game.

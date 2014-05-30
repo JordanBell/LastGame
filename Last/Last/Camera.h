@@ -17,7 +17,6 @@ public:
 protected:
 	// Change the x and y, so that the player is in the center of the screen.
 	void E_Update(const int delta);
-	void E_Render(void);
 
 private:
 	// Try to center the camera on the player, if doing so would not reveal the edges of the environment

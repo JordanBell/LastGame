@@ -107,7 +107,4 @@ private:
 
 	// Initialise the Entity's texture
 	void InitImageTexture(void);
-	
-	// Return whether or not this object is within viewing range of the player
-	bool IsInSight(void) const;
 };

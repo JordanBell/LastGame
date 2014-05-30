@@ -2,6 +2,7 @@
 #define environment_h
 
 #include "EnvironmentLayer.h"
+#include "Tiles.h"
 
 /*
 The environment is the EntityContainer that separates the three layers in the world.
@@ -16,9 +17,6 @@ class Environment : public EntityContainer
 public:
 	Environment();
 	void InitLayers(void);
-
-	void E_Update(const int delta);
-	void E_Render(void);
 
 	void AddToTop(Entity* child)	{ topLayer.AddChild(child); }
 	void AddToMiddle(Entity* child)	{ middleLayer.AddChild(child); }

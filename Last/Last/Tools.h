@@ -32,7 +32,7 @@ enum Layer {
 
 // Sprite sheet ID numbers
 enum SSID {
-	SSID_nullptr,
+	SSID_NULL,
 	SSID_PLAYER,
 	SSID_ENVIRONMENT,
 	SSID_DOOR,
@@ -49,8 +49,8 @@ struct XY {
 	XY(const float _x, const float _y) : x(_x), y(_y) {}
 
 	// Check if either value equals the argument
-	const bool Contains(float val) { return ((x == val) || (y == val)); }
-	const bool Contains(int val) { return Contains((float)val); }
+	const bool Contains(float val) const { return ((x == val) || (y == val)); }
+	const bool Contains(int val) const { return Contains((float)val); }
 
 	// Finding the euclidian distances between the two (or other pythagorean theorum contexts)
 	const float euclidian(void) const { return sqrt(x*x + y*y); }

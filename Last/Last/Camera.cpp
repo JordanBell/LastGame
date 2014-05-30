@@ -31,16 +31,10 @@ void Camera::E_Update(const int delta)
 	CenterOnPlayer(); 
 }
 
-void Camera::E_Render(void)
-{
-	g_environment->Render();
-}
-
 void Camera::CenterOnPlayer()
 {
 	// Get the coordinates that the camera would move to, to center on the player
-	Dimensions screenSize = g_renderer->GetWindowSize();
-	Coordinates screenCenter(screenSize.x/2, screenSize.y/2);
+	Coordinates screenCenter(LOGICAL_SIZE.x/2, LOGICAL_SIZE.y/2);
 	Coordinates suggestedPos = screenCenter - g_player->pos;
 
 	// Check to see if that would reveal any edges
@@ -61,13 +55,11 @@ Directions<bool> Camera::GetEdgeBools(Coordinates _pos) const
 {
 	_pos.RoundToInt();
 
-	Dimensions screenSize = g_renderer->GetWindowSize();
-
 	const Directions<bool> r_directions(
 		_pos.y >= 0,
-		_pos.y <= screenSize.y - WORLD_HEIGHT * TILE_SIZE,
+		_pos.y <= LOGICAL_SIZE.y - (WORLD_HEIGHT * TILE_SIZE),
 		_pos.x >= 0,
-		_pos.x <= screenSize.x - WORLD_WIDTH * TILE_SIZE);
+		_pos.x <= LOGICAL_SIZE.x - (WORLD_WIDTH * TILE_SIZE));
 
 	return r_directions;
 }

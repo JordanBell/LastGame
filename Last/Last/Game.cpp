@@ -10,8 +10,8 @@
 
 Game* g_game = nullptr;
 
-Game::Game() : running(true), testTile1(Coordinates()), testTile2(Coordinates(1)), testTile3(Coordinates(2)),
-							  te1(), te2(), te3(), teMain()
+Game::Game() : running(true)/*, testTile1(Coordinates()), testTile2(Coordinates(1)), testTile3(Coordinates(2)),
+							  te1(), te2(), te3(), teMain()*/
 {
 	delta = 0;
 	srand(time(nullptr));
@@ -48,13 +48,13 @@ void Game::init()
 	g_camera->InitChildren();
 
 	// Testing
-	te1.AddChild(&testTile1);
+	/*te1.AddChild(&testTile1);
 	te2.AddChild(&testTile2);
 	te3.AddChild(&testTile3);
 	
 	teMain.AddChild(&te1);
 	teMain.AddChild(&te2);
-	teMain.AddChild(&te3);
+	teMain.AddChild(&te3);*/
 }
 
 void Game::Run()
@@ -107,14 +107,9 @@ void Game::Render()
 {
 	//Clear screen
 	ClearWindow();
-	
-	/*te1.Render();
-	te2.Render();
-	te3.Render();*/
-	teMain.Render();
 
 	// Render camera (Everything on screen)
-	//g_camera->Render();
+	g_camera->Render();
 	// Render UI HUD
 	//UI_HUD->Render();
 

@@ -8,7 +8,7 @@ class Renderer_Wrapper
 {
 public:
 	Renderer_Wrapper(Window* window, 
-					 Dimensions logicalSize = Dimensions(16*TILE_SIZE, 10*TILE_SIZE), 
+					 Dimensions logicalSize = LOGICAL_SIZE, 
 					 Uint32 flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
 	~Renderer_Wrapper(void);
 	
@@ -55,7 +55,7 @@ private:
 	
 	// Resets
 	void ResetDrawColor(void);
-	void ResetTarget(SDL_Texture* resetValue = nullptr) { SetTarget(resetValue); }
+	void ResetTarget(void) { SetTarget(nullptr); }
 
 	// Targetting
 	void SetTarget(SDL_Texture* target);

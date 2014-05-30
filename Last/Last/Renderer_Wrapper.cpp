@@ -92,34 +92,19 @@ void Renderer_Wrapper::RenderToWindow(SDL_Texture* source, SDL_Rect* srcrect, SD
 
 void Renderer_Wrapper::RenderToTexture(SDL_Texture* source, SDL_Texture* destination, SDL_Rect* srcrect, SDL_Rect* dstrect)
 {
-	//bool lockable = TextureHasAccess(destination, SDL_TEXTUREACCESS_STREAMING);
-
-	//if (lockable)
-	//{
-	//	// Lock
-	//	EnsureSuccess(
-	//		SDL_LockTexture(destination, nullptr, nullptr, nullptr));
-	//	// Set the destination as the renderer target
-	//}
-
 	// Target the destination
 	SetTarget(destination);
+
 	// Render onto it
 	EnsureSuccess(
 		SDL_RenderCopy(m_renderer, source, srcrect, dstrect));
+
 	// Reset target to nullptr
 	ResetTarget();
-
-	//if (lockable)
-	//	// Unlock Texture
-	//	SDL_UnlockTexture(destination);
 }
 
 void Renderer_Wrapper::RenderRectToTexture(SDL_Texture* destination, SDL_Rect* rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
-	// Lock
-	/*EnsureSuccess(
-		SDL_LockTexture(destination, nullptr, nullptr, nullptr));*/
 	// Target the destination
 	SetTarget(destination);
 
@@ -128,8 +113,6 @@ void Renderer_Wrapper::RenderRectToTexture(SDL_Texture* destination, SDL_Rect* r
 
 	// Reset target to nullptr
 	ResetTarget(); 
-	// Unlock Texture
-	//SDL_UnlockTexture(destination);
 }
 
 
@@ -169,7 +152,7 @@ void Renderer_Wrapper::Update(void)
 void Renderer_Wrapper::ResetDrawColor(void)
 {
 	EnsureSuccess(
-		SDL_SetRenderDrawColor(m_renderer, 0x00, 0x00, 0x00, 0xFF));
+		SDL_SetRenderDrawColor(m_renderer, 0x00, 0xFF, 0x00, 0xFF)); // Bright green, to highlight what shouldn't be seen.
 }
 
 void Renderer_Wrapper::SetTarget(SDL_Texture* target)

@@ -15,11 +15,11 @@ class EnvironmentLayer : public EntityContainer
 
 	EnvironmentLayer(bool staticImage = false);
 
+
+
 	// When adding a child, add it to the array of tiles as well
 	void AddChild(Entity* child);
 
 	// Get the tile at a particular position
 	list<Entity*>& GetEntitiesAt(Dimensions gridPosition);
-
-	//virtual void E_Update(const int delta) { printf("Updating!\n"); }
 };

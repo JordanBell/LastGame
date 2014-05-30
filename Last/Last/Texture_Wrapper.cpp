@@ -6,7 +6,7 @@
 // Player, Door, GridTiles
 Texture_Wrapper::Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool staticClip) : m_clip(clip), m_staticClip(staticClip), m_target(nullptr)
 {
-	// Create the texture, based on its SSID. If SSID_nullptr, do not load a texture image.
+	// Create the texture, based on its SSID. If SSID_NULL, do not load a texture image.
 	DefineTextureFromFile(ssid);
 
 	// If it's a static clip, and only a section of the sprite sheet is used, Clip the Texture (permanently). 
@@ -23,7 +23,7 @@ void Texture_Wrapper::DefineTextureFromFile(SSID ssid)
 	// Set the sprite sheet from the SpriteSheetID
 	switch (ssid)
 	{
-	case SSID_nullptr:
+	case SSID_NULL:
 		m_texture = nullptr;
 		break;
 	case SSID_ENVIRONMENT:
@@ -117,7 +117,7 @@ void Texture_Wrapper::RenderToWindow(Coordinates pos) const
 
 
 
-TextureTarget::TextureTarget(Dimensions size, bool staticImage) : Texture_Wrapper(SSID_nullptr, nullptr, staticImage)
+TextureTarget::TextureTarget(Dimensions size, bool staticImage) : Texture_Wrapper(SSID_NULL, nullptr, staticImage)
 { 
 	// Check for an invalid size
 	if (size.Contains(0)) 
