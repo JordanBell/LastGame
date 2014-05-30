@@ -80,6 +80,7 @@ SDL_Texture* const Resources::GetImage(const std::string* filename)
 		if (*targetPtr == nullptr)
 		{
 			*targetPtr = LoadImageTexture(*filename);
+			SDL_SetTextureBlendMode(*targetPtr, SDL_BLENDMODE_BLEND);
 
 			// Check for failures
 			if (!*targetPtr) throw std::runtime_error("Failed to get an image from Resources.");

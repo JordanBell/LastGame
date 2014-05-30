@@ -49,8 +49,10 @@ protected:
 	SDL_Rect* m_clip;
 	// The state of the clip's updateability.
 	bool m_staticClip;
-
+	// This image's size
 	Dimensions m_size;
+
+	inline void EnableBlending(void) { SDL_SetTextureBlendMode(GetTexture(), SDL_BLENDMODE_BLEND); }
 
 private:
 	// Load the source texture from the SSID

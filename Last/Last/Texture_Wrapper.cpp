@@ -42,8 +42,8 @@ void Texture_Wrapper::DefineTextureFromFile(SSID ssid)
 		throw runtime_error("SSID not recognised during Texture construction.");
 	}
 	
-	// Set the blend mode for alpha
-	SDL_SetTextureBlendMode(m_texture, SDL_BLENDMODE_BLEND);
+	// Set the blend mode for this new texture
+	EnableBlending();
 }
 
 void Texture_Wrapper::ClipTexture(void)
@@ -62,6 +62,9 @@ void Texture_Wrapper::ClipTexture(void)
 
 	// Set the new clip as the main texture, m_texture
 	m_texture = clippedTexture;
+
+	// Re-enable blending
+	EnableBlending();
 
 	// Set the size of the new texture, before the clip is nullptrified.
 	m_size = Dimensions(m_clip->w, m_clip->h);
@@ -102,7 +105,7 @@ void Texture_Wrapper::RenderToTexture(Coordinates pos) const
 
 	// Create blitting rect using pos and size
 	SDL_Rect textureRect = RectFromXY(pos, Size());
-
+	
 	// Render to it
 	RenderTextureToTexture(m_texture, targetTexture, m_clip, &textureRect);
 }
@@ -135,7 +138,7 @@ void TextureTarget::DefineTextureForTargetting(Dimensions size)
 	m_size = size;
 	
 	// Set the blend mode for alpha
-	SDL_SetTextureBlendMode(m_texture, SDL_BLENDMODE_BLEND);
+	EnableBlending();
 
 	Clear();
 }
