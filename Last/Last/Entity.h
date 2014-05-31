@@ -28,10 +28,9 @@ public:
 	// Set an EntityContainer as this object's parent.
 	void SetParent(EntityContainer* p);
 
-	// Get the blitting position of this object.
+	// Get the blitting position of this object, to be blitted onto its parent's texture
 	Coordinates GetBlittingPos(void) const { return /*GetAbsolutePos()*/pos + m_blitOffset; }
-
-
+	
 	// Get the absolute position of this object.
 	Coordinates GetAbsolutePos(void) const;
 
