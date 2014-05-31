@@ -33,7 +33,7 @@ void Traveller::E_Update(const int delta)
 		// Set the traveller as still, after a small buffer
 		if (m_stillBuffer == 0) 
 			a_module->OverrideCycle(1);
-		else
+		else if (m_stillBuffer > 0)
 			m_stillBuffer--;
 	}
 

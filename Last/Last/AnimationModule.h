@@ -17,7 +17,7 @@ class AnimationModule
 {
 public:
 	AnimationModule(Dimensions spriteSheetDimensions, Dimensions clipSize, int maxCycles, int framesPerClip = 1, bool backAndForth = false);
-	virtual ~AnimationModule(void);
+	virtual ~AnimationModule(void) { delete[]m_clips; }
 
 	// Called by Entity only, updates the animation if turned on
 	void UpdateModule(void) { if (on) Update(); }

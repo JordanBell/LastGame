@@ -22,18 +22,18 @@ const Uint8 UI_STATUS_FRMT = ENTITY_GRIDINDEPENDENT | ENTITY_UPDATABLE/* | ENTIT
 
 // ENVIRONMENT
 const int TILE_SIZE = 32; // Note: Sprite Sheets must support the selected TILE_SIZE
-const int WORLD_WIDTH  = 20; // (In terms of TILE_SIZEs)
-const int WORLD_HEIGHT = 20; // (In terms of TILE_SIZEs)
-const Dimensions WORLD_DIMENSIONS((WORLD_WIDTH), WORLD_HEIGHT);
+const int WORLD_WIDTH  = 100; // (In terms of TILE_SIZEs)
+const int WORLD_HEIGHT = 100; // (In terms of TILE_SIZEs)
+const Dimensions WORLD_DIMENSIONS(WORLD_WIDTH, WORLD_HEIGHT);
 
 // SCREEN
 const bool FULL_SCREEN_INITIAL = false;
-const Dimensions LOGICAL_SIZE = Dimensions(16*TILE_SIZE, 10*TILE_SIZE);
+const Dimensions LOGICAL_SIZE = Dimensions(15*TILE_SIZE, 10*TILE_SIZE);
 const Dimensions HARD_MONITOR_RES(1680, 1050);
 
 // GAME
 const int FRAME_RATE = 30;
-const float TRAVELLER_SPEED = 0.15;		 // Default traveller speed. ADVISED: Keep between 0 and 1 to prevent wall clipping.
+	const float TRAVELLER_SPEED = 0.15;		 // Default traveller speed. ADVISED: Keep between 0 and 1 to prevent wall clipping.
 
 // PLAYER
 const float PLAYER_SPEED = 0.15;		 // The player's movement speed (independent of framerate). ADVISED: Keep between 0 and 1 to prevent wall clipping.
@@ -41,6 +41,9 @@ const bool  PLAYER_COMPENSATE_FOR_SLOW_FRAMERATES = false;
 
 // HOUSES
 const float HOUSE_SIZE_DEVIATION = 0.2f; // The percentage variation in house sizes
+
+// Testing/Debugging
+const bool MANUAL_ZOOM = true;
 
 //#if SDL_BYTEORDER == SDL_BIG_ENDIAN
 //    rmask = 0xff000000;

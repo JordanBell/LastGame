@@ -27,9 +27,6 @@ void Player::Interact() const
 			for (Entity* e : layer) {
 				e->OnInteract();
 			}
-
-			//// Or, interact with just the top tile
-			//layer.front()->OnInteract();
 		}
 	}
 }

@@ -75,10 +75,26 @@ void Game::HandleKeys()
 		if (keystates[SDL_SCANCODE_A])	g_player->Walk(LEFT);
 		if (keystates[SDL_SCANCODE_D])	g_player->Walk(RIGHT);
 
-		// Toggling formatting
+		// Other
 		if (keystates[SDL_SCANCODE_F]) g_player->Interact();
 		if (keystates[SDL_SCANCODE_RETURN]) ToggleFullscreen();
 		if (keystates[SDL_SCANCODE_ESCAPE]) running = false;
+
+		// Testing
+		if (MANUAL_ZOOM)
+		{
+			// Up and Down to zoom in and out
+			if (keystates[SDL_SCANCODE_UP]) if (!g_camera->ZoomToWidth(++widthCounter)) widthCounter--;
+			if (keystates[SDL_SCANCODE_DOWN]) if (!g_camera->ZoomToWidth(--widthCounter)) widthCounter++;
+		}
+		else
+		{
+			// Up, Down, Left, Right move the player, as does WASD
+			if (keystates[SDL_SCANCODE_UP]) g_player->Walk(UP);
+			if (keystates[SDL_SCANCODE_DOWN]) g_player->Walk(DOWN);
+			if (keystates[SDL_SCANCODE_LEFT]) g_player->Walk(LEFT);
+			if (keystates[SDL_SCANCODE_RIGHT]) g_player->Walk(RIGHT);
+		}
 }
 
 void Game::Render()

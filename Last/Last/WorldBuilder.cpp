@@ -2,6 +2,7 @@
 
 #include "WorldBuilder.h"
 #include "ShapeBuilder.h"
+#include "HouseGenerator.h"
 #include "Config.h"
 #include "Tiles.h"
 #include "Door.h"
@@ -14,7 +15,7 @@ void WorldBuilder::build()
 	BuildTileRectangle<GrassTile>(Coordinates(0, 0), Dimensions(WORLD_WIDTH, WORLD_HEIGHT));
 
 	// Content
-	//HouseGenerator::generate();
+	//HouseGenerator::Generate();
 	BuildTestHouse(Coordinates(WORLD_WIDTH/2-3, WORLD_HEIGHT/2-4));
 
 	// Outer Walls
@@ -114,6 +115,12 @@ void WorldBuilder::BuildDoorColumn(const Coordinates& pos)
 
 void WorldBuilder::BuildRoom(const Coordinates& pos, const Dimensions& dimensions)
 {
-	BuildTileRectangle<StoneFloorTile_LightBrown>(pos, dimensions);
-	BuildRectangle(pos, dimensions, BuildColumn<WoodWallTile>, false);
+	// Draw the border
+	const bool staysWithinWorld = (pos + dimensions) < WORLD_DIMENSIONS;
+
+	if (staysWithinWorld)
+	{
+		BuildTileRectangle<StoneFloorTile_LightBrown>(pos, dimensions);
+		BuildRectangle(pos, dimensions, BuildColumn<WoodWallTile>, false);
+	}
 }

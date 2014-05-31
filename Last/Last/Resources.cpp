@@ -74,9 +74,10 @@ SDL_Texture* const Resources::GetImage(const std::string* filename)
 	else if (filename == &statusSheetFile)		targetPtr = &statusSheet;
 	else										targetPtr = nullptr;
 
-	// Load if not already
+	// If filename recognised
 	if (targetPtr)
 	{
+		// Load, if not already
 		if (*targetPtr == nullptr)
 		{
 			*targetPtr = LoadImageTexture(*filename);

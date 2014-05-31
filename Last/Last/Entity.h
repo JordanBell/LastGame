@@ -31,10 +31,6 @@ public:
 	// Get the blitting position of this object.
 	Coordinates GetBlittingPos(void) const { return /*GetAbsolutePos()*/pos + m_blitOffset; }
 
-	// Move this object's coordinates by a displacement amount.
-	void Move(const XY& displacement) { throw ("Calling Move(XY)...\n"); /* I'm throwing a string here in order to highlight when this function is called. */ pos += displacement; }
-
-
 
 	// Get the absolute position of this object.
 	Coordinates GetAbsolutePos(void) const;

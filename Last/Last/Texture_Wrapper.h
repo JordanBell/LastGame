@@ -25,9 +25,6 @@ public:
 	// Render texture onto renderer-pointer's target
 	void RenderToTarget(Coordinates pos) const;
 
-	// Clear the texture to transparency
-	void Clear(void);
-
 	// Return the raw SDL Texture
 	SDL_Texture* GetTexture(void) const { return m_texture; }
 
@@ -41,17 +38,14 @@ public:
 	bool ShouldRender(void) const;
 
 protected:
-	// The SDL_Texture that this class wraps around
-	SDL_Texture* m_texture;
-	// Pointer to any TextureStreamers
-	const TextureTarget* m_target;
-	// The clip from which this object renders
-	SDL_Rect* m_clip;
-	// The state of the clip's updateability.
-	bool m_staticClip;
-	// This image's size
-	Dimensions m_size;
+	
+	SDL_Texture* m_texture; // The SDL_Texture that this class wraps around
+	const TextureTarget* m_target; // Pointer to any TextureStreamers
+	SDL_Rect* m_clip; // The clip from which this object renders
+	bool m_staticClip; // The state of the clip's updateability.
+	Dimensions m_size; // This image's size
 
+	// Set the TextureBlendMode to SDL_BLENDMODE_BLEND
 	inline void EnableBlending(void) { SDL_SetTextureBlendMode(GetTexture(), SDL_BLENDMODE_BLEND); }
 
 private:
@@ -76,6 +70,9 @@ public:
 					 each time Clear() is called in the g_renderer wrapper.
 	*/
 	TextureTarget(Dimensions size = LOGICAL_SIZE, bool staticImage = false);
+
+	// Clear the texture to transparency
+	void Clear(void);
 
 private:
 	// Create a texture formatted for targetting

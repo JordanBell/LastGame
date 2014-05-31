@@ -37,14 +37,9 @@ AnimationModule::AnimationModule(Dimensions spriteSheetDimensions, // Width and 
 	}
 }
 
-AnimationModule::~AnimationModule(void)
-{
-	delete[]m_clips;
-}
-
 void AnimationModule::OverrideCycle(int newCycle) 
 { 
-	// Delegate, with respect to the number of frames per clip
+	// Delegate, with respect to the number of frames per clip.
 	m_iterator.OverrideCycle(newCycle*m_framesPerClip); 
 }
 

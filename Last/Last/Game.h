@@ -6,7 +6,7 @@
 class Game
 {	
 public:
-	Game() : running(true), delta(0) { srand(time(nullptr)); Init(); }
+	Game() : running(true), delta(0), widthCounter(16) { srand(time(nullptr)); Init(); }
 
 	// Delete all entities.
 	~Game(void);
@@ -15,6 +15,7 @@ public:
 	void Run();
 
 private:
+	int widthCounter;
 	int delta; // The time since the last frame
 	bool running; // Whether or not the program is running - controls the game loop.
 	Timer m_FPSTimer; // The timer that keeps track of the time since the last update

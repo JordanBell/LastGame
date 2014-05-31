@@ -3,7 +3,6 @@
 #include "ToolKit.h"
 #include "Renderer_Wrapper.h"
 
-// Player, Door, GridTiles
 Texture_Wrapper::Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool staticClip) 
 	: m_clip(clip), m_staticClip(staticClip), m_target(nullptr)
 {
@@ -81,12 +80,6 @@ void Texture_Wrapper::ClipTexture(void)
 	m_clip = nullptr;
 }
 
-void Texture_Wrapper::Clear(void)
-{
-	SDL_Rect alphaWashRect = {0, 0, Size().x, Size().y};
-	RenderRectToTexture(m_texture, &alphaWashRect, 0x00, 0x00, 0x00, 0x00);
-}
-
 bool Texture_Wrapper::ShouldRender(void) const 
 { 
 	bool imageValid = (m_texture != nullptr);
@@ -113,7 +106,7 @@ void Texture_Wrapper::RenderToTexture(Coordinates pos) const
 	SDL_Texture* targetTexture = m_target->GetTexture();
 
 	// Create destination rectangle using pos and size
-	SDL_Rect destinationRect = RectFromXY(pos, Size());
+	SDL_Rect destinationRect = RectFromXY(pos, m_size);
 	
 	// Render to it
 	RenderTextureToTexture(m_texture, targetTexture, m_clip, &destinationRect);
@@ -122,11 +115,13 @@ void Texture_Wrapper::RenderToTexture(Coordinates pos) const
 void Texture_Wrapper::RenderToWindow(Coordinates pos) const
 {
 	// Create destination rectangle using pos and size
-	SDL_Rect destinationRect = RectFromXY(pos, Size());
+	SDL_Rect destinationRect = RectFromXY(pos, m_size);
 	RenderTextureToWindow(m_texture, m_clip, &destinationRect);
 }
 
 
+
+	/**** TextureTarget ****/
 
 TextureTarget::TextureTarget(Dimensions size, bool staticImage) 
 	: Texture_Wrapper(SSID_NULL, nullptr, staticImage)
@@ -149,4 +144,10 @@ void TextureTarget::DefineTextureForTargetting(Dimensions size)
 	m_size = size;
 	
 	EnableBlending();
+}
+
+void TextureTarget::Clear(void)
+{
+	SDL_Rect alphaWashRect = {0, 0, m_size.x, m_size.y};
+	RenderRectToTexture(m_texture, &alphaWashRect, 0x00, 0x00, 0x00, 0x00);
 }

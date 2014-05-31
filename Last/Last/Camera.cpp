@@ -51,16 +51,22 @@ Directions<bool> Camera::GetEdgeBools(Coordinates _pos) const
 	return r_directions;
 }
 
-void Camera::ZoomToWidth(const int newWidth)
+bool Camera::ZoomToWidth(const int newWidth)
 {
 	// Get the 1:1 size of the camera
 	Dimensions maxSize = g_renderer->GetLogicalSize();
 	maxSize /= TILE_SIZE;
 	
-	// Scale to fit the new width
-	float newScale = maxSize.x / newWidth;
-	g_renderer->SetScale(newScale);
+	if (newWidth <= WORLD_WIDTH) 
+	{
+		// Scale to fit the new width
+		float newScale = maxSize.x / newWidth;
+		g_renderer->SetScale(newScale);
 
-	// Add BlitOffset to keep the center of the Camera's rendered size in the center of the screen
-	m_blitOffset = (maxSize.x-newWidth) * TILE_SIZE;
+		// Add BlitOffset to keep the center of the Camera's rendered size in the center of the screen
+		m_blitOffset.x = -((maxSize.x - newWidth) * TILE_SIZE) /2;
+		m_blitOffset.y = m_blitOffset.x * (LOGICAL_SIZE.y/LOGICAL_SIZE.x);
+		return true;
+	}
+	else return false;
 }

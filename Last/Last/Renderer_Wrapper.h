@@ -24,7 +24,7 @@ public:
 	
 	// Scale
 	void SetScale(float scaleX, float scaleY);
-	void SetScale(float scale) { SetScale(scale, scale); }
+	inline void SetScale(float scale) { SetScale(scale, scale); } // Shorthand, for uniform scale setting
 
 	// Rendering
 	void RenderToTexture(SDL_Texture* source, SDL_Texture* destination, SDL_Rect* srcrect = nullptr, SDL_Rect* dstrect = nullptr);
@@ -36,23 +36,24 @@ public:
 	// Misc
 	void Clear(void);
 	void Update(void);
-	void AddTarget(TextureTarget* target) { m_textureTargets.push_back(target); }
+	inline void AddTarget(TextureTarget* target) { m_textureTargets.push_back(target); }
 
 	// Window delegations
 	void ToggleFullscreen(void) { m_window->ToggleFullscreen(); }
 
 private:
 	SDL_Renderer* m_renderer;
-	Window*		  m_window;
+	Window*		  m_window; // The window this is linked to
 	Dimensions	  m_logicalSize;
-	std::list<TextureTarget*> m_textureTargets;
+	std::list<TextureTarget*> m_textureTargets; // A list of texture targets that are cleared along with the window
 
+	// Rendering rects and textures
 	void RenderRectToTarget(SDL_Rect* rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 	void RenderToTarget(SDL_Texture* target, void (*renderFunction)(void));
 	
 	// Resets
 	void ResetDrawColor(void);
-	void ResetTarget(void) { SetTarget(nullptr); }
+	inline void ResetTarget(void) { SetTarget(nullptr); }
 
 	// Targetting
 	void SetTarget(SDL_Texture* target);

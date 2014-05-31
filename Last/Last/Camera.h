@@ -11,8 +11,8 @@ public:
 
 	void InitChildren(void);
 
-	// Zoom to a level that fits the given width, in terms of tiles
-	void ZoomToWidth(const int width);
+	// Zoom to a level that fits the given width, in terms of tiles. Returns whether or not this was successful
+	bool ZoomToWidth(const int width);
 
 protected:
 	// Change the x and y, so that the player is in the center of the screen.

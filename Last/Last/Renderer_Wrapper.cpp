@@ -91,7 +91,9 @@ void Renderer_Wrapper::RenderRectToTexture(SDL_Texture* destination, SDL_Rect* r
 void Renderer_Wrapper::RenderRectToWindow(SDL_Rect* rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
 	SetTarget(nullptr);
+
 	RenderRectToTarget(rect, r,g,b,a);
+
 	ResetTarget();
 }
 
@@ -108,15 +110,18 @@ void Renderer_Wrapper::RenderRectToTarget(SDL_Rect* rect, Uint8 r, Uint8 g, Uint
 
 void Renderer_Wrapper::Clear(void)
 {
+	// Standard Render Clear
 	EnsureSuccess(
 		SDL_RenderClear(m_renderer));
 
+	// Clearing of all targetTextures, so that they too are refreshed before rendering to them.
 	for (TextureTarget* tt : m_textureTargets)
 		tt->Clear();
 }
 
 void Renderer_Wrapper::Update(void)
 {
+	// Update window, and render
 	m_window->Update();
 	SDL_RenderPresent(m_renderer);
 }
@@ -124,7 +129,7 @@ void Renderer_Wrapper::Update(void)
 void Renderer_Wrapper::ResetDrawColor(void)
 {
 	EnsureSuccess(
-		SDL_SetRenderDrawColor(m_renderer, 0x00, 0xFF, 0x00, 0xFF)); // Bright green, to highlight what shouldn't be seen.
+		SDL_SetRenderDrawColor(m_renderer, 0x00, 0x00, 0x08, 0xFF)); // Dark Blue
 }
 
 void Renderer_Wrapper::SetTarget(SDL_Texture* target)

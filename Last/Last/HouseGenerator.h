@@ -13,11 +13,11 @@ public:
 		int numRooms;
 	};
 
-	// Generate the house buildings
-	static void generate(void);
+	// Generate the house buildings.
+	static void Generate(void);
 
 private:
-	// Get a random size from the above house sizes
-	static const HouseSize ComputeRandomSize(void);
+	// Get a random size from the above house sizes.
+	static const HouseSize ComputeRandomSize(void); /* To be implemented. */ 
 };
 

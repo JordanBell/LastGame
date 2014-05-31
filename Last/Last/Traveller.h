@@ -8,7 +8,7 @@ public:
 	Traveller(const Coordinates& _pos);
 	~Traveller(void) {};
 
-	// Turn to face a direction
+	// Turn to face a direction (Set Direction)
 	void TurnToFace(const E_Direction& direction);
 
 	// Move one TILE_SIZE in the specified direction
