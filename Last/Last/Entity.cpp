@@ -70,10 +70,10 @@ bool Entity::IsOnScreen(void)
 	if (imageSize.Contains(0)) throw runtime_error("Who said this image could be less than 2-dimensional?!");
 
 	// Get its position
-	const Coordinates absolutePos = GetAbsolutePos();
+	const Coordinates onScreenPos = GetAbsolutePos() + m_blitOffset;
 
 	// Get the edges of the entity
-	const Directions<float>entityEdges(RectFromXY(absolutePos, imageSize));
+	const Directions<float>entityEdges(RectFromXY(onScreenPos, imageSize));
 
 	// Return whether or not any of the edges peek over the screen
 	return ((entityEdges.top	< LOGICAL_SIZE.y) &&

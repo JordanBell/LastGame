@@ -15,8 +15,8 @@ class HUD_Layer : public EntityContainer
 public:
 	HUD_Layer(void) 
 		: EntityContainer(GetLogicalSize(), Coordinates()) {}
-	~HUD_Layer(void) {}
 
+	// Add the four UI_Statuses as children
 	void InitChildren(void);
 
 	// Make sure the added child is a UI_Status

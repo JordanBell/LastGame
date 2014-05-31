@@ -3,20 +3,16 @@
 #include "Renderer_Wrapper.h"
 #include <string>
 
+/*
+The ToolKit contains global variables and functions.
+*/
+
 extern Window* g_window;
 extern Renderer* g_renderer;
 extern SDL_Event event;
 
 // Short Convenience
-SDL_Rect RectFromXY(Coordinates pos, Dimensions dims);
-
-// Check if a given texture has a queried access
-bool TextureHasAccess(SDL_Texture* texture, Uint32 queriedAccess);
-
-// Check if a number contains a bit
-bool ContainsBit(int target, int query);
-
-
+SDL_Rect RectFromXY(const Coordinates& pos, const Dimensions& dims);
 
 // RENDERER DELEGATIONS
 	// Initialisation

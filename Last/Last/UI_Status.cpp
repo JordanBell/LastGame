@@ -3,10 +3,10 @@
 #include "Config.h"
 #include "ToolKit.h"
 
-UI_Status* UI_Fatigue = nullptr;
+UI_Status* UI_Fatigue	 = nullptr;
 UI_Status* UI_Loneliness = nullptr;
-UI_Status* UI_Insanity = nullptr;
-UI_Status* UI_Fear = nullptr;
+UI_Status* UI_Insanity   = nullptr;
+UI_Status* UI_Fear		 = nullptr;
 
 UI_Status::UI_Status(Status* status, const Coordinates& clipIndex) 
 	: Entity( ComputePosition(clipIndex), 
@@ -41,6 +41,6 @@ Coordinates UI_Status::ComputePosition(const Coordinates& clipIndex)
 
 void UI_Status::E_Update(int delta)
 {
-	// Update output based on status values
+	// Update output based on m_status values
 }
 

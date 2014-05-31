@@ -30,7 +30,7 @@ private:
 	// Build a test house
 	static void BuildTestHouse(const Coordinates& pos);
 
-	// Build a stone bordered square
+	// Build a stone bordered square - not a real room, really.
 	static void BuildRoom(const Coordinates& pos, const XY& dimensions);
 
 	// Build a small column

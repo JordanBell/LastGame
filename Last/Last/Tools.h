@@ -3,6 +3,10 @@
 #include <iostream>
 #include "SDL.h"
 
+/*
+Tools contains different structs and enumerations used without the program, as various tools.
+*/
+
 // Direction enumeration, can be used as indices for Traveller animation
 enum E_Direction{
 	UP = 0,

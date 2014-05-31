@@ -2,7 +2,7 @@
 #include "Environment.h"
 #include "EntityContainer.h"
 
-// Contains all of the entities, via the Player and Environment Entities
+// Contains all of the Environment, and controls the uniform position on the screen
 class Camera : public EntityContainer
 {
 public:

@@ -1,18 +1,17 @@
 #include "Environment.h"
 #include "Config.h"
+#include "Player.h" // Initialising g_player
+#include "WorldBuilder.h" // Building the world
 
 Environment* g_environment = nullptr;
 
-Environment::Environment() : EntityContainer(WORLD_DIMENSIONS * TILE_SIZE), 
-							 topLayer(true), 
-							 middleLayer(false), 
-							 bottomLayer(true) {}
-
-void Environment::InitLayers(void)
+void Environment::Initialise(void)
 {
 	AddChild(&bottomLayer);
 	AddChild(&middleLayer);
 	AddChild(&topLayer);
+	
+	WorldBuilder::build();
 }
 
 list<Entity*>& Environment::GetEntitiesAt(const Coordinates& position, const Layer layer)

@@ -18,7 +18,7 @@ void WorldBuilder::build()
 	BuildTestHouse(Coordinates(WORLD_WIDTH/2-3, WORLD_HEIGHT/2-4));
 
 	// Outer Walls
-	BuildTileRectangle<WORLD_BORDER>(Coordinates(0, 0), Dimensions(WORLD_WIDTH, WORLD_HEIGHT), false, TOP_LAYER);
+	BuildTileRectangle<InvisibleWallTile>(Coordinates(0, 0), Dimensions(WORLD_WIDTH, WORLD_HEIGHT), false, TOP_LAYER);
 }
 
 template <class E>
@@ -107,19 +107,13 @@ void WorldBuilder::BuildColumnLarge(const Coordinates& pos)
 // Build an arch over a position
 void WorldBuilder::BuildDoorColumn(const Coordinates& pos)
 {
-	AddTo<TileBlack>(Coordinates(pos.x, pos.y-2), TOP_LAYER);			// Black
-	AddTo<WoodWallTile_Above>(Coordinates(pos.x, pos.y-1), TOP_LAYER);	// Wall Half
-	AddTo<Door>(pos, MIDDLE_LAYER);									// Door
+	AddTo<TileBlack>(Coordinates(pos.x, pos.y-2), TOP_LAYER);
+	AddTo<WoodWallTile_Above>(Coordinates(pos.x, pos.y-1), TOP_LAYER);
+	AddTo<Door>(pos, MIDDLE_LAYER);
 }
 
 void WorldBuilder::BuildRoom(const Coordinates& pos, const Dimensions& dimensions)
 {
-	// Draw the border
-	const bool staysWithinWorld = (pos + dimensions) < WORLD_DIMENSIONS;
-
-	if (staysWithinWorld)
-	{
-		BuildTileRectangle<StoneFloorTile_LightBrown>(pos, dimensions);
-		BuildRectangle(pos, dimensions, BuildColumn<WoodWallTile>, false);
-	}
+	BuildTileRectangle<StoneFloorTile_LightBrown>(pos, dimensions);
+	BuildRectangle(pos, dimensions, BuildColumn<WoodWallTile>, false);
 }

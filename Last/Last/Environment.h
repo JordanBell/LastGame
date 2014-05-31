@@ -15,14 +15,16 @@ class Environment : public EntityContainer
 	EnvironmentLayer bottomLayer; // Floors, low walls, anything rendered below the player
 
 public:
-	Environment();
-	void InitLayers(void);
+	Environment() : EntityContainer(WORLD_DIMENSIONS * TILE_SIZE), 
+					topLayer(true), 
+					middleLayer(false), 
+					bottomLayer(true) {}
 
-	// Add an Entity to the Environment, top layer.
+	// Add the layers as children to the Environment, along with any other initialisation required beyond the constructor.
+	void Initialise(void);
+
 	void AddToTop(Entity* child)	{ topLayer.AddChild(child); }
-	// Add an Entity to the Environment, middle layer.
 	void AddToMiddle(Entity* child)	{ middleLayer.AddChild(child); }
-	// Add an Entity to the Environment, bottom layer.
 	void AddToBottom(Entity* child)	{ bottomLayer.AddChild(child); }
 
 	// Get a list of pointers to all of the entities at a given position

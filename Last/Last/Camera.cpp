@@ -36,8 +36,6 @@ void Camera::CenterOnPlayer()
 	// Center on the valid axes
 	if (canCenterX) pos.x = suggestedPos.x;
 	if (canCenterY) pos.y = suggestedPos.y;
-
-	//printf("Camera pos (%f, %f).\n", pos.x, pos.y);
 }
 
 Directions<bool> Camera::GetEdgeBools(Coordinates _pos) const

@@ -19,13 +19,13 @@ public:
 	// Interact with the object in front of the player
 	void Interact(void) const;
 
+	// Attempt to walk in a direction
 	virtual void Walk(const E_Direction& direction);
 
 private:
 	int inputBuffer; // Frames until input is reenabled. Input is enabled when inputBuffer == 0.
 };
 
-// A global player object
 extern Player* g_player;
 
 #endif

@@ -1,20 +1,11 @@
 #pragma once
 
 #include "Game.h"
-#include <time.h>	// Initialising timer
 #include "Camera.h" // Initialising g_camera
 #include "Player.h" // Initialising g_player
-#include "WorldBuilder.h" // Building the world
 #include "HUD_Layer.h" // UI HUD
 
-
 Game* g_game = nullptr;
-
-Game::Game() : running(true)
-{
-	delta = 0;
-	srand(time(nullptr));
-}
 
 Game::~Game() 
 { 
@@ -22,7 +13,7 @@ Game::~Game()
 	delete UI_HUD;
 }
 
-void Game::init()
+void Game::Init()
 {
 	// Initialise the UI
 	UI_HUD = new HUD_Layer();
@@ -32,15 +23,14 @@ void Game::init()
 		UI_Fear = new UI_Status(g_fear, Coordinates(1, 1));
 	UI_HUD->InitChildren(); // Add all of the above to the HUD Layer
 
-	// Initialise the Player
-	Coordinates worldCenter((WORLD_WIDTH/2), (WORLD_HEIGHT/2)+2);
-	g_player = new Player(worldCenter);
-
 	// Initiailise the Environment
 	g_environment = new Environment();
-	g_environment->InitLayers();
-	WorldBuilder::build();
-	g_environment->AddToMiddle(g_player); // Add the player to the environment
+	g_environment->Initialise();
+
+	// Initialise the Player
+	Coordinates worldCenter((WORLD_WIDTH/2), (WORLD_HEIGHT/2));
+	g_player = new Player(worldCenter);
+	g_environment->AddToMiddle(g_player); // Stick the player in the world.
 
 	// Add everything to the Camera
 	g_camera = new Camera();
@@ -49,8 +39,6 @@ void Game::init()
 
 void Game::Run()
 {	
-	init();
-
 	while (running)
 	{
 		m_FPSTimer.start();

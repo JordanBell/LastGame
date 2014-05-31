@@ -12,6 +12,11 @@ Texture_Wrapper::Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool sta
 
 	// If it's a static clip, and only a section of the sprite sheet is to be used, Clip the Texture (permanently). 
 	if (m_staticClip && m_clip) ClipTexture();
+	else if ((!m_clip) && (m_texture))
+	{
+		// If no clip, initialise m_size using loaded texture size
+		SDL_QueryTexture(m_texture, 0, 0, (int*)&m_size.x, (int*)&m_size.y);
+	}
 }
 
 void Texture_Wrapper::DefineTextureFromFile(SSID ssid)

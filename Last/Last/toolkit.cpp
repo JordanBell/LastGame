@@ -6,26 +6,12 @@
 
 Window* g_window = nullptr;
 Renderer* g_renderer = nullptr;
-bool inFullScreen;
-SDL_Event event;
 
-SDL_Rect RectFromXY(Coordinates pos, Dimensions dims) 
+#ifndef RectFromXY
+SDL_Rect RectFromXY(const Coordinates& pos, const Dimensions& dims) 
 { 
-	SDL_Rect r_rect = 
-		{pos.x, pos.y, 
-		dims.x, dims.y}; 
+	SDL_Rect r_rect = {pos.x, pos.y, 
+					   dims.x, dims.y}; 
 	return r_rect; 
 }
-
-bool TextureHasAccess(SDL_Texture* texture, Uint32 queriedAccess)
-{
-	int textureAccess;
-	SDL_QueryTexture(texture, nullptr, &textureAccess, nullptr, nullptr);
-
-	return (ContainsBit(textureAccess, queriedAccess));
-}
-
-bool ContainsBit(int target, int query)
-{
-	return ((target & query) != 0);
-}
+#endif
