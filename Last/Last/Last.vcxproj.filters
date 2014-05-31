@@ -139,7 +139,6 @@
     <ClCompile Include="HUD_Layer.cpp">
       <Filter>Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="TestEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config.h">
@@ -246,9 +245,6 @@
     </ClInclude>
     <ClInclude Include="Status.h">
       <Filter>Files\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="TestEntity.h">
-      <Filter>Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

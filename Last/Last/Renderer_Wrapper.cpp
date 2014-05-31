@@ -24,31 +24,10 @@ void Renderer_Wrapper::SetLogicalSize(Dimensions size)
 		SDL_RenderSetLogicalSize(m_renderer, size.x, size.y));
 }
 
-Dimensions Renderer_Wrapper::GetWindowSize(void) const
-{
-	// Get the surface
-	SDL_Surface* windowSurface = GetWindowSurface();
-
-	// Save its size
-	Dimensions r_size(windowSurface->w, windowSurface->h);
-
-	return r_size;
-}
-
 void Renderer_Wrapper::SetScale(float scaleX, float scaleY)
 {
 	EnsureSuccess(
 		SDL_RenderSetScale(m_renderer, scaleX, scaleY));
-}
-
-SDL_Texture* Renderer_Wrapper::CreateTexture(SDL_Surface* surface)
-{
-	SDL_Texture* result = SDL_CreateTextureFromSurface(m_renderer, surface);
-
-	// Check for failure
-	EnsureSuccess(result);
-
-	return result;
 }
 
 SDL_Texture* Renderer_Wrapper::LoadImageTexture(std::string filename)

@@ -19,32 +19,32 @@ void ShapeBuilder::BuildRectangle(const Coordinates& pos, const Dimensions& dime
 	}
 }
 
-void ShapeBuilder::BuildLine(Coordinates start, Coordinates end, void (*drawFunction)(const Coordinates&))
+void ShapeBuilder::BuildLine(Coordinates start, 
+							 Coordinates end, 
+							 void (*drawFunction)(const Coordinates&))
 {
 	bool xEqual = (start.x == end.x);
 	bool yEqual = (start.y == end.y);
 
-	// Point to the differing coordinates
-	float* differingStart;
-	float* differingEnd;
+	if (!xEqual && !yEqual) throw new std::runtime_error("Cannot draw diagonal lines.");
 
-	// Point to the coordinates that differ
-	if (xEqual)
-	{
-		differingStart = &start.y;
-		differingEnd = &end.y;
-	}
-	else if (yEqual)
-	{
-		differingStart = &start.x;
-		differingEnd = &end.x;
-	}
-	else throw new std::runtime_error("Cannot draw diagonal lines.");
 
-	int directionPolarity = (*differingStart < *differingEnd) ? 1 : -1; // Negative or positive, based on the direction of the line
+	// Refer to the differing coordinates
+	float& differingStart = xEqual ?
+							start.y :
+							start.x;
+	float& differingEnd = xEqual ?
+						  end.y :
+						  end.x;
 
-	Coordinates tileCoords = start; // The coordinates for each tile drawn
-	for (int i = *differingStart; i != *differingEnd + directionPolarity /*Inclusive*/; i += directionPolarity) // i loops through the positions between the two points, in the direction of their differing coordinates
+	// Get a negative or positive 1, based on the direction of the line.
+	int directionPolarity = (differingStart < differingEnd) ? 1 : -1; 
+
+	// The coordinates for each tile drawn, copied from Start as to not alter the original.
+	Coordinates tileCoords = start; 
+
+	// i loops through the positions between the two points, in the direction of their differing coordinates.
+	for (int i = differingStart; i != differingEnd + directionPolarity /*Inclusive*/; i += directionPolarity) 
 	{
 		if (xEqual) tileCoords.y = i; // Alter Y
 		if (yEqual) tileCoords.x = i; // Alter X
@@ -52,4 +52,15 @@ void ShapeBuilder::BuildLine(Coordinates start, Coordinates end, void (*drawFunc
 		// Add a tile to that position
 		(*drawFunction)(tileCoords);
 	}
+}
+
+template <class Tile_Fill, class Tile_Border>
+void ShapeBuilder::BuildBorderedRectangle(const Coordinates& pos, 
+										  const Dimensions& dimensions, 
+										  Layer layer)
+{
+	// Draw the border
+	BuildTileRectangle<Tile_Border>(pos, dimensions, false, layer);
+	// Draw the fill
+	BuildTileRectangle<Tile_Fill>(pos+1, dimensions-2, true, layer);
 }

@@ -27,8 +27,6 @@ public:
 
 private:
 
-	////// STRUCTURES
-
 	// Build a test house
 	static void BuildTestHouse(const Coordinates& pos);
 
@@ -43,13 +41,6 @@ private:
 	template <class T_Wall>
 		static void BuildColumnLarge(const Coordinates& pos);
 
-	// An arch above a certain point
-	template <class T_Wall>
-		static void BuildArchAbove(const Coordinates& pos);
-
 	// Builds a door with a column above it
 	static void BuildDoorColumn(const Coordinates& pos);
-
-	// Build a random doorway along a given square
-	static void BuildRandomDoorway(const Coordinates& pos, const Dimensions& dimensions);
 };

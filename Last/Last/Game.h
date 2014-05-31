@@ -1,9 +1,6 @@
 #pragma once
 #include "Timer.h"
 
-#include "Tiles.h"
-#include "TestEntity.h"
-
 class Game
 {	
 public:
@@ -19,10 +16,6 @@ private:
 	bool running; // Whether or not the program is running - controls the game loop.
 	Timer m_FPSTimer; // The timer that keeps track of the time since the last update
 	
-	//TestEntity testContainer;
-	GrassTile testTile;
-
-
 	// Initialise all of the objects in the game.
 	void init();
 

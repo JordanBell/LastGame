@@ -10,12 +10,13 @@ public:
 	Window_Wrapper(void);
 	~Window_Wrapper(void) { SDL_DestroyWindow(m_window); }
 
-	// Initialise the window based on the inFullScreen data
+	// Define (or redefine) the window based on the inFullScreen value
 	void RedefineWindow(void);
 
+	// Get the SDL_Window that this object wraps around
 	SDL_Window* GetWindow(void) const { return m_window; }
-	SDL_Surface* GetSurface(void) const { return m_surface; }
 
+	// Update the window's surface
 	void Update(void) { EnsureSuccess( SDL_UpdateWindowSurface(m_window) ); }
 
 	// Toggle fullscreen
@@ -25,9 +26,8 @@ public:
 	void ExitFullscreen(void) { if (inFullscreen) ToggleFullscreen(); }
 
 private:
-	SDL_Window* m_window;
-	SDL_Surface* m_surface;
-	bool inFullscreen;
+	SDL_Window* m_window; // The SDL_Window that this object wraps around
+	bool inFullscreen; // Whether or not the window should be in full screen mode
 };
 
 extern const char* const WINDOW_TITLE;

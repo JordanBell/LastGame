@@ -25,7 +25,7 @@ template <class E>
 void WorldBuilder::AddTo(const Coordinates& pos, Layer layer)
 {
 	switch (layer) {
-		case TOP_LAYER: AddToTop<E>(pos);
+		case TOP_LAYER:	   AddToTop<E>(pos);
 		case MIDDLE_LAYER: AddToMiddle<E>(pos);
 		case BOTTOM_LAYER: AddToBottom<E>(pos);
 	}
@@ -86,30 +86,22 @@ void WorldBuilder::BuildTestHouse(const Coordinates& pos)
 }
 
 // Build a small column
-template <class Wall>
+template <class WallType>
 void WorldBuilder::BuildColumn(const Coordinates& pos)
 {
 	AddTo<TileBlack>(Coordinates(pos.x, pos.y-2), TOP_LAYER);
-	AddTo<WoodWallTile>(Coordinates(pos.x, pos.y-1));
-	AddTo<WoodWallTile>(pos);
+	AddTo<WallType>(Coordinates(pos.x, pos.y-1));
+	AddTo<WallType>(pos);
 }
 
 // Build a column
-template <class Wall>
+template <class WallType>
 void WorldBuilder::BuildColumnLarge(const Coordinates& pos)
 {
 	// Delegate to create the arch (solidly)
-	BuildColumn<Wall>(Coordinates(pos.x, pos.y-1));
+	BuildColumn<WallType>(Coordinates(pos.x, pos.y-1));
 	// Add the wall below the arch
-	AddTo<WoodWallTile>(pos);
-}
-
-// Build an arch over a position
-template <class Wall>
-void WorldBuilder::BuildArchAbove(const Coordinates& pos)
-{
-	AddTo<TileBlack>(Coordinates(pos.x, pos.y-2), true);			// Black
-	AddTo<WoodWallTile>(Coordinates(pos.x, pos.y-1), TOP_LAYER);	// Wall
+	AddTo<WallType>(pos);
 }
 
 // Build an arch over a position
@@ -129,55 +121,5 @@ void WorldBuilder::BuildRoom(const Coordinates& pos, const Dimensions& dimension
 	{
 		BuildTileRectangle<StoneFloorTile_LightBrown>(pos, dimensions);
 		BuildRectangle(pos, dimensions, BuildColumn<WoodWallTile>, false);
-
-		// TopDown, primitive style
-		/*BuildBorderedRectangle<StoneFloorTile_LightBrown, WoodWallTile>(pos, dimensions);
-		BuildRandomDoorway(pos, dimensions);*/
 	}
-}
-
-// Deprecated upon implementation of uniplanar isometric houses
-void WorldBuilder::BuildRandomDoorway(const Coordinates& pos, const Dimensions& dimensions)
-{
-	// Find where along the wall the doorway should go
-	Coordinates doorPos = Coordinates(0, 0);
-	bool isOnHorizontal = rand() % 2;
-
-	// If one side can't accomodate a door, pick the other
-	bool horizontalValid = dimensions.x > 3;
-	bool verticalValid	 = dimensions.y > 3;
-
-	if (isOnHorizontal && horizontalValid) 
-	{
-		// Where along the sides
-		doorPos.y = pos.y + (rand() % ((int)dimensions.y-3)) + 1;
-			
-		// Left or right side?
-		bool left = rand() % 2;
-
-		doorPos.x = left ? pos.x : 
-							pos.x + dimensions.x-1;
-	}
-	else if (verticalValid)
-	{
-		// Where along the wall
-		doorPos.x = pos.x + (rand() % ((int)dimensions.x-3)) + 1;
-		
-		// Top or bottom?
-		bool top = rand() % 2;
-
-		doorPos.y = top ? pos.y : 
-							pos.y + dimensions.y-1;
-	}
-	else {
-		printf("Square too small to add a door.");
-		return;
-	}
-
-	// Get the dimensions of the door based on which side it's on
-	Dimensions doorDimensions = Dimensions(isOnHorizontal? 1 : 2,
-							isOnHorizontal? 2 : 1);
-		
-	// Build the door
-	BuildTileRectangle<StoneFloorTile_LightBrown>(doorPos, doorDimensions);
 }

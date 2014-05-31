@@ -10,7 +10,7 @@
 
 Game* g_game = nullptr;
 
-Game::Game() : running(true), testTile(Coordinates())
+Game::Game() : running(true)
 {
 	delta = 0;
 	srand(time(nullptr));
@@ -35,7 +35,6 @@ void Game::init()
 	// Initialise the Player
 	Coordinates worldCenter((WORLD_WIDTH/2), (WORLD_HEIGHT/2));
 	g_player = new Player(worldCenter);
-	//g_player = new Player(Coordinates());
 
 	// Initiailise the Environment
 	g_environment = new Environment();
@@ -46,12 +45,6 @@ void Game::init()
 	// Add everything to the Camera
 	g_camera = new Camera();
 	g_camera->InitChildren();
-
-	// Testing
-	//g_camera->AddChild(g_player);
-
-	//testContainer.AddChild(&testTile);
-	//testContainer.AddChild(g_player);
 }
 
 void Game::Run()
@@ -104,8 +97,6 @@ void Game::Render()
 {
 	//Clear screen
 	ClearWindow();
-
-	//testContainer.Render();
 
 	// Render camera (Everything on screen)
 	g_camera->Render();

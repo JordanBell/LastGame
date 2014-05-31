@@ -17,19 +17,6 @@ SDL_Rect RectFromXY(Coordinates pos, Dimensions dims)
 	return r_rect; 
 }
 
-// Deprecated - use Renderer_Wrapper::LoadImageTexture instead
-SDL_Surface* LoadImageSurface(std::string filename)
-{
-	SDL_Surface* r_surface = nullptr;
-
-	r_surface = IMG_Load(filename.c_str());
-	if (r_surface == nullptr) {
-		printf("Unable to load image: %s\n", filename.c_str());
-	}
-
-	return r_surface;
-}
-
 bool TextureHasAccess(SDL_Texture* texture, Uint32 queriedAccess)
 {
 	int textureAccess;

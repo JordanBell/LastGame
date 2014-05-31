@@ -13,7 +13,6 @@ public:
 	~Renderer_Wrapper(void);
 	
 	// Texture Creation
-	SDL_Texture* CreateTexture(SDL_Surface* surface);
 	SDL_Texture* CreateTexture(Dimensions size, 
 							   int access = SDL_TEXTUREACCESS_STATIC, 
 							   Uint32 format = SDL_PIXELFORMAT_ARGB8888);
@@ -41,8 +40,6 @@ public:
 
 	// Window delegations
 	void ToggleFullscreen(void) { m_window->ToggleFullscreen(); }
-	SDL_Surface* GetWindowSurface(void) const { return m_window->GetSurface(); }
-	Dimensions GetWindowSize(void) const;
 
 private:
 	SDL_Renderer* m_renderer;
