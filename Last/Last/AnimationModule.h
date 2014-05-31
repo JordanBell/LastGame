@@ -21,6 +21,9 @@ public:
 
 	// Called by Entity only, updates the animation if turned on
 	void UpdateModule(void) { if (on) Update(); }
+	
+	// Override the cycle
+	void OverrideCycle(int newCycle) { m_iterator.OverrideCycle(newCycle*m_framesPerClip); }
 
 	SDL_Rect* GetClip(E_Direction direction = UP);
 	bool IsAnimating(void) { return on; }

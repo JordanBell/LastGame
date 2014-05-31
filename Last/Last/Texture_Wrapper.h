@@ -14,13 +14,13 @@ public:
 	*/
 	Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool staticClip);
 
-	virtual ~Texture_Wrapper(void);
+	virtual ~Texture_Wrapper(void) { SDL_DestroyTexture(m_texture); }
 
 	// Add a Texture Streamer for this to stream its texture toward
 	void SetTarget(TextureTarget* target) { m_target = target; }
 
 	// Change the image's clip
-	void SetClip(SDL_Rect* newClip) { if (!m_staticClip) m_clip = newClip; else throw std::runtime_error("Cannot change the clip of a static texture"); }
+	void SetClip(SDL_Rect* newClip);
 
 	// Render texture onto renderer-pointer's target
 	void RenderToTarget(Coordinates pos) const;

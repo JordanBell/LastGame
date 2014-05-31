@@ -5,17 +5,6 @@
 
 Camera* g_camera = nullptr;
 
-Camera::Camera(void) : EntityContainer(WORLD_DIMENSIONS * TILE_SIZE) {}
-
-Camera::~Camera(void)
-{
-	// Delete Player
-	delete g_player;
-
-	// Delete Environment
-	delete g_environment;
-}
-
 void Camera::InitChildren(void)
 {
 	AddChild(g_environment);

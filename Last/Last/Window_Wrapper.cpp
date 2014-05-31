@@ -20,7 +20,7 @@ void Window_Wrapper::RedefineWindow(void)
 
 	m_window = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 								size.x, size.y, flag);
-
+	
 	/*m_window = inFullscreen ? 
 		SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 						 1680, 

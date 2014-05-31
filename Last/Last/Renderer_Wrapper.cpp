@@ -24,14 +24,6 @@ void Renderer_Wrapper::SetLogicalSize(Dimensions size)
 		SDL_RenderSetLogicalSize(m_renderer, size.x, size.y));
 }
 
-//Dimensions Renderer_Wrapper::GetLogicalSize(void) const
-//{
-//	Dimensions r_size = Dimensions();
-//	SDL_RenderGetLogicalSize(m_renderer, (int*)(&r_size.x), (int*)(&r_size.y));
-//
-//	return r_size;
-//}
-
 Dimensions Renderer_Wrapper::GetWindowSize(void) const
 {
 	// Get the surface

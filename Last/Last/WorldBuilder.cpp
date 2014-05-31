@@ -116,7 +116,7 @@ void WorldBuilder::BuildArchAbove(const Coordinates& pos)
 void WorldBuilder::BuildDoorColumn(const Coordinates& pos)
 {
 	AddTo<TileBlack>(Coordinates(pos.x, pos.y-2), TOP_LAYER);			// Black
-	AddTo<WoodWallTile_Half>(Coordinates(pos.x, pos.y-1), TOP_LAYER);	// Wall Half
+	AddTo<WoodWallTile_Above>(Coordinates(pos.x, pos.y-1), TOP_LAYER);	// Wall Half
 	AddTo<Door>(pos);													// Door
 }
 

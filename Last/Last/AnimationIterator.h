@@ -18,6 +18,8 @@ class AnimationIterator
 	void TurnOn (void) { on = true; }
 	void TurnOff(void) { on = false; }
 
+	void OverrideCycle(int newCycle) { m_cycle = newCycle; }
+
 public:
 	
 	// Increment the cycle up to its max_cycle, then drop back to 0

@@ -87,6 +87,9 @@ protected:
 	// Get a set of coordinates' position on the grid (pos/TILE_SIZE)
 	static Coordinates GetGridPosition(const Coordinates& _pos);
 
+	// Update the clip via the assigned animation module
+	virtual void UpdateClipFromAnimation(void) { GetImage().SetClip( a_module->GetClip() ); }
+
 	/**** CHECKED VIRTUAL FUNCTIONS ****/
 	/*
 	The following functions are called publicly before being delegated to their true functions. 

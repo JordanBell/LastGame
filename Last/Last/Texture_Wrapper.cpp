@@ -13,11 +13,6 @@ Texture_Wrapper::Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool sta
 	if (m_staticClip && m_clip) ClipTexture();
 }
 
-Texture_Wrapper::~Texture_Wrapper(void)
-{
-	SDL_DestroyTexture(m_texture);
-}
-
 void Texture_Wrapper::DefineTextureFromFile(SSID ssid)
 {
 	// Set the sprite sheet from the SpriteSheetID
@@ -41,10 +36,19 @@ void Texture_Wrapper::DefineTextureFromFile(SSID ssid)
 	default:
 		throw runtime_error("SSID not recognised during Texture construction.");
 	}
-	
-	// Set the blend mode for this new texture
-	EnableBlending();
 }
+
+void Texture_Wrapper::SetClip(SDL_Rect* newClip) 
+{ 
+	if (!m_staticClip) 
+	{
+		m_clip = newClip; 
+		m_size = Dimensions(m_clip->w, m_clip->h);
+	}
+	else throw std::runtime_error("Cannot change the clip of a static texture"); 
+
+}
+
 
 void Texture_Wrapper::ClipTexture(void)
 {

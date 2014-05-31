@@ -10,9 +10,9 @@ Environment::Environment() : EntityContainer(WORLD_DIMENSIONS * TILE_SIZE),
 
 void Environment::InitLayers(void)
 {
-	AddChild(&topLayer);
-	AddChild(&middleLayer);
 	AddChild(&bottomLayer);
+	AddChild(&middleLayer);
+	AddChild(&topLayer);
 }
 
 list<Entity*>& Environment::GetEntitiesAt(const Coordinates& position, const Layer layer)

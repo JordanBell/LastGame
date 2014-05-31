@@ -6,7 +6,7 @@ void Player::E_Update(const int delta)
 {
 	// Update the input buffer
 	if (inputBuffer > 0) inputBuffer--;
-
+	
 	Traveller::E_Update(delta);
 }
 

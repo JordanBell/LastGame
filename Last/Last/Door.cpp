@@ -17,7 +17,7 @@ void Door::E_OnInteract(void)
 	if (!a_module->IsAnimating())
 	{
 		open = !open; // Toggle
-		a_module->Start(); // Start the animation
+		((DoorAnimation*)a_module)->StartDoor(open); // Start the animation
 	}
 }
 

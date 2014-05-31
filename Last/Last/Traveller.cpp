@@ -1,13 +1,18 @@
 #include "Traveller.h"
 #include "TravellerAnimation.h"
 #include "Environment.h"
-Traveller::Traveller(const Coordinates& _pos) : Entity(_pos, Coordinates(0, -TILE_SIZE/2), SSID_PLAYER, TRAVELLER_FRMT, nullptr, new TravellerAnimation()), 
-									   direction(DOWN),
-									   m_moving(false),
-									   misalignment(0),
-									   m_speed(TRAVELLER_SPEED)
+Traveller::Traveller(const Coordinates& _pos) 
+	: Entity(_pos, Coordinates(0, -TILE_SIZE/2), SSID_PLAYER, TRAVELLER_FRMT, nullptr, new TravellerAnimation()), 
+	  direction(DOWN),
+	  m_moving(false),
+	  misalignment(0),
+	  m_speed(TRAVELLER_SPEED),
+	  m_stillBuffer(0)
 {
 	if (!m_format[TRAVELS]) throw ModuleMisuseException("An entity cannot inherit from Traveller if its format does not allow travelling.");
+	
+	// Initialise as still
+	a_module->OverrideCycle(1);
 }
 
 void Traveller::E_Update(const int delta)
@@ -22,15 +27,24 @@ void Traveller::E_Update(const int delta)
 		// Increment the misalignment from the grid by this amount
 		if (!m_format[GRID_INDEPENDENT]) misalignment += pixelsToMove;
 	}
+	else 
+	{
+		// Set the traveller as still, after a small buffer
+		if (m_stillBuffer == 0) 
+			a_module->OverrideCycle(1);
+		else
+			m_stillBuffer--;
+	}
 
 	// Check to see if the traveller should stop
-	if (m_format[GRID_INDEPENDENT]) m_moving = false; // No need to check to see if at TILE_SIZE multiple if Grid Independent
+	if (m_format[GRID_INDEPENDENT]) StopMoving(); // No need to check to see if at TILE_SIZE multiple if Grid Independent
 	else
 	{
 		if (abs(misalignment) >= TILE_SIZE) // The traveller has reached the next tile
 		{
 			// Reset the movement variables
-			m_moving = false;
+			StopMoving();
+
 			misalignment = 0;
 
 			// Snap the traveller to a TILE_SIZE multiple.
@@ -47,9 +61,23 @@ void Traveller::Walk(const E_Direction& direction)
 		// Set the new direction
 		TurnToFace(direction);
 
-		// If the traveller can move to the next tile, set movement as true
-		if (CanMoveForward()) m_moving = true;
+		// If the traveller can move to the next tile, start moving
+		if (CanMoveForward()) StartMoving();
 	}
+}
+
+void Traveller::StopMoving(void)
+{
+	m_moving = false;
+	a_module->Stop();
+
+	m_stillBuffer = 1;
+}
+
+void Traveller::StartMoving(void)
+{
+	m_moving = true;
+	a_module->Start();
 }
 
 void Traveller::TurnToFace(const E_Direction& direction)

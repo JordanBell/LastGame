@@ -67,7 +67,7 @@ bool Entity::IsOnScreen(void)
 {
 	// Get the size of the texture
 	const Dimensions imageSize = GetImage().Size();
-	if (imageSize.Contains(0)) return false;
+	if (imageSize.Contains(0)) throw runtime_error("Who said this image could be less than 2-dimensional?!");
 
 	// Get its position
 	const Coordinates absolutePos = GetAbsolutePos();
@@ -105,10 +105,7 @@ void Entity::Render(void)
 	if (m_format[ANIMATED])
 	{
 		a_module->UpdateModule(); 
-		//GetImage().SetClip( a_module->GetClip() );
-
-		SDL_Rect testRect = { 0, 0, 32, 32 };
-		GetImage().SetClip( &testRect );
+		UpdateClipFromAnimation();
 	}
 
 	// Make visible if deemed necessary

@@ -5,5 +5,5 @@
 class TravellerAnimation : public AnimationModule
 {
 public:
-	TravellerAnimation(void) : AnimationModule(Dimensions(3, 4), Dimensions(TILE_SIZE), 3, 5, true) {}
+	TravellerAnimation(void) : AnimationModule(Dimensions(3, 4), Dimensions(32, 36), 3, 3, true) {}
 };

@@ -44,9 +44,6 @@ typedef TileTangible Wall;
 class GrassTile : public Floor {
 public:
 	GrassTile(const Coordinates& _pos) : Floor(_pos, TILE_INDEX_GRS) {}
-
-protected:
-	virtual void E_Render(void) { Floor::E_Render(); }
 };
 class StoneFloorTile : public Floor {
 public:
@@ -65,7 +62,7 @@ public:
 };
 class WoodWallTile_Above : public TileIntangible {
 public:
-	WoodWallTile_Above(const Coordinates& _pos) : TileIntangible(_pos, TILE_INDEX_WDWLL) {}
+	WoodWallTile_Above(const Coordinates& _pos) : TileIntangible(_pos, TILE_INDEX_WDWLLHLF) {}
 };
 
 
