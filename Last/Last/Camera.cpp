@@ -20,6 +20,17 @@ void Camera::E_Update(const int delta)
 	CenterOnPlayer(); 
 }
 
+void Camera::E_Render(void)
+{
+	// Set zoom to this camera's level
+	g_renderer->SetScale(m_zoom);
+
+	EntityContainer::E_Render();
+
+	// Put it back to 100%
+	g_renderer->SetScale(1);
+}
+
 void Camera::CenterOnPlayer()
 {
 	// Get the coordinates that the camera would move to, to center on the player
@@ -60,8 +71,7 @@ bool Camera::ZoomToWidth(const int newWidth)
 	if (newWidth <= WORLD_WIDTH) 
 	{
 		// Scale to fit the new width
-		float newScale = maxSize.x / newWidth;
-		g_renderer->SetScale(newScale);
+		m_zoom = maxSize.x / newWidth;
 
 		// Add BlitOffset to keep the center of the Camera's rendered size in the center of the screen
 		m_blitOffset.x = -((maxSize.x - newWidth) * TILE_SIZE) /2;

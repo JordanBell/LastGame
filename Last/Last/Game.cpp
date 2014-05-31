@@ -105,7 +105,7 @@ void Game::Render()
 	// Render camera (Everything on screen)
 	g_camera->Render();
 	// Render UI HUD
-	//UI_HUD->Render();
+	UI_HUD->Render();
 
 	// Update the screen
 	UpdateWindow();

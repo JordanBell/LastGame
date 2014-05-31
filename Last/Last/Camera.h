@@ -7,18 +7,23 @@ class Camera : public EntityContainer
 {
 public:
 	Camera(void) 
-		: EntityContainer(WORLD_DIMENSIONS * TILE_SIZE) {}
+		: EntityContainer(WORLD_DIMENSIONS * TILE_SIZE), m_zoom(1) {}
 
 	void InitChildren(void);
 
-	// Zoom to a level that fits the given width, in terms of tiles. Returns whether or not this was successful
+	// Set a level of zoom, that fits the given width, in terms of tiles. Returns whether or not this was successful.
 	bool ZoomToWidth(const int width);
 
 protected:
 	// Change the x and y, so that the player is in the center of the screen.
 	void E_Update(const int delta);
 
+	void E_Render(void);
+
 private:
+	// The zoom ratio set to the renderer while rendering the camera.
+	float m_zoom;
+
 	// Try to center the camera on the player, if doing so would not reveal the edges of the environment
 	void CenterOnPlayer(void);
 	
