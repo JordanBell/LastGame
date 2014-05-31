@@ -6,7 +6,8 @@
 class Camera : public EntityContainer
 {
 public:
-	Camera(void) : EntityContainer(WORLD_DIMENSIONS * TILE_SIZE) {}
+	Camera(void) 
+		: EntityContainer(WORLD_DIMENSIONS * TILE_SIZE) {}
 
 	void InitChildren(void);
 

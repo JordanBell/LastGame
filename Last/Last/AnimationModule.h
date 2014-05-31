@@ -23,7 +23,7 @@ public:
 	void UpdateModule(void) { if (on) Update(); }
 	
 	// Override the cycle
-	void OverrideCycle(int newCycle) { m_iterator.OverrideCycle(newCycle*m_framesPerClip); }
+	void OverrideCycle(int newCycle);
 
 	SDL_Rect* GetClip(E_Direction direction = UP);
 	bool IsAnimating(void) { return on; }

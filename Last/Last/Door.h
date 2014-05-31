@@ -9,7 +9,8 @@ public:
 protected:
 	// On interact, open the door.
 	void E_OnInteract(void);
-	// Move through when the door is fully open.
+
+	// Move through when the door is fully open, and not animating
 	bool E_CanMoveThrough(void);
 
 private:

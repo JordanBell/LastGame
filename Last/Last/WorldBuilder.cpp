@@ -25,9 +25,9 @@ template <class E>
 void WorldBuilder::AddTo(const Coordinates& pos, Layer layer)
 {
 	switch (layer) {
-		case TOP_LAYER:	   AddToTop<E>(pos);
-		case MIDDLE_LAYER: AddToMiddle<E>(pos);
-		case BOTTOM_LAYER: AddToBottom<E>(pos);
+		case TOP_LAYER:	   AddToTop<E>(pos); break;
+		case MIDDLE_LAYER: AddToMiddle<E>(pos); break;
+		case BOTTOM_LAYER: AddToBottom<E>(pos); break;
 	}
 }
 
@@ -109,7 +109,7 @@ void WorldBuilder::BuildDoorColumn(const Coordinates& pos)
 {
 	AddTo<TileBlack>(Coordinates(pos.x, pos.y-2), TOP_LAYER);			// Black
 	AddTo<WoodWallTile_Above>(Coordinates(pos.x, pos.y-1), TOP_LAYER);	// Wall Half
-	AddTo<Door>(pos);													// Door
+	AddTo<Door>(pos, MIDDLE_LAYER);									// Door
 }
 
 void WorldBuilder::BuildRoom(const Coordinates& pos, const Dimensions& dimensions)

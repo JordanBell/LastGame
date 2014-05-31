@@ -44,3 +44,15 @@ void AnimationIterator::Dec()
 	}
 	else throw AnimationIteratorException("Iterator is off. Cannot decrement."); 
 }
+
+void AnimationIterator::OverrideCycle(int newCycle) 
+{ 
+	// Check for invalid override
+	if (newCycle < 0) 
+		throw std::runtime_error("Cannot override the cycle with a negative number.");
+	if (newCycle > (m_max-1)) 
+		throw std::runtime_error("Cannot override the cycle beyond its Max Cycle.");
+	
+	// Override
+	m_cycle = newCycle;
+}

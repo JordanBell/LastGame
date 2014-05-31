@@ -18,7 +18,7 @@ public:
 	E_Direction& GetDirection(void) { return direction; }
 
 protected:
-	int m_stillBuffer;
+	int m_stillBuffer; // A number of frames after which the traveller stops animating, if still - prevents animation from snapping to "still" after each TILE_SIZE of movement
 	float m_speed;
 	bool m_moving;
 	E_Direction direction;	// The direction being faced by the traveller.
@@ -38,11 +38,11 @@ protected:
 private:
 	int misalignment; // The tracked difference between the traveller and their last tile-aligned position.
 
-	// Stop moving, turn off animation
-	void StopMoving(void);
-
 	// Start moving, turn on animation
 	void StartMoving(void);
+
+	// Stop moving, turn off animation
+	void StopMoving(void);
 
 	// Snap the traveller to the grid, or the grid to a TILE_SIZE multiple coordinate.
 	void SnapPosition(void);

@@ -33,7 +33,7 @@ void Game::init()
 	UI_HUD->InitChildren(); // Add all of the above to the HUD Layer
 
 	// Initialise the Player
-	Coordinates worldCenter((WORLD_WIDTH/2), (WORLD_HEIGHT/2));
+	Coordinates worldCenter((WORLD_WIDTH/2), (WORLD_HEIGHT/2)+2);
 	g_player = new Player(worldCenter);
 
 	// Initiailise the Environment

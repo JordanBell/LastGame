@@ -37,7 +37,6 @@ const float TRAVELLER_SPEED = 0.15;		 // Default traveller speed. ADVISED: Keep 
 
 // PLAYER
 const float PLAYER_SPEED = 0.15;		 // The player's movement speed (independent of framerate). ADVISED: Keep between 0 and 1 to prevent wall clipping.
-const int	PLAYER_WALK_CYCLE_SPEED = 4; // The number of frames between the player's clip changes
 const bool  PLAYER_COMPENSATE_FOR_SLOW_FRAMERATES = false;
 
 // HOUSES

@@ -17,12 +17,12 @@ void Door::E_OnInteract(void)
 	if (!a_module->IsAnimating())
 	{
 		open = !open; // Toggle
-		((DoorAnimation*)a_module)->StartDoor(open); // Start the animation
+		dynamic_cast<DoorAnimation*>(a_module)->StartDoor(open); // Start the animation
 	}
 }
 
 bool Door::E_CanMoveThrough(void)
 {
-	if (!a_module->IsAnimating() && open) return true;
-	else return false;
+	// Can move through if the door is open, and not in the process of animating
+	return (!a_module->IsAnimating() && open);
 }

@@ -4,18 +4,19 @@
 #include "Renderer_Wrapper.h"
 
 // Player, Door, GridTiles
-Texture_Wrapper::Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool staticClip) : m_clip(clip), m_staticClip(staticClip), m_target(nullptr)
+Texture_Wrapper::Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool staticClip) 
+	: m_clip(clip), m_staticClip(staticClip), m_target(nullptr)
 {
 	// Create the texture, based on its SSID. If SSID_NULL, do not load a texture image.
 	DefineTextureFromFile(ssid);
 
-	// If it's a static clip, and only a section of the sprite sheet is used, Clip the Texture (permanently). 
+	// If it's a static clip, and only a section of the sprite sheet is to be used, Clip the Texture (permanently). 
 	if (m_staticClip && m_clip) ClipTexture();
 }
 
 void Texture_Wrapper::DefineTextureFromFile(SSID ssid)
 {
-	// Set the sprite sheet from the SpriteSheetID
+	// Set the sprite sheet via the SpriteSheetID
 	switch (ssid)
 	{
 	case SSID_NULL:
@@ -46,7 +47,6 @@ void Texture_Wrapper::SetClip(SDL_Rect* newClip)
 		m_size = Dimensions(m_clip->w, m_clip->h);
 	}
 	else throw std::runtime_error("Cannot change the clip of a static texture"); 
-
 }
 
 
@@ -57,22 +57,22 @@ void Texture_Wrapper::ClipTexture(void)
 		throw std::runtime_error("Cannot pass a clip with width or height as 0");
 	}
 
-	// Save the clipped texture, delete everything else
+	// Create a new texture, with a new size, to become the clipped copy.
 	SDL_Texture* clippedTexture = CreateTexture( Dimensions(m_clip->w, m_clip->h),
 															SDL_TEXTUREACCESS_TARGET);
 
-	// Render the clip from the whole sprite sheet held in m_texture
+	// Render the clip, from the whole sprite sheet held in m_texture
 	RenderTextureToTexture(m_texture, clippedTexture, m_clip);
 
-	// Set the new clip as the main texture, m_texture
+	// Set the new clip as the main texture
 	m_texture = clippedTexture;
 
-	// Re-enable blending
+	// Re-enable new texture
 	EnableBlending();
 
-	// Set the size of the new texture, before the clip is nullptrified.
+	// Set the size of the new texture, before the clip is nullified.
 	m_size = Dimensions(m_clip->w, m_clip->h);
-	// nullptrify clip pointer
+	// Nullify clip pointer
 	m_clip = nullptr;
 }
 
@@ -107,29 +107,30 @@ void Texture_Wrapper::RenderToTexture(Coordinates pos) const
 	// Get the streamed texture of the target
 	SDL_Texture* targetTexture = m_target->GetTexture();
 
-	// Create blitting rect using pos and size
-	SDL_Rect textureRect = RectFromXY(pos, Size());
+	// Create destination rectangle using pos and size
+	SDL_Rect destinationRect = RectFromXY(pos, Size());
 	
 	// Render to it
-	RenderTextureToTexture(m_texture, targetTexture, m_clip, &textureRect);
+	RenderTextureToTexture(m_texture, targetTexture, m_clip, &destinationRect);
 }
 
 void Texture_Wrapper::RenderToWindow(Coordinates pos) const
 {
-	// Create blitting rect using pos and size
-	SDL_Rect textureRect = RectFromXY(pos, Size());
-	//SDL_Rect textureRect = RectFromXY(pos, Dimensions(TILE_SIZE));
-	RenderTextureToWindow(m_texture, m_clip, &textureRect);
+	// Create destination rectangle using pos and size
+	SDL_Rect destinationRect = RectFromXY(pos, Size());
+	RenderTextureToWindow(m_texture, m_clip, &destinationRect);
 }
 
 
 
-TextureTarget::TextureTarget(Dimensions size, bool staticImage) : Texture_Wrapper(SSID_NULL, nullptr, staticImage)
+TextureTarget::TextureTarget(Dimensions size, bool staticImage) 
+	: Texture_Wrapper(SSID_NULL, nullptr, staticImage)
 { 
 	// Check for an invalid size
 	if (size.Contains(0)) 
 		throw std::runtime_error("Cannot have a size with width or height of 0.");
-
+	
+	// Redefine the m_image in a manner befitting a TextureTarget
 	DefineTextureForTargetting(size);
 
 	if (!staticImage) g_renderer->AddTarget(this); 
@@ -137,12 +138,10 @@ TextureTarget::TextureTarget(Dimensions size, bool staticImage) : Texture_Wrappe
 
 void TextureTarget::DefineTextureForTargetting(Dimensions size)
 {
-	// Texture Streamers don't have their own image, but stream images from others
+	// Texture Streamers are targetted by others, so have Target access.
 	m_texture = CreateTexture(size, SDL_TEXTUREACCESS_TARGET);
+	// No m_clip, so the size must be set via argument.
 	m_size = size;
 	
-	// Set the blend mode for alpha
 	EnableBlending();
-
-	Clear();
 }

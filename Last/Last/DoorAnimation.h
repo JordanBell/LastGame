@@ -9,7 +9,7 @@ public:
 
 	void Open(void);
 	void Close(void);
-	void StartDoor(bool opening) { if (opening) Open(); else Close(); }
+	inline void StartDoor(bool opening) { if (opening) Open(); else Close(); }
 
 protected:
 	void Update(void);

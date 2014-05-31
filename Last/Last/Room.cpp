@@ -4,7 +4,8 @@
 
 using namespace ShapeBuilder;
 
-Room::Room(const Coordinates pos, const Dimensions dimensions) : pos(pos), dimensions(dimensions)
+Room::Room(const Coordinates pos, const Dimensions dimensions) 
+	: pos(pos), dimensions(dimensions)
 {
 	WorldBuilder::BuildRoom(pos, dimensions);
 }

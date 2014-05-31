@@ -8,7 +8,8 @@ class AnimationIteratorException : public exception
 	string m_errorMessage;
 
 public:
-	AnimationIteratorException(string errorMessage) : m_errorMessage(errorMessage) {}
+	AnimationIteratorException(string errorMessage) 
+		: m_errorMessage(errorMessage) {}
 
 	virtual const char* what() const throw()
 	{

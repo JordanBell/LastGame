@@ -6,10 +6,11 @@ Traveller::Traveller(const Coordinates& _pos)
 	  direction(DOWN),
 	  m_moving(false),
 	  misalignment(0),
-	  m_speed(TRAVELLER_SPEED),
-	  m_stillBuffer(0)
+	  m_stillBuffer(0),
+	  m_speed(TRAVELLER_SPEED)
 {
-	if (!m_format[TRAVELS]) throw ModuleMisuseException("An entity cannot inherit from Traveller if its format does not allow travelling.");
+	if (!m_format[TRAVELS]) 
+		throw ModuleMisuseException("An entity cannot inherit from Traveller if its format does not allow travelling.");
 	
 	// Initialise as still
 	a_module->OverrideCycle(1);

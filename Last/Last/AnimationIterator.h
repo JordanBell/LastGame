@@ -6,7 +6,8 @@ class AnimationIterator
 {
 	friend class AnimationModule;
 
-	AnimationIterator(int maxCycles, bool circular = false) : m_cycle(0), m_max(maxCycles), m_circular(circular) {}
+	AnimationIterator(int maxCycles, bool circular = false) 
+		: m_cycle(0), m_max(maxCycles), m_circular(circular) {}
 	~AnimationIterator(void) {}
 
 	int m_cycle; // The index cycle through a cycling animation
@@ -18,7 +19,7 @@ class AnimationIterator
 	void TurnOn (void) { on = true; }
 	void TurnOff(void) { on = false; }
 
-	void OverrideCycle(int newCycle) { m_cycle = newCycle; }
+	void OverrideCycle(int newCycle);
 
 public:
 	
@@ -29,6 +30,6 @@ public:
 	void Dec(void);
 
 	// Return whether or not the cycle has reached an edge value, either MIN or MAX.
-	bool IsAtEnd(void) { return (MIN || MAX); }
+	inline bool IsAtEnd(void) { return (MIN || MAX); }
 };
 

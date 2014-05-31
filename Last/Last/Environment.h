@@ -18,10 +18,14 @@ public:
 	Environment();
 	void InitLayers(void);
 
+	// Add an Entity to the Environment, top layer.
 	void AddToTop(Entity* child)	{ topLayer.AddChild(child); }
+	// Add an Entity to the Environment, middle layer.
 	void AddToMiddle(Entity* child)	{ middleLayer.AddChild(child); }
+	// Add an Entity to the Environment, bottom layer.
 	void AddToBottom(Entity* child)	{ bottomLayer.AddChild(child); }
 
+	// Get a list of pointers to all of the entities at a given position
 	list<Entity*>& GetEntitiesAt(const Coordinates& position, const Layer layer = BOTTOM_LAYER);
 };
 

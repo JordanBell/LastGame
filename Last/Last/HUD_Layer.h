@@ -13,7 +13,8 @@ EntityContainer containing the HUD components - UI_Statuses that show informatio
 class HUD_Layer : public EntityContainer
 {
 public:
-	HUD_Layer(void) : EntityContainer(GetLogicalSize(), Coordinates()) {}
+	HUD_Layer(void) 
+		: EntityContainer(GetLogicalSize(), Coordinates()) {}
 	~HUD_Layer(void) {}
 
 	void InitChildren(void);

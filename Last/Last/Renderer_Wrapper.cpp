@@ -4,7 +4,8 @@
 #include "SDL_image.h"
 using namespace SDLTools;
 
-Renderer_Wrapper::Renderer_Wrapper(Window* window, Dimensions logicalSize, Uint32 flags) : m_window(window), m_logicalSize(logicalSize)
+Renderer_Wrapper::Renderer_Wrapper(Window* window, Dimensions logicalSize, Uint32 flags) 
+	: m_window(window), m_logicalSize(logicalSize)
 {
 	// Initialise the renderer with that window
 	m_renderer = SDL_CreateRenderer(m_window->GetWindow(), -1, flags);
