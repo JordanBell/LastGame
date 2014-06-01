@@ -7,8 +7,15 @@
 Tools contains different structs and enumerations used without the program, as various tools.
 */
 
+enum GameStateID
+{
+	GSID_MAIN
+	// Other game states
+};
+
 // Direction enumeration, can be used as indices for Traveller animation
-enum E_Direction{
+enum E_Direction
+{
 	UP = 0,
 	RIGHT,
 	DOWN,

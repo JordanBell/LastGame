@@ -46,6 +46,9 @@ private:
 	Window*		  m_window; // The window this is linked to
 	Dimensions	  m_logicalSize;
 	std::list<TextureTarget*> m_textureTargets; // A list of texture targets that are cleared along with the window
+	
+	// Display Mode
+	void InitDisplayMode(void);
 
 	// Rendering rects and textures
 	void RenderRectToTarget(SDL_Rect* rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a);

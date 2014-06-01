@@ -47,6 +47,9 @@
     <Filter Include="Files\UI">
       <UniqueIdentifier>{3a85f4b8-02ef-4fef-8fb7-5d47ae1a465f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Files\Game States">
+      <UniqueIdentifier>{d9efb869-a25d-4eaf-bd58-c01db5cdbea6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationIterator.cpp">
@@ -138,6 +141,15 @@
     </ClCompile>
     <ClCompile Include="HUD_Layer.cpp">
       <Filter>Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC.cpp">
+      <Filter>Files\Entity\Implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>Files\Game States</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStateManager.cpp">
+      <Filter>Files\Game States</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -246,5 +258,20 @@
     <ClInclude Include="Status.h">
       <Filter>Files\UI</Filter>
     </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>Files\Entity\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="resource1.h">
+      <Filter>Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStateManager.h">
+      <Filter>Files\Game States</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Files\Game States</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Last.rc" />
   </ItemGroup>
 </Project>

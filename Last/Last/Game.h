@@ -1,35 +1,28 @@
 #pragma once
-#include "Timer.h"
-#include <time.h>
-#include <stdlib.h>
+#include "GameState.h"
 
-class Game
+class Game : public GameState
 {	
 public:
-	Game() : running(true), delta(0), widthCounter(16) { srand(time(nullptr)); Init(); }
-
-	// Delete all entities.
-	~Game(void);
+	Game() : widthCounter(16) {}
 	
-	// Run the game, stick it in the game loop
-	void Run();
+protected:
+	// Initialise all of the objects in the game.
+	void OnStart();
+	// Delete all of the objects in the game.
+	void OnEnd();
+	
+	// Update the entities
+	void OnUpdate(const int delta);
+
+	// Render the entities
+	void Render(void);
 
 private:
-	int widthCounter;
-	int delta; // The time since the last frame
-	bool running; // Whether or not the program is running - controls the game loop.
-	Timer m_FPSTimer; // The timer that keeps track of the time since the last update
-	
-	// Initialise all of the objects in the game.
-	void Init();
+	int widthCounter; // A counter to keep track of the zoom level, for manual zooming controls
 
-	// Update the entities
-	void Update();
-		void HandleKeys(); // Respond to the keystates at this moment
-	// Render the entities
-	void Render();
-	// Check events with SDL
-	void Poll();
+	// Respond to the keystates at this moment
+	void OnKeys(const Uint8* keystates); 
 	
 	// Regulate the framerate, and return the delta time.
 	int RegulateFrameRate();

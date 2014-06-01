@@ -6,6 +6,7 @@
 #include "Config.h"
 #include "Tiles.h"
 #include "Door.h"
+#include "NPC.h"
 
 using namespace ShapeBuilder;
 
@@ -17,6 +18,8 @@ void WorldBuilder::build()
 	// Content
 	//HouseGenerator::Generate();
 	BuildTestHouse(Coordinates(WORLD_WIDTH/2-3, WORLD_HEIGHT/2-4));
+
+	AddToMiddle<NPC>(Coordinates(WORLD_WIDTH/2-1, WORLD_HEIGHT/2));
 
 	// Outer Walls
 	BuildTileRectangle<InvisibleWallTile>(Coordinates(0, 0), Dimensions(WORLD_WIDTH, WORLD_HEIGHT), false, TOP_LAYER);
@@ -72,7 +75,13 @@ void WorldBuilder::BuildTestHouse(const Coordinates& pos)
 	//// Right Wall
 		BuildLine(Coordinates(pos.x+mainRoomDimensions.x, pos.y+mainRoomDimensions.y-8), Dimensions(pos.x+mainRoomDimensions.x, pos.y+mainRoomDimensions.y-6), BuildColumn<WoodWallTile>);
 		BuildLine(Coordinates(pos.x+mainRoomDimensions.x, pos.y+mainRoomDimensions.y-2), Dimensions(pos.x+mainRoomDimensions.x, pos.y+mainRoomDimensions.y+1), BuildColumn<WoodWallTile>);
-	
+	//// NPC
+		AddNPC<NPC>(Coordinates(pos.x+2, pos.y+4));
+		/*AddNPC<NPC>(Coordinates(pos.x+4, pos.y+5));
+		AddNPC<NPC>(Coordinates(pos.x+1, pos.y+4));
+		AddNPC<NPC>(Coordinates(pos.x+2, pos.y+3));*/
+
+
 	//// Bottom Wall
 	// Column left
 	BuildColumn<WoodWallTile>(Coordinates(pos.x, pos.y+mainRoomDimensions.y+2));
@@ -123,4 +132,10 @@ void WorldBuilder::BuildRoom(const Coordinates& pos, const Dimensions& dimension
 		BuildTileRectangle<StoneFloorTile_LightBrown>(pos, dimensions);
 		BuildRectangle(pos, dimensions, BuildColumn<WoodWallTile>, false);
 	}
+}
+
+template <class NPC_Type>
+void WorldBuilder::AddNPC(const Coordinates& _pos)
+{
+	AddTo<NPC_Type>(_pos, MIDDLE_LAYER);
 }

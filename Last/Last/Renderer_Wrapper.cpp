@@ -25,6 +25,7 @@ void Renderer_Wrapper::SetLogicalSize(Dimensions size)
 		SDL_RenderSetLogicalSize(m_renderer, size.x, size.y));
 }
 
+
 void Renderer_Wrapper::SetScale(float scaleX, float scaleY)
 {
 	EnsureSuccess(

@@ -43,4 +43,8 @@ private:
 
 	// Builds a door with a column above it
 	static void BuildDoorColumn(const Coordinates& pos);
+
+	// Add an NPC to the world
+	template <class NPC_Type>
+		static void AddNPC(const Coordinates& _pos);
 };

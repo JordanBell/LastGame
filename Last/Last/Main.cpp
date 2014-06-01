@@ -1,6 +1,6 @@
 #include "ToolKit.h"
 #include "SDL.h"
-#include "Game.h"
+#include "GameStateManager.h"
 
 int main(int argc, char* args[])
 {
@@ -13,10 +13,10 @@ int main(int argc, char* args[])
 	freopen("CON", "wt", stderr);
 
 	InitRendererAndWindow();
-	 
+
 	//Game Running
-	g_game = new Game();
-	g_game->Run();
+	g_manager = new GameStateManager();
+	g_manager->Run();
 
 	SDL_Quit();
 
