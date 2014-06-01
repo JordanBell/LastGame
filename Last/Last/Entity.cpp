@@ -42,6 +42,15 @@ void Entity::BlitToParent()
 	GetImage().RenderToTarget(blitPos);
 }
 
+void Entity::Animate(void)
+{
+	// Update module
+	a_module->UpdateModule(); 
+
+	// Update Clip rect
+	UpdateClipFromAnimation();
+}
+
 Coordinates Entity::GetAbsolutePos(void) const
 {
 	if (parent == nullptr) return pos;
@@ -95,21 +104,18 @@ bool Entity::ShouldRenderImage(void)
 
 void Entity::Update(const int delta)
 { 
+	if (m_format[ANIMATED])
+		Animate();
+
 	if (m_format[UPDATES]) 
 		E_Update(delta);
 }
 
 void Entity::Render(void)
 { 
-	// Update animation information prior to rendering.
-	if (m_format[ANIMATED])
-	{
-		a_module->UpdateModule(); 
-		UpdateClipFromAnimation();
-	}
-
 	// Make visible if deemed necessary
-	if (ShouldRender()) E_Render();
+	if (ShouldRender()) 
+		E_Render();
 }
 
 void Entity::OnInteract(void)

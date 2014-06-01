@@ -6,13 +6,10 @@
 GameStateManager* g_manager = nullptr;
 
 GameStateManager::GameStateManager(void) 
-	: delta(0), m_running(true), startStateID(GSID_MAIN), m_currentState(nullptr)
+	: delta(0), m_running(true), startStateID(GSID_MAIN), m_currentState(nullptr), m_game()
 {
 	// Initialise time
 	srand(time(nullptr));
-
-	// Initialise possible game states
-	m_game = Game();
 
 	// Initialise with start state
 	SwitchToState(startStateID);

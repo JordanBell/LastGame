@@ -27,7 +27,7 @@ const int WORLD_HEIGHT = 100; // (In terms of TILE_SIZEs)
 const Dimensions WORLD_DIMENSIONS(WORLD_WIDTH, WORLD_HEIGHT);
 
 // SCREEN
-const bool FULL_SCREEN_INITIAL = false;
+const bool FULL_SCREEN_INITIAL = true;
 const Dimensions LOGICAL_SIZE = Dimensions(15*TILE_SIZE, 10*TILE_SIZE);
 
 // GAME
@@ -41,17 +41,5 @@ const bool  PLAYER_COMPENSATE_FOR_SLOW_FRAMERATES = false;
 // HOUSES
 const float HOUSE_SIZE_DEVIATION = 0.2f; // The percentage variation in house sizes
 
-// Testing/Debugging
+// Testing / Debugging
 const bool MANUAL_ZOOM = true;
-
-//#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-//    rmask = 0xff000000;
-//    gmask = 0x00ff0000;
-//    bmask = 0x0000ff00;
-//    amask = 0x000000ff;
-//#else
-//    rmask = 0x000000ff;
-//    gmask = 0x0000ff00;
-//    bmask = 0x00ff0000;
-//    amask = 0xff000000;
-//#endif

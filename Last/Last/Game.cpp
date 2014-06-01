@@ -40,15 +40,13 @@ void Game::OnEnd()
 
 void Game::Render()
 {
-	if (!isPaused)
-	{
-		// Render camera (Environment, player, environment UI, etc.)
-		g_camera->Render();
+	// Render camera (Environment, player, environment UI, etc.)
+	g_camera->Render();
 
-		// Render UI HUD
-		//UI_HUD->Render();
-	}
-	else m_pauseScreen.Render();
+	// Render UI HUD
+	//UI_HUD->Render();
+
+	if (isPaused) m_pauseScreen.Render();
 }
 
 void Game::OnUpdate(const int delta)
@@ -59,6 +57,12 @@ void Game::OnUpdate(const int delta)
 		g_camera->Update(delta);
 		UI_HUD->Update(delta);
 	}
+}
+
+void Game::TogglePause(void)
+{
+	if (isPaused) Unpause();
+	else		  Pause();
 }
 
 void Game::Pause(void)
@@ -76,38 +80,39 @@ void Game::Unpause(void)
 
 void Game::OnKeys(const Uint8* keystates)
 {
-	//WASD moves the player
-	if (keystates[SDL_SCANCODE_W])	g_player->Walk(UP);
-	if (keystates[SDL_SCANCODE_S])	g_player->Walk(DOWN);
-	if (keystates[SDL_SCANCODE_A])	g_player->Walk(LEFT);
-	if (keystates[SDL_SCANCODE_D])	g_player->Walk(RIGHT);
+	if (!isPaused)
+	{
+		//WASD moves the player
+		if (keystates[SDL_SCANCODE_W])	g_player->Walk(UP);
+		if (keystates[SDL_SCANCODE_S])	g_player->Walk(DOWN);
+		if (keystates[SDL_SCANCODE_A])	g_player->Walk(LEFT);
+		if (keystates[SDL_SCANCODE_D])	g_player->Walk(RIGHT);
 
-	// Other
-	if (keystates[SDL_SCANCODE_F]) g_player->Interact();
-	if (keystates[SDL_SCANCODE_RETURN]) ToggleFullscreen();
+		// Other
+		if (keystates[SDL_SCANCODE_F]) g_player->Interact();
+		if (keystates[SDL_SCANCODE_RETURN]) ToggleFullscreen();
+		if (keystates[SDL_SCANCODE_E]) Pause();
+
+		// Testing
+		if (MANUAL_ZOOM)
+		{
+			if (keystates[SDL_SCANCODE_LCTRL])
+			{
+				// Up and Down to zoom in and out
+				if (keystates[SDL_SCANCODE_UP]) if (!g_camera->ZoomToWidth(++widthCounter)) widthCounter--;
+				if (keystates[SDL_SCANCODE_DOWN]) if (!g_camera->ZoomToWidth(--widthCounter)) widthCounter++;
+			}
+			else
+			{
+				// Up, Down, Left, Right move the player, as does WASD
+				if (keystates[SDL_SCANCODE_UP]) g_player->Walk(UP);
+				if (keystates[SDL_SCANCODE_DOWN]) g_player->Walk(DOWN);
+				if (keystates[SDL_SCANCODE_LEFT]) g_player->Walk(LEFT);
+				if (keystates[SDL_SCANCODE_RIGHT]) g_player->Walk(RIGHT);
+			}
+		}
+	}
+	
 	if (keystates[SDL_SCANCODE_ESCAPE]) g_manager->Quit();
-	//if (keystates[SDL_SCANCODE_ESCAPE]) Pause();
-
-	// Testing
-	if (MANUAL_ZOOM)
-	{
-		if (keystates[SDL_SCANCODE_LCTRL])
-		{
-			// Up and Down to zoom in and out
-			if (keystates[SDL_SCANCODE_UP]) if (!g_camera->ZoomToWidth(++widthCounter)) widthCounter--;
-			if (keystates[SDL_SCANCODE_DOWN]) if (!g_camera->ZoomToWidth(--widthCounter)) widthCounter++;
-		}
-		else
-		{
-			// Up, Down, Left, Right move the player, as does WASD
-			if (keystates[SDL_SCANCODE_UP]) g_player->Walk(UP);
-			if (keystates[SDL_SCANCODE_DOWN]) g_player->Walk(DOWN);
-			if (keystates[SDL_SCANCODE_LEFT]) g_player->Walk(LEFT);
-			if (keystates[SDL_SCANCODE_RIGHT]) g_player->Walk(RIGHT);
-		}
-	}
-	else
-	{
-		
-	}
+	if (keystates[SDL_SCANCODE_Q]) Unpause();
 }

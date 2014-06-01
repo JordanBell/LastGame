@@ -19,6 +19,7 @@ protected:
 	// Render the entities
 	void Render(void);
 	
+	void TogglePause(void);
 	// Pause the game, open the pause screen
 	void Pause(void);
 	// Unpause the game, close the pause screen

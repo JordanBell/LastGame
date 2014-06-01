@@ -100,6 +100,8 @@ private:
 
 	bool isInSight;	// Whether or not this object is "within sight" of the player.
 
+	void Animate(void);
+
 	// Initialise the Entity's sprite sheet
 	void InitSpriteSheet(const int ssid);
 
