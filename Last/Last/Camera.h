@@ -7,7 +7,7 @@ class Camera : public EntityContainer
 {
 public:
 	Camera(void) 
-		: EntityContainer(WORLD_DIMENSIONS * TILE_SIZE), m_zoom(1) {}
+		: EntityContainer(WORLD_DIMENSIONS * TILE_SIZE), defaultZoom( g_renderer->GetScale() ) { m_zoom = defaultZoom; }
 
 	void InitChildren(void);
 
@@ -23,6 +23,7 @@ protected:
 private:
 	// The zoom ratio set to the renderer while rendering the camera.
 	float m_zoom;
+	float defaultZoom;
 
 	// Try to center the camera on the player, if doing so would not reveal the edges of the environment
 	void CenterOnPlayer(void);

@@ -5,7 +5,8 @@
 
 GameStateManager* g_manager = nullptr;
 
-GameStateManager::GameStateManager(void) : delta(0), m_running(true), startStateID(GSID_MAIN), m_currentState(nullptr)
+GameStateManager::GameStateManager(void) 
+	: delta(0), m_running(true), startStateID(GSID_MAIN), m_currentState(nullptr)
 {
 	// Initialise time
 	srand(time(nullptr));

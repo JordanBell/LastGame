@@ -22,6 +22,7 @@ public:
 	virtual ImageTarget& GetImage() { return m_imageTarget; }
 
 protected:
+	ImageTarget m_imageTarget;
 	bool m_staticImage;
 	std::list<Entity*> children; // A list of the child Entities within this container.
 
@@ -33,7 +34,4 @@ protected:
 
 	// EntityContainers can only be constructed by subclasses
 	EntityContainer(const Dimensions& dimensions, const Coordinates& _pos = Coordinates(0, 0), bool staticImage = false);
-
-private:
-	ImageTarget m_imageTarget;
 };

@@ -70,6 +70,7 @@ public:
 					 each time Clear() is called in the g_renderer wrapper.
 	*/
 	TextureTarget(Dimensions size = LOGICAL_SIZE, bool staticImage = false);
+	~TextureTarget(void);
 
 	// Clear the texture to transparency
 	void Clear(void);

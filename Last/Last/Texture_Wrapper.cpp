@@ -136,6 +136,12 @@ TextureTarget::TextureTarget(Dimensions size, bool staticImage)
 	if (!staticImage) g_renderer->AddTarget(this); 
 }
 
+TextureTarget::~TextureTarget(void)
+{ 
+	// Remove all pointers to this texture target from the renderer's list. 
+	g_renderer->RemoveTarget(this); 
+}
+
 void TextureTarget::DefineTextureForTargetting(Dimensions size)
 {
 	// Texture Streamers are targetted by others, so have Target access.

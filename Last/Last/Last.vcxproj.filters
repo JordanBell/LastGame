@@ -151,6 +151,9 @@
     <ClCompile Include="GameStateManager.cpp">
       <Filter>Files\Game States</Filter>
     </ClCompile>
+    <ClCompile Include="PauseScreen.cpp">
+      <Filter>Files\Entity\Containers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config.h">
@@ -261,17 +264,14 @@
     <ClInclude Include="NPC.h">
       <Filter>Files\Entity\Implementations</Filter>
     </ClInclude>
-    <ClInclude Include="resource1.h">
-      <Filter>Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameStateManager.h">
       <Filter>Files\Game States</Filter>
     </ClInclude>
     <ClInclude Include="GameState.h">
       <Filter>Files\Game States</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Last.rc" />
+    <ClInclude Include="PauseScreen.h">
+      <Filter>Files\Entity\Containers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

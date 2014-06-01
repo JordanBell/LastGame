@@ -32,7 +32,7 @@ const Dimensions LOGICAL_SIZE = Dimensions(15*TILE_SIZE, 10*TILE_SIZE);
 
 // GAME
 const int FRAME_RATE = 30;
-	const float TRAVELLER_SPEED = 0.15;		 // Default traveller speed. ADVISED: Keep between 0 and 1 to prevent wall clipping.
+	const float TRAVELLER_SPEED = 0.15;// Default traveller speed. ADVISED: Keep between 0 and 1 to prevent wall clipping.
 
 // PLAYER
 const float PLAYER_SPEED = 0.15;		 // The player's movement speed (independent of framerate). ADVISED: Keep between 0 and 1 to prevent wall clipping.

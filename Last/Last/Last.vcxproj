@@ -25,6 +25,7 @@
     <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="HUD_Layer.cpp" />
     <ClCompile Include="NPC.cpp" />
+    <ClCompile Include="PauseScreen.cpp" />
     <ClCompile Include="Renderer_Wrapper.cpp" />
     <ClCompile Include="SDLTools.cpp" />
     <ClCompile Include="Status.cpp" />
@@ -64,8 +65,8 @@
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="HUD_Layer.h" />
     <ClInclude Include="NPC.h" />
+    <ClInclude Include="PauseScreen.h" />
     <ClInclude Include="Renderer_Wrapper.h" />
-    <ClInclude Include="resource1.h" />
     <ClInclude Include="SDLTools.h" />
     <ClInclude Include="Status.h" />
     <ClInclude Include="Texture_Wrapper.h" />
@@ -85,9 +86,6 @@
     <ClInclude Include="UI_Status.h" />
     <ClInclude Include="Window_Wrapper.h" />
     <ClInclude Include="WorldBuilder.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Last.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9CA19DEC-F443-45C3-BDB2-92CC834F997F}</ProjectGuid>

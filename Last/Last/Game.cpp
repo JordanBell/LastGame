@@ -38,12 +38,41 @@ void Game::OnEnd()
 	delete UI_HUD;
 }
 
+void Game::Render()
+{
+	if (!isPaused)
+	{
+		// Render camera (Environment, player, environment UI, etc.)
+		g_camera->Render();
+
+		// Render UI HUD
+		//UI_HUD->Render();
+	}
+	else m_pauseScreen.Render();
+}
+
 void Game::OnUpdate(const int delta)
 {
 	// Update the entities
-	g_camera->Update(delta);
-	UI_HUD->Update(delta);
+	if (!isPaused)
+	{
+		g_camera->Update(delta);
+		UI_HUD->Update(delta);
+	}
 }
+
+void Game::Pause(void)
+{
+	isPaused = true;
+	m_pauseScreen.Open();
+}
+
+void Game::Unpause(void)
+{
+	isPaused = false;
+	m_pauseScreen.Close();
+}
+
 
 void Game::OnKeys(const Uint8* keystates)
 {
@@ -57,7 +86,7 @@ void Game::OnKeys(const Uint8* keystates)
 	if (keystates[SDL_SCANCODE_F]) g_player->Interact();
 	if (keystates[SDL_SCANCODE_RETURN]) ToggleFullscreen();
 	if (keystates[SDL_SCANCODE_ESCAPE]) g_manager->Quit();
-	//if (keystates[SDL_SCANCODE_ESCAPE]) // Pause Screen
+	//if (keystates[SDL_SCANCODE_ESCAPE]) Pause();
 
 	// Testing
 	if (MANUAL_ZOOM)
@@ -81,13 +110,4 @@ void Game::OnKeys(const Uint8* keystates)
 	{
 		
 	}
-}
-
-void Game::Render()
-{
-	// Render camera (Environment, player, environment UI, etc.)
-	g_camera->Render();
-
-	// Render UI HUD
-	//UI_HUD->Render();
 }

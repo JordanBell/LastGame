@@ -28,7 +28,7 @@ void Camera::E_Render(void)
 	EntityContainer::E_Render();
 
 	// Put it back to 100%
-	g_renderer->SetScale(1);
+	g_renderer->SetScale(defaultZoom);
 }
 
 void Camera::CenterOnPlayer()
@@ -72,6 +72,7 @@ bool Camera::ZoomToWidth(const int newWidth)
 	{
 		// Scale to fit the new width
 		m_zoom = maxSize.x / newWidth;
+		m_zoom *= defaultZoom;
 
 		// Add BlitOffset to keep the center of the Camera's rendered size in the center of the screen
 		m_blitOffset.x = -((maxSize.x - newWidth) * TILE_SIZE) /2;
