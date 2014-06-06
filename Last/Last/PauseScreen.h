@@ -1,19 +1,17 @@
 #pragma once
-#include "entitycontainer.h"
-#include "Tiles.h"
+#include "MenuScreen.h"
 
 class Game;
 
-class PauseScreen :
-	public EntityContainer
+class PauseScreen : public MenuScreen
 {
 	friend class Game;
 
-	ImageTarget m_transparentBlack;
-	bool m_active;
-
+	// Construct the pause screen
 	PauseScreen(void);
 
+	ImageTarget m_transparentBlack; // A black, transparent background
+	bool m_active; // Whether or not this screen is open
 	
 	// Open this screen
 	void Open(void);

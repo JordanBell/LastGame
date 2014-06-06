@@ -7,6 +7,9 @@ class Game : public GameState
 public:
 	Game() : widthCounter(16), isPaused(false), m_pauseScreen() {}
 	
+	// Unpause the game, close the pause screen
+	void Unpause(void); // Public, so that the menu button "Resume" can call it.
+	
 protected:
 	// Initialise all of the objects in the game.
 	void OnStart();
@@ -22,8 +25,6 @@ protected:
 	void TogglePause(void);
 	// Pause the game, open the pause screen
 	void Pause(void);
-	// Unpause the game, close the pause screen
-	void Unpause(void);
 
 private:
 	PauseScreen m_pauseScreen;

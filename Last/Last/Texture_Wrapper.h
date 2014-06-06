@@ -1,6 +1,7 @@
 #pragma once
 #include "Tools.h"
 #include "Config.h"
+#include "SDL_ttf.h"
 
 class TextureTarget;
 
@@ -13,8 +14,9 @@ public:
 					just the section from the initially specified clip.
 	*/
 	Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool staticClip);
+	Texture_Wrapper(const std::string text, TTF_Font* font, const SDL_Color color);
 
-	virtual ~Texture_Wrapper(void) { SDL_DestroyTexture(m_texture); }
+	virtual ~Texture_Wrapper(void) { if (m_texture) SDL_DestroyTexture(m_texture); }
 
 	// Add a Texture Streamer for this to stream its texture toward
 	void SetTarget(TextureTarget* target) { m_target = target; }
@@ -51,6 +53,9 @@ protected:
 private:
 	// Load the source texture from the SSID
 	void DefineTextureFromFile(SSID ssid);
+
+	// Load the source texture from the SSID
+	void DefineTextureFromText(const std::string text, TTF_Font* font, const SDL_Color color);
 
 	// Clip the texture, if its clip is static, and release the clip
 	void ClipTexture(void);

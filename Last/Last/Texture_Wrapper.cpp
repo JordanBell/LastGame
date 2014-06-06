@@ -2,6 +2,7 @@
 #include "Resources.h"
 #include "ToolKit.h"
 #include "Renderer_Wrapper.h"
+#include "Camera.h"
 
 Texture_Wrapper::Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool staticClip) 
 	: m_clip(clip), m_staticClip(staticClip), m_target(nullptr)
@@ -16,6 +17,13 @@ Texture_Wrapper::Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool sta
 		// If no clip, initialise m_size using loaded texture size
 		SDL_QueryTexture(m_texture, 0, 0, (int*)&m_size.x, (int*)&m_size.y);
 	}
+}
+
+Texture_Wrapper::Texture_Wrapper(const std::string text, TTF_Font* font, const SDL_Color color) 
+	: m_clip(nullptr), m_staticClip(true), m_target(nullptr), m_texture(nullptr)
+{
+	// Create the texture from text.
+	DefineTextureFromText(text, font, color);
 }
 
 void Texture_Wrapper::DefineTextureFromFile(SSID ssid)
@@ -41,6 +49,22 @@ void Texture_Wrapper::DefineTextureFromFile(SSID ssid)
 	default:
 		throw runtime_error("SSID not recognised during Texture construction.");
 	}
+}
+
+void Texture_Wrapper::DefineTextureFromText(const std::string text, TTF_Font* font, const SDL_Color color)
+{
+	// Create a surface for the text
+	SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
+	EnsureSuccess(textSurface);
+
+	// Set the size based on the surface size
+	m_size = Dimensions(textSurface->w, textSurface->h);
+
+	// Create this texture from the text surface
+	m_texture = CreateTexture(textSurface);
+
+	// Free the surface
+	SDL_FreeSurface(textSurface);
 }
 
 void Texture_Wrapper::SetClip(SDL_Rect* newClip) 
@@ -115,8 +139,17 @@ void Texture_Wrapper::RenderToTexture(Coordinates pos) const
 void Texture_Wrapper::RenderToWindow(Coordinates pos) const
 {
 	// Create destination rectangle using pos and size
-	SDL_Rect destinationRect = RectFromXY(pos, m_size);
-	RenderTextureToWindow(m_texture, m_clip, &destinationRect);
+	
+	SDL_Rect* screenAreaPortion = (g_camera) ? 
+								   &RectFromXY(pos*-1, LOGICAL_SIZE) : 
+								   nullptr;
+	
+	// Blit to the entire screen
+	SDL_Rect destinationRect = RectFromXY(Coordinates(0), LOGICAL_SIZE);
+
+	RenderTextureToWindow(m_texture, 
+						 (m_clip) ? m_clip : screenAreaPortion, 
+						 &destinationRect);
 }
 
 

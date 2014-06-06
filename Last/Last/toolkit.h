@@ -20,6 +20,8 @@ SDL_Rect RectFromXY(const Coordinates& pos, const Dimensions& dims);
 		{ g_window = new Window(); g_renderer = new Renderer(g_window); } // Initialise window and renderer
 	
 	// Texture Creation
+	inline SDL_Texture* CreateTexture(SDL_Surface* surface) 
+		{ return g_renderer->CreateTexture(surface); }
 	inline SDL_Texture* CreateTexture(Dimensions size, int access = SDL_TEXTUREACCESS_STATIC, Uint32 format = SDL_PIXELFORMAT_ARGB8888) 
 		{ return g_renderer->CreateTexture(size, access, format); }
 	

@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="AnimationIterator.cpp" />
     <ClCompile Include="AnimationModule.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="DoorAnimation.cpp" />
@@ -20,10 +21,16 @@
     <ClCompile Include="EntityContainer.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="EnvironmentLayer.cpp" />
+    <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="HUD_Layer.cpp" />
+    <ClCompile Include="LoadingOutput.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MenuItem.cpp" />
+    <ClCompile Include="MenuManager.cpp" />
+    <ClCompile Include="MenuScreen.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="PauseScreen.cpp" />
     <ClCompile Include="Renderer_Wrapper.cpp" />
@@ -39,6 +46,8 @@
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="ShapeBuilder.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="TitleMenuScreen.cpp" />
+    <ClCompile Include="TitleScreenState.cpp" />
     <ClCompile Include="ToolKit.cpp" />
     <ClCompile Include="Traveller.cpp" />
     <ClCompile Include="UI_Status.cpp" />
@@ -50,6 +59,7 @@
     <ClInclude Include="AnimationIterator.h" />
     <ClInclude Include="AnimationIteratorException.h" />
     <ClInclude Include="AnimationModule.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="ConfigTiles.h" />
@@ -60,10 +70,16 @@
     <ClInclude Include="EntityFormat.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="EnvironmentLayer.h" />
+    <ClInclude Include="EventHandler.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="HUD_Layer.h" />
+    <ClInclude Include="LoadingOutput.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="MenuItem.h" />
+    <ClInclude Include="MenuManager.h" />
+    <ClInclude Include="MenuScreen.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="PauseScreen.h" />
     <ClInclude Include="Renderer_Wrapper.h" />
@@ -79,6 +95,8 @@
     <ClInclude Include="Room.h" />
     <ClInclude Include="ShapeBuilder.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="TitleMenuScreen.h" />
+    <ClInclude Include="TitleScreenState.h" />
     <ClInclude Include="ToolKit.h" />
     <ClInclude Include="Tools.h" />
     <ClInclude Include="Traveller.h" />
@@ -116,8 +134,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Main\SDL 2.0\SDL2_mixer-2.0.0\include;C:\Main\SDL 2.0\SDL2_image-2.0.0\include;C:\Main\SDL 2.0\SDL2-2.0.3\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Main\SDL 2.0\SDL2_mixer-2.0.0\lib\x86;C:\Main\SDL 2.0\SDL2_image-2.0.0\lib\x86;C:\Main\SDL 2.0\SDL2-2.0.3\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Main\SDL 2.0\SDL2_ttf-2.0.12\include;C:\Main\SDL 2.0\SDL2_mixer-2.0.0\include;C:\Main\SDL 2.0\SDL2_image-2.0.0\include;C:\Main\SDL 2.0\SDL2-2.0.3\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Main\SDL 2.0\SDL2_ttf-2.0.12\lib\x86;C:\Main\SDL 2.0\SDL2_mixer-2.0.0\lib\x86;C:\Main\SDL 2.0\SDL2_image-2.0.0\lib\x86;C:\Main\SDL 2.0\SDL2-2.0.3\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -127,7 +145,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <Profile>true</Profile>
     </Link>

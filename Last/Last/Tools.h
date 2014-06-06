@@ -9,7 +9,8 @@ Tools contains different structs and enumerations used without the program, as v
 
 enum GameStateID
 {
-	GSID_MAIN
+	GSID_MAIN,
+	GSID_TITLE
 	// Other game states
 };
 

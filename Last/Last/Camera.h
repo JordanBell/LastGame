@@ -11,6 +11,9 @@ public:
 
 	void InitChildren(void);
 
+	//// Return the portion of this image that is visible on the window.
+	//SDL_Rect GetViewingRect(void) const { return RectFromXY(pos*-1, LOGICAL_SIZE); }
+
 	// Set a level of zoom, that fits the given width, in terms of tiles. Returns whether or not this was successful.
 	bool ZoomToWidth(const int width);
 

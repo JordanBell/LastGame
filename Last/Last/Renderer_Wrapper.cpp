@@ -53,6 +53,16 @@ SDL_Texture* Renderer_Wrapper::LoadImageTexture(std::string filename)
 	return r_texture;
 }
 
+SDL_Texture* Renderer_Wrapper::CreateTexture(SDL_Surface* surface)
+{
+	SDL_Texture* result = SDL_CreateTextureFromSurface(m_renderer, surface);
+
+	// Check for failure
+	EnsureSuccess(result);
+
+	return result;
+}
+
 SDL_Texture* Renderer_Wrapper::CreateTexture(Dimensions size, int access, Uint32 format)
 {
 	SDL_Texture* result = SDL_CreateTexture(m_renderer, 
@@ -76,7 +86,7 @@ void Renderer_Wrapper::RenderToTexture(SDL_Texture* source, SDL_Texture* destina
 {
 	// Target the destination
 	SetTarget(destination);
-
+	
 	// Render onto it
 	EnsureSuccess(
 		SDL_RenderCopy(m_renderer, source, srcrect, dstrect));

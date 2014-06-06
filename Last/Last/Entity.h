@@ -65,7 +65,8 @@ protected:
 		   SDL_Rect* clip = nullptr, // If nullptr, image will be blitted as entire SpriteSheet surface
 		   AnimationModule* personalisedAnimationModule = nullptr // An animation module that has already been initialised with this Entity's animation data
 		   );
-
+	
+	Image m_image;				// The image which this entity displays.
 	EntityFormat m_format;		// The format of this entity, dictating its behavior.
 	Coordinates m_blitOffset;	// The number of pixels that this object is blitted from the origin.
 	EntityContainer* parent;	// The parent of this Entity
@@ -96,8 +97,6 @@ protected:
 	virtual bool E_CanMoveThrough(void) { return false; }
 
 private:
-	Image m_image; // The image which this entity displays.
-
 	bool isInSight;	// Whether or not this object is "within sight" of the player.
 
 	void Animate(void);

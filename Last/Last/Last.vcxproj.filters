@@ -23,24 +23,6 @@
     <Filter Include="Files\World Generation">
       <UniqueIdentifier>{a24591b9-795a-4b27-b4a0-d0f4012bce10}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Files\Entity">
-      <UniqueIdentifier>{b34bb1e5-d739-4864-bf9a-355d9ad41d9e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Files\Entity\Base">
-      <UniqueIdentifier>{90670a04-4b27-47bd-a468-cdae28c32128}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Files\Entity\Container">
-      <UniqueIdentifier>{e661bff1-d4e6-4b9a-aaf0-9f205c06bade}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Files\Entity\Containers">
-      <UniqueIdentifier>{63e2742e-54c5-4577-8b9a-16714fdc5f94}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Files\Entity\Implementations">
-      <UniqueIdentifier>{d4c3fdef-096c-4914-8335-3da99f13f207}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Files\Entity\Tools">
-      <UniqueIdentifier>{fbdab319-a298-4b4c-b506-1b00cce67813}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Files\SDL Wrappers and Tools">
       <UniqueIdentifier>{82d412a0-08bf-4330-8096-e92f72e917ad}</UniqueIdentifier>
     </Filter>
@@ -49,6 +31,33 @@
     </Filter>
     <Filter Include="Files\Game States">
       <UniqueIdentifier>{d9efb869-a25d-4eaf-bd58-c01db5cdbea6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Files\Menus">
+      <UniqueIdentifier>{0dbbdbf6-bbfc-4c72-a691-3f70f0ec8c0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Files\Menus\Menu Screens">
+      <UniqueIdentifier>{820f1749-c2f7-48a0-b760-f3b1756a66ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Files\Game States\Implementations">
+      <UniqueIdentifier>{655d4fe8-284f-409f-a35d-7bb2d2b24795}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Files\Entities">
+      <UniqueIdentifier>{b34bb1e5-d739-4864-bf9a-355d9ad41d9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Files\Entities\Base">
+      <UniqueIdentifier>{90670a04-4b27-47bd-a468-cdae28c32128}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Files\Entities\Container">
+      <UniqueIdentifier>{e661bff1-d4e6-4b9a-aaf0-9f205c06bade}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Files\Entities\Containers">
+      <UniqueIdentifier>{63e2742e-54c5-4577-8b9a-16714fdc5f94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Files\Entities\Implementations">
+      <UniqueIdentifier>{d4c3fdef-096c-4914-8335-3da99f13f207}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Files\Entities\Tools">
+      <UniqueIdentifier>{fbdab319-a298-4b4c-b506-1b00cce67813}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -60,9 +69,6 @@
     </ClCompile>
     <ClCompile Include="DoorAnimation.cpp">
       <Filter>Files\Animation\Implementation</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Files\General</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Files\General</Filter>
@@ -92,34 +98,34 @@
       <Filter>Files\World Generation</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
-      <Filter>Files\Entity\Base</Filter>
+      <Filter>Files\Entities\Base</Filter>
     </ClCompile>
     <ClCompile Include="EntityContainer.cpp">
-      <Filter>Files\Entity\Container</Filter>
+      <Filter>Files\Entities\Container</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Files\Entity\Containers</Filter>
+      <Filter>Files\Entities\Containers</Filter>
     </ClCompile>
     <ClCompile Include="Environment.cpp">
-      <Filter>Files\Entity\Containers</Filter>
+      <Filter>Files\Entities\Containers</Filter>
     </ClCompile>
     <ClCompile Include="EnvironmentLayer.cpp">
-      <Filter>Files\Entity\Containers</Filter>
+      <Filter>Files\Entities\Containers</Filter>
     </ClCompile>
     <ClCompile Include="Door.cpp">
-      <Filter>Files\Entity\Implementations</Filter>
+      <Filter>Files\Entities\Implementations</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Files\Entity\Implementations</Filter>
+      <Filter>Files\Entities\Implementations</Filter>
     </ClCompile>
     <ClCompile Include="Tiles.cpp">
-      <Filter>Files\Entity\Implementations</Filter>
+      <Filter>Files\Entities\Implementations</Filter>
     </ClCompile>
     <ClCompile Include="Traveller.cpp">
-      <Filter>Files\Entity\Implementations</Filter>
+      <Filter>Files\Entities\Implementations</Filter>
     </ClCompile>
     <ClCompile Include="EntityFormat.cpp">
-      <Filter>Files\Entity\Tools</Filter>
+      <Filter>Files\Entities\Tools</Filter>
     </ClCompile>
     <ClCompile Include="SDLTools.cpp">
       <Filter>Files\SDL Wrappers and Tools</Filter>
@@ -143,7 +149,7 @@
       <Filter>Files\UI</Filter>
     </ClCompile>
     <ClCompile Include="NPC.cpp">
-      <Filter>Files\Entity\Implementations</Filter>
+      <Filter>Files\Entities\Implementations</Filter>
     </ClCompile>
     <ClCompile Include="GameState.cpp">
       <Filter>Files\Game States</Filter>
@@ -151,15 +157,42 @@
     <ClCompile Include="GameStateManager.cpp">
       <Filter>Files\Game States</Filter>
     </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Files\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuItem.cpp">
+      <Filter>Files\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuManager.cpp">
+      <Filter>Files\Menus</Filter>
+    </ClCompile>
     <ClCompile Include="PauseScreen.cpp">
-      <Filter>Files\Entity\Containers</Filter>
+      <Filter>Files\Menus\Menu Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Files\Game States\Implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Files\Entities\Implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="EventHandler.cpp">
+      <Filter>Files\General</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingOutput.cpp">
+      <Filter>Files\General</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleMenuScreen.cpp">
+      <Filter>Files\Menus\Menu Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuScreen.cpp">
+      <Filter>Files\Menus\Menu Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScreenState.cpp">
+      <Filter>Files\Game States\Implementations</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config.h">
-      <Filter>Files\General</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
       <Filter>Files\General</Filter>
     </ClInclude>
     <ClInclude Include="Resources.h">
@@ -190,37 +223,37 @@
       <Filter>Files\General</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h">
-      <Filter>Files\Entity\Base</Filter>
+      <Filter>Files\Entities\Base</Filter>
     </ClInclude>
     <ClInclude Include="EntityContainer.h">
-      <Filter>Files\Entity\Container</Filter>
+      <Filter>Files\Entities\Container</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Files\Entity\Containers</Filter>
+      <Filter>Files\Entities\Containers</Filter>
     </ClInclude>
     <ClInclude Include="Environment.h">
-      <Filter>Files\Entity\Containers</Filter>
+      <Filter>Files\Entities\Containers</Filter>
     </ClInclude>
     <ClInclude Include="EnvironmentLayer.h">
-      <Filter>Files\Entity\Containers</Filter>
+      <Filter>Files\Entities\Containers</Filter>
     </ClInclude>
     <ClInclude Include="Door.h">
-      <Filter>Files\Entity\Implementations</Filter>
+      <Filter>Files\Entities\Implementations</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Files\Entity\Implementations</Filter>
+      <Filter>Files\Entities\Implementations</Filter>
     </ClInclude>
     <ClInclude Include="Tiles.h">
-      <Filter>Files\Entity\Implementations</Filter>
+      <Filter>Files\Entities\Implementations</Filter>
     </ClInclude>
     <ClInclude Include="Traveller.h">
-      <Filter>Files\Entity\Implementations</Filter>
+      <Filter>Files\Entities\Implementations</Filter>
     </ClInclude>
     <ClInclude Include="EntityFormat.h">
-      <Filter>Files\Entity\Tools</Filter>
+      <Filter>Files\Entities\Tools</Filter>
     </ClInclude>
     <ClInclude Include="ModuleMisuseException.h">
-      <Filter>Files\Entity\Tools</Filter>
+      <Filter>Files\Entities\Tools</Filter>
     </ClInclude>
     <ClInclude Include="AnimationIterator.h">
       <Filter>Files\Animation\Tools</Filter>
@@ -262,7 +295,7 @@
       <Filter>Files\UI</Filter>
     </ClInclude>
     <ClInclude Include="NPC.h">
-      <Filter>Files\Entity\Implementations</Filter>
+      <Filter>Files\Entities\Implementations</Filter>
     </ClInclude>
     <ClInclude Include="GameStateManager.h">
       <Filter>Files\Game States</Filter>
@@ -270,8 +303,38 @@
     <ClInclude Include="GameState.h">
       <Filter>Files\Game States</Filter>
     </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuItem.h">
+      <Filter>Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuManager.h">
+      <Filter>Files\Menus</Filter>
+    </ClInclude>
     <ClInclude Include="PauseScreen.h">
-      <Filter>Files\Entity\Containers</Filter>
+      <Filter>Files\Menus\Menu Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuScreen.h">
+      <Filter>Files\Menus\Menu Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Files\Game States\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Files\Entities\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="EventHandler.h">
+      <Filter>Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingOutput.h">
+      <Filter>Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleMenuScreen.h">
+      <Filter>Files\Menus\Menu Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScreenState.h">
+      <Filter>Files\Game States\Implementations</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

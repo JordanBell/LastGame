@@ -1,4 +1,5 @@
 #include "GameStateManager.h"
+#include "EventHandler.h"
 #include "ToolKit.h"
 #include "Game.h"
 #include <time.h>
@@ -6,18 +7,29 @@
 GameStateManager* g_manager = nullptr;
 
 GameStateManager::GameStateManager(void) 
-	: delta(0), m_running(true), startStateID(GSID_MAIN), m_currentState(nullptr), m_game()
+	: m_eventHandlers(), delta(0), m_running(true), startStateID(GSID_TITLE), 
+	  m_currentState(nullptr), m_titleScreen(nullptr), m_game(nullptr)
 {
 	// Initialise time
 	srand(time(nullptr));
+}
+
+void GameStateManager::Initialise(void)
+{
+	m_titleScreen = new TitleScreenState();
+	m_game = new Game();
 
 	// Initialise with start state
 	SwitchToState(startStateID);
+	
+	// Start the timer, for frame rate functions
+	m_FPSTimer.start();
 }
+
 
 void GameStateManager::Run(void)
 {
-	m_FPSTimer.start();
+	Initialise();
 
 	while (m_running)
 	{
@@ -42,10 +54,15 @@ void GameStateManager::HandleEvents(void)
 	SDL_Event event;
 	while(SDL_PollEvent(&event))
 	{
-		if (event.type == SDL_QUIT) 
+		if (event.type == SDL_QUIT) {
 			m_running = false; // Quit
+		}
 		else 
-			m_currentState->OnEvent(event);
+		{
+			// Pass the event to each of the handlers
+			for (EventHandler* handler : m_eventHandlers)
+				handler->OnEvent(event);
+		}
 	}
 }
 
@@ -54,19 +71,20 @@ void GameStateManager::SwitchToState(GameStateID gsid)
 {
 	switch (gsid)
 	{
-	case GSID_MAIN: SetState(m_game); break;
+	case GSID_TITLE: SetState(m_titleScreen); break;
+	case GSID_MAIN:  SetState(m_game);		  break;
 	default:		throw std::runtime_error("Cannot recognise the given GameStateID");
 	}
 }
 
-void GameStateManager::SetState(GameState& state)
+void GameStateManager::SetState(GameState* state)
 {
 	// Old state's End call
 	if (m_currentState) 
 		m_currentState->OnEnd();
 
 	// Set the new state
-	m_currentState = &state;
+	m_currentState = state;
 
 	// New state's Start call
 	m_currentState->OnStart();

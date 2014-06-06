@@ -8,5 +8,6 @@ public:
 
 protected:
 	virtual void E_Update(const int delta);
+	void E_OnInteract(void) { printf("Hello!\n"); }
 };
 

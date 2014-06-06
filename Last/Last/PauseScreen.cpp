@@ -2,7 +2,7 @@
 #include "ToolKit.h"
 
 PauseScreen::PauseScreen(void) 
-	: EntityContainer(LOGICAL_SIZE), m_transparentBlack(LOGICAL_SIZE, true), m_active(false)
+	: m_transparentBlack(LOGICAL_SIZE, true), m_active(false)
 {
 	// Initialise the semi-transparent background rectangle
 	SDL_Rect backgroundRect = {0, 0, LOGICAL_SIZE.x, LOGICAL_SIZE.y};
@@ -35,6 +35,6 @@ void PauseScreen::E_Render(void)
 		m_transparentBlack.RenderToTarget(Coordinates(0));
 
 		// Render entities
-		EntityContainer::E_Render();
+		MenuScreen::E_Render();
 	}
 }

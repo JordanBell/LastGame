@@ -22,9 +22,6 @@ protected:
 	// Update the entities
 	virtual void OnUpdate(const int delta) = 0;
 
-	// This GameState's response to a kind of event
-	virtual void OnEvent(SDL_Event& event) {}
-
 	// Respond to the given keystates array
 	virtual void OnKeys(const Uint8* keystates) {}
 

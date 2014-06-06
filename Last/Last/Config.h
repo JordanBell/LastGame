@@ -13,12 +13,13 @@ const Uint8 ENTITY_ANIMATED			= 64;
 
 /* Entity format presets. */
 const Uint8 CONTAINER_FRMT = ENTITY_UPDATABLE | ENTITY_GRIDINDEPENDENT;
-const Uint8 TRAVELLER_FRMT = ENTITY_UPDATABLE | ENTITY_ANIMATED | ENTITY_TRAVELLER | ENTITY_INTERACTABLE | ENTITY_TANGIBLE;
-const Uint8 PLAYER_FRMT	=	 ENTITY_UPDATABLE | ENTITY_ANIMATED | ENTITY_TRAVELLER | ENTITY_TANGIBLE;
+const Uint8 TRAVELLER_FRMT = ENTITY_UPDATABLE | ENTITY_ANIMATED | ENTITY_TRAVELLER | ENTITY_INTERACTABLE/* | ENTITY_TANGIBLE*/;
+const Uint8 PLAYER_FRMT	=	 ENTITY_UPDATABLE | ENTITY_ANIMATED | ENTITY_TRAVELLER/* | ENTITY_TANGIBLE*/;
 const Uint8 DOOR_FRMT =		 ENTITY_ANIMATED  | ENTITY_INTERACTABLE | ENTITY_TANGIBLE;
 const Uint8 TILE_FLOOR_FRMT= ENTITY_GRAPHIC;
 const Uint8 TILE_WALL_FRMT = ENTITY_TANGIBLE;
 const Uint8 UI_STATUS_FRMT = ENTITY_GRIDINDEPENDENT | ENTITY_UPDATABLE/* | ENTITY_ANIMATED*/;
+const Uint8 BUTTON_FRMT	   = ENTITY_GRIDINDEPENDENT | ENTITY_UPDATABLE;
 
 // ENVIRONMENT
 const int TILE_SIZE = 32; // Note: Sprite Sheets must support the selected TILE_SIZE
@@ -27,15 +28,15 @@ const int WORLD_HEIGHT = 100; // (In terms of TILE_SIZEs)
 const Dimensions WORLD_DIMENSIONS(WORLD_WIDTH, WORLD_HEIGHT);
 
 // SCREEN
-const bool FULL_SCREEN_INITIAL = true;
+const bool FULL_SCREEN_INITIAL = false;
 const Dimensions LOGICAL_SIZE = Dimensions(15*TILE_SIZE, 10*TILE_SIZE);
 
 // GAME
 const int FRAME_RATE = 30;
-	const float TRAVELLER_SPEED = 0.15;// Default traveller speed. ADVISED: Keep between 0 and 1 to prevent wall clipping.
+const float TRAVELLER_SPEED = 0.10;// Default traveller speed. ADVISED: Keep between 0 and 1 to prevent wall clipping.
 
 // PLAYER
-const float PLAYER_SPEED = 0.15;		 // The player's movement speed (independent of framerate). ADVISED: Keep between 0 and 1 to prevent wall clipping.
+const float PLAYER_SPEED = 0.10;		 // The player's movement speed (independent of framerate). ADVISED: Keep between 0 and 1 to prevent wall clipping.
 const bool  PLAYER_COMPENSATE_FOR_SLOW_FRAMERATES = false;
 
 // HOUSES

@@ -36,6 +36,8 @@ void Camera::CenterOnPlayer()
 	// Get the coordinates that the camera would move to, to center on the player
 	Coordinates screenCenter(LOGICAL_SIZE.x/2, LOGICAL_SIZE.y/2);
 	Coordinates suggestedPos = screenCenter - g_player->pos;
+	// Compensate for the player's width
+	suggestedPos.x -= TILE_SIZE/2;
 
 	// Check to see if that would reveal any edges
 	Directions<bool> edgeBools = GetEdgeBools(suggestedPos);
@@ -68,7 +70,7 @@ bool Camera::ZoomToWidth(const int newWidth)
 	Dimensions maxSize = g_renderer->GetLogicalSize();
 	maxSize /= TILE_SIZE;
 	
-	if (newWidth <= WORLD_WIDTH) 
+	if (newWidth <= maxSize.x) 
 	{
 		// Scale to fit the new width
 		m_zoom = maxSize.x / newWidth;

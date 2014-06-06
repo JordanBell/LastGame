@@ -5,12 +5,15 @@
 #include "Player.h" // Initialising g_player
 #include "HUD_Layer.h" // UI HUD
 #include "GameStateManager.h"
+#include "LoadingOutput.h"
 
 Game* g_game = nullptr;
 
 void Game::OnStart()
 {
 	// Initialise the UI
+	LoadingOutput::Notify(10, "Initialising HUD");
+
 	UI_HUD = new HUD_Layer();
 		UI_Fatigue = new UI_Status(g_fatigue, Coordinates(0, 0));
 		UI_Loneliness = new UI_Status(g_loneliness, Coordinates(1, 0));
@@ -19,15 +22,21 @@ void Game::OnStart()
 	UI_HUD->InitChildren(); // Add all of the above to the HUD Layer
 
 	// Initiailise the Environment
+	LoadingOutput::Notify(5, "Initialising Environment");
+
 	g_environment = new Environment();
 	g_environment->Initialise();
 
 	// Initialise the Player
+	LoadingOutput::Notify(5, "Dropping in the player.");
+
 	Coordinates worldCenter((WORLD_WIDTH/2), (WORLD_HEIGHT/2));
 	g_player = new Player(worldCenter);
 	g_environment->AddToMiddle(g_player); // Stick the player in the world.
 
 	// Add everything to the Camera
+	LoadingOutput::Notify(25, "Wrapping everything up");
+
 	g_camera = new Camera();
 	g_camera->InitChildren();
 }
@@ -99,8 +108,8 @@ void Game::OnKeys(const Uint8* keystates)
 			if (keystates[SDL_SCANCODE_LCTRL])
 			{
 				// Up and Down to zoom in and out
-				if (keystates[SDL_SCANCODE_UP]) if (!g_camera->ZoomToWidth(++widthCounter)) widthCounter--;
-				if (keystates[SDL_SCANCODE_DOWN]) if (!g_camera->ZoomToWidth(--widthCounter)) widthCounter++;
+				if (keystates[SDL_SCANCODE_UP]) if (!g_camera->ZoomToWidth(--widthCounter)) widthCounter++;
+				if (keystates[SDL_SCANCODE_DOWN]) if (!g_camera->ZoomToWidth(++widthCounter)) widthCounter--;
 			}
 			else
 			{

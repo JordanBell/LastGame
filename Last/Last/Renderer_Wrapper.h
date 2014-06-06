@@ -13,6 +13,7 @@ public:
 	~Renderer_Wrapper(void);
 	
 	// Texture Creation
+	SDL_Texture* CreateTexture(SDL_Surface* surface);
 	SDL_Texture* CreateTexture(Dimensions size, 
 							   int access = SDL_TEXTUREACCESS_STATIC, 
 							   Uint32 format = SDL_PIXELFORMAT_ARGB8888);
