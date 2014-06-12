@@ -3,7 +3,6 @@
 #include "EntityContainer.h"
 #include "toolkit.h"
 #include "Resources.h"
-#include "Player.h" // For recognizing self as g_player
 
 Entity::Entity(const Coordinates& _pos,
 		   const Coordinates& blitOffset,
@@ -17,12 +16,37 @@ Entity::Entity(const Coordinates& _pos,
 			 a_module(personalisedAnimationModule), 
 			 parent(nullptr)
 {
-	// If not GridIndependent, take _pos as a grid position. Otherwise, take as is
-	pos = (m_format[GRID_INDEPENDENT]) ? _pos : _pos*TILE_SIZE;
+	SetPosition(_pos);
+	SetFormat(format);
+}
 
-	// Check animation dependancies
-	if (format[ANIMATED] && !a_module) throw ModuleMisuseException("Animated Entities must be initialised with an Animation Module.");
-	if (!format[ANIMATED] && a_module) throw ModuleMisuseException("You cannot pass an Animation Module to a non-animated Entity.");
+Entity::Entity(const Coordinates& _pos,
+		   const Coordinates& blitOffset,
+		   Image image,
+		   EntityFormat format,	
+		   AnimationModule* personalisedAnimationModule) 
+		   : m_image(image), 
+		     m_format(format), 
+			 m_blitOffset(blitOffset), 
+			 a_module(personalisedAnimationModule), 
+			 parent(nullptr)
+{
+	SetPosition(_pos);
+	SetFormat(format);
+}	
+
+Entity::Entity(const Coordinates& _pos,
+		   const Coordinates& blitOffset,
+		   EntityFormat format,	
+		   AnimationModule* personalisedAnimationModule) 
+		   : m_image(SSID_NULL, nullptr, !format[ANIMATED]),
+		     m_format(format), 
+			 m_blitOffset(blitOffset), 
+			 a_module(personalisedAnimationModule), 
+			 parent(nullptr)
+{
+	SetPosition(_pos);
+	SetFormat(format);
 }	
 
 Entity::~Entity(void)
@@ -30,10 +54,41 @@ Entity::~Entity(void)
 	delete a_module;
 }
 
+void Entity::SetPosition(const Coordinates& _pos)
+{
+	// If not GridIndependent, take _pos as a grid position. Otherwise, take as is.
+	pos = (m_format[GRID_INDEPENDENT]) ?
+		  _pos : 
+		  _pos*TILE_SIZE;
+}
+
+void Entity::SetFormat(EntityFormat& format) 
+{ 
+	m_format = format; 
+
+	// Check animation dependancies
+	if (format[ANIMATED] && !a_module) throw ModuleMisuseException("Animated Entities must be initialised with an Animation Module.");
+	if (!format[ANIMATED] && a_module) throw ModuleMisuseException("You cannot pass an Animation Module to a non-animated Entity.");
+}
+
+
 void Entity::SetParent(EntityContainer* p) 
 { 
 	parent = p; 
-	GetImage().SetTarget(&(parent->GetImage()));
+	SetImageTarget();
+}
+
+inline void Entity::SetImageTarget(void) 
+{ 
+	if (parent)
+		GetImage().SetTarget( &( parent->GetImage() ) ); 
+}
+
+
+void Entity::SetImage(Image& image) 
+{ 
+	m_image = image; 
+	SetImageTarget();
 }
 
 void Entity::BlitToParent()
@@ -76,7 +131,7 @@ bool Entity::IsOnScreen(void)
 {
 	// Get the size of the texture
 	const Dimensions imageSize = GetImage().Size();
-	if (imageSize.Contains(0)) throw runtime_error("Who said this image could be less than 2-dimensional?!");
+	if (imageSize.Contains(0)) throw runtime_error("Width and/or height equal 0.");
 
 	// Get its position
 	const Coordinates onScreenPos = GetAbsolutePos() + m_blitOffset;

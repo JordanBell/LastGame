@@ -11,7 +11,7 @@ class Player : public Traveller {
 public:	
 	Player(Coordinates _pos) 
 		: Traveller(_pos), inputBuffer(0) 
-	{ m_speed = PLAYER_SPEED; OverrideFormat(PLAYER_FRMT); }
+	{ m_speed = PLAYER_SPEED; SetFormat(EntityFormat(PLAYER_FRMT)); }
 	
 	// Update the player's data
 	void E_Update(const int delta);

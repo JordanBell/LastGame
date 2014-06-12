@@ -57,12 +57,27 @@ public:
 	bool CanMoveThrough(void);
 
 protected:
-	// Only Entity subclasses can construct a new entity
+	// Raw info Constructor
 	Entity(const Coordinates& _pos,		  // Entity Position
 		   const Coordinates& blitOffset, // Blit offset, the distance from this Entity's position that its image is rendered
 		   SSID spriteSheetID,	  // Accepts IDs from the SSID enum in tools.h
 		   EntityFormat format,	  // Accepts prewritten formats from config.h
 		   SDL_Rect* clip = nullptr, // If nullptr, image will be blitted as entire SpriteSheet surface
+		   AnimationModule* personalisedAnimationModule = nullptr // An animation module that has already been initialised with this Entity's animation data
+		   );
+
+	// Passing an Image as argument
+	Entity(const Coordinates& _pos,		  // Entity Position
+		   const Coordinates& blitOffset, // Blit offset, the distance from this Entity's position that its image is rendered
+		   Image image,	  // The image object used by this entity
+		   EntityFormat format,	  // Accepts prewritten formats from config.h
+		   AnimationModule* personalisedAnimationModule = nullptr // An animation module that has already been initialised with this Entity's animation data
+		   );
+
+	// Entity with blank image (used in subclasses with differing image implementations)
+	Entity(const Coordinates& _pos,		  // Entity Position
+		   const Coordinates& blitOffset, // Blit offset, the distance from this Entity's position that its image is rendered
+		   EntityFormat format,	  // Accepts prewritten formats from config.h
 		   AnimationModule* personalisedAnimationModule = nullptr // An animation module that has already been initialised with this Entity's animation data
 		   );
 	
@@ -72,7 +87,13 @@ protected:
 	EntityContainer* parent;	// The parent of this Entity
 	AnimationModule* a_module;	// Encapsulated Animation handler. nullptr if this entity is not animated.
 
-	void OverrideFormat(const EntityFormat& format) { m_format = format; }
+	// Set the position based on the format
+	void SetPosition(const Coordinates& _pos);
+
+	// Create the format outside of the 
+	void SetFormat(EntityFormat& format);
+
+	void SetImage(Image& image);
 
 	// Return whether or not this entity's image should be rendered
 	bool ShouldRenderImage(void);
@@ -97,8 +118,6 @@ protected:
 	virtual bool E_CanMoveThrough(void) { return false; }
 
 private:
-	bool isInSight;	// Whether or not this object is "within sight" of the player.
-
 	void Animate(void);
 
 	// Initialise the Entity's sprite sheet
@@ -106,4 +125,7 @@ private:
 
 	// Initialise the Entity's texture
 	void InitImageTexture(void);
+
+	// Set the member image's target
+	inline void SetImageTarget(void);
 };

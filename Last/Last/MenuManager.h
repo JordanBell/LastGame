@@ -10,7 +10,10 @@ public:
 	MenuManager(list<Menu*> menus) 
 		: m_menus(menus) { SetMenu( menus.front() ); }
 	MenuManager() : m_currentMenu(nullptr) {}
-	virtual ~MenuManager(void) {}
+	virtual ~MenuManager(void) { 
+		/*for (Menu* m : m_menus)
+			delete m;*/
+	}
 
 	// Get the menu that the manager is pointing to.
 	Menu* GetCurrentMenu(void) { return m_currentMenu; }

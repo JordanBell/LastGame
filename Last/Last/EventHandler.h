@@ -5,7 +5,7 @@ class EventHandler
 {
 public:
 	// Remove this handler from the global list
-	~EventHandler(void);
+	virtual ~EventHandler(void);
 
 	// When passed an event...
 	virtual void OnEvent(SDL_Event& event) = 0;

@@ -15,12 +15,15 @@ Texture_Wrapper::Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool sta
 	else if ((!m_clip) && (m_texture))
 	{
 		// If no clip, initialise m_size using loaded texture size
-		SDL_QueryTexture(m_texture, 0, 0, (int*)&m_size.x, (int*)&m_size.y);
+		//SDL_QueryTexture(m_texture, 0, 0, (int*)&m_size.x, (int*)&m_size.y);
+		int _x = 0, _y = 0;
+		SDL_QueryTexture(m_texture, 0, 0, &_x, &_y);
+		m_size = Dimensions(_x, _y);
 	}
 }
 
 Texture_Wrapper::Texture_Wrapper(const std::string text, TTF_Font* font, const SDL_Color color) 
-	: m_clip(nullptr), m_staticClip(true), m_target(nullptr), m_texture(nullptr)
+	: m_clip(nullptr), m_staticClip(true), m_target(nullptr)
 {
 	// Create the texture from text.
 	DefineTextureFromText(text, font, color);
@@ -53,6 +56,13 @@ void Texture_Wrapper::DefineTextureFromFile(SSID ssid)
 
 void Texture_Wrapper::DefineTextureFromText(const std::string text, TTF_Font* font, const SDL_Color color)
 {
+	/*m_staticClip = false;
+	m_clip = nullptr;
+	m_target = nullptr;
+	DefineTextureFromFile(SSID_DOOR);
+
+	SDL_QueryTexture(m_texture, 0, 0, (int*)&m_size.x, (int*)&m_size.y);*/
+
 	// Create a surface for the text
 	SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
 	EnsureSuccess(textSurface);

@@ -60,6 +60,7 @@ void GameStateManager::HandleEvents(void)
 		else 
 		{
 			// Pass the event to each of the handlers
+			int size = m_eventHandlers.size();
 			for (EventHandler* handler : m_eventHandlers)
 				handler->OnEvent(event);
 		}

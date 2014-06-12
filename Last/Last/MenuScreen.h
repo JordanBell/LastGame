@@ -1,10 +1,15 @@
 #pragma once
 #include "entitycontainer.h"
+#include <string>
 
 class MenuManager;
 
 class MenuScreen : public EntityContainer
 {
+public:
+	// Change the Menu. Accessible by children etc.
+	void SetMenu(std::string name);
+
 protected:
 	MenuScreen(void) 
 		: EntityContainer(LOGICAL_SIZE), m_menuManager(nullptr) {}

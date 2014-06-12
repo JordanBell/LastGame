@@ -86,7 +86,7 @@ void Renderer_Wrapper::RenderToTexture(SDL_Texture* source, SDL_Texture* destina
 {
 	// Target the destination
 	SetTarget(destination);
-	
+
 	// Render onto it
 	EnsureSuccess(
 		SDL_RenderCopy(m_renderer, source, srcrect, dstrect));
@@ -141,8 +141,7 @@ void Renderer_Wrapper::Clear(void)
 
 void Renderer_Wrapper::Update(void)
 {
-	// Update window, and render
-	m_window->Update();
+	// Update render
 	SDL_RenderPresent(m_renderer);
 }
 

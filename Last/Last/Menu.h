@@ -13,6 +13,8 @@ public:
 	string name;
 
 	Menu(std::string _name);
+	~Menu(void) 
+	{ EntityContainer::~EntityContainer(); }
 	
 	// Make sure the children are Menu items
 	void AddChild(MenuItem* child) { EntityContainer::AddChild(child); }

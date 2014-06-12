@@ -8,10 +8,10 @@ EntityContainer::EntityContainer(const Dimensions& dimensions, const Coordinates
 
 EntityContainer::~EntityContainer()
 {
-	// Remove all of the children
-	int numChildren = children.size();
-	for (int i = 0; i < numChildren; i++)
-		children.pop_back();
+	// Destroy the children
+	/*for (Entity* child : children) {
+		delete child;
+	}*/
 }
 
 void EntityContainer::AddChild(Entity* child) 

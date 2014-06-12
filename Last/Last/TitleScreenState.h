@@ -9,16 +9,14 @@ public:
 	TitleScreenState(void) : m_start(false) {}
 
 protected:
-	void OnStart(void) { printf("Press ENTER to begin.\n"); }
-	void OnEnd(void) {}
+	void OnStart(void) { m_menuScreen = new TitleMenuScreen(); }
+	void OnEnd(void) { delete m_menuScreen; }
 
 	void OnUpdate(const int delta);
-	void Render(void) { m_menuScreen.Render(); }
-
-	void OnKeys(const Uint8* keystates) { if (keystates[SDL_SCANCODE_RETURN]) m_start = true; }
+	void Render(void) { m_menuScreen->Render(); }
 
 private:
-	TitleMenuScreen m_menuScreen;
+	TitleMenuScreen* m_menuScreen;
 	bool m_start;
 };
 

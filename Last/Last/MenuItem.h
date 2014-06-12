@@ -25,8 +25,6 @@ protected:
 	void OnHoverOver(void);
 	void OnHoverOff(void);
 
-	void E_Render(void) { SDL_Rect rect = {pos.x, pos.y, m_boundingBox.w, m_boundingBox.h}; RenderRectToWindow(&rect, 0xFF, 0xFF, 0x00, 0xFF); /*Button::E_Render();*/}
-
 private:
 	string m_text;
 	static TTF_Font* s_font;
@@ -47,6 +45,15 @@ namespace MenuItems
 			{ g_manager->SwitchToState(GSID_MAIN); }
 	};
 
+	// Open the options menu
+	class Options : public MenuItem {
+	public:
+		Options(Coordinates _pos) : MenuItem(_pos, "Options") {}
+	protected:
+		void OnClick(void)
+			{ static_cast<MenuScreen*>(parent)->SetMenu("options"); }
+	};
+
 	// Exit the program
 	class ExitGame : public MenuItem {
 	public:
@@ -54,6 +61,15 @@ namespace MenuItems
 	protected:
 		void OnClick(void)
 			{ g_manager->Quit(); }
+	};
+
+	// Toggle Fullscreen
+	class FullscreenToggle : public MenuItem {
+	public:
+		FullscreenToggle(Coordinates _pos) : MenuItem(_pos, "Toggle Full Screen") {}
+	protected:
+		void OnClick(void)
+			{ ToggleFullscreen(); }
 	};
 
 	/***	GAME PAUSE MENU		***/
