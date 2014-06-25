@@ -71,7 +71,7 @@ class TextureTarget : public Texture_Wrapper
 {
 public:
 	/* Create a texture with nullptr source
-		@staticImage A target with a static image does not get refreshed 
+		@staticImage A target with a static image does not get cleared 
 					 each time Clear() is called in the g_renderer wrapper.
 	*/
 	TextureTarget(Dimensions size = LOGICAL_SIZE, bool staticImage = false);

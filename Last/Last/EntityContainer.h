@@ -1,14 +1,14 @@
 #pragma once
 #include "Entity.h"
 #include <list>
+#include <memory>
+using namespace std;
 
 class Entity;
 
 class EntityContainer : public Entity
 {
 public:
-	virtual ~EntityContainer(void);
-
 	// Add a child entity to this container
 	virtual void AddChild(Entity* child);
 
@@ -24,7 +24,8 @@ public:
 protected:
 	ImageTarget m_imageTarget;
 	bool m_staticImage;
-	std::list<Entity*> children; // A list of the child Entities within this container.
+	//std::list<Entity*> children; // A list of the child Entities within this container.
+	list< unique_ptr<Entity> > children; // A list of the child Entities within this container.
 
 	// Render this entity, as well as the children entities
 	virtual void E_Render(void);

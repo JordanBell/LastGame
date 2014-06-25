@@ -19,7 +19,7 @@ SDL_Texture* Resources::doorSheet = nullptr;
 const std::string Resources::statusSheetFile = "statusSheet.png";
 SDL_Texture* Resources::statusSheet = nullptr;
 
-SDL_Texture* const Resources::GetPlayerImage()
+SDL_Texture* const Resources::GetPlayerImage(void)
 {
 	try { 
 		return GetImage(&playerSheetFile);
@@ -30,7 +30,7 @@ SDL_Texture* const Resources::GetPlayerImage()
 	}
 }
 
-SDL_Texture* const Resources::GetEnvironmentImage()
+SDL_Texture* const Resources::GetEnvironmentImage(void)
 {
 	try { 
 		return GetImage(&environmentSheetFile);
@@ -41,7 +41,7 @@ SDL_Texture* const Resources::GetEnvironmentImage()
 	}
 }
 
-SDL_Texture* const Resources::GetDoorImage()
+SDL_Texture* const Resources::GetDoorImage(void)
 {
 	try { 
 		return GetImage(&doorSheetFile);
@@ -52,7 +52,7 @@ SDL_Texture* const Resources::GetDoorImage()
 	}
 }
 
-SDL_Texture* const Resources::GetStatusImage()
+SDL_Texture* const Resources::GetStatusImage(void)
 {
 	try { 
 		return GetImage(&statusSheetFile);

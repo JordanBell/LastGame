@@ -14,12 +14,18 @@ using namespace ShapeBuilder;
 void WorldBuilder::build()
 {
 	// Grass World
-	LoadingOutput::Notify(25, "Laying the grass.");
-
-	BuildTileRectangle<GrassTile>(Coordinates(0, 0), Dimensions(WORLD_WIDTH, WORLD_HEIGHT));
+	LoadingOutput::Notify(10, "Laying the grass: 0%");
+	BuildTileRectangle<GrassTile>(Coordinates(0, 0), Dimensions(WORLD_WIDTH/2, WORLD_HEIGHT/2));
+	LoadingOutput::Notify(10, "Laying the grass: 25%");
+	BuildTileRectangle<GrassTile>(Coordinates(WORLD_WIDTH/2, 0), Dimensions(WORLD_WIDTH/2, WORLD_HEIGHT/2));
+	LoadingOutput::Notify(10, "Laying the grass: 50%");
+	BuildTileRectangle<GrassTile>(Coordinates(0, WORLD_HEIGHT/2), Dimensions(WORLD_WIDTH/2, WORLD_HEIGHT/2));
+	LoadingOutput::Notify(10, "Laying the grass: 75%");
+	BuildTileRectangle<GrassTile>(Coordinates(WORLD_WIDTH/2, WORLD_HEIGHT/2), Dimensions(WORLD_WIDTH/2, WORLD_HEIGHT/2));
+	LoadingOutput::Notify(0, "Laying the grass: 100%");
 
 	// Content
-	LoadingOutput::Notify(25, "Building Houses");
+	LoadingOutput::Notify(30, "Building Houses");
 
 	//HouseGenerator::Generate();
 	BuildTestHouse(Coordinates(WORLD_WIDTH/2-2, WORLD_HEIGHT/2-2));

@@ -1,7 +1,7 @@
 #include "MenuItem.h"
 #include "ToolKit.h"
 
-TTF_Font* MenuItem::s_font = TTF_OpenFont("joystix monospace.ttf", 28);
+TTF_Font* MenuItem::s_font = nullptr;
 
 MenuItem::MenuItem(const Coordinates& _pos, const string& text) 
 	: 
@@ -33,6 +33,7 @@ SDL_Rect MenuItem::ComputeBoundingBox(const string& text)
 void MenuItem::OnHoverOver(void)
 {
 	//SetColorModulation(hoverOverColor);
+	// Set this item as the selected item
 }
 
 void MenuItem::OnHoverOff(void)

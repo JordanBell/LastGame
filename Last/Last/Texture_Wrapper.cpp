@@ -15,7 +15,6 @@ Texture_Wrapper::Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool sta
 	else if ((!m_clip) && (m_texture))
 	{
 		// If no clip, initialise m_size using loaded texture size
-		//SDL_QueryTexture(m_texture, 0, 0, (int*)&m_size.x, (int*)&m_size.y);
 		int _x = 0, _y = 0;
 		SDL_QueryTexture(m_texture, 0, 0, &_x, &_y);
 		m_size = Dimensions(_x, _y);

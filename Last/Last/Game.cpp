@@ -11,6 +11,9 @@ Game* g_game = nullptr;
 
 void Game::OnStart()
 {
+	// Initialise loading screen
+	LoadingOutput::Initialise();
+
 	// Initialise the UI
 	LoadingOutput::Notify(10, "Initialising HUD");
 
@@ -35,10 +38,15 @@ void Game::OnStart()
 	g_environment->AddToMiddle(g_player); // Stick the player in the world.
 
 	// Add everything to the Camera
-	LoadingOutput::Notify(25, "Wrapping everything up");
+	LoadingOutput::Notify(5, "Wrapping everything up");
 
 	g_camera = new Camera();
 	g_camera->InitChildren();
+
+	m_pauseScreen = new PauseScreen();
+
+	// Delete the loading screen
+	LoadingOutput::Uninitialise();
 }
 
 void Game::OnEnd()
@@ -55,7 +63,7 @@ void Game::Render()
 	// Render UI HUD
 	//UI_HUD->Render();
 
-	if (isPaused) m_pauseScreen.Render();
+	if (isPaused) m_pauseScreen->Render();
 }
 
 void Game::OnUpdate(const int delta)
@@ -77,13 +85,13 @@ void Game::TogglePause(void)
 void Game::Pause(void)
 {
 	isPaused = true;
-	m_pauseScreen.Open();
+	m_pauseScreen->Open();
 }
 
 void Game::Unpause(void)
 {
 	isPaused = false;
-	m_pauseScreen.Close();
+	m_pauseScreen->Close();
 }
 
 

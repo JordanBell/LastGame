@@ -10,6 +10,9 @@ public:
 	// Change the Menu. Accessible by children etc.
 	void SetMenu(std::string name);
 
+	// Go to the previous menu
+	void GoBack(void);
+
 protected:
 	MenuScreen(void) 
 		: EntityContainer(LOGICAL_SIZE), m_menuManager(nullptr) {}

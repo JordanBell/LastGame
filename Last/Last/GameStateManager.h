@@ -21,7 +21,7 @@ public:
 	void SwitchToState(GameStateID gsid);
 
 	// Event Handler Functions
-	void AddHandler(EventHandler* handler) { m_eventHandlers.push_back(handler); }
+	void AddHandler(EventHandler* handler)    { m_eventHandlers.push_back(handler); }
 	void RemoveHandler(EventHandler* handler) { m_eventHandlers.remove(handler); }
 
 private:

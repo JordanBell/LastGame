@@ -59,6 +59,9 @@
     <Filter Include="Files\Entities\Tools">
       <UniqueIdentifier>{fbdab319-a298-4b4c-b506-1b00cce67813}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Files\Loading">
+      <UniqueIdentifier>{aff3b8ec-c235-4a1a-ab29-92917cbd8061}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationIterator.cpp">
@@ -178,9 +181,6 @@
     <ClCompile Include="EventHandler.cpp">
       <Filter>Files\General</Filter>
     </ClCompile>
-    <ClCompile Include="LoadingOutput.cpp">
-      <Filter>Files\General</Filter>
-    </ClCompile>
     <ClCompile Include="TitleMenuScreen.cpp">
       <Filter>Files\Menus\Menu Screens</Filter>
     </ClCompile>
@@ -189,6 +189,12 @@
     </ClCompile>
     <ClCompile Include="TitleScreenState.cpp">
       <Filter>Files\Game States\Implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingOutput.cpp">
+      <Filter>Files\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingScreen.cpp">
+      <Filter>Files\Loading</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -327,14 +333,17 @@
     <ClInclude Include="EventHandler.h">
       <Filter>Files\General</Filter>
     </ClInclude>
-    <ClInclude Include="LoadingOutput.h">
-      <Filter>Files\General</Filter>
-    </ClInclude>
     <ClInclude Include="TitleMenuScreen.h">
       <Filter>Files\Menus\Menu Screens</Filter>
     </ClInclude>
     <ClInclude Include="TitleScreenState.h">
       <Filter>Files\Game States\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingOutput.h">
+      <Filter>Files\Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingScreen.h">
+      <Filter>Files\Loading</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

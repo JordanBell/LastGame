@@ -11,6 +11,11 @@ void MenuScreen::SetMenu(std::string name)
 	m_menuManager->SetMenu(name); 
 }
 
+void MenuScreen::GoBack(void) 
+{ 
+	m_menuManager->GoBack();
+}
+
 
 void MenuScreen::E_Update(const int delta) 
 { 

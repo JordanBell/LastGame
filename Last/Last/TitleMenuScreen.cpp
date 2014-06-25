@@ -17,29 +17,31 @@ TitleMenuScreen::TitleMenuScreen(void)
 
 
 
-	// Initialise the list of menus held within this
-	list<Menu*> menuList = list<Menu*>();
-
+	// Initialise the manager
+	m_menuManager = new MenuManager();
+	
 	// Front Menu (first seen on start-up)
 	Menu* frontMenu = new Menu("front");
 		frontMenu->AddChild(
 			new NewGame(Coordinates(50, 50)));
 		frontMenu->AddChild(
-			new Options(Coordinates(50, 100)));
+			new Options(Coordinates(50, 100), this));
 		frontMenu->AddChild(
 			new ExitGame(Coordinates(50, 150)));
-	menuList.push_back(frontMenu);
+	m_menuManager->AddMenu(frontMenu);
 
 	// Options Menu (Graphics, settings, etc.)
 	Menu* optionsMenu = new Menu("options");
 		optionsMenu->AddChild(
 			new FullscreenToggle(Coordinates(50, 50)));
-	// etc.
-	menuList.push_back(optionsMenu);
+		optionsMenu->AddChild(
+			new ExitGame(Coordinates(50, 150)));
+	m_menuManager->AddMenu(optionsMenu);
 	
-	m_menuManager = new MenuManager(menuList);
-	
-	// Test setting the menu by string
+	// Return to the front menu from the options menu
+	optionsMenu->SetParentMenu(frontMenu);
+
+	// Set the initial menu
 	m_menuManager->SetMenu("front");
 }
 

@@ -10,16 +10,16 @@ class Resources
 {
 public:
 	// Refer to the player sprite sheet texture
-	static SDL_Texture* const GetPlayerImage();
+	static SDL_Texture* const GetPlayerImage(void);
 	
 	// Refer to the environment sprite sheet texture
-	static SDL_Texture* const GetEnvironmentImage();
+	static SDL_Texture* const GetEnvironmentImage(void);
 	
 	// Refer to the door sprite sheet texture
-	static SDL_Texture* const GetDoorImage();
+	static SDL_Texture* const GetDoorImage(void);
 	
 	// Refer to the status sprite sheet texture
-	static SDL_Texture* const GetStatusImage();
+	static SDL_Texture* const GetStatusImage(void);
 
 private:
 	Resources(void);

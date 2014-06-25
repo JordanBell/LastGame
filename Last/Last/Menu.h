@@ -13,9 +13,14 @@ public:
 	string name;
 
 	Menu(std::string _name);
-	~Menu(void) 
-	{ EntityContainer::~EntityContainer(); }
 	
 	// Make sure the children are Menu items
 	void AddChild(MenuItem* child) { EntityContainer::AddChild(child); }
+
+	// Parent Menu
+	void SetParentMenu( Menu* parentMenu ) { m_parentMenu = parentMenu; }
+	Menu* GetParentMenu(void) { return m_parentMenu; }
+
+private:
+	Menu* m_parentMenu;
 };

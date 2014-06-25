@@ -5,7 +5,7 @@
 class Game : public GameState
 {	
 public:
-	Game() : widthCounter(16), isPaused(false), m_pauseScreen() {}
+	Game() : widthCounter(16), isPaused(false) {}
 	
 	// Unpause the game, close the pause screen
 	void Unpause(void); // Public, so that the menu button "Resume" can call it.
@@ -27,7 +27,7 @@ protected:
 	void Pause(void);
 
 private:
-	PauseScreen m_pauseScreen;
+	PauseScreen* m_pauseScreen;
 	bool isPaused;
 	int widthCounter; // A counter to keep track of the zoom level, for manual zooming controls
 

@@ -15,6 +15,7 @@ class MenuItem : public Button
 protected:
 	MenuItem(const Coordinates& _pos, const string& text);
 
+
 	/* Throws logic error if not overridden. 
 	Letting this just equal 0 didn't work out, when 
 	trying to cast implementations to MenuItem. */
@@ -48,10 +49,12 @@ namespace MenuItems
 	// Open the options menu
 	class Options : public MenuItem {
 	public:
-		Options(Coordinates _pos) : MenuItem(_pos, "Options") {}
+		Options(Coordinates _pos, MenuScreen* manager) : MenuItem(_pos, "Options"), parentMenuPtr(manager) {}
 	protected:
 		void OnClick(void)
-			{ static_cast<MenuScreen*>(parent)->SetMenu("options"); }
+			{ parentMenuPtr->SetMenu("options"); }
+	private:
+		MenuScreen* parentMenuPtr;
 	};
 
 	// Exit the program
