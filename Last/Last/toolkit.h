@@ -2,6 +2,7 @@
 #include "Tools.h"
 #include "Renderer_Wrapper.h"
 #include <string>
+#include <list>
 
 /*
 The ToolKit contains global variables and functions.
@@ -13,6 +14,15 @@ extern SDL_Event event;
 
 // Short Convenience
 SDL_Rect RectFromXY(const Coordinates& pos, const Dimensions& dims);
+
+template <class T>
+bool listContains(const std::list<T>& lst, const T& target)
+{
+	for (auto element : lst)
+		if (element == target) return true;
+	return false;
+}
+
 
 // RENDERER DELEGATIONS
 	// Initialisation

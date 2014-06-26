@@ -16,7 +16,6 @@ void MenuScreen::GoBack(void)
 	m_menuManager->GoBack();
 }
 
-
 void MenuScreen::E_Update(const int delta) 
 { 
 	Menu* currentMenu = m_menuManager->GetCurrentMenu();

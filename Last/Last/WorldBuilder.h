@@ -33,6 +33,9 @@ private:
 	// Build a stone bordered square - not a real room, really.
 	static void BuildRoom(const Coordinates& pos, const XY& dimensions);
 
+	static void LayGrass(void);
+	static void AddWeed(const int strength, const Coordinates& position);
+
 	// Build a small column
 	template <class T_Wall>
 		static void BuildColumn(const Coordinates& pos);

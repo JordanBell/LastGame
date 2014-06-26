@@ -30,8 +30,9 @@ private:
 	int delta; // The time since the last frame
 	Timer m_FPSTimer; // The timer that keeps track of the time since the last update
 	GameStateID startStateID;
-
+	
 	GameState* m_currentState; // Pointer to the current game state
+	GameState* m_preparedState; // Pointer to the next game state to be set, as soon as possible
 	TitleScreenState* m_titleScreen; // The title screen game state
 	Game* m_game; // The Main Game game state
 	
@@ -40,8 +41,11 @@ private:
 	// Poll and pass events to the current state
 	void HandleEvents(void);
 	
-	// Set the state, based on a state
-	void SetState(GameState* state);
+	// Set the state to that of the prepared state
+	void InitialisePreparedState(void);
+	
+	// Prepare a state to be set
+	void PrepareState(GameState* state);
 
 	// Regulate the framerate, and return the time since the last call.
 	int RegulateFrameRate(void);

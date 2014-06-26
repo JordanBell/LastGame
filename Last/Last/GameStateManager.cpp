@@ -21,6 +21,7 @@ void GameStateManager::Initialise(void)
 
 	// Initialise with start state
 	SwitchToState(startStateID);
+	//InitialisePreparedState();
 	
 	// Start the timer, for frame rate functions
 	m_FPSTimer.start();
@@ -33,6 +34,10 @@ void GameStateManager::Run(void)
 
 	while (m_running)
 	{
+		// If a new state is set to begin, set it now
+		if (m_preparedState)
+			InitialisePreparedState();
+
 		// State's key press responses
 		m_currentState->OnKeys(SDL_GetKeyboardState(nullptr));
 		// Update State
@@ -59,15 +64,8 @@ void GameStateManager::HandleEvents(void)
 		}
 		else 
 		{
-			int size = m_eventHandlers.size();
-			printf("EventHandler count: %d\n", size);
-
-			list<EventHandler*> handlerCopyList = m_eventHandlers;
-			for (EventHandler* handler : handlerCopyList)
+			for (EventHandler* handler : m_eventHandlers)
 				handler->OnEvent(event);
-
-			/*for (EventHandler* handler : m_eventHandlers)
-				handler->OnEvent(event);*/
 		}
 	}
 }
@@ -77,24 +75,43 @@ void GameStateManager::SwitchToState(GameStateID gsid)
 {
 	switch (gsid)
 	{
-	case GSID_TITLE: SetState(m_titleScreen); break;
-	case GSID_MAIN:  SetState(m_game);		  break;
+	case GSID_TITLE: PrepareState(m_titleScreen); break;
+	case GSID_MAIN:  PrepareState(m_game);		  break;
 	default:		throw std::runtime_error("Cannot recognise the given GameStateID");
 	}
 }
 
-void GameStateManager::SetState(GameState* state)
+void GameStateManager::InitialisePreparedState(void)
 {
 	// Old state's End call
 	if (m_currentState) 
 		m_currentState->OnEnd();
 
+	// Clear the list of event handlers
+	m_eventHandlers.clear();
+
 	// Set the new state
-	m_currentState = state;
+	m_currentState = m_preparedState;
 
 	// New state's Start call
 	m_currentState->OnStart();
+
+	// Reset the prepared state to null
+	m_preparedState = nullptr;
 }
+
+void GameStateManager::PrepareState(GameState* state)
+{
+	/*
+	If the state is changed right now, as this function is called, it will interrupt the 
+	game loop and confuse the values assumed within it (ie the list of event handlers, 
+	if this was evoked in response). As the temporary pointer is non-null, the conditional
+	in the game loop to change the state is executed.
+	*/
+
+	m_preparedState = state;
+}
+
 
 int GameStateManager::RegulateFrameRate(void)
 {

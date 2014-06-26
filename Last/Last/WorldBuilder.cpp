@@ -8,21 +8,14 @@
 #include "Door.h"
 #include "NPC.h"
 #include "LoadingOutput.h"
+#include "ToolKit.h"
 
 using namespace ShapeBuilder;
 
 void WorldBuilder::build()
 {
 	// Grass World
-	LoadingOutput::Notify(10, "Laying the grass: 0%");
-	BuildTileRectangle<GrassTile>(Coordinates(0, 0), Dimensions(WORLD_WIDTH/2, WORLD_HEIGHT/2));
-	LoadingOutput::Notify(10, "Laying the grass: 25%");
-	BuildTileRectangle<GrassTile>(Coordinates(WORLD_WIDTH/2, 0), Dimensions(WORLD_WIDTH/2, WORLD_HEIGHT/2));
-	LoadingOutput::Notify(10, "Laying the grass: 50%");
-	BuildTileRectangle<GrassTile>(Coordinates(0, WORLD_HEIGHT/2), Dimensions(WORLD_WIDTH/2, WORLD_HEIGHT/2));
-	LoadingOutput::Notify(10, "Laying the grass: 75%");
-	BuildTileRectangle<GrassTile>(Coordinates(WORLD_WIDTH/2, WORLD_HEIGHT/2), Dimensions(WORLD_WIDTH/2, WORLD_HEIGHT/2));
-	LoadingOutput::Notify(0, "Laying the grass: 100%");
+	LayGrass();
 
 	// Content
 	LoadingOutput::Notify(30, "Building Houses");
@@ -45,6 +38,153 @@ void WorldBuilder::AddTo(const Coordinates& pos, Layer layer)
 		case BOTTOM_LAYER: AddToBottom<E>(pos); break;
 	}
 }
+
+void WorldBuilder::LayGrass(void)
+{
+	const int CHANCE_BASE = 10;
+	const int CHANCE_CLUSTER = 15;
+
+	bool weedClusters[WORLD_WIDTH][WORLD_HEIGHT];
+	int clusterStrengths[WORLD_WIDTH][WORLD_HEIGHT] = {};
+
+	// Lay down the thin grass types everywhere
+	int totalLoadingPercentage = 40;
+
+	LoadingOutput::Notify(20, "Laying the grass: 0%");
+	for (int i = 0; i < WORLD_WIDTH; i++)
+	{
+		for (int j = 0; j < WORLD_HEIGHT; j++)
+		{
+			Coordinates here = Coordinates(i, j);
+			int type;		// Used for random determination of grass types of similar kind
+			bool occurance; // Use for random choice of tile placement
+			
+			bool& addClusterHere	 = weedClusters[i][j];
+			int& clusterStrength = clusterStrengths[i][j];
+
+			/****** Thin laying (blanket) ******/
+
+			type = rand() % 2;
+
+			// Lay a random type of the two
+				 if (type == 0)	AddToBottom<Grass_Thin2_Day>(here);
+			else if (type == 1) AddToBottom<Grass_Thin1_Day>(here);
+			
+
+
+			/****** Base grass (sprinkled) ******/
+
+			occurance = (rand() % CHANCE_BASE) == 0;
+			if (occurance)
+			{
+				type = rand() % 2;
+
+				// Lay a random type of the two
+					 if (type == 0)	AddToBottom<Grass_Base1_Day>(here);
+				else if (type == 1) AddToBottom<Grass_Base2_Day>(here);
+			}
+
+
+
+			/****** Weed clustering ******/
+
+			// Set whether or not this place has a weed cluster
+			addClusterHere = (rand() % CHANCE_CLUSTER) == 0;
+
+			if (addClusterHere) // Determine the strength of the cluster's center
+			{
+				// Make a non-linear probability distribution, and convert to respective strengths
+				int r = rand()%100;
+
+				clusterStrength = 0;
+
+					/* if (r < 15)  clusterStrength = 0;
+				else if (r < 45)  clusterStrength = 1;
+				else if (r < 85)  clusterStrength = 2;
+				else if (r < 100) clusterStrength = 3;*/
+
+					 if (r < 5)   clusterStrength = 0;
+				else if (r < 55)  clusterStrength = 1;
+				else if (r < 90)  clusterStrength = 2;
+				else if (r < 100) clusterStrength = 3;
+
+				//	// if (r < 15)  clusterStrength = 0;
+				//if (r < 100)  clusterStrength = 1;
+				////else if (r < 85)  clusterStrength = 2;
+				////else if (r < 100) clusterStrength = 3;
+
+				//clusterStrength = rand()%4;
+			}
+		} // End for(j)
+	} // End for(i)
+
+
+
+
+	/**** CLUSTERS ****/
+	LoadingOutput::Notify(10, "Laying the grass: 50%");
+
+	for (int i = 0; i < WORLD_WIDTH; i++)
+	{
+		for (int j = 0; j < WORLD_HEIGHT; j++)
+		{
+			Coordinates here = Coordinates(i, j);
+			if (weedClusters[i][j]) // There is a cluster here
+			{
+				int clusterStrength = clusterStrengths[i][j];
+				list<Coordinates> clusterFrontier; // The positions to have clusters added
+				list<Coordinates> expendedPositions; // The positions that already have clusters in them
+
+				// Start here
+				clusterFrontier.emplace_back(here);
+
+				while (clusterStrength >= 0) // If strength remains
+				{
+					list<Coordinates> iterationClusters = clusterFrontier;
+					for (Coordinates& position : iterationClusters) // For each cluser in the frontier
+					{
+						// Add a cluster to this position, at this iteration's strength
+						AddWeed(clusterStrength, position);
+
+						// Remove this position from the frontier
+						clusterFrontier.remove(position);
+						// Add it to the expended positions
+						expendedPositions.push_front(position); // Add it to the front, to speed future searching
+
+
+						// Add adjacent, non-visited positions to the frontier for the next iteration
+						list<Coordinates> adjacentPositions = Directions<Coordinates>(position).ToList();
+						for (Coordinates adjacent : adjacentPositions) // For each adjacent position
+						{
+							// Ensure in-bounds
+							if ((adjacent.x >= 0) && (adjacent.x < WORLD_WIDTH) &&
+							    (adjacent.y >= 0) && (adjacent.y < WORLD_HEIGHT))
+							{
+								if ( !listContains<Coordinates>( expendedPositions, adjacent ) ) // If not expended
+									if ( !listContains<Coordinates>( clusterFrontier, adjacent ) ) // If not already added
+										clusterFrontier.push_back(adjacent); // Push back, making a copy, of this iteration-scoped element
+							}
+						}
+					}
+
+					// Decrement cluster strength for next iteration
+					clusterStrength--;
+				}
+
+			}// End if
+		}// End for(j)
+	}// End for(i)
+}
+
+void WorldBuilder::AddWeed(const int strength, const Coordinates& position)
+{
+		 if (strength == 0) AddToBottom<Grass_Thick1_Day>(position);
+	else if (strength == 1) AddToBottom<Grass_Thick2_Day>(position);
+	else if (strength == 2) AddToBottom<Grass_Thick3_Day>(position);
+	else if (strength == 3) AddToBottom<Grass_Thick4_Day>(position);
+	else throw runtime_error("Strength value too high or too low.");
+}
+
 
 void WorldBuilder::BuildTestHouse(const Coordinates& pos)
 {	

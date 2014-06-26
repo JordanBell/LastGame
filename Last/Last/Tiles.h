@@ -38,13 +38,43 @@ typedef TileTangible Wall;
 
 /*------------============ CHILD CLASSES ============------------*/
 
+/*** GRASS ***/
+class Grass_Base1_Day : public Floor {
+public:
+	Grass_Base1_Day(const Coordinates& _pos) : Floor(_pos, TILE_INDEX_GRS_BSE1_DAY) {}
+};
+class Grass_Base2_Day : public Floor {
+public:
+	Grass_Base2_Day(const Coordinates& _pos) : Floor(_pos, TILE_INDEX_GRS_BSE2_DAY) {}
+};
+class Grass_Thin1_Day : public Floor {
+public:
+	Grass_Thin1_Day(const Coordinates& _pos) : Floor(_pos, TILE_INDEX_GRS_THN1_DAY) {}
+};
+class Grass_Thin2_Day : public Floor {
+public:
+	Grass_Thin2_Day(const Coordinates& _pos) : Floor(_pos, TILE_INDEX_GRS_THN2_DAY) {}
+};
 
+
+class Grass_Thick1_Day : public Floor {
+public:
+	Grass_Thick1_Day(const Coordinates& _pos) : Floor(_pos, TILE_INDEX_GRS_THCK1_DAY) {}
+};
+class Grass_Thick2_Day : public Floor {
+public:
+	Grass_Thick2_Day(const Coordinates& _pos) : Floor(_pos, TILE_INDEX_GRS_THCK2_DAY) {}
+};
+class Grass_Thick3_Day : public Floor {
+public:
+	Grass_Thick3_Day(const Coordinates& _pos) : Floor(_pos, TILE_INDEX_GRS_THCK3_DAY) {}
+};
+class Grass_Thick4_Day : public Floor {
+public:
+	Grass_Thick4_Day(const Coordinates& _pos) : Floor(_pos, TILE_INDEX_GRS_THCK4_DAY) {}
+};
 
 /***  FLOORS  ***/
-class GrassTile : public Floor {
-public:
-	GrassTile(const Coordinates& _pos) : Floor(_pos, TILE_INDEX_GRS) {}
-};
 class StoneFloorTile : public Floor {
 public:
 	StoneFloorTile(const Coordinates& _pos) : Floor(_pos, TILE_INDEX_STNFLR) {}

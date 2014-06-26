@@ -2,6 +2,7 @@
 #include <cmath>
 #include <iostream>
 #include "SDL.h"
+#include <list>
 
 /*
 Tools contains different structs and enumerations used without the program, as various tools.
@@ -356,9 +357,38 @@ struct Directions<bool> {
 	void print(const bool invert = false, const char* title = "Directions are:")
 	{
 		printf("%s\n", title);
-		printf("\tTop: %s\n", (invert? !top : top) ? "Yes" : "No");
+		/*PrintYesNo("\tTop: %s\n",	 invert? !top	 : top );
+		PrintYesNo("\tBottom: %s\n", invert? !bottom : bottom );
+		PrintYesNo("\tLeft: %s\n",   invert? !left   : left );
+		PrintYesNo("\tRight: %s\n",  invert? !right  : right );*/
+		printf("\tTop: %s\n",	 (invert? !top	  : top)	? "Yes" : "No");
 		printf("\tBottom: %s\n", (invert? !bottom : bottom) ? "Yes" : "No");
-		printf("\tLeft: %s\n", (invert? !left : left) ? "Yes" : "No");
-		printf("\tRight: %s\n", (invert? !right : right) ? "Yes" : "No");
+		printf("\tLeft: %s\n",	 (invert? !left   : left)	? "Yes" : "No");
+		printf("\tRight: %s\n",  (invert? !right  : right)	? "Yes" : "No");
+	}
+};
+
+// Coordinate directions specialisation, used to construct adjacency coordinates
+template <>
+struct Directions<Coordinates> {
+	Coordinates top, bottom, left, right;
+
+	Directions(const Coordinates& center) 
+		   : top (center.x,   center.y-1), 
+		   bottom(center.x,   center.y+1), 
+		   left  (center.x-1, center.y), 
+		   right (center.x+1, center.y) {}
+
+	// Return a list of all the directions
+	std::list<Coordinates> ToList(void)
+	{
+		std::list<Coordinates> r_list;
+
+		r_list.emplace_back(top);
+		r_list.emplace_back(bottom);
+		r_list.emplace_back(left);
+		r_list.emplace_back(right);
+
+		return r_list;
 	}
 };

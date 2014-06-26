@@ -76,8 +76,6 @@ void LoadingScreen::UpdateLoaderSize()
 
 	// Calculate new width based on percentage
 	m_loaderSize.x *= float(m_percentage) / 100;
-
-	printf("%f\n", m_loaderSize.x);
 }
 
 void LoadingScreen::E_Update(const int delta)
