@@ -12,7 +12,8 @@ class GameStateManager
 {
 public:
 	GameStateManager(void);
-	~GameStateManager(void) { m_currentState->OnEnd(); }
+	~GameStateManager(void) 
+	{ m_currentState->OnEnd(); }
 
 	void Run(void);
 	void Quit(void) { m_running = false; }

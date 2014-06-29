@@ -79,9 +79,11 @@ namespace MenuItems
 	// Unpause the game, and resume from the Pause Menu
 	class Resume : public MenuItem {
 	public:
-		Resume(Coordinates _pos) : MenuItem(_pos, "Resume") {}
+		Resume(Coordinates _pos, Game* gameParent) : MenuItem(_pos, "Resume"), m_gameParent(gameParent) {}
 	protected: 
 		void OnClick(void)
-			{ g_game->Unpause(); }
+			{ m_gameParent->Unpause(); }
+	private:
+		Game* m_gameParent;
 	};
 }

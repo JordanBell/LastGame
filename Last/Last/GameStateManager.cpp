@@ -2,6 +2,7 @@
 #include "EventHandler.h"
 #include "ToolKit.h"
 #include "Game.h"
+#include "KeyTools.h"
 #include <time.h>
 
 GameStateManager* g_manager = nullptr;
@@ -21,7 +22,6 @@ void GameStateManager::Initialise(void)
 
 	// Initialise with start state
 	SwitchToState(startStateID);
-	//InitialisePreparedState();
 	
 	// Start the timer, for frame rate functions
 	m_FPSTimer.start();
@@ -38,6 +38,8 @@ void GameStateManager::Run(void)
 		if (m_preparedState)
 			InitialisePreparedState();
 
+		// Update static key states
+		KeyTools::UpdateStates();
 		// State's key press responses
 		m_currentState->OnKeys(SDL_GetKeyboardState(nullptr));
 		// Update State

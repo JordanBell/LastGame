@@ -40,7 +40,7 @@ void Button::m_ComputeMouseOver(void)
 	// Get the mouse position
 	int mouseX = 0, mouseY = 0;
 	SDL_GetMouseState(&mouseX, &mouseY);
-	
+
 	// Determine the absolute positon of the bounding box
 	Coordinates absPos = GetAbsolutePos();
 	SDL_Rect absoluteBox = { absPos.x + m_boundingBox.x, 

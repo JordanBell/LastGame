@@ -196,6 +196,7 @@
     <ClCompile Include="LoadingScreen.cpp">
       <Filter>Files\Loading</Filter>
     </ClCompile>
+    <ClCompile Include="KeyTools.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config.h">
@@ -344,6 +345,12 @@
     </ClInclude>
     <ClInclude Include="LoadingScreen.h">
       <Filter>Files\Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyTools.h">
+      <Filter>Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Hints.h">
+      <Filter>Files\General</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
