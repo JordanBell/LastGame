@@ -8,7 +8,7 @@
 GameStateManager* g_manager = nullptr;
 
 GameStateManager::GameStateManager(void) 
-	: m_eventHandlers(), delta(0), m_running(true), startStateID(GSID_TITLE), 
+	: m_eventHandlers(), delta(0), m_running(true), startStateID(INSTANT_START ? GSID_MAIN: GSID_TITLE), 
 	  m_currentState(nullptr), m_titleScreen(nullptr), m_game(nullptr)
 {
 	// Initialise time

@@ -1,13 +1,17 @@
 #include "Traveller.h"
 #include "TravellerAnimation.h"
 #include "Environment.h"
+#include "SoundSource.h"
+
 Traveller::Traveller(const Coordinates& _pos) 
 	: Entity(_pos, Coordinates(0, -TILE_SIZE/2), SSID_PLAYER, TRAVELLER_FRMT, nullptr, new TravellerAnimation()), 
 	  direction(DOWN),
 	  m_moving(false),
 	  misalignment(0),
 	  m_stillBuffer(0),
-	  m_speed(TRAVELLER_SPEED)
+	  m_speed(TRAVELLER_SPEED),
+	  m_soundSource(new SoundSource(this)),
+	  m_talking(false)
 {
 	if (!m_format[TRAVELS]) 
 		throw ModuleMisuseException("An entity cannot inherit from Traveller if its format does not allow travelling.");
@@ -18,6 +22,11 @@ Traveller::Traveller(const Coordinates& _pos)
 
 void Traveller::E_Update(const int delta)
 {
+	// Update whether or not this is talking.
+	if (m_talking) { m_talking = m_soundSource->IsActive();
+		if (!m_talking) printf("Talking expired.\n");
+	}
+
 	if (m_moving) // The traveller should keep moving in its currently assigned direction 
 	{
 		int pixelsToMove = m_speed * (1000/FRAME_RATE);
@@ -51,6 +60,29 @@ void Traveller::E_Update(const int delta)
 			// Snap the traveller to a TILE_SIZE multiple.
 			SnapPosition();
 		}
+	}
+
+	// Update the speech
+	m_soundSource->Update(delta);
+}
+
+void Traveller::E_Render(void) 
+{ 
+	// Render this
+	Entity::E_Render(); 
+
+	// Render the sound source's speech bubble above it.
+	m_soundSource->Render(); 
+}
+
+void Traveller::Say(const string phrase, const bool priorityOverride, const int timeout) 
+{ 
+	// If not already talking, or if the phrase has priority override, speak.
+	if (!m_talking || priorityOverride)
+	{
+		m_talking = true;
+		if (timeout == -1) m_soundSource->Say(phrase);
+		else			   m_soundSource->Say(phrase, timeout);
 	}
 }
 

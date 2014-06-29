@@ -197,6 +197,7 @@
       <Filter>Files\Loading</Filter>
     </ClCompile>
     <ClCompile Include="KeyTools.cpp" />
+    <ClCompile Include="SoundSource.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config.h">
@@ -351,6 +352,9 @@
     </ClInclude>
     <ClInclude Include="Hints.h">
       <Filter>Files\General</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundSource.h">
+      <Filter>Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

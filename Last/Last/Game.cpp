@@ -8,8 +8,6 @@
 #include "GameStateManager.h"
 #include "LoadingOutput.h"
 
-Game* g_game = nullptr;
-
 void Game::OnStart()
 {
 	// Initialise loading screen
@@ -111,6 +109,8 @@ void Game::OnKeys(const Uint8* keystates)
 
 		// Other
 		if (keystates[SDL_SCANCODE_F]) g_player->Interact();
+		if (keystates[SDL_SCANCODE_T]) 
+			g_player->Say("Testing complete.");
 
 		// Testing
 		if (MANUAL_ZOOM)

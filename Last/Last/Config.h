@@ -44,4 +44,5 @@ const bool  PLAYER_COMPENSATE_FOR_SLOW_FRAMERATES = false;
 const float HOUSE_SIZE_DEVIATION = 0.2f; // The percentage variation in house sizes
 
 // Testing / Debugging
+const bool INSTANT_START = true;
 const bool MANUAL_ZOOM = true;

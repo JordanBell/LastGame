@@ -39,5 +39,3 @@ private:
 
 
 };
-
-extern Game* g_game;

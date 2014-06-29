@@ -12,6 +12,9 @@ extern Window* g_window;
 extern Renderer* g_renderer;
 extern SDL_Event event;
 
+class Entity;
+class Traveller;
+
 // Short Convenience
 SDL_Rect RectFromXY(const Coordinates& pos, const Dimensions& dims);
 
@@ -22,6 +25,10 @@ bool listContains(const std::list<T>& lst, const T& target)
 		if (element == target) return true;
 	return false;
 }
+
+void CreateSpeechBubble(Entity* sourceEntity);
+void CreateSpeechBubble(Traveller* sourceTraveller);
+void CreateSpeechBubble(Coordinates& sourceCoordinates);
 
 
 // RENDERER DELEGATIONS

@@ -37,6 +37,7 @@
     <ClCompile Include="PauseScreen.cpp" />
     <ClCompile Include="Renderer_Wrapper.cpp" />
     <ClCompile Include="SDLTools.cpp" />
+    <ClCompile Include="SoundSource.cpp" />
     <ClCompile Include="Status.cpp" />
     <ClCompile Include="Texture_Wrapper.cpp" />
     <ClCompile Include="Tiles.cpp" />
@@ -89,6 +90,7 @@
     <ClInclude Include="PauseScreen.h" />
     <ClInclude Include="Renderer_Wrapper.h" />
     <ClInclude Include="SDLTools.h" />
+    <ClInclude Include="SoundSource.h" />
     <ClInclude Include="Status.h" />
     <ClInclude Include="Texture_Wrapper.h" />
     <ClInclude Include="Tiles.h" />
