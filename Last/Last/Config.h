@@ -44,5 +44,9 @@ const bool  PLAYER_COMPENSATE_FOR_SLOW_FRAMERATES = false;
 const float HOUSE_SIZE_DEVIATION = 0.2f; // The percentage variation in house sizes
 
 // Testing / Debugging
+const bool ENABLE_SPEECH_BUBBLES = false; // If true, begin debugging for speech bubble functionality.
+const bool THROW_ERROR_ON_BAD_CLIP = false; // If true, throw an error if a clip is being set to an image that is out of its range.
+const bool THROW_ERROR_ON_CUTOFF = false; // If an image is being cut off when rendering to its texture target, throw an error if true.
+const bool SUPPRESS_CUTOFF_WARNING = true; // If true, print a message if not throwing an error for the above.
 const bool INSTANT_START = true;
 const bool MANUAL_ZOOM = true;

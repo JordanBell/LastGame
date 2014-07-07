@@ -5,6 +5,7 @@
 #include "AnimationModule.h"
 #include "ModuleMisuseException.h"
 #include "Texture_Wrapper.h"
+#include "ToolKit.h"
 
 class EntityContainer;
 
@@ -34,7 +35,7 @@ public:
 	// Get the absolute position of this object.
 	Coordinates GetAbsolutePos(void) const;
 
-	void Center(bool centerX = true, bool centerY = true);
+	void CenterAround(Coordinates center, bool centerX = true, bool centerY = true);
 
 	// Virtual image retrieval, as the image implementation for EntityContainer can be overridden as an ImageTarget
 	virtual Image& GetImage(void) { return m_image; }

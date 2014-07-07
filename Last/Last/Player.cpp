@@ -10,7 +10,7 @@ void Player::E_Update(const int delta)
 	// Check to see whether or not entities in front can be interacted with.
 	if (m_newPosRecently) Compute_FrontInteractable();
 	// Prompt the player, if the front can be interacted with.
-	if (m_frontInteractable) Say("F", false, 5);
+	if (m_frontInteractable) Say("F", false, 10);
 	else					 m_soundSource->Stop();
 
 	Traveller::E_Update(delta);

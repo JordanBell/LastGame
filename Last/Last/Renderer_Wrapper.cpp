@@ -84,6 +84,19 @@ void Renderer_Wrapper::RenderToWindow(SDL_Texture* source, SDL_Rect* srcrect, SD
 
 void Renderer_Wrapper::RenderToTexture(SDL_Texture* source, SDL_Texture* destination, SDL_Rect* srcrect, SDL_Rect* dstrect)
 {
+	// If some is being cut off, warn the programmer.
+	if (dstrect)
+	{
+		Dimensions destSize = Dimensions(0);
+		int sizeX = 0, sizeY = 0;
+		SDL_QueryTexture(destination, 0, 0, &sizeX, &sizeY);
+		SDL_Rect destinationBounds = {0, 0, sizeX, sizeY};
+		if ( !RectIsWithin(dstrect, &destinationBounds) ) {
+			if (THROW_ERROR_ON_CUTOFF) throw std::runtime_error("WARNING: A texture is being cut off when trying to render to a texture target.\n");
+			else if (!SUPPRESS_CUTOFF_WARNING) printf("WARNING: A texture is being cut off when trying to render to a texture target.\n");
+		}
+	}
+	
 	// Target the destination
 	SetTarget(destination);
 

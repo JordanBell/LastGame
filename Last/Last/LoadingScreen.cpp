@@ -1,5 +1,6 @@
 #include "LoadingScreen.h"
 #include "ToolKit.h"
+#include "Text.h"
 
 const Dimensions LoadingScreen::m_barProportion = Dimensions(0.6, 0.1);
 const int LoadingScreen::m_outlineThickness = 4;
@@ -66,7 +67,7 @@ void LoadingScreen::SetMessage(string message)
 	m_text->SetText(message); 
 
 	// Place the text right below the bar, center horizontally.
-	m_text->Center(true, false); // Center X	
+	m_text->CenterAround(ScreenCenter(), true, false); // Center X	
 }
 
 void LoadingScreen::UpdateLoaderSize()
@@ -99,33 +100,4 @@ void LoadingScreen::E_Render(void)
 	m_barLoader->RenderToTarget( m_barPos + m_outlineThickness );
 
 	EntityContainer::E_Render();
-}
-
-
-	
-void Text::SetText(string text)
-{
-	m_text = text;
-
-	// Update the image with the new info
-	UpdateImage();
-}
-
-void Text::SetFont(TTF_Font* font)
-{
-	// Free the old font
-	TTF_CloseFont(m_font);
-	// Set the new font
-	m_font = font;
-
-	// Update the image with the new info
-	UpdateImage();
-}
-
-void Text::SetColor(SDL_Color color)
-{
-	m_color = color;
-
-	// Update the image with the new info
-	UpdateImage();
 }

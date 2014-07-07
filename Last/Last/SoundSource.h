@@ -1,6 +1,8 @@
 #pragma once
 #include "EntityContainer.h"
 
+class SpeechBubble;
+
 /*
 A sound source is an entityContainer than manages and handles 
 a SpeechBubble. This is instantiates in any other entity that 
@@ -29,5 +31,6 @@ private:
 	int m_timeoutCountdown; // The number of seconds until the sound disappears.
 	Coordinates* m_sourcePos;
 	Entity* m_sourceEntity;
+	SpeechBubble* m_speechBubble;
 };
 

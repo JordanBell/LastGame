@@ -14,7 +14,7 @@ public:
 					just the section from the initially specified clip.
 	*/
 	Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool staticClip);
-	Texture_Wrapper(const std::string text, TTF_Font* font, const SDL_Color color);
+	Texture_Wrapper(const std::string text, TTF_Font* font, const SDL_Color color, int* pixelWrap = nullptr);
 
 	virtual ~Texture_Wrapper(void) { if (m_texture) SDL_DestroyTexture(m_texture); }
 
@@ -55,10 +55,13 @@ private:
 	void DefineTextureFromFile(SSID ssid);
 
 	// Load the source texture from the SSID
-	void DefineTextureFromText(const std::string text, TTF_Font* font, const SDL_Color color);
+	void DefineTextureFromText(const std::string text, TTF_Font* font, const SDL_Color color, int* pixelWrap = nullptr);
 
 	// Clip the texture, if its clip is static, and release the clip
 	void ClipTexture(void);
+
+	// Throw an error if a bad clip is being assigned, in relation to this image
+	void EnsureValidClip(SDL_Rect* clip) const;
 
 	void RenderToTexture(Coordinates pos) const;
 	void RenderToWindow(Coordinates pos) const;

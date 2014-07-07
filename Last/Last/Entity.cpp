@@ -62,10 +62,9 @@ void Entity::SetPosition(const Coordinates& _pos)
 		  _pos*TILE_SIZE;
 }
 
-void Entity::Center(bool centerX, bool centerY)
+void Entity::CenterAround(Coordinates center, bool centerX, bool centerY)
 {
 	Dimensions size = GetImage().Size();
-	Coordinates center = ScreenCenter();
 
 	// Center activated axis
 	if (centerX) pos.x = center.x - (size.x / 2);

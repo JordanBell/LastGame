@@ -59,6 +59,10 @@ void Game::Render()
 	// Render camera (Environment, player, environment UI, etc.)
 	g_camera->Render();
 
+	// Render the speech
+	if (ENABLE_SPEECH_BUBBLES) 
+		testSpeech.Render();
+
 	// Render UI HUD
 	//UI_HUD->Render();
 

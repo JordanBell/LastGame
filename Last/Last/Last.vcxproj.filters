@@ -196,8 +196,18 @@
     <ClCompile Include="LoadingScreen.cpp">
       <Filter>Files\Loading</Filter>
     </ClCompile>
-    <ClCompile Include="KeyTools.cpp" />
-    <ClCompile Include="SoundSource.cpp" />
+    <ClCompile Include="SpeechBubble.cpp">
+      <Filter>Files\Entities\Implementations</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyTools.cpp">
+      <Filter>Files\General</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSource.cpp">
+      <Filter>Files\Entities\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Files\Entities\Implementations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config.h">
@@ -347,14 +357,20 @@
     <ClInclude Include="LoadingScreen.h">
       <Filter>Files\Loading</Filter>
     </ClInclude>
-    <ClInclude Include="KeyTools.h">
-      <Filter>Files</Filter>
-    </ClInclude>
     <ClInclude Include="Hints.h">
       <Filter>Files\General</Filter>
     </ClInclude>
+    <ClInclude Include="SpeechBubble.h">
+      <Filter>Files\Entities\Implementations</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyTools.h">
+      <Filter>Files\General</Filter>
+    </ClInclude>
     <ClInclude Include="SoundSource.h">
-      <Filter>Files</Filter>
+      <Filter>Files\Entities\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Files\Entities\Implementations</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

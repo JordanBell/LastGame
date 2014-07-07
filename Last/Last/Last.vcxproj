@@ -38,7 +38,9 @@
     <ClCompile Include="Renderer_Wrapper.cpp" />
     <ClCompile Include="SDLTools.cpp" />
     <ClCompile Include="SoundSource.cpp" />
+    <ClCompile Include="SpeechBubble.cpp" />
     <ClCompile Include="Status.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture_Wrapper.cpp" />
     <ClCompile Include="Tiles.cpp" />
     <ClCompile Include="House.cpp" />
@@ -91,7 +93,9 @@
     <ClInclude Include="Renderer_Wrapper.h" />
     <ClInclude Include="SDLTools.h" />
     <ClInclude Include="SoundSource.h" />
+    <ClInclude Include="SpeechBubble.h" />
     <ClInclude Include="Status.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="Texture_Wrapper.h" />
     <ClInclude Include="Tiles.h" />
     <ClInclude Include="House.h" />

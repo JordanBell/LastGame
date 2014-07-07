@@ -20,6 +20,9 @@ public:
 	
 	// Refer to the status sprite sheet texture
 	static SDL_Texture* const GetStatusImage(void);
+	
+	// Refer to the status sprite sheet texture
+	static SDL_Texture* const GetSpeechImage(void);
 
 private:
 	Resources(void);
@@ -29,11 +32,13 @@ private:
 	static const string environmentSheetFile;	// The filepath to the environment's sprite sheet
 	static const string doorSheetFile;			// The filepath to the door's sprite sheet
 	static const string statusSheetFile;		// The filepath to the statuses sprite sheet
+	static const string speechSheetFile;		// The filepath to the statuses sprite sheet
 
 	static SDL_Texture* playerSheet;		// The player sprite sheet 
 	static SDL_Texture* environmentSheet;	// The environment sprite sheet
 	static SDL_Texture* doorSheet;			// The door sprite sheet
 	static SDL_Texture* statusSheet;		// The status sprite sheet
+	static SDL_Texture* speechSheet;		// The status sprite sheet
 
 	// Getting and loading an image into its texture pointer based on a file name
 	static SDL_Texture* const GetImage(const string* filename);

@@ -17,6 +17,11 @@ class Traveller;
 
 // Short Convenience
 SDL_Rect RectFromXY(const Coordinates& pos, const Dimensions& dims);
+bool RectIsWithin(SDL_Rect* subject, SDL_Rect* target); // Another rect
+bool RectIsWithin(SDL_Rect* subject, SDL_Texture* target); // A texture
+SDL_Rect MyOwnGoshDarnRectIntersectionFunction(SDL_Rect* r1, SDL_Rect* r2);
+float MyOwnGoshDarnMinFunction(float f1, float f2);
+float MyOwnGoshDarnMaxFunction(float f1, float f2);
 
 template <class T>
 bool listContains(const std::list<T>& lst, const T& target)
@@ -25,10 +30,6 @@ bool listContains(const std::list<T>& lst, const T& target)
 		if (element == target) return true;
 	return false;
 }
-
-void CreateSpeechBubble(Entity* sourceEntity);
-void CreateSpeechBubble(Traveller* sourceTraveller);
-void CreateSpeechBubble(Coordinates& sourceCoordinates);
 
 
 // RENDERER DELEGATIONS

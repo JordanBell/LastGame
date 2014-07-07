@@ -4,7 +4,13 @@
 #include "SoundSource.h"
 
 Traveller::Traveller(const Coordinates& _pos) 
-	: Entity(_pos, Coordinates(0, -TILE_SIZE/2), SSID_PLAYER, TRAVELLER_FRMT, nullptr, new TravellerAnimation()), 
+	: EntityContainer(Dimensions(200, 200), 
+					  _pos, 
+					  Coordinates(0, -TILE_SIZE/2), 
+					  SSID_PLAYER, 
+					  TRAVELLER_FRMT, 
+					  nullptr, 
+					  new TravellerAnimation()),
 	  direction(DOWN),
 	  m_moving(false),
 	  misalignment(0),
@@ -16,16 +22,14 @@ Traveller::Traveller(const Coordinates& _pos)
 	if (!m_format[TRAVELS]) 
 		throw ModuleMisuseException("An entity cannot inherit from Traveller if its format does not allow travelling.");
 	
-	// Initialise as still
+	// Initialise animation as still
 	a_module->OverrideCycle(1);
 }
 
 void Traveller::E_Update(const int delta)
 {
 	// Update whether or not this is talking.
-	if (m_talking) { m_talking = m_soundSource->IsActive();
-		if (!m_talking) printf("Talking expired.\n");
-	}
+	if (m_talking) m_talking = m_soundSource->IsActive();
 
 	if (m_moving) // The traveller should keep moving in its currently assigned direction 
 	{
@@ -69,7 +73,7 @@ void Traveller::E_Update(const int delta)
 void Traveller::E_Render(void) 
 { 
 	// Render this
-	Entity::E_Render(); 
+	EntityContainer::E_Render(); 
 
 	// Render the sound source's speech bubble above it.
 	m_soundSource->Render(); 
@@ -77,13 +81,17 @@ void Traveller::E_Render(void)
 
 void Traveller::Say(const string phrase, const bool priorityOverride, const int timeout) 
 { 
-	// If not already talking, or if the phrase has priority override, speak.
-	if (!m_talking || priorityOverride)
+	if (ENABLE_SPEECH_BUBBLES)
 	{
-		m_talking = true;
-		if (timeout == -1) m_soundSource->Say(phrase);
-		else			   m_soundSource->Say(phrase, timeout);
+		// If not already talking, or if the phrase has priority override, speak.
+		if (!m_talking || priorityOverride)
+		{
+			m_talking = true;
+			if (timeout == -1) m_soundSource->Say(phrase);
+			else			   m_soundSource->Say(phrase, timeout);
+		}
 	}
+	else {} // No speech capabilities if speech bubbles disabled
 }
 
 void Traveller::Walk(const E_Direction& direction)

@@ -3,7 +3,22 @@
 #include "Config.h"
 
 EntityContainer::EntityContainer(const Dimensions& dimensions, const Coordinates& _pos, bool staticImage) 
-	: Entity(_pos, Coordinates(0, 0), SSID_NULL, CONTAINER_FRMT), m_staticImage(staticImage),
+	: Entity(_pos, Coordinates(0, 0), SSID_NULL, CONTAINER_FRMT), 
+	m_staticImage(staticImage),
+	m_imageTarget(dimensions, staticImage),
+	m_childrenInitiallyAdded(false){}
+
+EntityContainer::EntityContainer(const Dimensions& dimensions, 
+								 // Entity arguments
+								 const Coordinates& _pos, 
+								 const Coordinates& blitOffset, 
+								 const SSID& spriteSheetID, 
+								 const EntityFormat& format,
+								 SDL_Rect* clip,
+								 AnimationModule* personalisedAnimationModule, 
+								 bool staticImage) 
+	: Entity(_pos, blitOffset, spriteSheetID, format, clip, personalisedAnimationModule), 
+	m_staticImage(staticImage),
 	m_imageTarget(dimensions, staticImage) {}
 
 void EntityContainer::AddChild(Entity* child) 
@@ -18,6 +33,9 @@ void EntityContainer::AddChild(Entity* child)
 
 void EntityContainer::E_Update(int delta)
 {
+	if (!m_childrenInitiallyAdded)
+		InitAddChildren();
+
 	for (auto& child : children)
 		child->Update(delta);
 }

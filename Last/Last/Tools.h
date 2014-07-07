@@ -49,7 +49,8 @@ enum SSID {
 	SSID_PLAYER,
 	SSID_ENVIRONMENT,
 	SSID_DOOR,
-	SSID_STATUS
+	SSID_STATUS,
+	SSID_SPEECH
 };
 
 
@@ -286,6 +287,15 @@ struct XY {
 		return ((x == xy.x) &&
 				(y == xy.y));
 	}
+
+	// ++
+	const XY operator++(void) {
+		x++;
+		y++;
+
+		return *this;
+	}
+
 };
 
 // Common contexts for XY

@@ -19,6 +19,10 @@ SDL_Texture* Resources::doorSheet = nullptr;
 const std::string Resources::statusSheetFile = "statusSheet.png";
 SDL_Texture* Resources::statusSheet = nullptr;
 
+// SpeechBubble sheet consts
+const std::string Resources::speechSheetFile = "speechSheet.png";
+SDL_Texture* Resources::speechSheet = nullptr;
+
 SDL_Texture* const Resources::GetPlayerImage(void)
 {
 	try { 
@@ -26,7 +30,7 @@ SDL_Texture* const Resources::GetPlayerImage(void)
 	}
 	catch (std::runtime_error e)
 	{
-		printf("Failed to load the player image.");
+		printf("Failed to load the player image: %s\n", e.what());
 	}
 }
 
@@ -37,7 +41,7 @@ SDL_Texture* const Resources::GetEnvironmentImage(void)
 	}
 	catch (std::runtime_error e)
 	{
-		printf("Failed to load the environment image.");
+		printf("Failed to load the environment image: %s\n", e.what());
 	}
 }
 
@@ -48,7 +52,7 @@ SDL_Texture* const Resources::GetDoorImage(void)
 	}
 	catch (std::runtime_error e)
 	{
-		printf("Failed to load the door image.");
+		printf("Failed to load the door image: %s\n", e.what());
 	}
 }
 
@@ -59,7 +63,18 @@ SDL_Texture* const Resources::GetStatusImage(void)
 	}
 	catch (std::runtime_error e)
 	{
-		printf("Failed to load the status image.");
+		printf("Failed to load the status image: %s\n", e.what());
+	}
+}
+
+SDL_Texture* const Resources::GetSpeechImage(void)
+{
+	try { 
+		return GetImage(&speechSheetFile);
+	}
+	catch (std::runtime_error e)
+	{
+		printf("Failed to load the speechBubble image: %s\n", e.what());
 	}
 }
 
@@ -72,12 +87,13 @@ SDL_Texture* const Resources::GetImage(const std::string* filename)
 	else if (filename == &environmentSheetFile) targetPtr = &environmentSheet;
 	else if (filename == &doorSheetFile)		targetPtr = &doorSheet;
 	else if (filename == &statusSheetFile)		targetPtr = &statusSheet;
+	else if (filename == &speechSheetFile)		targetPtr = &speechSheet;
 	else										targetPtr = nullptr;
 
-	// If filename recognised
+	// If the filename is recognised
 	if (targetPtr)
 	{
-		// Load, if not already
+		// Load, if not already loaded
 		if (*targetPtr == nullptr)
 		{
 			*targetPtr = LoadImageTexture(*filename);
@@ -91,6 +107,6 @@ SDL_Texture* const Resources::GetImage(const std::string* filename)
 	}
 	else
 	{
-		throw std::runtime_error("Failed to recognise the filename in GetImage.");
+		throw std::runtime_error("Failed to recognise the filename, in function GetImage().");
 	}
 }

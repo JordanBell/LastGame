@@ -14,13 +14,13 @@ public:
 	{ m_speed = PLAYER_SPEED; SetFormat(EntityFormat(PLAYER_FRMT)); }
 	
 	// Update the player's data
-	void E_Update(const int delta);
+	void E_Update(const int delta) override final;
 	
 	// Interact with the object in front of the player
 	void Interact(void) const;
 
 	// Attempt to walk in a direction
-	virtual void Walk(const E_Direction& direction);
+	void Walk(const E_Direction& direction) override final;
 
 private:
 	int inputBuffer; // Frames until input is reenabled. Input is enabled when inputBuffer == 0.

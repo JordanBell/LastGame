@@ -4,7 +4,7 @@
 #include <memory>
 #include "SoundSource.h" // Include this now, as unique_ptr cannot be applied to an incomplete type
 
-class Traveller : public Entity
+class Traveller : public EntityContainer
 {
 public:
 	Traveller(const Coordinates& _pos);
@@ -31,10 +31,10 @@ protected:
 	E_Direction direction;	// The direction being faced by the traveller.
 
 	// Update movement data
-	virtual void E_Update(const int delta);
+	virtual void E_Update(const int delta) override;
 
 	// Render the soundSource and this
-	virtual void E_Render(void);
+	virtual void E_Render(void) override;
 
 	// Get the Entities in front of the traveller's position
 	std::list<Entity*>& GetFrontEntities(Layer layer = BOTTOM_LAYER) const;
@@ -54,7 +54,7 @@ private:
 	// Stop moving, turn off animation
 	void StopMoving(void);
 
-	// Snap the traveller to the grid, or the grid to a TILE_SIZE multiple coordinate.
+	// Snap the traveller to the grid.
 	void SnapPosition(void);
 	
 	// Return whether or not the traveller can move forward

@@ -11,6 +11,11 @@ Texture_Wrapper::Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool sta
 	DefineTextureFromFile(ssid);
 
 	// If it's a static clip, and only a section of the sprite sheet is to be used, Clip the Texture (permanently). 
+	if (m_staticClip && m_texture && m_clip)
+	{
+	if ( SDL_QueryTexture(m_texture, 0, 0, 0, 0) != 0)
+		printf("Invalid Texture!!!\n");
+	}
 	if (m_staticClip && m_clip) ClipTexture();
 	else if ((!m_clip) && (m_texture))
 	{
@@ -21,11 +26,11 @@ Texture_Wrapper::Texture_Wrapper(const SSID ssid, SDL_Rect* clip, const bool sta
 	}
 }
 
-Texture_Wrapper::Texture_Wrapper(const std::string text, TTF_Font* font, const SDL_Color color) 
+Texture_Wrapper::Texture_Wrapper(const std::string text, TTF_Font* font, const SDL_Color color, int* pixelWrap) 
 	: m_clip(nullptr), m_staticClip(true), m_target(nullptr)
 {
 	// Create the texture from text.
-	DefineTextureFromText(text, font, color);
+	DefineTextureFromText(text, font, color, pixelWrap);
 }
 
 void Texture_Wrapper::DefineTextureFromFile(SSID ssid)
@@ -48,22 +53,20 @@ void Texture_Wrapper::DefineTextureFromFile(SSID ssid)
 	case SSID_STATUS:
 		m_texture = Resources::GetStatusImage();
 		break;
+	case SSID_SPEECH:
+		m_texture = Resources::GetSpeechImage();
+		break;
 	default:
 		throw runtime_error("SSID not recognised during Texture construction.");
 	}
 }
 
-void Texture_Wrapper::DefineTextureFromText(const std::string text, TTF_Font* font, const SDL_Color color)
+void Texture_Wrapper::DefineTextureFromText(const std::string text, TTF_Font* font, const SDL_Color color, int* pixelWrap)
 {
-	/*m_staticClip = false;
-	m_clip = nullptr;
-	m_target = nullptr;
-	DefineTextureFromFile(SSID_DOOR);
-
-	SDL_QueryTexture(m_texture, 0, 0, (int*)&m_size.x, (int*)&m_size.y);*/
-
 	// Create a surface for the text
-	SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
+	SDL_Surface* textSurface;
+	if (pixelWrap) textSurface = TTF_RenderText_Blended_Wrapped(font, text.c_str(), color, *pixelWrap);
+	else		   textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
 	EnsureSuccess(textSurface);
 
 	// Set the size based on the surface size
@@ -76,8 +79,23 @@ void Texture_Wrapper::DefineTextureFromText(const std::string text, TTF_Font* fo
 	SDL_FreeSurface(textSurface);
 }
 
+void Texture_Wrapper::EnsureValidClip(SDL_Rect* clip) const
+{
+	// Check that the clip is actually within the texture
+	SDL_Rect imageRect = {0, 0, m_size.x, m_size.y};
+	if (THROW_ERROR_ON_BAD_CLIP)
+	{
+		if ( !RectIsWithin(clip, &imageRect) || !clip)
+			throw std::runtime_error("Trying to set the clip outside of the bounds of the image");
+	}
+}
+
+
 void Texture_Wrapper::SetClip(SDL_Rect* newClip) 
 { 
+	// Check that the clip is actually within the texture
+	EnsureValidClip(newClip);
+
 	if (!m_staticClip) 
 	{
 		m_clip = newClip; 
@@ -90,8 +108,16 @@ void Texture_Wrapper::SetClip(SDL_Rect* newClip)
 void Texture_Wrapper::ClipTexture(void)
 {
 	// Check for a stupid clip
-	if ((m_clip->w== 0) || (m_clip->h == 0)) {
+	if ((m_clip->w== 0) || (m_clip->h == 0))
 		throw std::runtime_error("Cannot pass a clip with width or height as 0");
+
+	// Check to see that the clip is within the image
+	if (THROW_ERROR_ON_BAD_CLIP)
+	{
+		if ( !RectIsWithin(m_clip, m_texture) ) {
+			RectIsWithin(m_clip, m_texture);
+			throw std::runtime_error("The clip being initially set does not fit the sprite sheet it comes from.");
+		}
 	}
 
 	// Create a new texture, with a new size, to become the clipped copy.
@@ -149,12 +175,15 @@ void Texture_Wrapper::RenderToWindow(Coordinates pos) const
 {
 	// Create destination rectangle using pos and size
 	
-	SDL_Rect* screenAreaPortion = (g_camera) ? 
-								   &RectFromXY(pos*-1, LOGICAL_SIZE) : 
-								   nullptr;
+	// The rectangular portion of this image to render
+	SDL_Rect* screenAreaPortion = m_size > LOGICAL_SIZE ? 
+								  &RectFromXY(pos*-1, LOGICAL_SIZE) : 
+								  nullptr;
 	
 	// Blit to the entire screen
-	SDL_Rect destinationRect = RectFromXY(Coordinates(0), LOGICAL_SIZE);
+	SDL_Rect destinationRect = (m_size > LOGICAL_SIZE) ? 
+								RectFromXY(0, LOGICAL_SIZE) : 
+								RectFromXY(pos, m_size);
 
 	RenderTextureToWindow(m_texture, 
 						 (m_clip) ? m_clip : screenAreaPortion, 

@@ -1,26 +1,27 @@
 #include "SoundSource.h"
 #include "ToolKit.h"
 #include "Camera.h"
+#include "SpeechBubble.h"
 
 SoundSource::SoundSource(Entity* parent) 
-	: EntityContainer(Dimensions(200, 200)),
+	: EntityContainer(Dimensions(1000, 1000)),
 	m_timeoutCountdown(0), 
 	m_sourceEntity(parent), 
 	m_sourcePos(nullptr)
 {
-	//m_speechBubble = new SpeechBubble(0);
-	//AddChild(m_speechBubble);
+	m_speechBubble = new SpeechBubble(0, "initial on entity");
+	AddChild(m_speechBubble);
 }
 
 SoundSource::SoundSource(Coordinates* sourcePos) 
-	: EntityContainer(Dimensions(200, 200)),
+	: EntityContainer(Dimensions(1000, 1000)),
 	m_timeoutCountdown(0), 
 	m_sourceEntity(nullptr)
 {
 	Coordinates normalisedPos = *sourcePos + g_camera->pos;
 	m_sourcePos = new Coordinates(normalisedPos);
-	//m_speechBubble = new SpeechBubble(0);
-	//AddChild(m_speechBubble);
+	m_speechBubble = new SpeechBubble(0, "initial on position");
+	AddChild(m_speechBubble);
 }
 
 void SoundSource::Say(const string phrase, const int timeout)
@@ -38,7 +39,7 @@ void SoundSource::E_Update(const int delta)
 	if (m_timeoutCountdown > 0) m_timeoutCountdown--;
 
 	// Follow the source
-		 if (m_sourceEntity) pos = m_sourceEntity->pos;
+		 if (m_sourceEntity) pos = m_sourceEntity->GetAbsolutePos();
 	else if (m_sourcePos)	 pos = *m_sourcePos - g_camera->pos; // Adjust the coordinates based on the camera's position
 	else throw runtime_error("A sound source must come from somewhere.");
 }
@@ -49,7 +50,7 @@ void SoundSource::E_Render(void)
 	if (m_timeoutCountdown > 0)
 	{
 		// Render this and the speech
-		EntityContainer::E_Render(); 
+		EntityContainer::E_Render();
 	}
 }
 
