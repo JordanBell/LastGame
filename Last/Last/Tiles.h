@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "ConfigTiles.h"
 #include "Config.h"
+#include <memory>
 
 /*------------============ SUPER CLASSES ============------------*/
 
@@ -117,3 +118,27 @@ class InvisibleWallTile : public Wall {
 public:
 	InvisibleWallTile(const Coordinates& _pos) : Wall(_pos, TILE_INDEX_INVSBL) {}
 };
+
+/*** COLUMN ***/
+//class Column : public Wall 
+//{
+//public:
+//	Column(const Coordinates& _pos) : Wall(_pos, TILE_INDEX_WDWLL) 
+//	{ 
+//		m_tiles.push_back(unique_ptr<Tile>(new WoodWallTile( Coordinates( _pos.x, _pos.y-1 ) ))); 
+//		m_tiles.push_back(unique_ptr<Tile>(new WoodWallTile( Coordinates( _pos.x, _pos.y-2 ) ))); 
+//		m_tiles.push_back(unique_ptr<Tile>(new TileBlack( Coordinates( _pos.x, _pos.y-3 ) ))); 
+//	}
+//
+//protected:
+//	void E_Render(void) override final {
+//		for (auto& tile : m_tiles) {
+//			tile->Render();
+//		}
+//
+//		Entity::E_Render();
+//	}
+//
+//private:
+//	std::list<unique_ptr<Tile>> m_tiles;
+//};

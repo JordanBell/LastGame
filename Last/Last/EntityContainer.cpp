@@ -36,8 +36,7 @@ void EntityContainer::E_Update(int delta)
 	if (!m_childrenInitiallyAdded)
 		InitAddChildren();
 
-	for (auto& child : children)
-		child->Update(delta);
+	for (auto& child : children) child->Update(delta);
 }
 
 // Removed, as its children are only rendered once, onto this container's texture. Leave render as is from Entity

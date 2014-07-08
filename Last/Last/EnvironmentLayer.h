@@ -16,6 +16,9 @@ class EnvironmentLayer : public EntityContainer
 	// When adding a child, add it to the array of tiles as well
 	void AddChild(Entity* child);
 
+	// Remove all tiles at a position
+	void Erase(const Coordinates& gridPos);
+
 	// 2D array of tiles in this layer
 	list<Entity*> grid[WORLD_WIDTH][WORLD_HEIGHT]; 
 

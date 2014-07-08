@@ -21,12 +21,13 @@ void WorldBuilder::build()
 	LoadingOutput::Notify(30, "Building Houses");
 
 	//HouseGenerator::Generate();
-	BuildTestHouse(Coordinates(WORLD_WIDTH/2-2, WORLD_HEIGHT/2-2));
+	//BuildHouse_First(Coordinates(WORLD_WIDTH/2-2, WORLD_HEIGHT/2-2));
+	BuildHouse_Realistic1(Coordinates(WORLD_WIDTH/2, WORLD_HEIGHT/2-3));
 
 	// Outer Walls
 	LoadingOutput::Notify(5, "Making escape impossible.");
 
-	BuildTileRectangle<InvisibleWallTile>(Coordinates(0, 0), Dimensions(WORLD_WIDTH, WORLD_HEIGHT), false, TOP_LAYER);
+	BuildTileRectangle<WORLD_BORDER>(Coordinates(0, 0), Dimensions(WORLD_WIDTH, WORLD_HEIGHT), false, TOP_LAYER);
 }
 
 template <class E>
@@ -36,6 +37,15 @@ void WorldBuilder::AddTo(const Coordinates& pos, Layer layer)
 		case TOP_LAYER:	   AddToTop<E>(pos); break;
 		case MIDDLE_LAYER: AddToMiddle<E>(pos); break;
 		case BOTTOM_LAYER: AddToBottom<E>(pos); break;
+	}
+}
+
+void WorldBuilder::Erase(const Coordinates& pos, Layer layer)
+{
+	switch (layer) {
+		case TOP_LAYER:	   EraseTop(pos); break;
+		case MIDDLE_LAYER: EraseMiddle(pos); break;
+		case BOTTOM_LAYER: EraseBottom(pos); break;
 	}
 }
 
@@ -182,11 +192,11 @@ void WorldBuilder::AddWeed(const int strength, const Coordinates& position)
 	else if (strength == 1) AddToBottom<Grass_Thick2_Day>(position);
 	else if (strength == 2) AddToBottom<Grass_Thick3_Day>(position);
 	else if (strength == 3) AddToBottom<Grass_Thick4_Day>(position);
-	else throw runtime_error("Strength value too high or too low.");
+	else throw runtime_error("Strength value out of range.");
 }
 
 
-void WorldBuilder::BuildTestHouse(const Coordinates& pos)
+void WorldBuilder::BuildHouse_First(const Coordinates& pos)
 {	
 	Dimensions mainRoomDimensions(5, 7);
 	
@@ -262,13 +272,107 @@ void WorldBuilder::BuildTestHouse(const Coordinates& pos)
 	BuildColumn<WoodWallTile>(Coordinates(pos.x+4, pos.y+mainRoomDimensions.y+3));
 }
 
+void WorldBuilder::BuildHouse_Realistic1(const Coordinates& frontDoorPos)
+{	
+	// Shorthand, used often
+	typedef Coordinates C;
+	typedef Dimensions D;
+	const Coordinates& p = frontDoorPos;
+	const float& x = frontDoorPos.x;
+	const float& y = frontDoorPos.y;
+	Directions<int> doorData = Directions<int>(0, 0, 0, 0);
+	HouseGenerator::RoomData data = HouseGenerator::RoomData(0, doorData);
+	C origin;
+
+	// Bathroom
+	doorData = Directions<int>(-77, 3, -77, -77);
+	data = HouseGenerator::RoomData(D(7,8), doorData);
+	origin = p + D(-3, -13);
+	BuildRoom(origin, data); // Put functionality here until appropriate class is determined
+
+	// !!! Kitchen
+	doorData = Directions<int>(-77, 3, -77, -77);
+	data = HouseGenerator::RoomData(D(7,10), doorData);
+	origin = p + D(3, -15);
+	BuildRoom(origin, data); // Put functionality here until appropriate class is determined
+
+	// Front Room
+	doorData = Directions<int>(3, 3, 4, 3);
+	data = HouseGenerator::RoomData(D(7,9), doorData);
+	origin = p + D(-3, -6);
+	BuildRoom(origin, data); // Put functionality here until appropriate class is determined
+
+	// Garage
+	doorData = Directions<int>(-77, -77, -77, 1);
+	data = HouseGenerator::RoomData(D(7,8), doorData);
+	origin = p + D(-9, -3);
+	BuildRoom(origin, data); // Put functionality here until appropriate class is determined
+	// Remove the bottom wall
+	BuildLine((p + D(-8, 4)), (p + D(-4, 4)), EraseColumn);
+
+	// Second Room
+	doorData = Directions<int>(-3, -77, 3, 3);
+	data = HouseGenerator::RoomData(D(7,9), doorData);
+	origin = p + D(3, -6);
+	BuildRoom(origin, data); // Put functionality here until appropriate class is determined
+
+	// Living Room
+	doorData = Directions<int>(4, -77, 3, -77);
+	data = HouseGenerator::RoomData(D(9,9), doorData);
+	origin = p + D(9, -6);
+	BuildRoom(origin, data); // Put functionality here until appropriate class is determined
+
+	/*
+	BuildTileRectangle<StoneFloorTile_LightBrown>(C(x, y), D(5, 5));
+	BuildLine(C(x, y), C(x, y), BuildColumn<WoodWallTile>);
+	AddNPC<NPC>(C(x, y));
+	BuildDoorColumn(C(x, y));
+	BuildColumn<WoodWallTile>(C(x, y));
+	*/
+}
+
+void WorldBuilder::TrustDoorway(const Coordinates& pos)
+{
+	Erase( Coordinates(pos.x, pos.y-3), TOP_LAYER);
+	AddTo<WoodWallTile>( Coordinates(pos.x, pos.y+3), TOP_LAYER);
+
+	Erase( Coordinates(pos.x, pos.y-1), TOP_LAYER);
+	Erase( Coordinates(pos.x, pos.y-2), TOP_LAYER);
+
+	Erase(pos, TOP_LAYER);
+	Erase(pos, MIDDLE_LAYER);
+
+	Erase( Coordinates(pos.x, pos.y+1), MIDDLE_LAYER);
+	Erase( Coordinates(pos.x, pos.y+2), MIDDLE_LAYER);
+}
+
 // Build a small column
 template <class WallType>
 void WorldBuilder::BuildColumn(const Coordinates& pos)
 {
-	AddTo<TileBlack>(Coordinates(pos.x, pos.y-2), TOP_LAYER);
-	AddTo<WallType>(Coordinates(pos.x, pos.y-1));
-	AddTo<WallType>(pos);
+	// Replace anything here
+	EraseColumn(pos);
+
+	AddTo<TileBlack>(Coordinates(pos.x, pos.y-3), TOP_LAYER);
+	AddTo<WallType>(Coordinates(pos.x, pos.y-2), TOP_LAYER);
+	AddTo<WallType>(Coordinates(pos.x, pos.y-1), MIDDLE_LAYER);
+	AddTo<WallType>(pos, MIDDLE_LAYER);
+}
+
+// Erase a column shape
+void WorldBuilder::EraseColumn(const Coordinates& pos)
+{
+	Erase(Coordinates(pos.x, pos.y-3), TOP_LAYER);
+	//Erase(Coordinates(pos.x, pos.y-3), MIDDLE_LAYER);
+
+	Erase(Coordinates(pos.x, pos.y-2), TOP_LAYER);
+	//Erase(Coordinates(pos.x, pos.y-2), MIDDLE_LAYER);
+
+	//Erase(Coordinates(pos.x, pos.y-1), TOP_LAYER);
+	Erase(Coordinates(pos.x, pos.y-1), MIDDLE_LAYER);
+	
+	//Erase(pos, TOP_LAYER);
+	Erase(pos, MIDDLE_LAYER);
 }
 
 // Build a column
@@ -281,11 +385,16 @@ void WorldBuilder::BuildColumnLarge(const Coordinates& pos)
 	AddTo<WallType>(pos);
 }
 
-// Build an arch over a position
-void WorldBuilder::BuildDoorColumn(const Coordinates& pos)
-{
-	AddTo<TileBlack>(Coordinates(pos.x, pos.y-2), TOP_LAYER);
+// Build half a column, above a passage to travel through or add a door
+void WorldBuilder::BuildDoorway(const Coordinates& pos) {
+	AddTo<TileBlack>(Coordinates(pos.x, pos.y-3), TOP_LAYER);
+	AddTo<WoodWallTile>(Coordinates(pos.x, pos.y-2), TOP_LAYER);
 	AddTo<WoodWallTile_Above>(Coordinates(pos.x, pos.y-1), TOP_LAYER);
+}
+
+// Builds a door with a column above it
+void WorldBuilder::BuildDoorColumn(const Coordinates& pos) {
+	BuildDoorway(pos);
 	AddTo<Door>(pos, MIDDLE_LAYER);
 }
 
@@ -298,6 +407,35 @@ void WorldBuilder::BuildRoom(const Coordinates& pos, const Dimensions& dimension
 	{
 		BuildTileRectangle<StoneFloorTile_LightBrown>(pos, dimensions);
 		BuildRectangle(pos, dimensions, BuildColumn<WoodWallTile>, false);
+	}
+}
+
+void WorldBuilder::BuildRoom(const Coordinates& origin, const HouseGenerator::RoomData& data)
+{
+	typedef Coordinates C;
+	typedef Dimensions D;
+
+	// Floor
+	BuildTileRectangle<StoneFloorTile_LightBrown>(C(origin.x, origin.y+1), D(data.dimensions.x, data.dimensions.y-1));
+	// Walls
+	ShapeBuilder::BuildRectangle(origin, data.dimensions, BuildColumn<WoodWallTile>, false);
+	// NOTE: Add out of bounds checks
+	// Doorways
+	if (data.doorPositions.top != -77) { // If not code for null
+		// Use the polarity to determine the doorway style
+		if (data.doorPositions.top > 0)		 ColumnToDoor(    C(origin.x+data.doorPositions.top, origin.y) );
+		else if (data.doorPositions.top < 0) ColumnToDoorway( C(origin.x-data.doorPositions.top, origin.y) );
+	}
+	if (data.doorPositions.bottom != -77) {
+		// Use the polarity to determine the doorway style
+		if (data.doorPositions.bottom > 0)		ColumnToDoor(    C(origin.x+data.doorPositions.bottom, origin.y+data.dimensions.y-1) );
+		else if (data.doorPositions.bottom < 0) ColumnToDoorway( C(origin.x-data.doorPositions.bottom, origin.y+data.dimensions.y-1) );
+	}
+	if (data.doorPositions.left != -77) {
+		TrustDoorway( C(origin.x, origin.y+data.doorPositions.left) );
+	}
+	if (data.doorPositions.right != -77){
+		TrustDoorway( C(origin.x+data.dimensions.x-1, origin.y+data.doorPositions.right) );
 	}
 }
 

@@ -4,7 +4,7 @@
 #include "Config.h"
 #include "House.h"
 
-void HouseGenerator::Generate(void)
+void HouseGenerator::GenerateAll(void)
 {
 	// Warning: Not a very smart calculation on the number of houses allowed on the screen.
 	Dimensions maxHouseDimensions(20, 20);
@@ -27,4 +27,9 @@ void HouseGenerator::Generate(void)
 			House h(position, maxHouseDimensions, numRooms);
 		}
 	}
+}
+
+void HouseGenerator::GenerateRoom(const Coordinates& origin, const RoomData& data)
+{
+	
 }

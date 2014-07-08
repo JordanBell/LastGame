@@ -70,13 +70,13 @@ SpeechBubble::SpeechBubble(const Coordinates& _pos, const string phrase)
 			else if (i == textTileWidth) horiIndex = 2; // Right
 			else						 horiIndex = 1; // Mid
 			//horiIndex = rand() % 3; // Manual override for testing
-			//horiIndex = 1; // Manual override for testing
+			//horiIndex = 2; // Manual override for testing
 			
 			if (j == 0)					  vertIndex = 0; // Top
 			else if (j == textTileHeight) vertIndex = 2; // Bottom
 			else						  vertIndex = 1; // Mid
 			//vertIndex = rand() % 3; // Manual override for testing
-			//vertIndex = 1; // Manual override for testing
+			//vertIndex = 2; // Manual override for testing
 
 			int a = TILE_SIZE;
 			SDL_Rect smartClip = {horiIndex*a, vertIndex*a, a, a};

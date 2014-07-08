@@ -26,7 +26,7 @@ public:
 	// Scale
 	void SetScale(float scaleX, float scaleY);
 	inline void SetScale(float scale) { SetScale(scale, scale); } // Shorthand, for uniform scale setting
-	float GetScale(void);
+	XY GetScale(void);
 
 	// Rendering
 	void RenderToTexture(SDL_Texture* source, SDL_Texture* destination, SDL_Rect* srcrect = nullptr, SDL_Rect* dstrect = nullptr);

@@ -81,7 +81,7 @@ public:
 	~TextureTarget(void);
 
 	// Clear the texture to transparency
-	void Clear(void);
+	void Clear(SDL_Rect* rect = nullptr);
 
 private:
 	// Create a texture formatted for targetting

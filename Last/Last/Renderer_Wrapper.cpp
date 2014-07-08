@@ -33,12 +33,12 @@ void Renderer_Wrapper::SetScale(float scaleX, float scaleY)
 }
 
 
-float Renderer_Wrapper::GetScale(void)
+XY Renderer_Wrapper::GetScale(void)
 {
-	float r_scale = 0;
-	SDL_RenderGetScale(m_renderer, &r_scale, 0);
+	float scaleX = 0, scaleY = 0;
+	SDL_RenderGetScale(m_renderer, &scaleX, &scaleY);
 
-	return r_scale;
+	return XY(scaleX, scaleY);
 }
 
 SDL_Texture* Renderer_Wrapper::LoadImageTexture(std::string filename)

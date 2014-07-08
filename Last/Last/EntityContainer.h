@@ -24,7 +24,6 @@ public:
 protected:
 	ImageTarget m_imageTarget;
 	bool m_staticImage;
-	//std::list<Entity*> children; // A list of the child Entities within this container.
 	list< unique_ptr<Entity> > children; // A list of the child Entities within this container.
 
 	// EntityContainers can only be constructed by subclasses

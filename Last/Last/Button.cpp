@@ -41,6 +41,11 @@ void Button::m_ComputeMouseOver(void)
 	int mouseX = 0, mouseY = 0;
 	SDL_GetMouseState(&mouseX, &mouseY);
 
+	// If in fullscreen, or zoomed in, make mouse coordinates proportional
+	/*XY zoom = g_renderer->GetScale();
+	mouseX *= zoom.x;
+	mouseY *= zoom.y;*/
+
 	// Determine the absolute positon of the bounding box
 	Coordinates absPos = GetAbsolutePos();
 	SDL_Rect absoluteBox = { absPos.x + m_boundingBox.x, 

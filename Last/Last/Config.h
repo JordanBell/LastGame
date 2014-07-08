@@ -23,6 +23,7 @@ const Uint8 BUTTON_FRMT	   = ENTITY_GRIDINDEPENDENT | ENTITY_UPDATABLE;
 const Uint8 TEXT_FRMT	   = ENTITY_GRIDINDEPENDENT;
 
 // ENVIRONMENT
+const bool EXCLUSIVE_TILES = false;
 const int TILE_SIZE = 32; // Note: Sprite Sheets must support the selected TILE_SIZE
 const int WORLD_WIDTH  = 100; // (In terms of TILE_SIZEs)
 const int WORLD_HEIGHT = 100; // (In terms of TILE_SIZEs)
@@ -30,7 +31,7 @@ const Dimensions WORLD_DIMENSIONS(WORLD_WIDTH, WORLD_HEIGHT);
 
 // SCREEN
 const bool FULL_SCREEN_INITIAL = false;
-const Dimensions LOGICAL_SIZE = Dimensions(15*TILE_SIZE, 10*TILE_SIZE);
+const Dimensions LOGICAL_SIZE = Dimensions(15*TILE_SIZE, 13*TILE_SIZE);
 
 // GAME
 const int FRAME_RATE = 30;

@@ -7,7 +7,7 @@ class Camera : public EntityContainer
 {
 public:
 	Camera(void) 
-		: EntityContainer(WORLD_DIMENSIONS * TILE_SIZE), defaultZoom( g_renderer->GetScale() ) { m_zoom = defaultZoom; }
+		: EntityContainer(WORLD_DIMENSIONS * TILE_SIZE), defaultZoom( g_renderer->GetScale().x ) { m_zoom = defaultZoom; }
 
 	void InitChildren(void);
 

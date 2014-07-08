@@ -223,8 +223,10 @@ void TextureTarget::DefineTextureForTargetting(Dimensions size)
 	EnableBlending();
 }
 
-void TextureTarget::Clear(void)
+void TextureTarget::Clear(SDL_Rect* rect)
 {
-	SDL_Rect alphaWashRect = {0, 0, m_size.x, m_size.y};
+	SDL_Rect defaultRect = {0, 0, m_size.x, m_size.y};
+	SDL_Rect alphaWashRect = rect? *rect : defaultRect;
+
 	RenderRectToTexture(m_texture, &alphaWashRect, 0x00, 0x00, 0x00, 0x00);
 }
