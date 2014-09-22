@@ -4,7 +4,7 @@
 #include "MenuItem.h"
 using namespace MenuItems;
 
-PauseScreen::PauseScreen(Game* game) 
+PauseScreen::PauseScreen(void) 
 	: m_transparentBlack(LOGICAL_SIZE, true), m_active(false)
 {
 	// Initialise the semi-transparent background rectangle
@@ -22,7 +22,7 @@ PauseScreen::PauseScreen(Game* game)
 	// Front Menu (first seen on start-up)
 	Menu* frontMenu = new Menu("front");
 		frontMenu->AddChild(
-			new Resume(Coordinates(50, 50), game));
+			new Resume(Coordinates(50, 50)));
 		frontMenu->AddChild(
 			new Options(Coordinates(50, 100), this));
 		frontMenu->AddChild(
@@ -48,15 +48,11 @@ void PauseScreen::Open(void)
 	m_active = true;
 }
 
+
 void PauseScreen::Close(void)
 {
 	// Hide entities
 	m_active = false;
-}
-
-bool PauseScreen::IsAtRootMenu(void)
-{
-	return m_menuManager->GetCurrentMenu() == m_menuManager->GetRootMenu();
 }
 
 void PauseScreen::E_Render(void)

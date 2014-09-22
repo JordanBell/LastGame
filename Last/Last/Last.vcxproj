@@ -26,7 +26,6 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="HUD_Layer.cpp" />
-    <ClCompile Include="KeyTools.cpp" />
     <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="LoadingOutput.cpp" />
     <ClCompile Include="Menu.cpp" />
@@ -79,9 +78,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateManager.h" />
-    <ClInclude Include="Hints.h" />
     <ClInclude Include="HUD_Layer.h" />
-    <ClInclude Include="KeyTools.h" />
     <ClInclude Include="LoadingScreen.h" />
     <ClInclude Include="LoadingOutput.h" />
     <ClInclude Include="Menu.h" />

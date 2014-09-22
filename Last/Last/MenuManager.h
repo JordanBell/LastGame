@@ -30,8 +30,6 @@ public:
 	// Render the current menu.
 	void RenderMenu(void) { m_currentMenu->Render(); }
 
-	Menu* GetRootMenu(void) { return m_menus.front().get(); }
-
 private:
 	list< unique_ptr<Menu> > m_menus; // The list of menus managed by this object
 	Menu* m_currentMenu; // A pointer to the menu in current use
