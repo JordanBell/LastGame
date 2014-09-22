@@ -25,11 +25,11 @@ void MenuScreen::E_Update(const int delta)
 	EntityContainer::E_Update(delta); 
 }
 
-void MenuScreen::E_Render(void)
+void MenuScreen::E_Render(void) 
 { 
-	// Then render this entity container
-	EntityContainer::E_Render();
-
 	Menu* currentMenu = m_menuManager->GetCurrentMenu();
 	currentMenu->Render();
+
+	// Then render this entity container
+	EntityContainer::E_Render(); 
 }
