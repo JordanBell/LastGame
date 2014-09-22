@@ -110,8 +110,13 @@ void Game::OnKeys(const Uint8* keystates)
 		// Other
 		if (keystates[SDL_SCANCODE_F]) g_player->Interact();
 <<<<<<< HEAD
+<<<<<<< HEAD
 		if (keystates[SDL_SCANCODE_T]) 
 			g_player->Say("Testing complete.");
+=======
+		if (keystates[SDL_SCANCODE_RETURN]) ToggleFullscreen();
+		if (keystates[SDL_SCANCODE_E]) Pause();
+>>>>>>> parent of 3e8fa8d... Pause Screen+
 =======
 		if (keystates[SDL_SCANCODE_RETURN]) ToggleFullscreen();
 		if (keystates[SDL_SCANCODE_E]) Pause();

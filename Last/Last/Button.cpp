@@ -41,12 +41,16 @@ void Button::m_ComputeMouseOver(void)
 	int mouseX = 0, mouseY = 0;
 	SDL_GetMouseState(&mouseX, &mouseY);
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 	// If in fullscreen, or zoomed in, make mouse coordinates proportional
 	/*XY zoom = g_renderer->GetScale();
 	mouseX *= zoom.x;
 	mouseY *= zoom.y;*/
 
+=======
+	
+>>>>>>> parent of 3e8fa8d... Pause Screen+
 =======
 	
 >>>>>>> parent of 3e8fa8d... Pause Screen+

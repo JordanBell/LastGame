@@ -197,6 +197,7 @@
       <Filter>Files\Loading</Filter>
     </ClCompile>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <ClCompile Include="SpeechBubble.cpp">
       <Filter>Files\Entities\Implementations</Filter>
     </ClCompile>
@@ -209,6 +210,8 @@
     <ClCompile Include="Text.cpp">
       <Filter>Files\Entities\Implementations</Filter>
     </ClCompile>
+=======
+>>>>>>> parent of 3e8fa8d... Pause Screen+
 =======
 >>>>>>> parent of 3e8fa8d... Pause Screen+
   </ItemGroup>
@@ -361,6 +364,7 @@
       <Filter>Files\Loading</Filter>
     </ClInclude>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <ClInclude Include="Hints.h">
       <Filter>Files\General</Filter>
     </ClInclude>
@@ -376,6 +380,8 @@
     <ClInclude Include="Text.h">
       <Filter>Files\Entities\Implementations</Filter>
     </ClInclude>
+=======
+>>>>>>> parent of 3e8fa8d... Pause Screen+
 =======
 >>>>>>> parent of 3e8fa8d... Pause Screen+
   </ItemGroup>
