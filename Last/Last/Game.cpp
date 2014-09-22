@@ -4,6 +4,7 @@
 #include "Camera.h" // Initialising g_camera
 #include "Player.h" // Initialising g_player
 #include "HUD_Layer.h" // UI HUD
+#include "KeyTools.h"
 #include "GameStateManager.h"
 #include "LoadingOutput.h"
 
@@ -41,7 +42,7 @@ void Game::OnStart()
 	g_camera = new Camera();
 	g_camera->InitChildren();
 
-	m_pauseScreen = new PauseScreen();
+	m_pauseScreen = new PauseScreen(this);
 
 	// Delete the loading screen
 	LoadingOutput::Uninitialise();
@@ -49,7 +50,7 @@ void Game::OnStart()
 
 void Game::OnEnd()
 {
-	delete g_camera; 
+	//delete g_camera; 
 	delete UI_HUD;
 }
 
@@ -76,6 +77,7 @@ void Game::OnUpdate(const int delta)
 		g_camera->Update(delta);
 		UI_HUD->Update(delta);
 	}
+	else m_pauseScreen->Update(delta);
 }
 
 void Game::TogglePause(void)
@@ -101,6 +103,8 @@ void Game::OnKeys(const Uint8* keystates)
 {
 	if (!isPaused)
 	{
+		if ( KeyTools::CheckKeyWithCooldown(SDL_SCANCODE_ESCAPE) ) Pause();
+
 		//WASD moves the player
 		if (keystates[SDL_SCANCODE_W])	g_player->Walk(UP);
 		if (keystates[SDL_SCANCODE_S])	g_player->Walk(DOWN);
@@ -109,13 +113,8 @@ void Game::OnKeys(const Uint8* keystates)
 
 		// Other
 		if (keystates[SDL_SCANCODE_F]) g_player->Interact();
-<<<<<<< HEAD
 		if (keystates[SDL_SCANCODE_T]) 
 			g_player->Say("Testing complete.");
-=======
-		if (keystates[SDL_SCANCODE_RETURN]) ToggleFullscreen();
-		if (keystates[SDL_SCANCODE_E]) Pause();
->>>>>>> parent of 3e8fa8d... Pause Screen+
 
 		// Testing
 		if (MANUAL_ZOOM)
@@ -123,8 +122,8 @@ void Game::OnKeys(const Uint8* keystates)
 			if (keystates[SDL_SCANCODE_LCTRL])
 			{
 				// Up and Down to zoom in and out
-				if (keystates[SDL_SCANCODE_UP]) if (!g_camera->ZoomToWidth(--widthCounter)) widthCounter++;
-				if (keystates[SDL_SCANCODE_DOWN]) if (!g_camera->ZoomToWidth(++widthCounter)) widthCounter--;
+				if (KeyTools::CheckKeyWithCooldown(SDL_SCANCODE_UP), 2) if (!g_camera->ZoomToWidth(--widthCounter)) widthCounter++;
+				if (KeyTools::CheckKeyWithCooldown(SDL_SCANCODE_DOWN), 2) if (!g_camera->ZoomToWidth(++widthCounter)) widthCounter--;
 			}
 			else
 			{
@@ -136,7 +135,17 @@ void Game::OnKeys(const Uint8* keystates)
 			}
 		}
 	}
-	
-	if (keystates[SDL_SCANCODE_ESCAPE]) g_manager->Quit();
-	if (keystates[SDL_SCANCODE_Q]) Unpause();
+	else
+	{
+		// ESCAPE
+		if ( KeyTools::CheckKeyWithCooldown(SDL_SCANCODE_ESCAPE) ) 
+		{
+			// Unpause or go back through the menu
+			if (m_pauseScreen->IsAtRootMenu())
+				Unpause();
+			else
+				m_pauseScreen->GoBack(); 
+		}
+	}
+
 }

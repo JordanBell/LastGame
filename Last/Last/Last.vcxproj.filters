@@ -196,7 +196,6 @@
     <ClCompile Include="LoadingScreen.cpp">
       <Filter>Files\Loading</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="SpeechBubble.cpp">
       <Filter>Files\Entities\Implementations</Filter>
     </ClCompile>
@@ -209,8 +208,6 @@
     <ClCompile Include="Text.cpp">
       <Filter>Files\Entities\Implementations</Filter>
     </ClCompile>
-=======
->>>>>>> parent of 3e8fa8d... Pause Screen+
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config.h">
@@ -360,7 +357,6 @@
     <ClInclude Include="LoadingScreen.h">
       <Filter>Files\Loading</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="Hints.h">
       <Filter>Files\General</Filter>
     </ClInclude>
@@ -376,7 +372,5 @@
     <ClInclude Include="Text.h">
       <Filter>Files\Entities\Implementations</Filter>
     </ClInclude>
-=======
->>>>>>> parent of 3e8fa8d... Pause Screen+
   </ItemGroup>
 </Project>
